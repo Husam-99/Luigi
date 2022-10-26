@@ -1,0 +1,39 @@
+Lastenheftanalyse
+
+Produkteinsatz:
+	1. auf alle Windows- und Linuxsysteme ausführbar sein
+	2. Eingabegerät ist Tastatur.
+	3. Mehrspieler-Spiel 2-4 Spieler.
+
+Produktfunktionen:
+  Zu Beginn::
+	LF10 -> Netzwerk-Modus + Multiplayer-Modus.
+	LF20 -> Spielcharakters Auswahl + unterscheiden sich
+			mit Aussehen + Verhalten.
+	LF30 -> Anzahl der Runden festlegen.
+  Innerhalb des Spiels::
+	LF40 -> Möglichkeit Gegenstände zu sammeln.
+	LF50 -> Ablauf als Runden, jede Runde endet mit Mini-
+			Spiel, um Münzen zu verdienen. + Feldweise Bewegung.
+	LF60 -> Der Weg soll Abzweigungen und Auswahlmöglichkeiten.
+	LF70 -> Effekte sollten eintreten verschiedenerweise.
+	LF80 -> Sterne können gekauft werden und wenn schon, 
+			dann die Stern-Position wechseln.
+	LF90 -> Dauerhafte Zuweisung, wie weit sich der Spieler 
+			von dem Stern befindet.
+	LF100 -> Bei einer Abzweigung und ausgewählt werden muss,
+			welcher Weg gegangen wird und Vorschau wie das 
+			bei der Auswahl aussehen wird.
+	LF110 -> Scrollbare Übersicht fürs Spielbrett
+	LF120 -> Spieler kann Spiel manipulieren und damit 
+			andere Spieler beeinflussen
+	LF130 -> Minispiele sollten min. 5 sein und jedes dauert
+			max 90 sekunden und dadurch verdient man Münzen.
+	LF140 -> Nach der letzten Runde werden drei Zusatzwertungen
+			ausgeführt und für die jeweils der Gewinner Stern
+			erhält + die sind vordefiniert.
+	LF150 -> Siegermittlung als erstes bezüglich der Anzahl
+			der Sterne und danach die Anzahl der Münzen 
+			und am Ende bei Gleichstand gibt es mehrere Gewinner.
+
+	
