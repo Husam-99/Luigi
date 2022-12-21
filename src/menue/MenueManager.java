@@ -1,6 +1,6 @@
 package menue;
 
-import main.SpielPanel;
+import Main.SpielPanel;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
