@@ -17,7 +17,7 @@ public class MenueEingabeManager implements KeyListener {
     @Override
     public void keyPressed(KeyEvent e) {
         int code = e.getKeyCode();
-        if(mn.hauptmenueZustand == 0) {
+        if(mn.menueZustand == mn.hauptmenueZustand1) {
             if (code == KeyEvent.VK_W) {
                 mn.hauptmenue.befehlNum1--;
                 if (mn.hauptmenue.befehlNum1 < 0) {
@@ -32,8 +32,7 @@ public class MenueEingabeManager implements KeyListener {
             }
             if (code == KeyEvent.VK_ENTER) {
                 if (mn.hauptmenue.befehlNum1 == 0) {
-                    mn.sp.Zustand = mn.sp.spielZustand;
-                    mn.hauptmenueZustand = 1;
+                    mn.menueZustand = mn.hauptmenueZustand2;
                 }
                 if (mn.hauptmenue.befehlNum1 == 1) {
 
@@ -42,7 +41,7 @@ public class MenueEingabeManager implements KeyListener {
                     System.exit(0);
                 }
             }
-        } else if(mn.hauptmenueZustand == 1) {
+        } else if(mn.menueZustand == mn.hauptmenueZustand2) {
             if(mn.hauptmenue.enterZustand == 0) {
                 if (code == KeyEvent.VK_D) {
                     mn.hauptmenue.befehlNum3++;
@@ -89,19 +88,51 @@ public class MenueEingabeManager implements KeyListener {
                 if (code == KeyEvent.VK_ENTER) {
                     if (mn.hauptmenue.befehlNum2 == 0) {
                         mn.rundenAnzahl = 6;
+                        mn.menueZustand = mn.spielfigurAuswaehlenZustand;
                     }
                     if (mn.hauptmenue.befehlNum2 == 1) {
                         mn.rundenAnzahl = 7;
+                        mn.menueZustand = mn.spielfigurAuswaehlenZustand;
                     }
                     if (mn.hauptmenue.befehlNum2 == 2) {
                         mn.rundenAnzahl = 8;
+                        mn.menueZustand = mn.spielfigurAuswaehlenZustand;
                     }
                     if (mn.hauptmenue.befehlNum2 == 3) {
                         mn.rundenAnzahl = 9;
+                        mn.menueZustand = mn.spielfigurAuswaehlenZustand;
                     }
                     if (mn.hauptmenue.befehlNum2 == 4) {
                         mn.rundenAnzahl = 10;
+                        mn.menueZustand = mn.spielfigurAuswaehlenZustand;
                     }
+                }
+            }
+        } else if(mn.menueZustand == mn.spielfigurAuswaehlenZustand){
+            if (code == KeyEvent.VK_W) {
+                mn.spielfigurAuswaehlen.befehlNum1--;
+                if (mn.spielfigurAuswaehlen.befehlNum1 < 0) {
+                    mn.spielfigurAuswaehlen.befehlNum1 = 3;
+                }
+            }
+            if (code == KeyEvent.VK_S) {
+                mn.spielfigurAuswaehlen.befehlNum1++;
+                if (mn.spielfigurAuswaehlen.befehlNum1 > 3) {
+                    mn.spielfigurAuswaehlen.befehlNum1 = 0;
+                }
+            }
+            if (code == KeyEvent.VK_ENTER) {
+                if (mn.spielfigurAuswaehlen.befehlNum1 == 0) {
+                    mn.spielfigurAuswaehlen.enterZustand = 1;
+                }
+                if (mn.spielfigurAuswaehlen.befehlNum1 == 1) {
+                    mn.spielfigurAuswaehlen.enterZustand = 1;
+                }
+                if (mn.spielfigurAuswaehlen.befehlNum1 == 2) {
+                    mn.spielfigurAuswaehlen.enterZustand = 1;
+                }
+                if (mn.spielfigurAuswaehlen.befehlNum1 == 3) {
+                    mn.spielfigurAuswaehlen.enterZustand = 1;
                 }
             }
         }
@@ -109,6 +140,5 @@ public class MenueEingabeManager implements KeyListener {
 
     @Override
     public void keyReleased(KeyEvent e) {
-
     }
 }

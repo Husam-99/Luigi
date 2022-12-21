@@ -4,6 +4,8 @@ import menue.MenueManager;
 
 import javax.swing.*;
 import java.awt.*;
+import java.io.IOException;
+import java.io.InputStream;
 
 public class SpielPanel extends JPanel implements Runnable{
 
@@ -17,8 +19,8 @@ public class SpielPanel extends JPanel implements Runnable{
     public final int bildschirmBreite = flieseGroesse * maxBildschirmReihe;
 
     int FPS = 60;
+    public Font marioPartyFont;
     Thread spielThread;
-
     MenueManager menueManager = new MenueManager(this);
     public int Zustand;
     public final int menueZustand = 0;
@@ -30,6 +32,13 @@ public class SpielPanel extends JPanel implements Runnable{
         this.setDoubleBuffered(true);
         this.addKeyListener(menueManager.menueEingabeManager);
         this.setFocusable(true);
+
+        try {
+            InputStream is = getClass().getResourceAsStream("/font/Mario-Party-Hudson-Font.ttf");
+            marioPartyFont = Font.createFont(Font.TRUETYPE_FONT, is);
+        } catch (FontFormatException | IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public void startSpielThread(){

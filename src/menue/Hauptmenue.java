@@ -1,13 +1,10 @@
 package menue;
 
 import java.awt.*;
-import java.io.IOException;
-import java.io.InputStream;
 
-public class Hauptmenue {
+public class Hauptmenue{
 
     MenueManager mn;
-    Font marioPartyFont;
     Graphics2D g2;
 
     public int befehlNum1 = 0;
@@ -17,25 +14,18 @@ public class Hauptmenue {
 
     public Hauptmenue(MenueManager mn){
         this.mn = mn;
-
-        try {
-            InputStream is = getClass().getResourceAsStream("/font/Mario-Party-Hudson-Font.ttf");
-            marioPartyFont = Font.createFont(Font.TRUETYPE_FONT, is);
-        } catch (FontFormatException| IOException e) {
-            e.printStackTrace();
-        }
     }
     public void update(){
 
     }
     public void malen(Graphics2D g2){
         this.g2 = g2;
-        g2.setFont(marioPartyFont);
-        g2.setColor(Color.white);
-        if(mn.hauptmenueZustand == 0){
+        g2.setFont(mn.sp.marioPartyFont);
+        if(mn.menueZustand == 0){
             titelMalen();
             optionenMalen();
-        }else if(mn.hauptmenueZustand == 1){
+            bilderMalen();
+        }else if(mn.menueZustand == 1){
             spielErstellenBoxMalen();
             spielerAnzahlBoxMalen();
             rundenAnzahlBoxMalen();
@@ -52,53 +42,77 @@ public class Hauptmenue {
 
         g2.setColor(Color.gray);
         g2.drawString(text1,x1+5,y1+5);
-        g2.setColor(Color.gray);
         g2.drawString(text2,x2+5,y2+5);
-
+        g2.setColor(Color.red);
+        g2.drawString("L",x1,y1);
+        g2.drawString("P",x2,y2);
+        Color c = new Color(50,205,50);
+        g2.setColor(c);
+        g2.drawString("U",601,y1);
+        g2.drawString("A",542,y2);
         g2.setColor(Color.yellow);
-        g2.drawString(text1,x1,y1);
-        g2.setColor(Color.yellow);
-        g2.drawString(text2,x2,y2);
+        g2.drawString("I",711,y1);
+        g2.drawString("R",661,y2);
+        c = new Color(31, 81, 255);
+        g2.setColor(c);
+        g2.drawString("G",768,y1);
+        g2.drawString("T",772,y2);
+        c = new Color(255,95,31);
+        g2.setColor(c);
+        g2.drawString("I",879,y1);
+        g2.drawString("Y",884,y2);
     }
     public void optionenMalen(){
-        g2.setFont(g2.getFont().deriveFont(Font.BOLD,75F));
+        g2.setFont(g2.getFont().deriveFont(Font.PLAIN,75F));
         g2.setColor(Color.white);
         String text = "Spiel erstellen";
         int x = getXfuerCenter(text);
         int y = 570;
         g2.drawString(text,x,y);
         if(befehlNum1 == 0){
-            g2.drawString(">", x-55, y);
+            g2.setColor(Color.gray);
+            g2.drawString(text,x,y);
+            g2.setColor(Color.white);
         }
         text = "Spiel beitreten";
         x = getXfuerCenter(text);
         y = 630;
         g2.drawString(text,x,y);
         if(befehlNum1 == 1){
-            g2.drawString(">", x-55, y);
+            g2.setColor(Color.gray);
+            g2.drawString(text,x,y);
+            g2.setColor(Color.white);
         }
         text = "Spiel verlassen";
         x = getXfuerCenter(text);
         y = 690;
         g2.drawString(text,x,y);
         if(befehlNum1 == 2){
-            g2.drawString(">", x-55, y);
+            g2.setColor(Color.gray);
+            g2.drawString(text,x,y);
+            g2.setColor(Color.white);
         }
     }
+    public void bilderMalen(){
+        g2.drawImage(mn.tdown1, 1050, 120, mn.sp.flieseGroesse*2, mn.sp.flieseGroesse*2, null);
+        g2.drawImage(mn.hdown1, 50, 350, mn.sp.flieseGroesse*2, mn.sp.flieseGroesse*2, null);
+        g2.drawImage(mn.muenzen, 125, 100, mn.sp.flieseGroesse*2, mn.sp.flieseGroesse*2, null);
+        g2.drawImage(mn.stern, 1140, 550, mn.sp.flieseGroesse*2, mn.sp.flieseGroesse*2, null);
+    }
     public void spielErstellenBoxMalen(){
-        Color c = new Color(0,0,0);
-        g2.setColor(c);
+        g2.setColor(Color.black);
         g2.fillRoundRect(150, 100, 1140, 600, 35, 35);
-        c = new Color(255,255,255);
-        g2.setColor(c);
+        g2.setColor(Color.white);
         g2.setStroke(new BasicStroke(5));
         g2.drawRoundRect(155,105,1130, 590, 25, 25);
 
     }
     public void rundenAnzahlBoxMalen(){
+        g2.setColor(Color.yellow);
         g2.setFont(g2.getFont().deriveFont(Font.PLAIN,75F));
         String text = "Runden Anzahl";
         g2.drawString(text, 500, 500);
+        g2.setColor(Color.white);
         g2.drawString("6", 485, 600);
         if(befehlNum2 == 0){
             g2.setColor(Color.gray);
@@ -131,9 +145,11 @@ public class Hauptmenue {
         }
     }
     public void spielerAnzahlBoxMalen(){
+        g2.setColor(Color.yellow);
         g2.setFont(g2.getFont().deriveFont(Font.PLAIN,75F));
         String text = "Spieler Anzahl";
         g2.drawString(text, 500, 250);
+        g2.setColor(Color.white);
         g2.drawString("2", 585, 350);
         if(befehlNum3 == 0) {
             g2.setColor(Color.gray);
