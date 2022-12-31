@@ -1,6 +1,5 @@
 package Networking.Client;
 
-import Main.Memory;
 import Networking.Pakete.*;
 import com.esotericsoftware.kryonet.Client;
 import com.esotericsoftware.kryonet.Connection;
@@ -28,39 +27,16 @@ public class SpielClient {
             client.addListener(new Listener(){
                 @Override
                 public void received(Connection connection, Object object) {
-                    if(object instanceof ClientsZug){
-                        ClientsZug zug = (ClientsZug) object;
+                    if (object instanceof ClientsZug zug) {
                         istDran = zug.istDran;
                         System.out.println("Clinet: dran " + istDran);
-                    }
-                    else if(object instanceof HostClient){
-                        HostClient host = (HostClient) object;
+                    } else if (object instanceof HostClient host) {
                         istHost = host.istHost;
                         System.out.println("Client: ich bin der Host " + istHost);
-                    }
-                    else if(object instanceof AnzahlClients){
-                        AnzahlClients anzahl = (AnzahlClients) object;
+                    } else if (object instanceof AnzahlClients anzahl) {
                         anzahlVerbundeneClients = anzahl.anzahlVerbundeneClients;
                         System.out.println("Client: ich habe die Anzahl der Clients erhalten.");
 
-                    }
-                    else if(object instanceof SpielerAuskuenfte){
-                        SpielerAuskuenfte y = (SpielerAuskuenfte) object;
-                        if(Memory.spielerin1.gibNamen().isEmpty()){
-                            Memory.spielerin1.setName(y.name);
-                        }else{
-                            Memory.spielerin2.setName(y.name);
-                        }
-                        System.out.println("Client: ich habe den Namen der anderen Spieler erhalten! " + y.name);
-                    }
-                    else if(object instanceof GeklickteKarte){
-                        GeklickteKarte y = (GeklickteKarte) object;
-                        if (Memory.karten.get(y.kartenIndex).istOffen()) {
-                            Memory.karten.get(y.kartenIndex).deckeAuf();
-                        }
-                        Memory.geklickteKarte.add(Memory.karten.get(y.kartenIndex));
-                        System.out.println("Client: ich habe geklickte Karte der anderen Spieler erhalten! ");
-                        Memory.update();
                     }
                 }
             });
@@ -91,15 +67,9 @@ public class SpielClient {
     }
 
     public void send(Object object){
-        if(object instanceof BescheidSagen){
-            BescheidSagen bescheidSagen = (BescheidSagen) object;
+        if(object instanceof BescheidSagen bescheidSagen){
             client.sendTCP(bescheidSagen);
             System.out.println("Client: ich habe meine Auskuenfte verschickt.");
-        }
-        else if(object instanceof GeklickteKarte){
-            GeklickteKarte geklickteKarte = (GeklickteKarte) object;
-            client.sendTCP(geklickteKarte);
-            System.out.println("Client: ich habe die geklickte Karte verschickt.");
         }
 
     }
