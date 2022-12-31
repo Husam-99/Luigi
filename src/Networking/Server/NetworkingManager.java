@@ -1,7 +1,6 @@
-package Networking;
+package Networking.Server;
 
 import Networking.Client.SpielClient;
-import Networking.Server.SpielServer;
 
 import java.util.ArrayList;
 

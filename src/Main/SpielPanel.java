@@ -1,5 +1,6 @@
 package Main;
 
+import Networking.Client.SpielClient;
 import menue.MenueManager;
 
 import javax.swing.*;
@@ -8,6 +9,7 @@ import java.io.IOException;
 import java.io.InputStream;
 
 public class SpielPanel extends JPanel implements Runnable{
+
 
     final int originalFlieseGroesse = 32;
     final int skala = 5;
@@ -22,11 +24,14 @@ public class SpielPanel extends JPanel implements Runnable{
     public Font marioPartyFont;
     Thread spielThread;
     MenueManager menueManager = new MenueManager(this);
+    public SpielClient client;
     public int Zustand;
     public final int menueZustand = 0;
     public final int spielZustand = 1;
 
     public SpielPanel(){
+        client = new SpielClient();
+        client.start();
         this.setPreferredSize(new Dimension(bildschirmBreite, bildschirmHoehe));
         this.setBackground(Color.darkGray);
         this.setDoubleBuffered(true);
@@ -39,6 +44,10 @@ public class SpielPanel extends JPanel implements Runnable{
         } catch (FontFormatException | IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public void setClient(SpielClient client) {
+        this.client = client;
     }
 
     public void startSpielThread(){
