@@ -19,6 +19,7 @@ public class Hauptmenue{
 
     }
     public void malen(Graphics2D g2){
+
         this.g2 = g2;
         g2.setFont(mn.sp.marioPartyFont);
         if(mn.menueZustand == 0){
@@ -174,5 +175,6 @@ public class Hauptmenue{
         int x = mn.sp.bildschirmBreite/2 - length/2;
         return x;
     }
+
 
 }
