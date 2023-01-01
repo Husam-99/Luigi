@@ -44,11 +44,7 @@ public class ServerListener extends Listener {
     @Override
     public void received(Connection connection, Object object) {
 
-        if(object instanceof SpielerAuskuenfte spielerAuskuenfte){
-            System.out.println("Server: ich werde den Namen weiterleiten.");
-            server.sendToAllExceptTCP(connection.getID(), spielerAuskuenfte);
-        }
-        else if(object instanceof BescheidSagen signal){
+       if(object instanceof BescheidSagen signal){
             if(signal.fertig){
                 alleClients.put(connection, false);
                 ClientsZug zug = new ClientsZug();
@@ -71,9 +67,6 @@ public class ServerListener extends Listener {
 
             }
         }
-        else if(object instanceof GeklickteKarte geklickteKarte){
-            System.out.println("Server: ich werde den geklickteKartenIndex weiterleiten.");
-            server.sendToAllExceptTCP(connection.getID(), geklickteKarte);
-        }
+
     }
 }
