@@ -1,16 +1,17 @@
 package menue;
 
+
 import java.awt.*;
 
-public class Hauptmenue{
+public class Hauptmenue {
 
     MenueManager mn;
     Graphics2D g2;
-
     public int befehlNum1 = 0;
     public int befehlNum2 = -1;
     public int befehlNum3 = 0;
     public int enterZustand = 0;
+
 
     public Hauptmenue(MenueManager mn){
         this.mn = mn;
@@ -95,10 +96,6 @@ public class Hauptmenue{
         }
     }
     public void bilderMalen(){
-        g2.drawImage(mn.tdown1, 1050, 120, mn.sp.flieseGroesse*2, mn.sp.flieseGroesse*2, null);
-        g2.drawImage(mn.hdown1, 50, 350, mn.sp.flieseGroesse*2, mn.sp.flieseGroesse*2, null);
-        g2.drawImage(mn.muenzen, 125, 100, mn.sp.flieseGroesse*2, mn.sp.flieseGroesse*2, null);
-        g2.drawImage(mn.stern, 1140, 550, mn.sp.flieseGroesse*2, mn.sp.flieseGroesse*2, null);
     }
     public void spielErstellenBoxMalen(){
         g2.setColor(Color.black);

@@ -3,7 +3,7 @@ package menue;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 
-public class SpielfigurAuswaehlen {
+public class SpielfigurAuswaehlen{
 
     MenueManager mn;
     Graphics2D g2;
@@ -141,232 +141,232 @@ public class SpielfigurAuswaehlen {
             case "oben":
                 if(befehlNum1 == 0){
                     if(spriteNum == 1 ||spriteNum ==3) {
-                        image1 = mn.mark1;
-                        image2 = mn.mark2;
+                        image1 = mn.sp.spieler.abdo.up1;
+                        image2 = mn.sp.spieler.awuerfel.wuerfel1;
                     }
                     if(spriteNum == 2) {
-                        image1 = mn.mark1;
-                        image2 = mn.mark2;
+                        image1 = mn.sp.spieler.abdo.up2;
+                        image2 = mn.sp.spieler.awuerfel.wuerfel2;
                     }
                     if(spriteNum == 4) {
-                        image1 = mn.mark1;
-                        image2 = mn.mark2;
+                        image1 = mn.sp.spieler.abdo.up3;
+                        image2 = mn.sp.spieler.awuerfel.wuerfel3;
                     }
                 }
                 if(befehlNum1 == 1){
                     if(spriteNum == 1 ||spriteNum ==3) {
-                        image1 = mn.hup1;
-                        image2 = mn.hwuerfel1;
+                        image1 = mn.sp.spieler.husam.up1;
+                        image2 = mn.sp.spieler.hwuerfel.wuerfel1;
                     }
                     if(spriteNum == 2) {
-                        image1 = mn.hup2;
-                        image2 = mn.hwuerfel2;
+                        image1 = mn.sp.spieler.husam.up2;
+                        image2 = mn.sp.spieler.hwuerfel.wuerfel2;
                     }
                     if(spriteNum == 4) {
-                        image1 = mn.hup3;
-                        image2 = mn.hwuerfel3;
+                        image1 = mn.sp.spieler.husam.up3;
+                        image2 = mn.sp.spieler.hwuerfel.wuerfel3;
                     }
                 }
                 if(befehlNum1 == 2){
                     if(spriteNum == 1 ||spriteNum ==3) {
-                        image1 = mn.tup1;
-                        image2 = mn.twuerfel1;
+                        image1 = mn.sp.spieler.taha.up1;
+                        image2 = mn.sp.spieler.twuerfel.wuerfel1;
                     }
                     if(spriteNum == 2) {
-                        image1 = mn.tup2;
-                        image2 = mn.twuerfel2;
+                        image1 = mn.sp.spieler.taha.up2;
+                        image2 = mn.sp.spieler.twuerfel.wuerfel2;
                     }
                     if(spriteNum == 4) {
-                        image1 = mn.tup3;
-                        image2 = mn.twuerfel3;
+                        image1 = mn.sp.spieler.taha.up3;
+                        image2 = mn.sp.spieler.twuerfel.wuerfel3;
                     }
                 }
                 if(befehlNum1 == 3){
                     if(spriteNum == 1 ||spriteNum ==3) {
-                        image1 = mn.mark1;
-                        image2 = mn.mark2;
+                        image1 = mn.sp.spieler.yousef.up1;
+                        image2 = mn.sp.spieler.ywuerfel.wuerfel1;
                     }
                     if(spriteNum == 2) {
-                        image1 = mn.mark1;
-                        image2 = mn.mark2;
+                        image1 = mn.sp.spieler.yousef.up2;
+                        image2 = mn.sp.spieler.ywuerfel.wuerfel2;
                     }
                     if(spriteNum == 4) {
-                        image1 = mn.mark1;
-                        image2 = mn.mark2;
+                        image1 = mn.sp.spieler.yousef.up3;
+                        image2 = mn.sp.spieler.ywuerfel.wuerfel3;
                     }
                 }
                 break;
             case "unten":
                 if(befehlNum1 == 0){
                     if(spriteNum == 1 ||spriteNum ==3) {
-                        image1 = mn.mark1;
-                        image2 = mn.mark2;
+                        image1 = mn.sp.spieler.abdo.down1;
+                        image2 = mn.sp.spieler.awuerfel.wuerfel1;
                     }
                     if(spriteNum == 2) {
-                        image1 = mn.mark1;
-                        image2 = mn.mark2;
+                        image1 = mn.sp.spieler.abdo.down2;
+                        image2 = mn.sp.spieler.awuerfel.wuerfel2;
                     }
                     if(spriteNum == 4) {
-                        image1 = mn.mark1;
-                        image2 = mn.mark2;
+                        image1 = mn.sp.spieler.abdo.down3;
+                        image2 = mn.sp.spieler.awuerfel.wuerfel3;
                     }
                 }
                 if(befehlNum1 == 1){
                     if(spriteNum == 1 ||spriteNum ==3) {
-                        image1 = mn.hdown1;
-                        image2 = mn.hwuerfel1;
+                        image1 = mn.sp.spieler.husam.down1;
+                        image2 = mn.sp.spieler.hwuerfel.wuerfel1;
                     }
                     if(spriteNum == 2) {
-                        image1 = mn.hdown2;
-                        image2 = mn.hwuerfel2;
+                        image1 = mn.sp.spieler.husam.down2;
+                        image2 = mn.sp.spieler.hwuerfel.wuerfel2;
                     }
                     if(spriteNum == 4) {
-                        image1 = mn.hdown3;
-                        image2 = mn.hwuerfel3;
+                        image1 = mn.sp.spieler.husam.down3;
+                        image2 = mn.sp.spieler.hwuerfel.wuerfel3;
                     }
                 }
                 if(befehlNum1 == 2){
                     if(spriteNum == 1 ||spriteNum ==3) {
-                        image1 = mn.tdown1;
-                        image2 = mn.twuerfel1;
+                        image1 = mn.sp.spieler.taha.down1;
+                        image2 = mn.sp.spieler.twuerfel.wuerfel1;
                     }
                     if(spriteNum == 2) {
-                        image1 = mn.tdown2;
-                        image2 = mn.twuerfel2;
+                        image1 = mn.sp.spieler.taha.down2;
+                        image2 = mn.sp.spieler.twuerfel.wuerfel2;
                     }
                     if(spriteNum == 4) {
-                        image1 = mn.tdown3;
-                        image2 = mn.twuerfel3;
+                        image1 = mn.sp.spieler.taha.down3;
+                        image2 = mn.sp.spieler.twuerfel.wuerfel3;
                     }
                 }
                 if(befehlNum1 == 3){
                     if(spriteNum == 1 ||spriteNum ==3) {
-                        image1 = mn.mark1;
-                        image2 = mn.mark2;
+                        image1 = mn.sp.spieler.yousef.down1;
+                        image2 = mn.sp.spieler.ywuerfel.wuerfel1;
                     }
                     if(spriteNum == 2) {
-                        image1 = mn.mark1;
-                        image2 = mn.mark2;
+                        image1 = mn.sp.spieler.yousef.down2;
+                        image2 = mn.sp.spieler.ywuerfel.wuerfel2;
                     }
                     if(spriteNum == 4) {
-                        image1 = mn.mark1;
-                        image2 = mn.mark2;
+                        image1 = mn.sp.spieler.yousef.down3;
+                        image2 = mn.sp.spieler.ywuerfel.wuerfel3;
                     }
                 }
                 break;
             case "links":
                 if(befehlNum1 == 0){
                     if(spriteNum == 1 ||spriteNum ==3) {
-                        image1 = mn.mark1;
-                        image2 = mn.mark2;
+                        image1 = mn.sp.spieler.abdo.left1;
+                        image2 = mn.sp.spieler.awuerfel.wuerfel4;
                     }
                     if(spriteNum == 2) {
-                        image1 = mn.mark1;
-                        image2 = mn.mark2;
+                        image1 = mn.sp.spieler.abdo.left2;
+                        image2 = mn.sp.spieler.awuerfel.wuerfel5;
                     }
                     if(spriteNum == 4) {
-                        image1 = mn.mark1;
-                        image2 = mn.mark2;
+                        image1 = mn.sp.spieler.abdo.left3;
+                        image2 = mn.sp.spieler.awuerfel.wuerfel6;
                     }
                 }
                 if(befehlNum1 == 1){
                     if(spriteNum == 1 ||spriteNum ==3) {
-                        image1 = mn.hleft1;
-                        image2 = mn.hwuerfel4;
+                        image1 = mn.sp.spieler.husam.left1;
+                        image2 = mn.sp.spieler.hwuerfel.wuerfel4;
                     }
                     if(spriteNum == 2) {
-                        image1 = mn.hleft2;
-                        image2 = mn.hwuerfel5;
+                        image1 = mn.sp.spieler.husam.left2;
+                        image2 = mn.sp.spieler.hwuerfel.wuerfel5;
                     }
                     if(spriteNum == 4) {
-                        image1 = mn.hleft3;
-                        image2 = mn.hwuerfel6;
+                        image1 = mn.sp.spieler.husam.left3;
+                        image2 = mn.sp.spieler.hwuerfel.wuerfel6;
                     }
                 }
                 if(befehlNum1 == 2){
                     if(spriteNum == 1 ||spriteNum ==3) {
-                        image1 = mn.tleft1;
-                        image2 = mn.twuerfel4;
+                        image1 = mn.sp.spieler.taha.left1;
+                        image2 = mn.sp.spieler.twuerfel.wuerfel4;
                     }
                     if(spriteNum == 2) {
-                        image1 = mn.tleft2;
-                        image2 = mn.twuerfel5;
+                        image1 = mn.sp.spieler.taha.left2;
+                        image2 = mn.sp.spieler.twuerfel.wuerfel5;
                     }
                     if(spriteNum == 4) {
-                        image1 = mn.tleft3;
-                        image2 = mn.twuerfel6;
+                        image1 = mn.sp.spieler.taha.left3;
+                        image2 = mn.sp.spieler.twuerfel.wuerfel6;
                     }
                 }
                 if(befehlNum1 == 3){
                     if(spriteNum == 1 ||spriteNum ==3) {
-                        image1 = mn.mark1;
-                        image2 = mn.mark2;
+                        image1 = mn.sp.spieler.yousef.left1;
+                        image2 = mn.sp.spieler.ywuerfel.wuerfel4;
                     }
                     if(spriteNum == 2) {
-                        image1 = mn.mark1;
-                        image2 = mn.mark2;
+                        image1 = mn.sp.spieler.yousef.left2;
+                        image2 = mn.sp.spieler.ywuerfel.wuerfel5;
                     }
                     if(spriteNum == 4) {
-                        image1 = mn.mark1;
-                        image2 = mn.mark2;
+                        image1 = mn.sp.spieler.yousef.left3;
+                        image2 = mn.sp.spieler.ywuerfel.wuerfel6;
                     }
                 }
                 break;
             case "rechts":
                 if(befehlNum1 == 0){
                     if(spriteNum == 1 ||spriteNum ==3) {
-                        image1 = mn.mark1;
-                        image2 = mn.mark2;
+                        image1 = mn.sp.spieler.abdo.right1;
+                        image2 = mn.sp.spieler.awuerfel.wuerfel4;
                     }
                     if(spriteNum == 2) {
-                        image1 = mn.mark1;
-                        image2 = mn.mark2;
+                        image1 = mn.sp.spieler.abdo.right2;
+                        image2 = mn.sp.spieler.awuerfel.wuerfel5;
                     }
                     if(spriteNum == 4) {
-                        image1 = mn.mark1;
-                        image2 = mn.mark2;
+                        image1 = mn.sp.spieler.abdo.right3;
+                        image2 = mn.sp.spieler.awuerfel.wuerfel6;
                     }
                 }
                 if(befehlNum1 == 1){
                     if(spriteNum == 1 ||spriteNum ==3) {
-                        image1 = mn.hright1;
-                        image2 = mn.hwuerfel4;
+                        image1 = mn.sp.spieler.husam.right1;
+                        image2 = mn.sp.spieler.hwuerfel.wuerfel4;
                     }
                     if(spriteNum == 2) {
-                        image1 = mn.hright2;
-                        image2 = mn.hwuerfel5;
+                        image1 = mn.sp.spieler.husam.right2;
+                        image2 = mn.sp.spieler.hwuerfel.wuerfel5;
                     }
                     if(spriteNum == 4) {
-                        image1 = mn.hright3;
-                        image2 = mn.hwuerfel6;
+                        image1 = mn.sp.spieler.husam.right3;
+                        image2 = mn.sp.spieler.hwuerfel.wuerfel6;
                     }
                 }
                 if(befehlNum1 == 2){
                     if(spriteNum == 1 ||spriteNum ==3) {
-                        image1 = mn.tright1;
-                        image2 = mn.twuerfel4;
+                        image1 = mn.sp.spieler.taha.right1;
+                        image2 = mn.sp.spieler.twuerfel.wuerfel4;
                     }
                     if(spriteNum == 2) {
-                        image1 = mn.tright2;
-                        image2 = mn.twuerfel5;
+                        image1 = mn.sp.spieler.taha.right2;
+                        image2 = mn.sp.spieler.twuerfel.wuerfel5;
                     }
                     if(spriteNum == 4) {
-                        image1 = mn.tright3;
-                        image2 = mn.twuerfel6;
+                        image1 = mn.sp.spieler.taha.right3;
+                        image2 = mn.sp.spieler.twuerfel.wuerfel6;
                     }
                 }
                 if(befehlNum1 == 3){
                     if(spriteNum == 1 ||spriteNum ==3) {
-                        image1 = mn.mark1;
-                        image2 = mn.mark2;
+                        image1 = mn.sp.spieler.yousef.right1;
+                        image2 = mn.sp.spieler.ywuerfel.wuerfel4;
                     }
                     if(spriteNum == 2) {
-                        image1 = mn.mark1;
-                        image2 = mn.mark2;
+                        image1 = mn.sp.spieler.yousef.right2;
+                        image2 = mn.sp.spieler.ywuerfel.wuerfel5;
                     }
                     if(spriteNum == 4) {
-                        image1 = mn.mark1;
-                        image2 = mn.mark2;
+                        image1 = mn.sp.spieler.yousef.right3;
+                        image2 = mn.sp.spieler.ywuerfel.wuerfel6;
                     }
                 }
                 break;

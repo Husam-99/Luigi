@@ -1,6 +1,7 @@
 package Main;
 
 import Networking.Client.SpielClient;
+import spieler.Spieler;
 import menue.MenueManager;
 
 import javax.swing.*;
@@ -9,8 +10,6 @@ import java.io.IOException;
 import java.io.InputStream;
 
 public class SpielPanel extends JPanel implements Runnable{
-
-
     final int originalFlieseGroesse = 32;
     final int skala = 5;
     public final int flieseGroesse = originalFlieseGroesse * skala;
@@ -23,8 +22,12 @@ public class SpielPanel extends JPanel implements Runnable{
     int FPS = 60;
     public Font marioPartyFont;
     Thread spielThread;
-    MenueManager menueManager = new MenueManager(this);
+
+    public Spieler spieler = new Spieler(this);
+    public MenueManager menueManager = new MenueManager(this);
     public SpielClient client;
+
+
     public int Zustand;
     public final int menueZustand = 0;
     public final int spielZustand = 1;
@@ -47,6 +50,7 @@ public class SpielPanel extends JPanel implements Runnable{
     }
 
     public void setClient(SpielClient client) {
+
         this.client = client;
     }
 
@@ -83,7 +87,6 @@ public class SpielPanel extends JPanel implements Runnable{
     public void paintComponent(Graphics g){
         super.paintComponent(g);
         Graphics2D g2 = (Graphics2D)g;
-
         menueManager.malen(g2);
 
         g2.dispose();
