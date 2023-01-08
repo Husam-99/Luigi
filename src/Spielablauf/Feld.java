@@ -1,54 +1,59 @@
 package Spielablauf;
 
 import java.awt.image.BufferedImage;
+import java.sql.Array;
+import java.util.ArrayList;
 
 public abstract class Feld {
-    private int xPosition;
-    private int yPosition;
-    private Feld naechsteFeld;
-    private BufferedImage feldBild;
+    private int weltX, weltY;
+    private ArrayList<Feld> naechstesFeld ;
+    private ArrayList<Feld> vorherigesFeld;
+    protected BufferedImage feldImage;
 
 
     public Feld(){}
 
-    public Feld(int x, int y, Feld naechsteFeld, BufferedImage Bild){
-        xPosition = x;
-        yPosition = y;
-        this.naechsteFeld = naechsteFeld;
-        this.feldBild = Bild;
+    public Feld(int weltX, int weltY){
+        this.weltX = weltX;
+        this.weltY = weltY;
+        naechstesFeld = new ArrayList<>();
+        vorherigesFeld = new ArrayList<>();
+
+
     }
 
-    public Feld getNaechsteFeld() {
-        return naechsteFeld;
-    }
-    public void setNaechsteFeld(Feld naechsteFeld){
-        this.naechsteFeld = naechsteFeld;
+    public BufferedImage getFeldImage() {
+        return feldImage;
     }
 
-    public int getxPosition() {
-        return xPosition;
+    public int getWeltX() {
+        return weltX;
     }
 
-    public void setxPosition(int xPosition) {
-        this.xPosition = xPosition;
+    public void setWeltX(int weltX) {
+        this.weltX = weltX;
     }
 
-    public int getyPosition() {
-        return yPosition;
+    public int getWeltY() {
+        return weltY;
     }
 
-    public void setyPosition(int yPosition) {
-        this.yPosition = yPosition;
+    public void setWeltY(int weltY) {
+        this.weltY = weltY;
     }
 
-    public BufferedImage getFeldBild() {
-        return feldBild;
+    public ArrayList<Feld> getVorherigesFeld() {
+        return vorherigesFeld;
     }
 
-    public void setFeldBild(BufferedImage feldBild) {
-        this.feldBild = feldBild;
+    public void addVorherigesFeld(Feld vorherigesFeld) {
+        this.vorherigesFeld.add(vorherigesFeld);
     }
-    public void maleFeld(){
 
+    public ArrayList<Feld> getNaechstesFeld() {
+        return naechstesFeld;
+    }
+    public void addNaechstesFeld(Feld naechsteFeld){
+        this.naechstesFeld.add(naechsteFeld);
     }
 }
