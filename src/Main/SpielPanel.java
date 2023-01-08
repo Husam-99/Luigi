@@ -1,6 +1,8 @@
 package Main;
 
 import Networking.Client.SpielClient;
+import Spielablauf.SpielMapManager;
+import Spielablauf.Spieler;
 import menue.MenueManager;
 
 import javax.swing.*;
@@ -10,33 +12,44 @@ import java.io.InputStream;
 
 public class SpielPanel extends JPanel implements Runnable{
 
+    public final int fliesenGroesse = 32;
+    public int skala = 3;
+    public int doppelteFliesenGroesse = fliesenGroesse * skala;
+    public final double maxBildschirmSpalte = 22.5;
+    public final double maxBildschirmZeile = 12.5;
+    public final int bildschirmHoehe = (int) (fliesenGroesse * 2 * maxBildschirmZeile);
+    public final int bildschirmBreite = (int)(fliesenGroesse * 2 * maxBildschirmSpalte);
 
-    final int originalFlieseGroesse = 32;
-    final int skala = 5;
-    public final int flieseGroesse = originalFlieseGroesse * skala;
-    final int maxBildschirmReihe = 9;
-    final int maxBildschirmSpalte = 5;
+    // Welt
+    public final int maxWeltSpalte = 30;
+    public final int maxWeltZeile = 25;
+    public final int weltBreite = doppelteFliesenGroesse * maxWeltSpalte;
+    public final int weltHoehe = doppelteFliesenGroesse * maxWeltZeile;
 
-    public final int bildschirmHoehe = flieseGroesse * maxBildschirmSpalte;
-    public final int bildschirmBreite = flieseGroesse * maxBildschirmReihe;
 
     int FPS = 60;
     public Font marioPartyFont;
     Thread spielThread;
     MenueManager menueManager = new MenueManager(this);
+    SpielMapManager mapManager= new SpielMapManager(this);
     public SpielClient client;
-    public int Zustand;
+    public int zustand = 1 ;
     public final int menueZustand = 0;
     public final int spielZustand = 1;
+    public Spieler husam = new Spieler(this, mapManager);
+
 
     public SpielPanel(){
         client = new SpielClient();
-        client.start();
+        //client.start();
+        this.zustand = 1;
         this.setPreferredSize(new Dimension(bildschirmBreite, bildschirmHoehe));
         this.setBackground(Color.darkGray);
         this.setDoubleBuffered(true);
         this.addKeyListener(menueManager.menueEingabeManager);
         this.setFocusable(true);
+
+
 
         try {
             InputStream is = getClass().getResourceAsStream("/font/Mario-Party-Hudson-Font.ttf");
@@ -45,6 +58,7 @@ public class SpielPanel extends JPanel implements Runnable{
             e.printStackTrace();
         }
     }
+
 
     public void setClient(SpielClient client) {
         this.client = client;
@@ -78,13 +92,23 @@ public class SpielPanel extends JPanel implements Runnable{
 
     public void update() {
         menueManager.update();
+
     }
 
     public void paintComponent(Graphics g){
         super.paintComponent(g);
         Graphics2D g2 = (Graphics2D)g;
+        if(zustand == menueZustand){
+            menueManager.malen(g2);
+        }
+        else if(zustand == spielZustand){
+            this.setBackground(new Color(39, 105, 195));
+            this.removeKeyListener(this.getKeyListeners()[0]);
+            this.addKeyListener(mapManager.mapEingabeManager);
+            mapManager.malen(g2);
+            husam.malen(g2);
 
-        menueManager.malen(g2);
+        }
 
         g2.dispose();
     }

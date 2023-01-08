@@ -1,13 +1,20 @@
 package Spielablauf;
 
-import java.awt.image.BufferedImage;
+import javax.imageio.ImageIO;
+import java.io.File;
+import java.io.IOException;
 
 public class RotesFeld extends Feld{
     private int muenzen;
 
-    public RotesFeld(int x, int y, Feld naechsteFeld, BufferedImage Bild, int muenzen) {
-        super(x, y, naechsteFeld, Bild);
-        this.muenzen = muenzen;
+
+    public RotesFeld(int x, int y) {
+        super(x, y);
+        try {
+            super.feldImage = ImageIO.read(new File("src/source/felder/Red_field.png"));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
     public void muenzeVerlieren(){
 

@@ -95,10 +95,10 @@ public class Hauptmenue{
         }
     }
     public void bilderMalen(){
-        g2.drawImage(mn.tdown1, 1050, 120, mn.sp.flieseGroesse*2, mn.sp.flieseGroesse*2, null);
-        g2.drawImage(mn.hdown1, 50, 350, mn.sp.flieseGroesse*2, mn.sp.flieseGroesse*2, null);
-        g2.drawImage(mn.muenzen, 125, 100, mn.sp.flieseGroesse*2, mn.sp.flieseGroesse*2, null);
-        g2.drawImage(mn.stern, 1140, 550, mn.sp.flieseGroesse*2, mn.sp.flieseGroesse*2, null);
+        g2.drawImage(mn.tdown1, 1050, 120, mn.sp.fliesenGroesse*10, mn.sp.fliesenGroesse*10, null);
+        g2.drawImage(mn.hdown1, 50, 350, mn.sp.fliesenGroesse*10, mn.sp.fliesenGroesse*10, null);
+        g2.drawImage(mn.muenzen, 125, 100, mn.sp.fliesenGroesse*10, mn.sp.fliesenGroesse*10, null);
+        g2.drawImage(mn.stern, 1140, 550, mn.sp.fliesenGroesse*10, mn.sp.fliesenGroesse*10, null);
     }
     public void spielErstellenBoxMalen(){
         g2.setColor(Color.black);

@@ -1,26 +1,35 @@
 package Spielablauf;
 
+import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 
 public class BlauesFeld extends Feld{
-/*    private Gegenstand gegenstand;
+//    private Gegenstand gegenstand;
 
-    public BlauesFeld(int x, int y, Feld naechsteFeld, BufferedImage Bild, Gegenstand gegenstand) {
-        super(x, y, naechsteFeld, Bild);
-        this.gegenstand = gegenstand;
-    }
-
-    public Gegenstand getGegenstand() {
-        return gegenstand;
-    }
-
-    public void setGegenstand(Gegenstand gegenstand) {
-        this.gegenstand = gegenstand;
-    }
-    public void gegenstandWaehlen(){
+    public BlauesFeld(int x, int y) {
+        super(x, y);
+        try {
+            super.feldImage = ImageIO.read(new File("src/source/felder/Blue_Field.png"));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
 
     }
-    public void gegenstandKlauen(){
 
-    }*/
+
+// public Gegenstand getGegenstand() {
+   //     return gegenstand;
+   // }
+//
+   // public void setGegenstand(Gegenstand gegenstand) {
+   //     this.gegenstand = gegenstand;
+   // }
+    //public void gegenstandWaehlen(){
+//
+    //}
+    //public void gegenstandKlauen(){
+//
+    //}
 }
