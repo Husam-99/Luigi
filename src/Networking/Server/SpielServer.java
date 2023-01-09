@@ -14,6 +14,7 @@ public class SpielServer  {
     static Server server;
     static LinkedHashMap<Connection, Boolean> alleClients = new LinkedHashMap<>();
 
+
     public static void start(){
 
         try {

@@ -2,7 +2,7 @@ package Main;
 
 import Networking.Client.SpielClient;
 import Spielablauf.SpielMapManager;
-import Spielablauf.Spieler;
+import spieler.Spieler;
 import menue.MenueManager;
 
 import javax.swing.*;
@@ -30,14 +30,14 @@ public class SpielPanel extends JPanel implements Runnable{
     int FPS = 60;
     public Font marioPartyFont;
     Thread spielThread;
-    MenueManager menueManager = new MenueManager(this);
+
+    public Spieler spieler = new Spieler(this);
+    public MenueManager menueManager = new MenueManager(this);
     SpielMapManager mapManager= new SpielMapManager(this);
     public SpielClient client;
     public int zustand = 1 ;
     public final int menueZustand = 0;
     public final int spielZustand = 1;
-    public Spieler husam = new Spieler(this, mapManager);
-
 
     public SpielPanel(){
         client = new SpielClient();
@@ -49,8 +49,6 @@ public class SpielPanel extends JPanel implements Runnable{
         this.addKeyListener(menueManager.menueEingabeManager);
         this.setFocusable(true);
 
-
-
         try {
             InputStream is = getClass().getResourceAsStream("/font/Mario-Party-Hudson-Font.ttf");
             marioPartyFont = Font.createFont(Font.TRUETYPE_FONT, is);
@@ -58,7 +56,6 @@ public class SpielPanel extends JPanel implements Runnable{
             e.printStackTrace();
         }
     }
-
 
     public void setClient(SpielClient client) {
         this.client = client;
@@ -91,14 +88,15 @@ public class SpielPanel extends JPanel implements Runnable{
     }
 
     public void update() {
+        menueManager.menueHintergrund.update();
         menueManager.update();
-
     }
 
     public void paintComponent(Graphics g){
         super.paintComponent(g);
         Graphics2D g2 = (Graphics2D)g;
         if(zustand == menueZustand){
+            menueManager.menueHintergrund.malen(g2);
             menueManager.malen(g2);
         }
         else if(zustand == spielZustand){
@@ -109,7 +107,6 @@ public class SpielPanel extends JPanel implements Runnable{
             husam.malen(g2);
 
         }
-
         g2.dispose();
     }
 

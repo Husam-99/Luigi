@@ -1,18 +1,27 @@
 package menue;
 
+import spieler.*;
+
 import java.awt.*;
 import java.awt.image.BufferedImage;
 
-public class SpielfigurAuswaehlen {
+public class SpielfigurAuswaehlen{
 
     MenueManager mn;
     Graphics2D g2;
-    public int befehlNum1 = 0;
-    public int enterZustand = 0;
-    int spriteNum = 1;
-    int spriteZaehler = 0;
-    int richtungNum = 0;
+    public int befehlNum1 = 0, enterZustand = 0;
+    int spriteNum = 1, spriteZaehler = 0, richtungNum = 0;
     String richtung = "unten";
+    BufferedImage image1 = null, image2 = null;
+    Spieler s;
+    public Taha taha = new Taha(s);
+    public Husam husam = new Husam(s);
+    public Abdo abdo = new Abdo(s);
+    public Yousef yousef = new Yousef(s);
+    public TahaWuerfel twuerfel = new TahaWuerfel(s);
+    public HusamWuerfel hwuerfel = new HusamWuerfel(s);
+    public AbdoWuerfel awuerfel = new AbdoWuerfel(s);
+    public YousefWuerfel ywuerfel = new YousefWuerfel(s);
     public SpielfigurAuswaehlen(MenueManager mn){
         this.mn = mn;
     }
@@ -84,6 +93,7 @@ public class SpielfigurAuswaehlen {
             namenMalen();
             bilderMalen();
         } else if (enterZustand == 1) {
+            wartenBoxMalen();
             wartenMalen();
         }
     }
@@ -106,270 +116,281 @@ public class SpielfigurAuswaehlen {
         g2.setFont(g2.getFont().deriveFont(Font.BOLD,50F));
         String text = "Spieler Auswaehlen";
         g2.drawString(text, 150, 160);
-        g2.setColor(Color.white);
+        g2.setColor(Color.gray);
         g2.setFont(g2.getFont().deriveFont(Font.PLAIN,50F));
         g2.drawString("Abdo", 300, 300);
         if(befehlNum1 == 0){
-            g2.setColor(Color.gray);
-            g2.drawString("Abdo", 300, 300);
             g2.setColor(Color.white);
+            g2.drawString("Abdo", 300, 300);
+            g2.setColor(Color.gray);
         }
         g2.drawString("Husam", 290, 400);
         if(befehlNum1 == 1){
-            g2.setColor(Color.gray);
-            g2.drawString("Husam", 290, 400);
             g2.setColor(Color.white);
+            g2.drawString("Husam", 290, 400);
+            g2.setColor(Color.gray);
         }
         g2.drawString("Taha", 300, 500);
         if(befehlNum1 == 2){
-            g2.setColor(Color.gray);
-            g2.drawString("Taha", 300, 500);
             g2.setColor(Color.white);
+            g2.drawString("Taha", 300, 500);
+            g2.setColor(Color.gray);
         }
         g2.drawString("Yousef", 280, 600);
         if(befehlNum1 == 3){
-            g2.setColor(Color.gray);
-            g2.drawString("Yousef", 280, 600);
             g2.setColor(Color.white);
+            g2.drawString("Yousef", 280, 600);
+            g2.setColor(Color.gray);
         }
     }
     public void bilderMalen(){
-        BufferedImage image1 = null;
-        BufferedImage image2 = null;
-
         switch(richtung) {
             case "oben":
-                if(befehlNum1 == 0){
-                    if(spriteNum == 1 ||spriteNum ==3) {
-                        image1 = mn.mark1;
-                        image2 = mn.mark2;
-                    }
-                    if(spriteNum == 2) {
-                        image1 = mn.mark1;
-                        image2 = mn.mark2;
-                    }
-                    if(spriteNum == 4) {
-                        image1 = mn.mark1;
-                        image2 = mn.mark2;
-                    }
-                }
-                if(befehlNum1 == 1){
-                    if(spriteNum == 1 ||spriteNum ==3) {
-                        image1 = mn.hup1;
-                        image2 = mn.hwuerfel1;
-                    }
-                    if(spriteNum == 2) {
-                        image1 = mn.hup2;
-                        image2 = mn.hwuerfel2;
-                    }
-                    if(spriteNum == 4) {
-                        image1 = mn.hup3;
-                        image2 = mn.hwuerfel3;
-                    }
-                }
-                if(befehlNum1 == 2){
-                    if(spriteNum == 1 ||spriteNum ==3) {
-                        image1 = mn.tup1;
-                        image2 = mn.twuerfel1;
-                    }
-                    if(spriteNum == 2) {
-                        image1 = mn.tup2;
-                        image2 = mn.twuerfel2;
-                    }
-                    if(spriteNum == 4) {
-                        image1 = mn.tup3;
-                        image2 = mn.twuerfel3;
-                    }
-                }
-                if(befehlNum1 == 3){
-                    if(spriteNum == 1 ||spriteNum ==3) {
-                        image1 = mn.mark1;
-                        image2 = mn.mark2;
-                    }
-                    if(spriteNum == 2) {
-                        image1 = mn.mark1;
-                        image2 = mn.mark2;
-                    }
-                    if(spriteNum == 4) {
-                        image1 = mn.mark1;
-                        image2 = mn.mark2;
-                    }
-                }
+                spielerObenBilderMalen();
                 break;
             case "unten":
-                if(befehlNum1 == 0){
-                    if(spriteNum == 1 ||spriteNum ==3) {
-                        image1 = mn.mark1;
-                        image2 = mn.mark2;
-                    }
-                    if(spriteNum == 2) {
-                        image1 = mn.mark1;
-                        image2 = mn.mark2;
-                    }
-                    if(spriteNum == 4) {
-                        image1 = mn.mark1;
-                        image2 = mn.mark2;
-                    }
-                }
-                if(befehlNum1 == 1){
-                    if(spriteNum == 1 ||spriteNum ==3) {
-                        image1 = mn.hdown1;
-                        image2 = mn.hwuerfel1;
-                    }
-                    if(spriteNum == 2) {
-                        image1 = mn.hdown2;
-                        image2 = mn.hwuerfel2;
-                    }
-                    if(spriteNum == 4) {
-                        image1 = mn.hdown3;
-                        image2 = mn.hwuerfel3;
-                    }
-                }
-                if(befehlNum1 == 2){
-                    if(spriteNum == 1 ||spriteNum ==3) {
-                        image1 = mn.tdown1;
-                        image2 = mn.twuerfel1;
-                    }
-                    if(spriteNum == 2) {
-                        image1 = mn.tdown2;
-                        image2 = mn.twuerfel2;
-                    }
-                    if(spriteNum == 4) {
-                        image1 = mn.tdown3;
-                        image2 = mn.twuerfel3;
-                    }
-                }
-                if(befehlNum1 == 3){
-                    if(spriteNum == 1 ||spriteNum ==3) {
-                        image1 = mn.mark1;
-                        image2 = mn.mark2;
-                    }
-                    if(spriteNum == 2) {
-                        image1 = mn.mark1;
-                        image2 = mn.mark2;
-                    }
-                    if(spriteNum == 4) {
-                        image1 = mn.mark1;
-                        image2 = mn.mark2;
-                    }
-                }
+                spielerUntenBilderMalen();
                 break;
             case "links":
-                if(befehlNum1 == 0){
-                    if(spriteNum == 1 ||spriteNum ==3) {
-                        image1 = mn.mark1;
-                        image2 = mn.mark2;
-                    }
-                    if(spriteNum == 2) {
-                        image1 = mn.mark1;
-                        image2 = mn.mark2;
-                    }
-                    if(spriteNum == 4) {
-                        image1 = mn.mark1;
-                        image2 = mn.mark2;
-                    }
-                }
-                if(befehlNum1 == 1){
-                    if(spriteNum == 1 ||spriteNum ==3) {
-                        image1 = mn.hleft1;
-                        image2 = mn.hwuerfel4;
-                    }
-                    if(spriteNum == 2) {
-                        image1 = mn.hleft2;
-                        image2 = mn.hwuerfel5;
-                    }
-                    if(spriteNum == 4) {
-                        image1 = mn.hleft3;
-                        image2 = mn.hwuerfel6;
-                    }
-                }
-                if(befehlNum1 == 2){
-                    if(spriteNum == 1 ||spriteNum ==3) {
-                        image1 = mn.tleft1;
-                        image2 = mn.twuerfel4;
-                    }
-                    if(spriteNum == 2) {
-                        image1 = mn.tleft2;
-                        image2 = mn.twuerfel5;
-                    }
-                    if(spriteNum == 4) {
-                        image1 = mn.tleft3;
-                        image2 = mn.twuerfel6;
-                    }
-                }
-                if(befehlNum1 == 3){
-                    if(spriteNum == 1 ||spriteNum ==3) {
-                        image1 = mn.mark1;
-                        image2 = mn.mark2;
-                    }
-                    if(spriteNum == 2) {
-                        image1 = mn.mark1;
-                        image2 = mn.mark2;
-                    }
-                    if(spriteNum == 4) {
-                        image1 = mn.mark1;
-                        image2 = mn.mark2;
-                    }
-                }
+                spielerLinksBilderMalen();
                 break;
             case "rechts":
-                if(befehlNum1 == 0){
-                    if(spriteNum == 1 ||spriteNum ==3) {
-                        image1 = mn.mark1;
-                        image2 = mn.mark2;
-                    }
-                    if(spriteNum == 2) {
-                        image1 = mn.mark1;
-                        image2 = mn.mark2;
-                    }
-                    if(spriteNum == 4) {
-                        image1 = mn.mark1;
-                        image2 = mn.mark2;
-                    }
-                }
-                if(befehlNum1 == 1){
-                    if(spriteNum == 1 ||spriteNum ==3) {
-                        image1 = mn.hright1;
-                        image2 = mn.hwuerfel4;
-                    }
-                    if(spriteNum == 2) {
-                        image1 = mn.hright2;
-                        image2 = mn.hwuerfel5;
-                    }
-                    if(spriteNum == 4) {
-                        image1 = mn.hright3;
-                        image2 = mn.hwuerfel6;
-                    }
-                }
-                if(befehlNum1 == 2){
-                    if(spriteNum == 1 ||spriteNum ==3) {
-                        image1 = mn.tright1;
-                        image2 = mn.twuerfel4;
-                    }
-                    if(spriteNum == 2) {
-                        image1 = mn.tright2;
-                        image2 = mn.twuerfel5;
-                    }
-                    if(spriteNum == 4) {
-                        image1 = mn.tright3;
-                        image2 = mn.twuerfel6;
-                    }
-                }
-                if(befehlNum1 == 3){
-                    if(spriteNum == 1 ||spriteNum ==3) {
-                        image1 = mn.mark1;
-                        image2 = mn.mark2;
-                    }
-                    if(spriteNum == 2) {
-                        image1 = mn.mark1;
-                        image2 = mn.mark2;
-                    }
-                    if(spriteNum == 4) {
-                        image1 = mn.mark1;
-                        image2 = mn.mark2;
-                    }
-                }
+                spielerRechtsBilderMalen();
                 break;
+        }
+        g2.drawImage(image1, 850, 350, mn.sp.flieseGroesse*2, mn.sp.flieseGroesse*2, null);
+        g2.drawImage(image2, 850, 60, mn.sp.flieseGroesse*2, mn.sp.flieseGroesse*2, null);
+    }
+    public void spielerObenBilderMalen(){
+        if(befehlNum1 == 0){
+            if(spriteNum == 1 ||spriteNum ==3) {
+                image1 = abdo.up1;
+                image2 = awuerfel.wuerfel1;
+            }
+            if(spriteNum == 2) {
+                image1 = abdo.up2;
+                image2 = awuerfel.wuerfel2;
+            }
+            if(spriteNum == 4) {
+                image1 = abdo.up3;
+                image2 = awuerfel.wuerfel3;
+            }
+        }
+        if(befehlNum1 == 1){
+            if(spriteNum == 1 ||spriteNum ==3) {
+                image1 = husam.up1;
+                image2 = hwuerfel.wuerfel1;
+            }
+            if(spriteNum == 2) {
+                image1 = husam.up2;
+                image2 = hwuerfel.wuerfel2;
+            }
+            if(spriteNum == 4) {
+                image1 = husam.up3;
+                image2 = hwuerfel.wuerfel3;
+            }
+        }
+        if(befehlNum1 == 2){
+            if(spriteNum == 1 ||spriteNum ==3) {
+                image1 = taha.up1;
+                image2 = twuerfel.wuerfel1;
+            }
+            if(spriteNum == 2) {
+                image1 = taha.up2;
+                image2 = twuerfel.wuerfel2;
+            }
+            if(spriteNum == 4) {
+                image1 = taha.up3;
+                image2 = twuerfel.wuerfel3;
+            }
+        }
+        if(befehlNum1 == 3){
+            if(spriteNum == 1 ||spriteNum ==3) {
+                image1 = yousef.up1;
+                image2 = ywuerfel.wuerfel1;
+            }
+            if(spriteNum == 2) {
+                image1 = yousef.up2;
+                image2 = ywuerfel.wuerfel2;
+            }
+            if(spriteNum == 4) {
+                image1 = yousef.up3;
+                image2 = ywuerfel.wuerfel3;
+            }
+        }
+    }
+    public void spielerUntenBilderMalen(){
+        if(befehlNum1 == 0){
+            if(spriteNum == 1 ||spriteNum ==3) {
+                image1 = abdo.down1;
+                image2 = awuerfel.wuerfel1;
+            }
+            if(spriteNum == 2) {
+                image1 = abdo.down2;
+                image2 = awuerfel.wuerfel2;
+            }
+            if(spriteNum == 4) {
+                image1 = abdo.down3;
+                image2 = awuerfel.wuerfel3;
+            }
+        }
+        if(befehlNum1 == 1){
+            if(spriteNum == 1 ||spriteNum ==3) {
+                image1 = husam.down1;
+                image2 = hwuerfel.wuerfel1;
+            }
+            if(spriteNum == 2) {
+                image1 = husam.down2;
+                image2 = hwuerfel.wuerfel2;
+            }
+            if(spriteNum == 4) {
+                image1 = husam.down3;
+                image2 = hwuerfel.wuerfel3;
+            }
+        }
+        if(befehlNum1 == 2){
+            if(spriteNum == 1 ||spriteNum ==3) {
+                image1 = taha.down1;
+                image2 = twuerfel.wuerfel1;
+            }
+            if(spriteNum == 2) {
+                image1 = taha.down2;
+                image2 = twuerfel.wuerfel2;
+            }
+            if(spriteNum == 4) {
+                image1 = taha.down3;
+                image2 = twuerfel.wuerfel3;
+            }
+        }
+        if(befehlNum1 == 3){
+            if(spriteNum == 1 ||spriteNum ==3) {
+                image1 = yousef.down1;
+                image2 = ywuerfel.wuerfel1;
+            }
+            if(spriteNum == 2) {
+                image1 = yousef.down2;
+                image2 = ywuerfel.wuerfel2;
+            }
+            if(spriteNum == 4) {
+                image1 = yousef.down3;
+                image2 = ywuerfel.wuerfel3;
+            }
+        }
+    }
+    public void spielerRechtsBilderMalen(){
+        if(befehlNum1 == 0){
+            if(spriteNum == 1 ||spriteNum ==3) {
+                image1 = abdo.right1;
+                image2 = awuerfel.wuerfel4;
+            }
+            if(spriteNum == 2) {
+                image1 = abdo.right2;
+                image2 = awuerfel.wuerfel5;
+            }
+            if(spriteNum == 4) {
+                image1 = abdo.right3;
+                image2 = awuerfel.wuerfel6;
+            }
+        }
+        if(befehlNum1 == 1){
+            if(spriteNum == 1 ||spriteNum ==3) {
+                image1 = husam.right1;
+                image2 = hwuerfel.wuerfel4;
+            }
+            if(spriteNum == 2) {
+                image1 = husam.right2;
+                image2 = hwuerfel.wuerfel5;
+            }
+            if(spriteNum == 4) {
+                image1 = husam.right3;
+                image2 = hwuerfel.wuerfel6;
+            }
+        }
+        if(befehlNum1 == 2){
+            if(spriteNum == 1 ||spriteNum ==3) {
+                image1 = taha.right1;
+                image2 = twuerfel.wuerfel4;
+            }
+            if(spriteNum == 2) {
+                image1 = taha.right2;
+                image2 = twuerfel.wuerfel5;
+            }
+            if(spriteNum == 4) {
+                image1 = taha.right3;
+                image2 = twuerfel.wuerfel6;
+            }
+        }
+        if(befehlNum1 == 3){
+            if(spriteNum == 1 ||spriteNum ==3) {
+                image1 = yousef.right1;
+                image2 = ywuerfel.wuerfel4;
+            }
+            if(spriteNum == 2) {
+                image1 = yousef.right2;
+                image2 = ywuerfel.wuerfel5;
+            }
+            if(spriteNum == 4) {
+                image1 = yousef.right3;
+                image2 = ywuerfel.wuerfel6;
+            }
+        }
+    }
+    public void spielerLinksBilderMalen(){
+        if(befehlNum1 == 0){
+            if(spriteNum == 1 ||spriteNum ==3) {
+                image1 = abdo.left1;
+                image2 = awuerfel.wuerfel4;
+            }
+            if(spriteNum == 2) {
+                image1 = abdo.left2;
+                image2 = awuerfel.wuerfel5;
+            }
+            if(spriteNum == 4) {
+                image1 = abdo.left3;
+                image2 = awuerfel.wuerfel6;
+            }
+        }
+        if(befehlNum1 == 1){
+            if(spriteNum == 1 ||spriteNum ==3) {
+                image1 = husam.left1;
+                image2 = hwuerfel.wuerfel4;
+            }
+            if(spriteNum == 2) {
+                image1 = husam.left2;
+                image2 = hwuerfel.wuerfel5;
+            }
+            if(spriteNum == 4) {
+                image1 = husam.left3;
+                image2 = hwuerfel.wuerfel6;
+            }
+        }
+        if(befehlNum1 == 2){
+            if(spriteNum == 1 ||spriteNum ==3) {
+                image1 = taha.left1;
+                image2 = twuerfel.wuerfel4;
+            }
+            if(spriteNum == 2) {
+                image1 = taha.left2;
+                image2 = twuerfel.wuerfel5;
+            }
+            if(spriteNum == 4) {
+                image1 = taha.left3;
+                image2 = twuerfel.wuerfel6;
+            }
+        }
+        if(befehlNum1 == 3){
+            if(spriteNum == 1 ||spriteNum ==3) {
+                image1 = yousef.left1;
+                image2 = ywuerfel.wuerfel4;
+            }
+            if(spriteNum == 2) {
+                image1 = yousef.left2;
+                image2 = ywuerfel.wuerfel5;
+            }
+            if(spriteNum == 4) {
+                image1 = yousef.left3;
+                image2 = ywuerfel.wuerfel6;
+            }
         }
         g2.drawImage(image1, 850, 350, mn.sp.fliesenGroesse*10, mn.sp.fliesenGroesse*10, null);
         g2.drawImage(image2, 850, 60, mn.sp.fliesenGroesse*10, mn.sp.fliesenGroesse*10, null);
@@ -380,11 +401,21 @@ public class SpielfigurAuswaehlen {
         String text1 = "Warten auf ";
         String text2 = "andere Spieler...";
         g2.setColor(Color.gray);
-        g2.drawString(text1,455,355);
-        g2.drawString(text2,365,455);
+        g2.drawString(text1,465,355);
+        g2.drawString(text2,375,455);
         g2.setColor(Color.yellow);
         g2.drawString(text1,460, 350);
         g2.drawString(text2,370, 450);
+    }
+    public void wartenBoxMalen(){
+        Color c = new Color(0,0,0,220);
+        g2.setColor(c);
+        g2.fillRoundRect(325, 230, 800, 300, 35, 35);
+        c = new Color(255,255,255,220);
+        g2.setColor(c);
+        g2.setStroke(new BasicStroke(5));
+        g2.drawRoundRect(330,235,790, 290, 25, 25);
+    }
 
     }
 
