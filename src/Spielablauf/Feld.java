@@ -5,7 +5,7 @@ import java.sql.Array;
 import java.util.ArrayList;
 
 public abstract class Feld {
-    private int weltX, weltY;
+    int weltX, weltY;
     Feld suedFeld;
     Feld nordFeld;
     Feld ostFeld;
@@ -16,9 +16,9 @@ public abstract class Feld {
 
     public Feld(){}
 
-    public Feld(int weltX, int weltY){
-        this.weltX = weltX;
+    public Feld(int weltY, int weltX){
         this.weltY = weltY;
+        this.weltX = weltX;
 
 
 

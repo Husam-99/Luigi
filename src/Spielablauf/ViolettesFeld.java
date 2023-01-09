@@ -8,8 +8,8 @@ import java.io.IOException;
 public class ViolettesFeld extends Feld{
     //private Gegenstand gegenstand;
 
-    public ViolettesFeld(int x, int y) {
-        super(x, y);
+    public ViolettesFeld(int weltY, int weltX) {
+        super(weltY, weltX);
         try {
             super.feldImage = ImageIO.read(new File("src/source/felder/Purple_Field.png"));
         } catch (IOException e) {

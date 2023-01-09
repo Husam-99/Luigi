@@ -17,6 +17,9 @@ public class Spieler {
     public int weltX, weltY;
     public int geschwindigkeit;
     public BufferedImage myImage;
+    public Feld naechstesFeld;
+    public Feld aktuellesFeld;
+    public String richtung;
 
 
     public Spieler(SpielPanel sp, SpielMapManager mapManager){
@@ -27,8 +30,8 @@ public class Spieler {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-        bildschirmX = sp.bildschirmBreite/2 - (sp.doppelteFliesenGroesse/2);
-        bildschirmY = sp.bildschirmHoehe/2 - (sp.doppelteFliesenGroesse/2) ;
+        bildschirmX = sp.bildschirmBreite/2 - (sp.vergroesserteFliesenGroesse /2);
+        bildschirmY = sp.bildschirmHoehe/2 - (sp.vergroesserteFliesenGroesse /2) ;
 
         mapManager.hinzufuegeSpieler(this);
         setzeWerte();
@@ -38,13 +41,16 @@ public class Spieler {
 
     }
     public void setzeWerte(){
-        weltX = sp.doppelteFliesenGroesse * 11;
-        weltY = sp.doppelteFliesenGroesse * 21;
+        weltX = sp.vergroesserteFliesenGroesse * 11;
+        weltY = sp.vergroesserteFliesenGroesse * 21;
         geschwindigkeit = 4;
+        richtung = "nord";
+        naechstesFeld = mapManager.mapFliesen[19][11].feld;
+        aktuellesFeld = null;
 
     }
     public void malen(Graphics2D g2){
-        g2.drawImage(myImage, bildschirmX, bildschirmY, sp.doppelteFliesenGroesse, sp.doppelteFliesenGroesse, null);
+        g2.drawImage(myImage, bildschirmX, bildschirmY, sp.vergroesserteFliesenGroesse, sp.vergroesserteFliesenGroesse, null);
 
     }
 }
