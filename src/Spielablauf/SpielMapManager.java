@@ -2,6 +2,7 @@ package Spielablauf;
 
 
 import Main.SpielPanel;
+import spieler.Spieler;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
@@ -174,8 +175,8 @@ public class SpielMapManager {
 
             int weltX = weltSpalte * sp.doppelteFliesenGroesse;
             int weltY = weltZeile * sp.doppelteFliesenGroesse;
-            int bildschirmX = weltX - sp.husam.weltX + sp.husam.bildschirmX;
-            int bildschirmY = weltY - sp.husam.weltY + sp.husam.bildschirmY;
+            int bildschirmX = weltX - sp.spieler.weltX + sp.spieler.bildschirmX;
+            int bildschirmY = weltY - sp.spieler.weltY + sp.spieler.bildschirmY;
 
             g2.drawImage(vorlauefigeFliese.getFlieseImage(), bildschirmX, bildschirmY, sp.doppelteFliesenGroesse, sp.doppelteFliesenGroesse, null);
             if(mapFliesen[weltZeile][weltSpalte].feld != null){

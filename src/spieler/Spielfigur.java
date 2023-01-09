@@ -95,6 +95,6 @@ public abstract class Spielfigur {
                 }
                 break;
         }
-        g2.drawImage(image, s.positionX, s.positionY, s.sp.flieseGroesse, s.sp.flieseGroesse, null);
+        g2.drawImage(image, s.positionX, s.positionY, s.sp.doppelteFliesenGroesse, s.sp.doppelteFliesenGroesse, null);
     }
 }

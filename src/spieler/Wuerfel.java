@@ -31,6 +31,6 @@ public abstract class Wuerfel {
         }else if(spriteNum == 5){
             image = wuerfel6;
         }
-        g2.drawImage(image, positionX, positionY, s.sp.flieseGroesse, s.sp.flieseGroesse, null);
+        g2.drawImage(image, positionX, positionY, s.sp.doppelteFliesenGroesse, s.sp.doppelteFliesenGroesse, null);
     }
 }

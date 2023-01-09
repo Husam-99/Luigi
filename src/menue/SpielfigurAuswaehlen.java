@@ -158,8 +158,8 @@ public class SpielfigurAuswaehlen{
                 spielerRechtsBilderMalen();
                 break;
         }
-        g2.drawImage(image1, 850, 350, mn.sp.flieseGroesse*2, mn.sp.flieseGroesse*2, null);
-        g2.drawImage(image2, 850, 60, mn.sp.flieseGroesse*2, mn.sp.flieseGroesse*2, null);
+        g2.drawImage(image1, 850, 350, mn.sp.fliesenGroesse*10, mn.sp.fliesenGroesse*10, null);
+        g2.drawImage(image2, 850, 60, mn.sp.fliesenGroesse*10, mn.sp.fliesenGroesse*10, null);
     }
     public void spielerObenBilderMalen(){
         if(befehlNum1 == 0){
@@ -417,6 +417,6 @@ public class SpielfigurAuswaehlen{
         g2.drawRoundRect(330,235,790, 290, 25, 25);
     }
 
-    }
-
 }
+
+

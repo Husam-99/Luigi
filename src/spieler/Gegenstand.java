@@ -19,6 +19,6 @@ public abstract class Gegenstand {
     public void getGegenstandBilder(){}
 
     public void malen(Graphics2D g2){
-        g2.drawImage(icon, positionX, positionY, s.sp.flieseGroesse, s.sp.flieseGroesse, null);
+        g2.drawImage(icon, positionX, positionY, s.sp.doppelteFliesenGroesse, s.sp.doppelteFliesenGroesse, null);
     }
 }
