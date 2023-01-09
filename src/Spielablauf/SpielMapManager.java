@@ -192,83 +192,124 @@ public class SpielMapManager {
 
     }
     private void felderReihenfolgeFestlegen(){
-        mapFliesen[19][11].feld.addNaechstesFeld(mapFliesen[17][11].feld);
-        mapFliesen[19][11].feld.addVorherigesFeld(mapFliesen[17][11].feld);
+        mapFliesen[19][11].feld.nordFeld = mapFliesen[17][11].feld;
 
-        mapFliesen[17][11].feld.addNaechstesFeld(mapFliesen[17][14].feld);
-        mapFliesen[17][11].feld.addNaechstesFeld(mapFliesen[17][8].feld);
-        mapFliesen[17][11].feld.addNaechstesFeld(mapFliesen[15][11].feld);
-        mapFliesen[17][11].feld.addVorherigesFeld(mapFliesen[17][14].feld);
-        mapFliesen[17][11].feld.addVorherigesFeld(mapFliesen[17][8].feld);
-        mapFliesen[17][11].feld.addVorherigesFeld(mapFliesen[19][11].feld);
-        mapFliesen[17][11].feld.addVorherigesFeld(mapFliesen[15][11].feld);
+        mapFliesen[17][11].feld.ostFeld = mapFliesen[17][14].feld;
+        mapFliesen[17][11].feld.westFeld = mapFliesen[17][8].feld;
+        mapFliesen[17][11].feld.nordFeld = mapFliesen[15][11].feld;
+        mapFliesen[17][11].feld.suedFeld = mapFliesen[19][11].feld;
 
-        mapFliesen[17][14].feld.addNaechstesFeld(mapFliesen[17][17].feld);
-        mapFliesen[17][14].feld.addVorherigesFeld(mapFliesen[17][11].feld);
+        mapFliesen[17][14].feld.ostFeld = mapFliesen[17][17].feld;
+        mapFliesen[17][14].feld.westFeld = mapFliesen[17][11].feld;
 
-        mapFliesen[17][8].feld.addNaechstesFeld(mapFliesen[17][5].feld);
-        mapFliesen[17][8].feld.addVorherigesFeld(mapFliesen[17][11].feld);
+        mapFliesen[17][8].feld.westFeld = mapFliesen[17][5].feld;
+        mapFliesen[17][8].feld.ostFeld = mapFliesen[17][11].feld;
 
-        mapFliesen[15][11].feld.addNaechstesFeld(mapFliesen[13][11].feld);
-        mapFliesen[15][11].feld.addNaechstesFeld(mapFliesen[15][8].feld);
-        mapFliesen[15][11].feld.addVorherigesFeld(mapFliesen[17][11].feld);
-        mapFliesen[15][11].feld.addVorherigesFeld(mapFliesen[13][11].feld);
-        mapFliesen[15][11].feld.addVorherigesFeld(mapFliesen[15][8].feld);
+        mapFliesen[15][11].feld.nordFeld = mapFliesen[13][11].feld;
+        mapFliesen[15][11].feld.westFeld = mapFliesen[15][8].feld;
+        mapFliesen[15][11].feld.suedFeld = mapFliesen[17][11].feld;
 
-        mapFliesen[17][17].feld.addNaechstesFeld(mapFliesen[15][17].feld);
-        mapFliesen[17][17].feld.addVorherigesFeld(mapFliesen[17][14].feld);
+        mapFliesen[17][17].feld.nordFeld = mapFliesen[15][17].feld;
+        mapFliesen[17][17].feld.westFeld = mapFliesen[17][14].feld;
 
-        mapFliesen[17][5].feld.addNaechstesFeld(mapFliesen[15][5].feld);
-        mapFliesen[17][5].feld.addVorherigesFeld(mapFliesen[17][8].feld);
+        mapFliesen[17][5].feld.nordFeld = mapFliesen[15][5].feld;
+        mapFliesen[17][5].feld.ostFeld = mapFliesen[17][8].feld;
 
-        mapFliesen[15][5].feld.addNaechstesFeld(mapFliesen[13][5].feld);
-        mapFliesen[15][5].feld.addNaechstesFeld(mapFliesen[15][8].feld);
-        mapFliesen[15][5].feld.addVorherigesFeld(mapFliesen[13][5].feld);
-        mapFliesen[15][5].feld.addVorherigesFeld(mapFliesen[15][8].feld);
-        mapFliesen[15][5].feld.addVorherigesFeld(mapFliesen[17][5].feld);
+        mapFliesen[15][5].feld.nordFeld = mapFliesen[13][5].feld;
+        mapFliesen[15][5].feld.ostFeld = mapFliesen[15][8].feld;
+        mapFliesen[15][5].feld.suedFeld = mapFliesen[17][5].feld;
 
-        mapFliesen[15][17].feld.addNaechstesFeld(mapFliesen[13][17].feld);
-        mapFliesen[15][17].feld.addVorherigesFeld(mapFliesen[17][17].feld);
+        mapFliesen[15][17].feld.nordFeld = mapFliesen[13][17].feld;
+        mapFliesen[15][17].feld.suedFeld = mapFliesen[17][17].feld;
 
-        mapFliesen[15][8].feld.addNaechstesFeld(mapFliesen[15][5].feld);
-        mapFliesen[15][8].feld.addNaechstesFeld(mapFliesen[15][11].feld);
-        mapFliesen[15][8].feld.addVorherigesFeld(mapFliesen[15][5].feld);
-        mapFliesen[15][8].feld.addVorherigesFeld(mapFliesen[15][11].feld);
+        mapFliesen[15][8].feld.westFeld = mapFliesen[15][5].feld;
+        mapFliesen[15][8].feld.ostFeld = mapFliesen[15][11].feld;
 
-        mapFliesen[13][5].feld.addNaechstesFeld(mapFliesen[13][8].feld);
-        mapFliesen[13][5].feld.addVorherigesFeld(mapFliesen[15][5].feld);
+        mapFliesen[13][5].feld.ostFeld = mapFliesen[13][8].feld;
+        mapFliesen[13][5].feld.suedFeld = mapFliesen[15][5].feld;
 
-        mapFliesen[13][8].feld.addNaechstesFeld(mapFliesen[13][5].feld);
-        mapFliesen[13][8].feld.addNaechstesFeld(mapFliesen[13][11].feld);
-        mapFliesen[13][8].feld.addNaechstesFeld(mapFliesen[11][8].feld);
-        mapFliesen[13][8].feld.addVorherigesFeld(mapFliesen[13][5].feld);
-        mapFliesen[13][8].feld.addVorherigesFeld(mapFliesen[13][11].feld);
+        mapFliesen[13][8].feld.westFeld = mapFliesen[13][5].feld;
+        mapFliesen[13][8].feld.ostFeld = mapFliesen[13][11].feld;
+        mapFliesen[13][8].feld.nordFeld = mapFliesen[11][8].feld;
 
-        mapFliesen[13][11].feld.addNaechstesFeld(mapFliesen[13][8].feld);
-        mapFliesen[13][11].feld.addNaechstesFeld(mapFliesen[13][14].feld);
-        mapFliesen[13][11].feld.addVorherigesFeld(mapFliesen[13][11].feld);
-        mapFliesen[13][11].feld.addVorherigesFeld(mapFliesen[13][11].feld);
+        mapFliesen[13][11].feld.westFeld = mapFliesen[13][8].feld;
+        mapFliesen[13][11].feld.ostFeld = mapFliesen[13][14].feld;
+        mapFliesen[13][11].feld.suedFeld = mapFliesen[15][11].feld;
 
-        mapFliesen[13][14].feld.addNaechstesFeld(mapFliesen[13][17].feld);
-        mapFliesen[13][14].feld.addVorherigesFeld(mapFliesen[13][11].feld);
+        mapFliesen[13][14].feld.ostFeld = mapFliesen[13][17].feld;
+        mapFliesen[13][14].feld.westFeld = mapFliesen[13][11].feld;
 
-        mapFliesen[13][17].feld.addNaechstesFeld(mapFliesen[13][14].feld);
-        mapFliesen[13][17].feld.addNaechstesFeld(mapFliesen[10][17].feld);
-        mapFliesen[13][17].feld.addVorherigesFeld(mapFliesen[13][14].feld);
-        mapFliesen[13][17].feld.addVorherigesFeld(mapFliesen[15][17].feld);
+        mapFliesen[13][17].feld.westFeld = mapFliesen[13][14].feld;
+        mapFliesen[13][17].feld.nordFeld = mapFliesen[10][17].feld;
+        mapFliesen[13][17].feld.suedFeld = mapFliesen[15][17].feld;
 
-        mapFliesen[11][8].feld.addNaechstesFeld(mapFliesen[9][8].feld);
-        mapFliesen[11][8].feld.addVorherigesFeld(mapFliesen[13][8].feld);
+        mapFliesen[11][8].feld.nordFeld = mapFliesen[9][8].feld;
+        mapFliesen[11][8].feld.suedFeld = mapFliesen[13][8].feld;
 
-        mapFliesen[10][17].feld.addNaechstesFeld(mapFliesen[7][17].feld);
-        mapFliesen[10][17].feld.addVorherigesFeld(mapFliesen[13][17].feld);
+        mapFliesen[10][17].feld.nordFeld = mapFliesen[7][17].feld;
+        mapFliesen[10][17].feld.suedFeld = mapFliesen[13][17].feld;
 
-        mapFliesen[9][8].feld.addNaechstesFeld(mapFliesen[7][8].feld);
-        mapFliesen[9][8].feld.addVorherigesFeld(mapFliesen[11][8].feld);
+        mapFliesen[9][8].feld.nordFeld = mapFliesen[7][8].feld;
+        mapFliesen[9][8].feld.suedFeld = mapFliesen[11][8].feld;
 
-        mapFliesen[7][8].feld.addNaechstesFeld(mapFliesen[6][9].feld);
-        mapFliesen[7][8].feld.addVorherigesFeld(mapFliesen[9][8].feld);
+        mapFliesen[7][8].feld.nordFeld = mapFliesen[6][9].feld;
+        mapFliesen[7][8].feld.suedFeld = mapFliesen[9][8].feld;
 
+        mapFliesen[7][15].feld.ostFeld = mapFliesen[7][17].feld;
+        mapFliesen[7][15].feld.westFeld = mapFliesen[6][14].feld;
+
+        mapFliesen[7][17].feld.suedFeld = mapFliesen[10][17].feld;
+        mapFliesen[7][17].feld.westFeld = mapFliesen[7][15].feld;
+        mapFliesen[7][17].feld.ostFeld = mapFliesen[7][19].feld;
+
+        mapFliesen[7][19].feld.ostFeld = mapFliesen[7][21].feld;
+        mapFliesen[7][19].feld.westFeld = mapFliesen[7][17].feld;
+
+        mapFliesen[7][21].feld.westFeld = mapFliesen[7][19].feld;
+        mapFliesen[7][21].feld.ostFeld = mapFliesen[7][23].feld;
+
+        mapFliesen[7][23].feld.westFeld = mapFliesen[7][21].feld;
+        mapFliesen[7][23].feld.ostFeld = mapFliesen[7][25].feld;
+
+        mapFliesen[7][25].feld.ostFeld = mapFliesen[6][26].feld;
+        mapFliesen[7][25].feld.westFeld = mapFliesen[7][23].feld;
+
+        mapFliesen[6][26].feld.nordFeld = mapFliesen[4][26].feld;
+        mapFliesen[6][26].feld.suedFeld = mapFliesen[7][25].feld;
+
+        mapFliesen[4][26].feld.westFeld = mapFliesen[4][24].feld;
+        mapFliesen[4][26].feld.nordFeld = mapFliesen[6][26].feld;
+
+        mapFliesen[4][24].feld.ostFeld = mapFliesen[4][26].feld;
+        mapFliesen[4][24].feld.nordFeld = mapFliesen[3][23].feld;
+
+        mapFliesen[3][23].feld.ostFeld = mapFliesen[4][24].feld;
+        mapFliesen[3][23].feld.westFeld = mapFliesen[3][21].feld;
+
+        mapFliesen[3][21].feld.ostFeld = mapFliesen[3][23].feld;
+        mapFliesen[3][21].feld.westFeld = mapFliesen[3][19].feld;
+
+        mapFliesen[3][19].feld.ostFeld = mapFliesen[3][21].feld;
+        mapFliesen[3][19].feld.westFeld = mapFliesen[3][17].feld;
+
+        mapFliesen[3][17].feld.ostFeld = mapFliesen[3][19].feld;
+        mapFliesen[3][17].feld.westFeld = mapFliesen[4][16].feld;
+
+        mapFliesen[4][16].feld.ostFeld = mapFliesen[3][17].feld;
+        mapFliesen[4][16].feld.westFeld = mapFliesen[4][14].feld;
+
+        mapFliesen[4][14].feld.ostFeld = mapFliesen[4][16].feld;
+        mapFliesen[4][14].feld.suedFeld = mapFliesen[6][14].feld;
+
+        mapFliesen[6][14].feld.nordFeld = mapFliesen[4][14].feld;
+        mapFliesen[6][14].feld.westFeld = mapFliesen[6][11].feld;
+        mapFliesen[6][14].feld.suedFeld = mapFliesen[7][15].feld;
+
+        mapFliesen[6][11].feld.ostFeld = mapFliesen[6][14].feld;
+        mapFliesen[6][11].feld.westFeld = mapFliesen[6][9].feld;
+
+        mapFliesen[6][9].feld.ostFeld = mapFliesen[6][11].feld;
+        mapFliesen[6][9].feld.suedFeld = mapFliesen[7][8].feld;
 
 
     }
