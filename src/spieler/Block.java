@@ -6,15 +6,15 @@ import java.io.IOException;
 
 public class Block extends Gegenstand{
 
-    public BufferedImage block;
     public Block(Spieler s) {
-        super(s);
+        super(s, s.positionX, s.positionY);
+        getGegenstandBilder();
     }
 
     @Override
     public void getGegenstandBilder(){
         try {
-            block= ImageIO.read(getClass().getResourceAsStream("/gegenstaende/Block.png"));
+            icon= ImageIO.read(getClass().getResourceAsStream("/gegenstaende/Block.png"));
         }catch(IOException e) {
             e.printStackTrace();
         }

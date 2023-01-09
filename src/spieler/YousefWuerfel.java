@@ -6,10 +6,9 @@ import java.io.IOException;
 
 public class YousefWuerfel extends Wuerfel{
 
-    public BufferedImage wuerfel1, wuerfel2, wuerfel3, wuerfel4, wuerfel5, wuerfel6;
-    Spieler s;
+
     public YousefWuerfel(Spieler s){
-        this.s = s;
+        super(s);
         getWuerfelBilder();
     }
     @Override

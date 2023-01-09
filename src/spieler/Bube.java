@@ -6,18 +6,20 @@ import java.io.IOException;
 
 public class Bube extends Gegenstand{
 
-    public BufferedImage bube;
 
     public Bube(Spieler s) {
-        super(s);
+        super(s, s.positionX, s.positionY);
+        getGegenstandBilder();
     }
 
     @Override
     public void getGegenstandBilder(){
         try {
-            bube= ImageIO.read(getClass().getResourceAsStream("/gegenstaende/Bube.png"));
+            icon= ImageIO.read(getClass().getResourceAsStream("/gegenstaende/Bube.png"));
         }catch(IOException e) {
             e.printStackTrace();
         }
     }
+
+
 }

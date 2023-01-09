@@ -12,7 +12,6 @@ public class Hauptmenue {
     public int befehlNum3 = 0;
     public int enterZustand = 0;
 
-
     public Hauptmenue(MenueManager mn){
         this.mn = mn;
     }
@@ -20,13 +19,16 @@ public class Hauptmenue {
 
     }
     public void malen(Graphics2D g2){
-
         this.g2 = g2;
         g2.setFont(mn.sp.marioPartyFont);
         if(mn.menueZustand == 0){
+            hinterBoxMalen();
             titelMalen();
-            optionenMalen();
-            bilderMalen();
+            if(mn.sp.client.isIstHost()){
+                HostOptionenMalen();
+            }else{
+                clientOptionenMalen();
+            }
         }else if(mn.menueZustand == 1){
             spielErstellenBoxMalen();
             spielerAnzahlBoxMalen();
@@ -64,45 +66,56 @@ public class Hauptmenue {
         g2.drawString("I",879,y1);
         g2.drawString("Y",884,y2);
     }
-    public void optionenMalen(){
+    public void HostOptionenMalen(){
         g2.setFont(g2.getFont().deriveFont(Font.PLAIN,75F));
-        g2.setColor(Color.white);
+        g2.setColor(Color.gray);
         String text = "Spiel erstellen";
         int x = getXfuerCenter(text);
         int y = 570;
         g2.drawString(text,x,y);
         if(befehlNum1 == 0){
-            g2.setColor(Color.gray);
-            g2.drawString(text,x,y);
             g2.setColor(Color.white);
+            g2.drawString(text,x,y);
+            g2.setColor(Color.gray);
         }
-        text = "Spiel beitreten";
+        text = "Spiel verlassen";
         x = getXfuerCenter(text);
-        y = 630;
+        y = 640;
+        g2.drawString(text,x,y);
+        if(befehlNum1 == 2){
+            g2.setColor(Color.white);
+            g2.drawString(text,x,y);
+            g2.setColor(Color.gray);
+        }
+    }
+    public void clientOptionenMalen(){
+        g2.setFont(g2.getFont().deriveFont(Font.PLAIN,75F));
+        g2.setColor(Color.gray);
+        String text = "Spiel beitreten";
+        int x = getXfuerCenter(text);
+        int y = 630;
         g2.drawString(text,x,y);
         if(befehlNum1 == 1){
-            g2.setColor(Color.gray);
-            g2.drawString(text,x,y);
             g2.setColor(Color.white);
+            g2.drawString(text,x,y);
+            g2.setColor(Color.gray);
         }
         text = "Spiel verlassen";
         x = getXfuerCenter(text);
         y = 690;
         g2.drawString(text,x,y);
         if(befehlNum1 == 2){
-            g2.setColor(Color.gray);
-            g2.drawString(text,x,y);
             g2.setColor(Color.white);
+            g2.drawString(text,x,y);
+            g2.setColor(Color.gray);
         }
-    }
-    public void bilderMalen(){
     }
     public void spielErstellenBoxMalen(){
         g2.setColor(Color.black);
-        g2.fillRoundRect(150, 100, 1140, 600, 35, 35);
+        g2.fillRoundRect(270, 50, 900, 700, 35, 35);
         g2.setColor(Color.white);
         g2.setStroke(new BasicStroke(5));
-        g2.drawRoundRect(155,105,1130, 590, 25, 25);
+        g2.drawRoundRect(275,55,890, 690, 25, 25);
 
     }
     public void rundenAnzahlBoxMalen(){
@@ -110,36 +123,36 @@ public class Hauptmenue {
         g2.setFont(g2.getFont().deriveFont(Font.PLAIN,75F));
         String text = "Runden Anzahl";
         g2.drawString(text, 500, 500);
-        g2.setColor(Color.white);
+        g2.setColor(Color.gray);
         g2.drawString("6", 485, 600);
         if(befehlNum2 == 0){
-            g2.setColor(Color.gray);
-            g2.drawString("6", 485, 600);
             g2.setColor(Color.white);
+            g2.drawString("6", 485, 600);
+            g2.setColor(Color.gray);
         }
         g2.drawString("7", 585, 600);
         if(befehlNum2 == 1){
-            g2.setColor(Color.gray);
-            g2.drawString("7", 585, 600);
             g2.setColor(Color.white);
+            g2.drawString("7", 585, 600);
+            g2.setColor(Color.gray);
         }
         g2.drawString("8", 685, 600);
         if(befehlNum2 == 2){
-            g2.setColor(Color.gray);
-            g2.drawString("8", 685, 600);
             g2.setColor(Color.white);
+            g2.drawString("8", 685, 600);
+            g2.setColor(Color.gray);
         }
         g2.drawString("9", 785, 600);
         if(befehlNum2 == 3){
-            g2.setColor(Color.gray);
-            g2.drawString("9", 785, 600);
             g2.setColor(Color.white);
+            g2.drawString("9", 785, 600);
+            g2.setColor(Color.gray);
         }
         g2.drawString("10", 885, 600);
         if(befehlNum2 == 4){
-            g2.setColor(Color.gray);
-            g2.drawString("10", 885, 600);
             g2.setColor(Color.white);
+            g2.drawString("10", 885, 600);
+            g2.setColor(Color.gray);
         }
     }
     public void spielerAnzahlBoxMalen(){
@@ -147,25 +160,34 @@ public class Hauptmenue {
         g2.setFont(g2.getFont().deriveFont(Font.PLAIN,75F));
         String text = "Spieler Anzahl";
         g2.drawString(text, 500, 250);
-        g2.setColor(Color.white);
+        g2.setColor(Color.gray);
         g2.drawString("2", 585, 350);
         if(befehlNum3 == 0) {
-            g2.setColor(Color.gray);
-            g2.drawString("2", 585, 350);
             g2.setColor(Color.white);
+            g2.drawString("2", 585, 350);
+            g2.setColor(Color.gray);
         }
         g2.drawString("3", 685, 350);
         if(befehlNum3 == 1) {
-            g2.setColor(Color.gray);
-            g2.drawString("3", 685, 350);
             g2.setColor(Color.white);
+            g2.drawString("3", 685, 350);
+            g2.setColor(Color.gray);
         }
         g2.drawString("4", 785, 350);
         if(befehlNum3 == 2) {
-            g2.setColor(Color.gray);
-            g2.drawString("4", 785, 350);
             g2.setColor(Color.white);
+            g2.drawString("4", 785, 350);
+            g2.setColor(Color.gray);
         }
+    }
+    public void hinterBoxMalen(){
+        Color c = new Color(0,0,0,200);
+        g2.setColor(c);
+        g2.fillRoundRect(365, 70, 700, 680, 35, 35);
+        c = new Color(255,255,255,200);
+        g2.setColor(c);
+        g2.setStroke(new BasicStroke(5));
+        g2.drawRoundRect(370,75,690, 670, 25, 25);
     }
     public int getXfuerCenter(String text) {
         int length = (int)g2.getFontMetrics().getStringBounds(text, g2).getWidth();

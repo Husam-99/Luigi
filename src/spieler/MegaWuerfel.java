@@ -1,21 +1,23 @@
 package spieler;
 
 import javax.imageio.ImageIO;
+import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 
 public class MegaWuerfel extends GegenstandWuerfel{
 
-    public BufferedImage megaWuerfel, wuerfel7, wuerfel8, wuerfel9, wuerfel10, wuerfel11, wuerfel12;
+    public BufferedImage wuerfel7, wuerfel8, wuerfel9, wuerfel10, wuerfel11, wuerfel12;
 
     public MegaWuerfel(Spieler s) {
         super(s);
+        getGegenstandBilder();
     }
 
     @Override
     public void getGegenstandBilder(){
         try {
-            megaWuerfel= ImageIO.read(getClass().getResourceAsStream("/gegenstaende/Megawuerfel.png"));
+            icon = ImageIO.read(getClass().getResourceAsStream("/gegenstaende/Megawuerfel.png"));
             wuerfel7= ImageIO.read(getClass().getResourceAsStream("/gegenstaende/megaWuerfel/wuerfel7.png"));
             wuerfel8= ImageIO.read(getClass().getResourceAsStream("/gegenstaende/megaWuerfel/wuerfel8.png"));
             wuerfel9= ImageIO.read(getClass().getResourceAsStream("/gegenstaende/megaWuerfel/wuerfel9.png"));
@@ -25,5 +27,9 @@ public class MegaWuerfel extends GegenstandWuerfel{
         }catch(IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public void wuerfelmalen(Graphics2D g2){
+
     }
 }

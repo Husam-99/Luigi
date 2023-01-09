@@ -13,11 +13,11 @@ public class SpielPanel extends JPanel implements Runnable{
     final int originalFlieseGroesse = 32;
     final int skala = 5;
     public final int flieseGroesse = originalFlieseGroesse * skala;
-    final int maxBildschirmReihe = 9;
-    final int maxBildschirmSpalte = 5;
+    public final int maxBildschirmSpalte = 9;
+    public final int maxBildschirmZeile = 5;
 
-    public final int bildschirmHoehe = flieseGroesse * maxBildschirmSpalte;
-    public final int bildschirmBreite = flieseGroesse * maxBildschirmReihe;
+    public final int bildschirmHoehe = flieseGroesse * maxBildschirmZeile;
+    public final int bildschirmBreite = flieseGroesse * maxBildschirmSpalte;
 
     int FPS = 60;
     public Font marioPartyFont;
@@ -48,6 +48,7 @@ public class SpielPanel extends JPanel implements Runnable{
             e.printStackTrace();
         }
     }
+
 
     public void setClient(SpielClient client) {
 
@@ -81,14 +82,15 @@ public class SpielPanel extends JPanel implements Runnable{
     }
 
     public void update() {
+        menueManager.menueHintergrund.update();
         menueManager.update();
     }
 
     public void paintComponent(Graphics g){
         super.paintComponent(g);
         Graphics2D g2 = (Graphics2D)g;
+        menueManager.menueHintergrund.malen(g2);
         menueManager.malen(g2);
-
         g2.dispose();
     }
 

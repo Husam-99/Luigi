@@ -9,6 +9,7 @@ public class MenueManager {
     SpielPanel sp;
     public int spielerAnzahl;
     public int rundenAnzahl;
+    public menueHintergrund menueHintergrund = new menueHintergrund(this);
     public MenueEingabeManager menueEingabeManager = new MenueEingabeManager(this);
     Hauptmenue hauptmenue = new Hauptmenue(this);
     public enum Zustaende{
@@ -27,10 +28,10 @@ public class MenueManager {
 
     }
     public int spielerAnzahlFestlegen(){
-        return 1;
+        return spielerAnzahl;
     }
     public int rundenAnzahlFestlegen(){
-        return 1;
+        return rundenAnzahl;
     }
     public void update(){
         if(menueZustand == hauptmenueZustand1 || menueZustand == hauptmenueZustand2){

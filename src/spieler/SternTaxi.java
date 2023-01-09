@@ -6,16 +6,16 @@ import java.io.IOException;
 
 public class SternTaxi extends Gegenstand{
 
-    public BufferedImage sternTaxi;
 
     public SternTaxi(Spieler s) {
-        super(s);
+        super(s, s.positionX, s.positionY);
+        getGegenstandBilder();
     }
 
     @Override
     public void getGegenstandBilder(){
         try {
-            sternTaxi = ImageIO.read(getClass().getResourceAsStream("/gegenstaende/Sterntaxi.png"));
+            icon = ImageIO.read(getClass().getResourceAsStream("/gegenstaende/Sterntaxi.png"));
         }catch(IOException e) {
             e.printStackTrace();
         }

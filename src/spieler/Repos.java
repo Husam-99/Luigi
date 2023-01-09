@@ -6,16 +6,16 @@ import java.io.IOException;
 
 public class Repos extends Gegenstand{
 
-    public BufferedImage repos;
 
     public Repos(Spieler s) {
-        super(s);
+        super(s, s.positionX, s.positionY);
+        getGegenstandBilder();
     }
 
     @Override
     public void getGegenstandBilder(){
         try {
-            repos= ImageIO.read(getClass().getResourceAsStream("/gegenstaende/Repos.png"));
+            icon= ImageIO.read(getClass().getResourceAsStream("/gegenstaende/Repos.png"));
         }catch(IOException e) {
             e.printStackTrace();
         }

@@ -6,25 +6,20 @@ import java.awt.*;
 
 public class Spieler {
     SpielPanel sp;
-    Spielfigur spielfigur;
-    String name ;
-    int PositionX ;
-    int PositionY ;
-
-    public Taha taha = new Taha(this);
-    public Husam husam = new Husam(this);
-    public Abdo abdo = new Abdo(this);
-    public Yousef yousef = new Yousef(this);
-    public TahaWuerfel twuerfel = new TahaWuerfel(this);
-    public HusamWuerfel hwuerfel = new HusamWuerfel(this);
-    public AbdoWuerfel awuerfel = new AbdoWuerfel(this);
-    public YousefWuerfel ywuerfel = new YousefWuerfel(this);
+    int positionX ;
+    int positionY ;
+    int geschwindigkeit;
+    Konto konto;
+    public Inventar inventar;
 
     public Spieler(SpielPanel sp) {
         this.sp = sp;
+        konto = new Konto();
+        inventar = new Inventar(this);
     }
 
     public void KontoAktualisieren() {
+
 
     }
 
@@ -43,6 +38,8 @@ public class Spieler {
 
     public void  wuerfelAuswaehlen() {
 
+    }
+    public void malen(Graphics2D g2){
     }
 
 

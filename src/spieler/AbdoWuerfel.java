@@ -6,10 +6,9 @@ import java.io.IOException;
 
 public class AbdoWuerfel extends Wuerfel{
 
-    public BufferedImage wuerfel1, wuerfel2, wuerfel3, wuerfel4, wuerfel5, wuerfel6;
-    Spieler s;
+
     public AbdoWuerfel(Spieler s){
-        this.s = s;
+        super(s);
         getWuerfelBilder();
     }
     @Override
@@ -25,4 +24,5 @@ public class AbdoWuerfel extends Wuerfel{
             e.printStackTrace();
         }
     }
+
 }
