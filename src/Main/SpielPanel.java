@@ -12,14 +12,17 @@ import java.io.InputStream;
 
 public class SpielPanel extends JPanel implements Runnable{
 
-    public int zustand = 1 ;
-    public final int menueZustand = 0;
-    public final int spielZustand = 1;
+    public int zustand;
+    public final int menueZustand = 0, spielZustand = 1;
     public final int fliesenGroesse = 32;
-    public int skala;
-    public int doppelteFliesenGroesse = fliesenGroesse * skala;
-    public double maxBildschirmSpalte, maxBildschirmZeile;
-    public int bildschirmHoehe, bildschirmBreite;
+    public final int skalaMenue = 5,     skala = 3,
+            doppelteFliesenGroesseMenue = fliesenGroesse * skalaMenue, doppelteFliesenGroesse = fliesenGroesse * skala;
+    public final double maxBildschirmSpalteMenue = 9,     maxBildschirmSpalte = 22.5,
+            maxBildschirmZeileMenue = 5, maxBildschirmZeile = 12.5;;
+    public final int bildschirmHoeheMenue = (int) (doppelteFliesenGroesseMenue * maxBildschirmZeileMenue),
+            bildschirmHoehe = (int) (fliesenGroesse * 2 * maxBildschirmZeile),
+            bildschirmBreiteMenue = (int) (doppelteFliesenGroesseMenue * maxBildschirmSpalteMenue),
+            bildschirmBreite = (int)(fliesenGroesse * 2 * maxBildschirmSpalte);
 
     // Welt
     public final int maxWeltSpalte = 30;
@@ -31,17 +34,16 @@ public class SpielPanel extends JPanel implements Runnable{
     int FPS = 60;
     public Font marioPartyFont;
     Thread spielThread;
-
-    public Spieler spieler = new Spieler(this);
     public MenueManager menueManager = new MenueManager(this);
     public SpielMapManager mapManager= new SpielMapManager(this);
+    public Spieler spieler = new Spieler(this);
     public SpielClient client;
 
 
     public SpielPanel(){
         client = new SpielClient();
-        //client.start();
-        this.zustand = 1;
+        client.start();
+        this.zustand = 0;
         this.setPreferredSize(new Dimension(bildschirmBreite, bildschirmHoehe));
         this.setBackground(Color.darkGray);
         this.setDoubleBuffered(true);
@@ -60,21 +62,6 @@ public class SpielPanel extends JPanel implements Runnable{
         this.client = client;
     }
 
-    public void setBildschirmgroesse(){
-        if(zustand == menueZustand){
-            skala = 5;
-            maxBildschirmSpalte = 9;
-            maxBildschirmZeile = 5;
-            bildschirmHoehe = (int) (fliesenGroesse * maxBildschirmZeile);
-            bildschirmBreite = (int) (fliesenGroesse * maxBildschirmSpalte);
-        }else if(zustand == spielZustand){
-            skala = 3;
-            maxBildschirmSpalte = 22.5;
-            maxBildschirmZeile = 12.5;
-            bildschirmHoehe = (int) (fliesenGroesse * 2 * maxBildschirmZeile);
-            bildschirmBreite = (int)(fliesenGroesse * 2 * maxBildschirmSpalte);
-        }
-    }
     public void startSpielThread(){
         spielThread = new Thread(this);
         spielThread.start();
@@ -110,16 +97,16 @@ public class SpielPanel extends JPanel implements Runnable{
         super.paintComponent(g);
         Graphics2D g2 = (Graphics2D)g;
         if(zustand == menueZustand){
-            setBildschirmgroesse();
             menueManager.menueHintergrund.malen(g2);
             menueManager.malen(g2);
+            g2.dispose();
         }
         else if(zustand == spielZustand){
-            setBildschirmgroesse();
             this.setBackground(new Color(39, 105, 195));
             this.removeKeyListener(this.getKeyListeners()[0]);
             this.addKeyListener(mapManager.mapEingabeManager);
             mapManager.malen(g2);
+            spieler.malen(g2);
         }
         g2.dispose();
     }

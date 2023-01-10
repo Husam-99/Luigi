@@ -57,24 +57,28 @@ public class MenueEingabeManager implements KeyListener {
                 BescheidSagen bescheidSagen = new BescheidSagen();
                 bescheidSagen.fertig = true;
                 mn.sp.client.send(bescheidSagen);
+                mn.sp.zustand = mn.sp.spielZustand;
             }
             else if (mn.spielfigurAuswaehlen.befehlNum1 == 1) {
                 mn.spielfigurAuswaehlen.enterZustand = 1;
                 BescheidSagen bescheidSagen = new BescheidSagen();
                 bescheidSagen.fertig = true;
                 mn.sp.client.send(bescheidSagen);
+                mn.sp.zustand = mn.sp.spielZustand;
             }
             else if (mn.spielfigurAuswaehlen.befehlNum1 == 2) {
                 mn.spielfigurAuswaehlen.enterZustand = 1;
                 BescheidSagen bescheidSagen = new BescheidSagen();
                 bescheidSagen.fertig = true;
                 mn.sp.client.send(bescheidSagen);
+                mn.sp.zustand = mn.sp.spielZustand;
             }
             else if (mn.spielfigurAuswaehlen.befehlNum1 == 3) {
                 mn.spielfigurAuswaehlen.enterZustand = 1;
                 BescheidSagen bescheidSagen = new BescheidSagen();
                 bescheidSagen.fertig = true;
                 mn.sp.client.send(bescheidSagen);
+                mn.sp.zustand = mn.sp.spielZustand;
             }
         }
     }

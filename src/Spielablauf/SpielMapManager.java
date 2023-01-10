@@ -19,9 +19,6 @@ public class SpielMapManager {
     Graphics2D g2;
     ArrayList<Spieler> alleSpieler = new ArrayList<>();
     public MapEingabeManager mapEingabeManager;
-
-
-
     public SpielMapManager(SpielPanel sp) {
         this.sp = sp;
         mapEingabeManager = new MapEingabeManager(this);
@@ -160,6 +157,7 @@ public class SpielMapManager {
 
 
     public void hinzufuegeSpieler(Spieler spieler){
+
         alleSpieler.add(spieler);
     }
     public void update(){
