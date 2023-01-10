@@ -8,8 +8,8 @@ public class RotesFeld extends Feld{
     private int muenzen;
 
 
-    public RotesFeld(int x, int y) {
-        super(x, y);
+    public RotesFeld(int weltY, int weltX) {
+        super(weltY, weltX);
         try {
             super.feldImage = ImageIO.read(new File("src/source/felder/Red_field.png"));
         } catch (IOException e) {

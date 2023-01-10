@@ -8,10 +8,10 @@ import java.io.IOException;
 public class GelbesFeld extends Feld{
     public Stern stern;
 
-    public GelbesFeld(int x, int y) {
-        super(x, y);
+    public GelbesFeld(int weltY, int weltX) {
+        super(weltY, weltX);
         try {
-            super.feldImage = ImageIO.read(new File("src/source/felder/Yellow_Field_.png"));
+            super.feldImage = ImageIO.read(new File("src/source/felder/Yellow_Field.png"));
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

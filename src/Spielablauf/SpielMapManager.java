@@ -13,7 +13,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 public class SpielMapManager {
-    private final Fliese[][] mapFliesen;
+    final Fliese[][] mapFliesen;
     SpielPanel sp;
 
     Graphics2D g2;
@@ -70,81 +70,81 @@ public class SpielMapManager {
         switch(zeile){
             case 19:
                 if(spalte == 11){
-                    return new ViolettesFeld(zeile, spalte);
+                    return new ViolettesFeld(zeile * sp.vergroesserteFliesenGroesse, spalte * sp.vergroesserteFliesenGroesse);
                 }
                 else{
                     return null;
                 }
             case 17:
                 return switch (spalte) {
-                    case 5 -> new RotesFeld(zeile, spalte);
-                    case 8, 11 -> new GruenesFeld(zeile, spalte);
-                    case 14 -> new OrangesFeld(zeile, spalte);
-                    case 17 -> new GelbesFeld(zeile, spalte);
+                    case 5 -> new RotesFeld(zeile * sp.vergroesserteFliesenGroesse, spalte * sp.vergroesserteFliesenGroesse);
+                    case 8, 11 -> new GruenesFeld(zeile * sp.vergroesserteFliesenGroesse, spalte * sp.vergroesserteFliesenGroesse);
+                    case 14 -> new OrangesFeld(zeile * sp.vergroesserteFliesenGroesse, spalte * sp.vergroesserteFliesenGroesse);
+                    case 17 -> new GelbesFeld(zeile * sp.vergroesserteFliesenGroesse, spalte * sp.vergroesserteFliesenGroesse);
                     default -> null;
                 };
             case 15:
                 return switch (spalte) {
-                    case 5 -> new GruenesFeld(zeile, spalte);
-                    case 8 -> new RotesFeld(zeile, spalte);
-                    case 11, 17 -> new BlauesFeld(zeile, spalte);
+                    case 5 -> new GruenesFeld(zeile * sp.vergroesserteFliesenGroesse, spalte * sp.vergroesserteFliesenGroesse);
+                    case 8 -> new RotesFeld(zeile * sp.vergroesserteFliesenGroesse, spalte * sp.vergroesserteFliesenGroesse);
+                    case 11, 17 -> new BlauesFeld(zeile * sp.vergroesserteFliesenGroesse, spalte * sp.vergroesserteFliesenGroesse);
                     default -> null;
                 };
             case 13:
                 return switch (spalte) {
-                    case 5 -> new ViolettesFeld(zeile, spalte);
-                    case 8, 14 -> new GruenesFeld(zeile, spalte);
-                    case 11 -> new OrangesFeld(zeile, spalte);
-                    case 17 -> new RotesFeld(zeile, spalte);
+                    case 5 -> new ViolettesFeld(zeile * sp.vergroesserteFliesenGroesse, spalte * sp.vergroesserteFliesenGroesse);
+                    case 8, 14 -> new GruenesFeld(zeile * sp.vergroesserteFliesenGroesse, spalte * sp.vergroesserteFliesenGroesse);
+                    case 11 -> new OrangesFeld(zeile * sp.vergroesserteFliesenGroesse, spalte * sp.vergroesserteFliesenGroesse);
+                    case 17 -> new RotesFeld(zeile * sp.vergroesserteFliesenGroesse, spalte * sp.vergroesserteFliesenGroesse);
                     default -> null;
                 };
             case 11:
                 if(spalte == 8) {
-                    return new OrangesFeld(zeile, spalte);
+                    return new OrangesFeld(zeile * sp.vergroesserteFliesenGroesse, spalte * sp.vergroesserteFliesenGroesse);
                 }else{
                     return null;
                 }
             case 10:
                 if(spalte == 17){
-                    return new BlauesFeld(zeile, spalte);
+                    return new BlauesFeld(zeile * sp.vergroesserteFliesenGroesse, spalte * sp.vergroesserteFliesenGroesse);
                 }else{
                     return null;
                 }
             case 9:
                 if(spalte == 8) {
-                    return new GelbesFeld(zeile, spalte);
+                    return new GelbesFeld(zeile * sp.vergroesserteFliesenGroesse, spalte * sp.vergroesserteFliesenGroesse);
                 }else{
                     return null;
                 }
 
             case 7:
                 return switch (spalte) {
-                    case 8, 19 -> new GruenesFeld(zeile, spalte);
-                    case 15 -> new OrangesFeld(zeile, spalte);
-                    case 17, 23 -> new RotesFeld(zeile, spalte);
-                    case 21 -> new BlauesFeld(zeile, spalte);
-                    case 25 -> new GelbesFeld(zeile, spalte);
+                    case 8, 19 -> new GruenesFeld(zeile * sp.vergroesserteFliesenGroesse, spalte * sp.vergroesserteFliesenGroesse);
+                    case 15 -> new OrangesFeld(zeile * sp.vergroesserteFliesenGroesse, spalte * sp.vergroesserteFliesenGroesse);
+                    case 17, 23 -> new RotesFeld(zeile * sp.vergroesserteFliesenGroesse, spalte * sp.vergroesserteFliesenGroesse);
+                    case 21 -> new BlauesFeld(zeile * sp.vergroesserteFliesenGroesse, spalte * sp.vergroesserteFliesenGroesse);
+                    case 25 -> new GelbesFeld(zeile * sp.vergroesserteFliesenGroesse, spalte * sp.vergroesserteFliesenGroesse);
                     default -> null;
                 };
             case 6:
                 return switch (spalte) {
-                    case 9, 26 -> new RotesFeld(zeile, spalte);
-                    case 11 -> new OrangesFeld(zeile, spalte);
-                    case 14 -> new ViolettesFeld(zeile, spalte);
+                    case 9, 26 -> new RotesFeld(zeile * sp.vergroesserteFliesenGroesse, spalte * sp.vergroesserteFliesenGroesse);
+                    case 11 -> new OrangesFeld(zeile * sp.vergroesserteFliesenGroesse, spalte * sp.vergroesserteFliesenGroesse);
+                    case 14 -> new ViolettesFeld(zeile * sp.vergroesserteFliesenGroesse, spalte * sp.vergroesserteFliesenGroesse);
                     default -> null;
                 };
             case 4:
                 return switch (spalte) {
-                    case 14, 26 -> new GruenesFeld(zeile, spalte);
-                    case 16 -> new RotesFeld(zeile, spalte);
-                    case 24 -> new BlauesFeld(zeile, spalte);
+                    case 14, 26 -> new GruenesFeld(zeile * sp.vergroesserteFliesenGroesse, spalte * sp.vergroesserteFliesenGroesse);
+                    case 16 -> new RotesFeld(zeile * sp.vergroesserteFliesenGroesse, spalte * sp.vergroesserteFliesenGroesse);
+                    case 24 -> new BlauesFeld(zeile * sp.vergroesserteFliesenGroesse, spalte * sp.vergroesserteFliesenGroesse);
                     default -> null;
                 };
             case 3:
                 return switch (spalte) {
-                    case 17, 21 -> new GruenesFeld(zeile, spalte);
-                    case 19 -> new OrangesFeld(zeile, spalte);
-                    case 23 -> new RotesFeld(zeile, spalte);
+                    case 17, 21 -> new GruenesFeld(zeile * sp.vergroesserteFliesenGroesse, spalte * sp.vergroesserteFliesenGroesse);
+                    case 19 -> new OrangesFeld(zeile * sp.vergroesserteFliesenGroesse, spalte * sp.vergroesserteFliesenGroesse);
+                    case 23 -> new RotesFeld(zeile * sp.vergroesserteFliesenGroesse, spalte * sp.vergroesserteFliesenGroesse);
                     default -> null;
                 };
             default:
@@ -157,7 +157,6 @@ public class SpielMapManager {
 
 
     public void hinzufuegeSpieler(Spieler spieler){
-
         alleSpieler.add(spieler);
     }
     public void update(){
@@ -171,14 +170,14 @@ public class SpielMapManager {
         while(weltSpalte < sp.maxWeltSpalte && weltZeile < sp.maxWeltZeile) {
             Fliese vorlauefigeFliese = mapFliesen[weltZeile][weltSpalte];
 
-            int weltX = weltSpalte * sp.doppelteFliesenGroesse;
-            int weltY = weltZeile * sp.doppelteFliesenGroesse;
-            int bildschirmX = weltX - sp.spieler.weltX + sp.spieler.bildschirmX;
-            int bildschirmY = weltY - sp.spieler.weltY + sp.spieler.bildschirmY;
+            int weltX = weltSpalte * sp.vergroesserteFliesenGroesse;
+            int weltY = weltZeile * sp.vergroesserteFliesenGroesse;
+            int bildschirmX = weltX - sp.husam.weltX + sp.husam.bildschirmX;
+            int bildschirmY = weltY - sp.husam.weltY + sp.husam.bildschirmY;
 
-            g2.drawImage(vorlauefigeFliese.getFlieseImage(), bildschirmX, bildschirmY, sp.doppelteFliesenGroesse, sp.doppelteFliesenGroesse, null);
+            g2.drawImage(vorlauefigeFliese.getFlieseImage(), bildschirmX, bildschirmY, sp.vergroesserteFliesenGroesse, sp.vergroesserteFliesenGroesse, null);
             if(mapFliesen[weltZeile][weltSpalte].feld != null){
-                g2.drawImage(mapFliesen[weltZeile][weltSpalte].feld.getFeldImage(), bildschirmX, bildschirmY, sp.doppelteFliesenGroesse, sp.doppelteFliesenGroesse, null);
+                g2.drawImage(mapFliesen[weltZeile][weltSpalte].feld.getFeldImage(), bildschirmX, bildschirmY, sp.vergroesserteFliesenGroesse, sp.vergroesserteFliesenGroesse, null);
             }
 
             weltSpalte++;
@@ -255,7 +254,7 @@ public class SpielMapManager {
         mapFliesen[7][8].feld.suedFeld = mapFliesen[9][8].feld;
 
         mapFliesen[7][15].feld.ostFeld = mapFliesen[7][17].feld;
-        mapFliesen[7][15].feld.westFeld = mapFliesen[6][14].feld;
+        mapFliesen[7][15].feld.nordFeld = mapFliesen[6][14].feld;
 
         mapFliesen[7][17].feld.suedFeld = mapFliesen[10][17].feld;
         mapFliesen[7][17].feld.westFeld = mapFliesen[7][15].feld;
@@ -270,19 +269,19 @@ public class SpielMapManager {
         mapFliesen[7][23].feld.westFeld = mapFliesen[7][21].feld;
         mapFliesen[7][23].feld.ostFeld = mapFliesen[7][25].feld;
 
-        mapFliesen[7][25].feld.ostFeld = mapFliesen[6][26].feld;
+        mapFliesen[7][25].feld.nordFeld = mapFliesen[6][26].feld;
         mapFliesen[7][25].feld.westFeld = mapFliesen[7][23].feld;
 
         mapFliesen[6][26].feld.nordFeld = mapFliesen[4][26].feld;
         mapFliesen[6][26].feld.suedFeld = mapFliesen[7][25].feld;
 
         mapFliesen[4][26].feld.westFeld = mapFliesen[4][24].feld;
-        mapFliesen[4][26].feld.nordFeld = mapFliesen[6][26].feld;
+        mapFliesen[4][26].feld.suedFeld = mapFliesen[6][26].feld;
 
         mapFliesen[4][24].feld.ostFeld = mapFliesen[4][26].feld;
         mapFliesen[4][24].feld.nordFeld = mapFliesen[3][23].feld;
 
-        mapFliesen[3][23].feld.ostFeld = mapFliesen[4][24].feld;
+        mapFliesen[3][23].feld.suedFeld = mapFliesen[4][24].feld;
         mapFliesen[3][23].feld.westFeld = mapFliesen[3][21].feld;
 
         mapFliesen[3][21].feld.ostFeld = mapFliesen[3][23].feld;
@@ -292,9 +291,9 @@ public class SpielMapManager {
         mapFliesen[3][19].feld.westFeld = mapFliesen[3][17].feld;
 
         mapFliesen[3][17].feld.ostFeld = mapFliesen[3][19].feld;
-        mapFliesen[3][17].feld.westFeld = mapFliesen[4][16].feld;
+        mapFliesen[3][17].feld.suedFeld = mapFliesen[4][16].feld;
 
-        mapFliesen[4][16].feld.ostFeld = mapFliesen[3][17].feld;
+        mapFliesen[4][16].feld.nordFeld = mapFliesen[3][17].feld;
         mapFliesen[4][16].feld.westFeld = mapFliesen[4][14].feld;
 
         mapFliesen[4][14].feld.ostFeld = mapFliesen[4][16].feld;

@@ -27,8 +27,8 @@ public class SpielPanel extends JPanel implements Runnable{
     // Welt
     public final int maxWeltSpalte = 30;
     public final int maxWeltZeile = 25;
-    public final int weltBreite = doppelteFliesenGroesse * maxWeltSpalte;
-    public final int weltHoehe = doppelteFliesenGroesse * maxWeltZeile;
+    public final int weltBreite = vergroesserteFliesenGroesse * maxWeltSpalte;
+    public final int weltHoehe = vergroesserteFliesenGroesse * maxWeltZeile;
 
 
     int FPS = 60;

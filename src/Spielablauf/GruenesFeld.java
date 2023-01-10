@@ -7,8 +7,8 @@ import java.io.IOException;
 public class GruenesFeld extends Feld{
     private int muenzen;
 
-    public GruenesFeld(int x, int y) {
-        super(x, y);
+    public GruenesFeld(int weltY, int weltX) {
+        super(weltY, weltX);
         this.muenzen = muenzen;
         try {
             super.feldImage = ImageIO.read(new File("src/source/felder/Green_Field.png"));
