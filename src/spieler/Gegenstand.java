@@ -8,10 +8,9 @@ public abstract class Gegenstand {
     int positionX, positionY ;
     public BufferedImage icon;
 
-    public Gegenstand(Spieler s, int x, int y){
+    public Gegenstand(Spieler s){
         this.s = s;
-        this.positionX = 20;
-        this.positionY = 20;
+
     }
 
     public void effeckteAnwenden(){}
@@ -19,6 +18,6 @@ public abstract class Gegenstand {
     public void getGegenstandBilder(){}
 
     public void malen(Graphics2D g2){
-        g2.drawImage(icon, positionX, positionY, s.sp.doppelteFliesenGroesse, s.sp.doppelteFliesenGroesse, null);
+        g2.drawImage(icon, positionX, positionY, s.sp.vergroesserteFliesenGroesse, s.sp.vergroesserteFliesenGroesse, null);
     }
 }

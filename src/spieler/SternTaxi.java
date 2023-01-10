@@ -8,7 +8,7 @@ public class SternTaxi extends Gegenstand{
 
 
     public SternTaxi(Spieler s) {
-        super(s, s.positionX, s.positionY);
+        super(s);
         getGegenstandBilder();
     }
 

@@ -1,17 +1,18 @@
 package spieler;
 
 import Main.SpielPanel;
+import Spielablauf.Feld;
 
 import java.awt.*;
 
 public class Spieler {
     SpielPanel sp;
-    int positionX ;
-    int positionY ;
-    public int bildschirmX;
-    public int bildschirmY;
+    public final int bildschirmX, bildschirmY;
     public int weltX, weltY;
     public int geschwindigkeit;
+    public Feld naechstesFeld;
+    public Feld aktuellesFeld;
+    public String richtung;
     Konto konto;
     public Inventar inventar;
 
@@ -21,22 +22,21 @@ public class Spieler {
         this.sp = sp;
         konto = new Konto();
         inventar = new Inventar(this);
-        foo();
-    }
-
-    public void foo() {
-        bildschirmX = sp.bildschirmBreite/2 - (sp.doppelteFliesenGroesse/2);
-        bildschirmY = sp.bildschirmHoehe/2 - (sp.doppelteFliesenGroesse/2) ;
+        bildschirmX = sp.bildschirmBreite/2 - (sp.vergroesserteFliesenGroesse/2);
+        bildschirmY = sp.bildschirmHoehe/2 - (sp.vergroesserteFliesenGroesse/2) ;
         sp.mapManager.hinzufuegeSpieler(this);
         setzeWerte();
     }
 
+
+
     public void setzeWerte(){
-        positionX = 688;
-        positionY = 368;
-        weltX = sp.doppelteFliesenGroesse * 11;
-        weltY = sp.doppelteFliesenGroesse * 21;
+        weltX = sp.vergroesserteFliesenGroesse * 11;
+        weltY = sp.vergroesserteFliesenGroesse * 21;
         geschwindigkeit = 4;
+        richtung = "nord";
+        naechstesFeld = sp.mapManager.mapFliesen[19][11].feld;
+        aktuellesFeld = null;
     }
 
     public void KontoAktualisieren() {

@@ -96,21 +96,16 @@ public class menueHintergrund {
             if(hintergrundZeile == 0 && hintergrundSplate == 0){
                 x =this.x;
             }
-            g2.drawImage(fliese[flieseNum], x, y, mn.sp.doppelteFliesenGroesseMenue, mn.sp.doppelteFliesenGroesseMenue, null);
+            g2.drawImage(fliese[flieseNum], x, y, mn.sp.vergroesserteFliesenGroesseMenue, mn.sp.vergroesserteFliesenGroesseMenue, null);
             hintergrundSplate++;
-            x += mn.sp.doppelteFliesenGroesseMenue;
+            x += mn.sp.vergroesserteFliesenGroesseMenue;
 
             if(hintergrundSplate == menueHintergrundSpalte){
                 hintergrundSplate = 0;
                 x = this.x;
                 hintergrundZeile++;
-                y += mn.sp.doppelteFliesenGroesseMenue;
+                y += mn.sp.vergroesserteFliesenGroesseMenue;
             }
         }
     }
-
-
-
-
-
 }

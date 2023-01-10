@@ -16,12 +16,12 @@ public class SpielPanel extends JPanel implements Runnable{
     public final int menueZustand = 0, spielZustand = 1;
     public final int fliesenGroesse = 32;
     public final int skalaMenue = 5,     skala = 3,
-            doppelteFliesenGroesseMenue = fliesenGroesse * skalaMenue, doppelteFliesenGroesse = fliesenGroesse * skala;
+            vergroesserteFliesenGroesseMenue = fliesenGroesse * skalaMenue, vergroesserteFliesenGroesse = fliesenGroesse * skala;
     public final double maxBildschirmSpalteMenue = 9,     maxBildschirmSpalte = 22.5,
             maxBildschirmZeileMenue = 5, maxBildschirmZeile = 12.5;;
-    public final int bildschirmHoeheMenue = (int) (doppelteFliesenGroesseMenue * maxBildschirmZeileMenue),
+    public final int bildschirmHoeheMenue = (int) (vergroesserteFliesenGroesseMenue * maxBildschirmZeileMenue),
             bildschirmHoehe = (int) (fliesenGroesse * 2 * maxBildschirmZeile),
-            bildschirmBreiteMenue = (int) (doppelteFliesenGroesseMenue * maxBildschirmSpalteMenue),
+            bildschirmBreiteMenue = (int) (vergroesserteFliesenGroesseMenue * maxBildschirmSpalteMenue),
             bildschirmBreite = (int)(fliesenGroesse * 2 * maxBildschirmSpalte);
 
     // Welt

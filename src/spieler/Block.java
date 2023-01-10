@@ -7,7 +7,7 @@ import java.io.IOException;
 public class Block extends Gegenstand{
 
     public Block(Spieler s) {
-        super(s, s.positionX, s.positionY);
+        super(s);
         getGegenstandBilder();
     }
 

@@ -1,5 +1,7 @@
 package Spielablauf;
 
+import spieler.Spieler;
+
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
@@ -15,7 +17,7 @@ public class MapEingabeManager implements KeyListener {
 
     @Override
     public void keyPressed(KeyEvent e) {
-        spieler = this.spielMapManager.sp.husam;
+        spieler = this.spielMapManager.sp.spieler;
         if (e.getKeyCode() == KeyEvent.VK_W) {
             if (spieler.aktuellesFeld == null) {
                 spieler.aktuellesFeld = this.spielMapManager.mapFliesen[19][11].feld;
@@ -109,17 +111,12 @@ public class MapEingabeManager implements KeyListener {
 
 
         }
-
-
     }
-
 
     @Override
     public void keyTyped(KeyEvent e) {
 
     }
-
-
     @Override
     public void keyReleased(KeyEvent e) {
 

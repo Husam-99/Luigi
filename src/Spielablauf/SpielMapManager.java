@@ -13,7 +13,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 public class SpielMapManager {
-    final Fliese[][] mapFliesen;
+    public final Fliese[][] mapFliesen;
     SpielPanel sp;
 
     Graphics2D g2;
@@ -172,8 +172,8 @@ public class SpielMapManager {
 
             int weltX = weltSpalte * sp.vergroesserteFliesenGroesse;
             int weltY = weltZeile * sp.vergroesserteFliesenGroesse;
-            int bildschirmX = weltX - sp.husam.weltX + sp.husam.bildschirmX;
-            int bildschirmY = weltY - sp.husam.weltY + sp.husam.bildschirmY;
+            int bildschirmX = weltX - sp.spieler.weltX + sp.spieler.bildschirmX;
+            int bildschirmY = weltY - sp.spieler.weltY + sp.spieler.bildschirmY;
 
             g2.drawImage(vorlauefigeFliese.getFlieseImage(), bildschirmX, bildschirmY, sp.vergroesserteFliesenGroesse, sp.vergroesserteFliesenGroesse, null);
             if(mapFliesen[weltZeile][weltSpalte].feld != null){

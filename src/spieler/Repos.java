@@ -8,7 +8,7 @@ public class Repos extends Gegenstand{
 
 
     public Repos(Spieler s) {
-        super(s, s.positionX, s.positionY);
+        super(s);
         getGegenstandBilder();
     }
 
