@@ -15,18 +15,17 @@ import java.util.ArrayList;
 public class SpielMapManager {
     public final Fliese[][] mapFliesen;
     SpielPanel sp;
-
     Graphics2D g2;
     ArrayList<Spieler> alleSpieler = new ArrayList<>();
     public MapEingabeManager mapEingabeManager;
     public SpielMapManager(SpielPanel sp) {
         this.sp = sp;
         mapEingabeManager = new MapEingabeManager(this);
-        String[][] mapFelder = new String[25][30];
-        this.mapFliesen = new Fliese[25][30];
+        String[][] mapFelder = new String[26][30];
+        this.mapFliesen = new Fliese[26][30];
         BufferedReader reader = null;
         try {
-            reader = new BufferedReader(new FileReader("src/tileStructure.txt"));
+            reader = new BufferedReader(new FileReader("src/map.txt"));
             String line;
             int zeilenIndex = 0;
             while ((line = reader.readLine()) != null) {
@@ -34,14 +33,13 @@ public class SpielMapManager {
 
                 System.arraycopy(zeile, 0, mapFelder[zeilenIndex], 0, zeile.length);
                 zeilenIndex++;
-
             }
             for(int zeile = 0; zeile < 25; zeile++){
                 System.out.println();
                 for(int spalte = 0; spalte < 30; spalte++){
                     try{
                         Fliese fliese = new Fliese();
-                        fliese.flieseImage = ImageIO.read(new File("src/source/mapBilder/tileset (" + mapFelder[zeile][spalte] + ").png"));
+                        fliese.flieseImage = ImageIO.read(new File("src/source/mapk/tileset" + mapFelder[zeile][spalte] + ".png"));
 
                         fliese.feld = feldEinrichten(zeile, spalte);
 
@@ -52,8 +50,6 @@ public class SpielMapManager {
                     }
                 }
             }
-
-
         } catch (IOException e) {
             e.printStackTrace();
         } finally {
@@ -64,7 +60,6 @@ public class SpielMapManager {
             }
         }
         felderReihenfolgeFestlegen();
-
     }
     public Feld feldEinrichten(int zeile, int spalte){
         switch(zeile){
@@ -186,8 +181,6 @@ public class SpielMapManager {
                 weltZeile++;
             }
         }
-
-
     }
     private void felderReihenfolgeFestlegen(){
         mapFliesen[19][11].feld.nordFeld = mapFliesen[17][11].feld;
@@ -311,8 +304,4 @@ public class SpielMapManager {
 
 
     }
-
-
-
-
 }

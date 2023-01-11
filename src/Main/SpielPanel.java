@@ -34,10 +34,10 @@ public class SpielPanel extends JPanel implements Runnable{
     int FPS = 60;
     public Font marioPartyFont;
     Thread spielThread;
-    public MenueManager menueManager = new MenueManager(this);
     public SpielMapManager mapManager= new SpielMapManager(this);
     public Spieler spieler = new Spieler(this);
     public SpielClient client;
+    public MenueManager menueManager;
 
 
     public SpielPanel(){
@@ -47,6 +47,7 @@ public class SpielPanel extends JPanel implements Runnable{
         this.setPreferredSize(new Dimension(bildschirmBreite, bildschirmHoehe));
         this.setBackground(Color.darkGray);
         this.setDoubleBuffered(true);
+        menueManager = new MenueManager(this);
         this.addKeyListener(menueManager.menueEingabeManager);
         this.setFocusable(true);
 

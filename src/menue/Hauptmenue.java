@@ -7,16 +7,18 @@ public class Hauptmenue{
     MenueManager mn;
     Graphics2D g2;
 
-    public int befehlNum1 = 0;
+    public int befehlNum1;
     public int befehlNum2 = -1;
     public int befehlNum3 = 0;
     public int enterZustand = 0;
 
     public Hauptmenue(MenueManager mn){
         this.mn = mn;
-    }
-    public void update(){
-
+        if(mn.sp.client.isIstHost()){
+            befehlNum1 = 0;
+        }else{
+            befehlNum1 = 1;
+        }
     }
     public void malen(Graphics2D g2){
         this.g2 = g2;
