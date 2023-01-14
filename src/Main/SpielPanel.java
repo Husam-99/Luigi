@@ -35,8 +35,8 @@ public class SpielPanel extends JPanel implements Runnable{
     public Font marioPartyFont;
     Thread spielThread;
     public SpielMapManager mapManager= new SpielMapManager(this);
-    public Spieler spieler = new Spieler(this);
     public SpielClient client;
+    public Spieler spieler;
     public MenueManager menueManager;
 
 
@@ -47,6 +47,7 @@ public class SpielPanel extends JPanel implements Runnable{
         this.setPreferredSize(new Dimension(bildschirmBreite, bildschirmHoehe));
         this.setBackground(Color.darkGray);
         this.setDoubleBuffered(true);
+        spieler = new Spieler(this);
         menueManager = new MenueManager(this);
         this.addKeyListener(menueManager.menueEingabeManager);
         this.setFocusable(true);
@@ -90,8 +91,14 @@ public class SpielPanel extends JPanel implements Runnable{
     }
 
     public void update() {
-        menueManager.menueHintergrund.update();
-        menueManager.update();
+        if(zustand == menueZustand){
+            menueManager.menueHintergrund.update();
+            menueManager.update();
+        }else if(zustand == spielZustand){
+            mapManager.update();
+            spieler.update();
+        }
+
     }
 
     public void paintComponent(Graphics g){
@@ -101,8 +108,7 @@ public class SpielPanel extends JPanel implements Runnable{
             menueManager.menueHintergrund.malen(g2);
             menueManager.malen(g2);
             g2.dispose();
-        }
-        else if(zustand == spielZustand){
+        }else if(zustand == spielZustand){
             this.setBackground(new Color(39, 105, 195));
             this.removeKeyListener(this.getKeyListeners()[0]);
             this.addKeyListener(mapManager.mapEingabeManager);

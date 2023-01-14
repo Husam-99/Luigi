@@ -7,8 +7,8 @@ import java.io.IOException;
 public class BlauesFeld extends Feld{
 //    private Gegenstand gegenstand;
 
-    public BlauesFeld(int weltY, int weltX) {
-        super(weltY, weltX);
+    public BlauesFeld(SpielMapManager mapManager, int weltY, int weltX, int feldNum) {
+        super(mapManager, weltY, weltX, feldNum);
         try {
             super.feldImage = ImageIO.read(new File("src/source/felder/Blue_Field.png"));
         } catch (IOException e) {

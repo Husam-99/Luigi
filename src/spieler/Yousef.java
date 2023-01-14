@@ -25,6 +25,7 @@ public class Yousef extends Spielfigur {
             left1= ImageIO.read(getClass().getResourceAsStream("/yousef/left1.png"));
             left2= ImageIO.read(getClass().getResourceAsStream("/yousef/left2.png"));
             left3= ImageIO.read(getClass().getResourceAsStream("/yousef/left3.png"));
+            profile= ImageIO.read(getClass().getResourceAsStream("/yousef/profile.png"));
         }catch(IOException e) {
             e.printStackTrace();
         }

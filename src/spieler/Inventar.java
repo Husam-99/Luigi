@@ -1,13 +1,26 @@
 package spieler;
 
+import java.awt.*;
+
 public class Inventar {
 
     Spieler s;
     int blockNum = 1, bubeNum = 2, megaWuerfelNum = 3, miniWuerfelNum = 4, reposNum = 5, sternTaxiNum = 6;
     public Gegenstand[] inventar;
+    public int befehlNum = 0;
+    Gegenstand sterntaxi;
+    Gegenstand bube;
+    Gegenstand block;
+    Gegenstand repos;
+
+
     public Inventar(Spieler s){
         this.s = s;
         inventar = new Gegenstand[4];
+        sterntaxi = new SternTaxi(s);
+        bube = new Bube(s);
+        block = new Block(s);
+        repos = new Repos(s);
     }
     public void ersteSlot(int gegenstandNum){
         if(gegenstandNum == blockNum){
@@ -72,6 +85,43 @@ public class Inventar {
     public void verwenden(int slotNum){
         inventar[slotNum].effeckteAnwenden();
         inventar[slotNum] = null;
+    }
+
+    public void malen(Graphics2D g2){
+        Color c = new Color(0, 0, 0, 200);
+        g2.setColor(c);
+        g2.fillRoundRect(1000, 20, 420, 400, 35, 35);
+        c = new Color(255, 255, 255, 200);
+        g2.setColor(c);
+        g2.setStroke(new BasicStroke(5));
+        g2.drawRoundRect(1005, 25, 410, 390, 25, 25);
+
+        if(befehlNum == 0){
+            g2.drawImage(sterntaxi.icon, 1000, 20, s.sp.vergroesserteFliesenGroesse*2+40,s.sp.vergroesserteFliesenGroesse*2+40,null);
+            g2.drawImage(block.icon, 1200, 20, s.sp.vergroesserteFliesenGroesse*2,s.sp.vergroesserteFliesenGroesse*2,null);
+            g2.drawImage(bube.icon, 1000, 170, s.sp.vergroesserteFliesenGroesse*2,s.sp.vergroesserteFliesenGroesse*2,null);
+            g2.drawImage(repos.icon, 1200, 170, s.sp.vergroesserteFliesenGroesse*2,s.sp.vergroesserteFliesenGroesse*2,null);
+        }else if(befehlNum == 1){
+            g2.drawImage(bube.icon, 1000, 170, s.sp.vergroesserteFliesenGroesse*2+40,s.sp.vergroesserteFliesenGroesse*2+40,null);
+            g2.drawImage(sterntaxi.icon, 1000, 20, s.sp.vergroesserteFliesenGroesse*2,s.sp.vergroesserteFliesenGroesse*2,null);
+            g2.drawImage(repos.icon, 1200, 170, s.sp.vergroesserteFliesenGroesse*2,s.sp.vergroesserteFliesenGroesse*2,null);
+            g2.drawImage(block.icon, 1200, 20, s.sp.vergroesserteFliesenGroesse*2,s.sp.vergroesserteFliesenGroesse*2,null);
+        }else if(befehlNum == 2){
+            g2.drawImage(block.icon, 1200, 20, s.sp.vergroesserteFliesenGroesse*2+40,s.sp.vergroesserteFliesenGroesse*2+40,null);
+            g2.drawImage(repos.icon, 1200, 170, s.sp.vergroesserteFliesenGroesse*2,s.sp.vergroesserteFliesenGroesse*2,null);
+            g2.drawImage(bube.icon, 1000, 170, s.sp.vergroesserteFliesenGroesse*2,s.sp.vergroesserteFliesenGroesse*2,null);
+            g2.drawImage(sterntaxi.icon, 1000, 20, s.sp.vergroesserteFliesenGroesse*2,s.sp.vergroesserteFliesenGroesse*2,null);
+
+        } else if (befehlNum == 3) {
+            g2.drawImage(repos.icon, 1200, 170, s.sp.vergroesserteFliesenGroesse*2+40,s.sp.vergroesserteFliesenGroesse*2+40,null);
+            g2.drawImage(sterntaxi.icon, 1000, 20, s.sp.vergroesserteFliesenGroesse*2,s.sp.vergroesserteFliesenGroesse*2,null);
+            g2.drawImage(block.icon, 1200, 20, s.sp.vergroesserteFliesenGroesse*2,s.sp.vergroesserteFliesenGroesse*2,null);
+            g2.drawImage(bube.icon, 1000, 170, s.sp.vergroesserteFliesenGroesse*2,s.sp.vergroesserteFliesenGroesse*2,null);
+
+        }
+        g2.setColor(Color.yellow);
+        g2.setFont(g2.getFont().deriveFont(Font.BOLD,90F));
+        g2.drawString("Inventar",1035,400);
     }
 
 }

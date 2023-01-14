@@ -26,6 +26,7 @@ public class Abdo extends Spielfigur {
             left1= ImageIO.read(getClass().getResourceAsStream("/abdo/left1.png"));
             left2= ImageIO.read(getClass().getResourceAsStream("/abdo/left2.png"));
             left3= ImageIO.read(getClass().getResourceAsStream("/abdo/left3.png"));
+            profile=ImageIO.read(getClass().getResourceAsStream("/abdo/profile.png"));
         }catch(IOException e) {
             e.printStackTrace();
         }

@@ -25,6 +25,7 @@ public class Husam extends Spielfigur {
             left1= ImageIO.read(getClass().getResourceAsStream("/husam/left1.png"));
             left2= ImageIO.read(getClass().getResourceAsStream("/husam/left2.png"));
             left3= ImageIO.read(getClass().getResourceAsStream("/husam/left3.png"));
+            profile= ImageIO.read(getClass().getResourceAsStream("/husam/profile.png"));
         }catch(IOException e) {
             e.printStackTrace();
         }

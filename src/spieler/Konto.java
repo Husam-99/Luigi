@@ -5,7 +5,7 @@ public class Konto {
     public int muenzen, sterne;
 
     public Konto(){
-        muenzen = 5;
+        muenzen = 10;
         sterne = 0;
     }
 

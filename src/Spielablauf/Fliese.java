@@ -8,9 +8,7 @@ public class Fliese {
     public boolean kollision = false;
     public Feld feld;
 
-    public Fliese(){
-
-    }
+    public Fliese(){}
     public BufferedImage getFlieseImage(){
         return flieseImage;
     }
