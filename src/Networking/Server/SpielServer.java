@@ -12,7 +12,7 @@ public class SpielServer  {
     static int tcp_Port = 54777;
     static int udp_Port = 54555;
     static Server server;
-    static LinkedHashMap<Connection, Boolean> alleClients = new LinkedHashMap<>();
+    static LinkedHashMap<Connection, SpielerAuskuenfte> alleClients = new LinkedHashMap<>();
 
 
     public static void start(){

@@ -28,57 +28,57 @@ public abstract class Spielfigur {
 
                 if (s.naechstesFeld != null) {
                     if (s.naechstesFeld.equals(s.sp.mapManager.mapFliesen[6][14].feld)) {
-                        if (s.sp.mapManager.alleSpieler.get(0).weltX > s.naechstesFeld.weltX) {
+                        if (s.sp.alleSpieler.get(0).weltX > s.naechstesFeld.weltX) {
                             richtung = "links";
-                            s.sp.mapManager.alleSpieler.get(0).weltX -= s.geschwindigkeit;
-                        }else if (s.sp.mapManager.alleSpieler.get(0).weltY > (s.naechstesFeld.weltY - s.sp.vergroesserteFliesenGroesse / 2)) {
-                            s.sp.mapManager.alleSpieler.get(0).weltY -= s.geschwindigkeit;
+                            s.sp.alleSpieler.get(0).weltX -= s.geschwindigkeit;
+                        }else if (s.sp.alleSpieler.get(0).weltY > (s.naechstesFeld.weltY - s.sp.vergroesserteFliesenGroesse / 2)) {
+                            s.sp.alleSpieler.get(0).weltY -= s.geschwindigkeit;
                             richtung = "oben";
-                        }else if (s.sp.mapManager.alleSpieler.get(0).weltY == (s.naechstesFeld.weltY - s.sp.vergroesserteFliesenGroesse / 2)) {
+                        }else if (s.sp.alleSpieler.get(0).weltY == (s.naechstesFeld.weltY - s.sp.vergroesserteFliesenGroesse / 2)) {
                             s.bewegung = false;
                             richtung = "stehen";
                             s.sp.mapManager.mapEingabeManager.bewegungOben = false;
                         }
                     }else if (s.naechstesFeld.equals(s.sp.mapManager.mapFliesen[6][26].feld)) {
-                        if (s.sp.mapManager.alleSpieler.get(0).weltX < s.naechstesFeld.weltX) {
+                        if (s.sp.alleSpieler.get(0).weltX < s.naechstesFeld.weltX) {
                             richtung = "rechts";
-                            s.sp.mapManager.alleSpieler.get(0).weltX += s.geschwindigkeit;
-                        }else if (s.sp.mapManager.alleSpieler.get(0).weltY > (s.naechstesFeld.weltY - s.sp.vergroesserteFliesenGroesse / 2)) {
+                            s.sp.alleSpieler.get(0).weltX += s.geschwindigkeit;
+                        }else if (s.sp.alleSpieler.get(0).weltY > (s.naechstesFeld.weltY - s.sp.vergroesserteFliesenGroesse / 2)) {
                             richtung = "oben";
-                            s.sp.mapManager.alleSpieler.get(0).weltY -= s.geschwindigkeit;
-                        }else if (s.sp.mapManager.alleSpieler.get(0).weltY == (s.naechstesFeld.weltY - s.sp.vergroesserteFliesenGroesse / 2)) {
+                            s.sp.alleSpieler.get(0).weltY -= s.geschwindigkeit;
+                        }else if (s.sp.alleSpieler.get(0).weltY == (s.naechstesFeld.weltY - s.sp.vergroesserteFliesenGroesse / 2)) {
                             s.bewegung = false;
                             richtung = "stehen";
                             s.sp.mapManager.mapEingabeManager.bewegungOben = false;
                         }
                     }else if (s.naechstesFeld.equals(s.sp.mapManager.mapFliesen[6][9].feld) || s.naechstesFeld.equals(s.sp.mapManager.mapFliesen[3][17].feld)) {
-                        if (s.sp.mapManager.alleSpieler.get(0).weltY > (s.naechstesFeld.weltY - s.sp.vergroesserteFliesenGroesse / 2)) {
+                        if (s.sp.alleSpieler.get(0).weltY > (s.naechstesFeld.weltY - s.sp.vergroesserteFliesenGroesse / 2)) {
                             richtung = "oben";
-                            s.sp.mapManager.alleSpieler.get(0).weltY -= s.geschwindigkeit;
-                        }else if (s.sp.mapManager.alleSpieler.get(0).weltX < (s.naechstesFeld.weltX)) {
+                            s.sp.alleSpieler.get(0).weltY -= s.geschwindigkeit;
+                        }else if (s.sp.alleSpieler.get(0).weltX < (s.naechstesFeld.weltX)) {
                             richtung = "rechts";
-                            s.sp.mapManager.alleSpieler.get(0).weltX += s.geschwindigkeit;
-                        }else if (s.sp.mapManager.alleSpieler.get(0).weltY == (s.naechstesFeld.weltY - s.sp.vergroesserteFliesenGroesse / 2)) {
+                            s.sp.alleSpieler.get(0).weltX += s.geschwindigkeit;
+                        }else if (s.sp.alleSpieler.get(0).weltY == (s.naechstesFeld.weltY - s.sp.vergroesserteFliesenGroesse / 2)) {
                             s.bewegung = false;
                             richtung = "stehen";
                             s.sp.mapManager.mapEingabeManager.bewegungOben = false;
                         }
                     }else if (s.naechstesFeld.equals(s.sp.mapManager.mapFliesen[3][23].feld)) {
-                        if (s.sp.mapManager.alleSpieler.get(0).weltY > (s.naechstesFeld.weltY - s.sp.vergroesserteFliesenGroesse / 2)) {
+                        if (s.sp.alleSpieler.get(0).weltY > (s.naechstesFeld.weltY - s.sp.vergroesserteFliesenGroesse / 2)) {
                             richtung = "oben";
-                            s.sp.mapManager.alleSpieler.get(0).weltY -= s.geschwindigkeit;
-                        }else if (s.sp.mapManager.alleSpieler.get(0).weltX > s.naechstesFeld.weltX) {
+                            s.sp.alleSpieler.get(0).weltY -= s.geschwindigkeit;
+                        }else if (s.sp.alleSpieler.get(0).weltX > s.naechstesFeld.weltX) {
                             richtung = "links";
-                            s.sp.mapManager.alleSpieler.get(0).weltX -= s.geschwindigkeit;
-                        }else if (s.sp.mapManager.alleSpieler.get(0).weltY == (s.naechstesFeld.weltY - s.sp.vergroesserteFliesenGroesse / 2)) {
+                            s.sp.alleSpieler.get(0).weltX -= s.geschwindigkeit;
+                        }else if (s.sp.alleSpieler.get(0).weltY == (s.naechstesFeld.weltY - s.sp.vergroesserteFliesenGroesse / 2)) {
                             s.bewegung = false;
                             richtung = "stehen";
                             s.sp.mapManager.mapEingabeManager.bewegungOben = false;
                         }
-                    }else if (s.sp.mapManager.alleSpieler.get(0).weltY > (s.naechstesFeld.weltY - s.sp.vergroesserteFliesenGroesse / 2)) {
+                    }else if (s.sp.alleSpieler.get(0).weltY > (s.naechstesFeld.weltY - s.sp.vergroesserteFliesenGroesse / 2)) {
                         richtung = "oben";
-                        s.sp.mapManager.alleSpieler.get(0).weltY -= s.geschwindigkeit;
-                    }else if (s.sp.mapManager.alleSpieler.get(0).weltY == (s.naechstesFeld.weltY - s.sp.vergroesserteFliesenGroesse / 2)) {
+                        s.sp.alleSpieler.get(0).weltY -= s.geschwindigkeit;
+                    }else if (s.sp.alleSpieler.get(0).weltY == (s.naechstesFeld.weltY - s.sp.vergroesserteFliesenGroesse / 2)) {
                         s.bewegung = false;
                         richtung = "stehen";
                         s.sp.mapManager.mapEingabeManager.bewegungOben = false;
@@ -92,57 +92,57 @@ public abstract class Spielfigur {
 
                 if (s.naechstesFeld != null) {
                     if (s.naechstesFeld.equals(s.sp.mapManager.mapFliesen[7][15].feld)) {
-                        if (s.sp.mapManager.alleSpieler.get(0).weltY < (s.naechstesFeld.weltY - s.sp.vergroesserteFliesenGroesse / 2)) {
-                            s.sp.mapManager.alleSpieler.get(0).weltY += s.geschwindigkeit;
+                        if (s.sp.alleSpieler.get(0).weltY < (s.naechstesFeld.weltY - s.sp.vergroesserteFliesenGroesse / 2)) {
+                            s.sp.alleSpieler.get(0).weltY += s.geschwindigkeit;
                             richtung = "unten";
-                        }else if (s.sp.mapManager.alleSpieler.get(0).weltX < (s.naechstesFeld.weltX)) {
+                        }else if (s.sp.alleSpieler.get(0).weltX < (s.naechstesFeld.weltX)) {
                             richtung = "rechts";
-                            s.sp.mapManager.alleSpieler.get(0).weltX += s.geschwindigkeit;
-                        }else if (s.sp.mapManager.alleSpieler.get(0).weltY == (s.naechstesFeld.weltY - s.sp.vergroesserteFliesenGroesse / 2)) {
+                            s.sp.alleSpieler.get(0).weltX += s.geschwindigkeit;
+                        }else if (s.sp.alleSpieler.get(0).weltY == (s.naechstesFeld.weltY - s.sp.vergroesserteFliesenGroesse / 2)) {
                             s.bewegung = false;
                             richtung = "stehen";
                             s.sp.mapManager.mapEingabeManager.bewegungUnten = false;
                         }
                     }else if (s.naechstesFeld.equals(s.sp.mapManager.mapFliesen[4][24].feld)) {
-                        if (s.sp.mapManager.alleSpieler.get(0).weltX < (s.naechstesFeld.weltX)) {
+                        if (s.sp.alleSpieler.get(0).weltX < (s.naechstesFeld.weltX)) {
                             richtung = "rechts";
-                            s.sp.mapManager.alleSpieler.get(0).weltX += s.geschwindigkeit;
-                        }else if (s.sp.mapManager.alleSpieler.get(0).weltY < (s.naechstesFeld.weltY - s.sp.vergroesserteFliesenGroesse / 2)) {
-                            s.sp.mapManager.alleSpieler.get(0).weltY += s.geschwindigkeit;
+                            s.sp.alleSpieler.get(0).weltX += s.geschwindigkeit;
+                        }else if (s.sp.alleSpieler.get(0).weltY < (s.naechstesFeld.weltY - s.sp.vergroesserteFliesenGroesse / 2)) {
+                            s.sp.alleSpieler.get(0).weltY += s.geschwindigkeit;
                             richtung = "unten";
-                        }else if (s.sp.mapManager.alleSpieler.get(0).weltY == (s.naechstesFeld.weltY - s.sp.vergroesserteFliesenGroesse / 2)) {
+                        }else if (s.sp.alleSpieler.get(0).weltY == (s.naechstesFeld.weltY - s.sp.vergroesserteFliesenGroesse / 2)) {
                             s.bewegung = false;
                             richtung = "stehen";
                             s.sp.mapManager.mapEingabeManager.bewegungUnten = false;
                         }
                     }else if (s.naechstesFeld.equals(s.sp.mapManager.mapFliesen[4][16].feld) || s.naechstesFeld.equals(s.sp.mapManager.mapFliesen[7][8].feld)) {
-                        if (s.sp.mapManager.alleSpieler.get(0).weltX > (s.naechstesFeld.weltX)) {
+                        if (s.sp.alleSpieler.get(0).weltX > (s.naechstesFeld.weltX)) {
                             richtung = "links";
-                            s.sp.mapManager.alleSpieler.get(0).weltX -= s.geschwindigkeit;
-                        }else if (s.sp.mapManager.alleSpieler.get(0).weltY < (s.naechstesFeld.weltY - s.sp.vergroesserteFliesenGroesse / 2)) {
-                            s.sp.mapManager.alleSpieler.get(0).weltY += s.geschwindigkeit;
+                            s.sp.alleSpieler.get(0).weltX -= s.geschwindigkeit;
+                        }else if (s.sp.alleSpieler.get(0).weltY < (s.naechstesFeld.weltY - s.sp.vergroesserteFliesenGroesse / 2)) {
+                            s.sp.alleSpieler.get(0).weltY += s.geschwindigkeit;
                             richtung = "unten";
-                        }else if (s.sp.mapManager.alleSpieler.get(0).weltY == (s.naechstesFeld.weltY - s.sp.vergroesserteFliesenGroesse / 2)) {
+                        }else if (s.sp.alleSpieler.get(0).weltY == (s.naechstesFeld.weltY - s.sp.vergroesserteFliesenGroesse / 2)) {
                             s.bewegung = false;
                             richtung = "stehen";
                             s.sp.mapManager.mapEingabeManager.bewegungUnten = false;
                         }
                     }else if (s.naechstesFeld.equals(s.sp.mapManager.mapFliesen[7][25].feld)) {
-                        if (s.sp.mapManager.alleSpieler.get(0).weltY < (s.naechstesFeld.weltY - s.sp.vergroesserteFliesenGroesse / 2)) {
-                            s.sp.mapManager.alleSpieler.get(0).weltY += s.geschwindigkeit;
+                        if (s.sp.alleSpieler.get(0).weltY < (s.naechstesFeld.weltY - s.sp.vergroesserteFliesenGroesse / 2)) {
+                            s.sp.alleSpieler.get(0).weltY += s.geschwindigkeit;
                             richtung = "unten";
-                        }else if (s.sp.mapManager.alleSpieler.get(0).weltX > (s.naechstesFeld.weltX)) {
+                        }else if (s.sp.alleSpieler.get(0).weltX > (s.naechstesFeld.weltX)) {
                             richtung = "links";
-                            s.sp.mapManager.alleSpieler.get(0).weltX -= s.geschwindigkeit;
-                        }else if (s.sp.mapManager.alleSpieler.get(0).weltY == (s.naechstesFeld.weltY - s.sp.vergroesserteFliesenGroesse / 2)) {
+                            s.sp.alleSpieler.get(0).weltX -= s.geschwindigkeit;
+                        }else if (s.sp.alleSpieler.get(0).weltY == (s.naechstesFeld.weltY - s.sp.vergroesserteFliesenGroesse / 2)) {
                             s.bewegung = false;
                             richtung = "stehen";
                             s.sp.mapManager.mapEingabeManager.bewegungUnten = false;
                         }
-                    }else if (s.sp.mapManager.alleSpieler.get(0).weltY < (s.naechstesFeld.weltY - s.sp.vergroesserteFliesenGroesse / 2)) {
-                        s.sp.mapManager.alleSpieler.get(0).weltY += s.geschwindigkeit;
+                    }else if (s.sp.alleSpieler.get(0).weltY < (s.naechstesFeld.weltY - s.sp.vergroesserteFliesenGroesse / 2)) {
+                        s.sp.alleSpieler.get(0).weltY += s.geschwindigkeit;
                         richtung = "unten";
-                    }else if (s.sp.mapManager.alleSpieler.get(0).weltY == (s.naechstesFeld.weltY - s.sp.vergroesserteFliesenGroesse / 2)) {
+                    }else if (s.sp.alleSpieler.get(0).weltY == (s.naechstesFeld.weltY - s.sp.vergroesserteFliesenGroesse / 2)) {
                         s.bewegung = false;
                         richtung = "stehen";
                         s.sp.mapManager.mapEingabeManager.bewegungUnten = false;
@@ -154,10 +154,10 @@ public abstract class Spielfigur {
                 }
 
                 if (s.naechstesFeld != null) {
-                    if (s.sp.mapManager.alleSpieler.get(0).weltX > (s.naechstesFeld.weltX)) {
-                        s.sp.mapManager.alleSpieler.get(0).weltX -= s.geschwindigkeit;
+                    if (s.sp.alleSpieler.get(0).weltX > (s.naechstesFeld.weltX)) {
+                        s.sp.alleSpieler.get(0).weltX -= s.geschwindigkeit;
                         richtung = "links";
-                    }else if (s.sp.mapManager.alleSpieler.get(0).weltX == (s.naechstesFeld.weltX)) {
+                    }else if (s.sp.alleSpieler.get(0).weltX == (s.naechstesFeld.weltX)) {
                         s.bewegung = false;
                         richtung = "stehen";
                         s.sp.mapManager.mapEingabeManager.bewegungLinks = false;
@@ -169,10 +169,10 @@ public abstract class Spielfigur {
                 }
 
                 if (s.naechstesFeld != null) {
-                    if (s.sp.mapManager.alleSpieler.get(0).weltX < (s.naechstesFeld.weltX)) {
-                        s.sp.mapManager.alleSpieler.get(0).weltX += s.geschwindigkeit;
+                    if (s.sp.alleSpieler.get(0).weltX < (s.naechstesFeld.weltX)) {
+                        s.sp.alleSpieler.get(0).weltX += s.geschwindigkeit;
                         richtung = "rechts";
-                    }else if (s.sp.mapManager.alleSpieler.get(0).weltX == (s.naechstesFeld.weltX)) {
+                    }else if (s.sp.alleSpieler.get(0).weltX == (s.naechstesFeld.weltX)) {
                         s.bewegung = false;
                         richtung = "stehen";
                         s.sp.mapManager.mapEingabeManager.bewegungRechts = false;
@@ -244,7 +244,11 @@ public abstract class Spielfigur {
             case "stehen":
                 image = down1;
                 break;
+        }if(this.s == s.sp.mainSpieler ){
+            g2.drawImage(image, s.sp.mainSpieler.bildschirmX, s.sp.mainSpieler.bildschirmY, s.sp.vergroesserteFliesenGroesse, s.sp.vergroesserteFliesenGroesse, null);
+        }else if(s.sp.alleSpieler.contains(this.s)){
+            g2.drawImage(image, this.s.bildschirmX, this.s.bildschirmY, s.sp.vergroesserteFliesenGroesse, s.sp.vergroesserteFliesenGroesse, null);
         }
-        g2.drawImage(image, s.bildschirmX, s.bildschirmY, s.sp.vergroesserteFliesenGroesse, s.sp.vergroesserteFliesenGroesse, null);
+
     }
 }

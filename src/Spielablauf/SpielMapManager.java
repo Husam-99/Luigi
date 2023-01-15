@@ -17,7 +17,7 @@ public class SpielMapManager {
     public final Fliese[][] mapFliesen;
     SpielPanel sp;
     Graphics2D g2;
-    public ArrayList<Spieler> alleSpieler = new ArrayList<>();
+
     public MapEingabeManager mapEingabeManager;
     public Stern stern;
     public Muenze muenze;
@@ -125,9 +125,7 @@ public class SpielMapManager {
                 return null;
         }
     }
-    public void hinzufuegeSpieler(Spieler spieler){
-        alleSpieler.add(spieler);
-    }
+    
     private void mapLaden(){
         String[][] mapFelder = new String[26][30];
         BufferedReader reader = null;
@@ -304,8 +302,8 @@ public class SpielMapManager {
 
             int weltX = weltSpalte * sp.vergroesserteFliesenGroesse;
             int weltY = weltZeile * sp.vergroesserteFliesenGroesse;
-            int bildschirmX = weltX - sp.spieler.weltX + sp.spieler.bildschirmX;
-            int bildschirmY = weltY - sp.spieler.weltY + sp.spieler.bildschirmY;
+            int bildschirmX = weltX - sp.mainSpieler.weltX + sp.mainSpieler.bildschirmX;
+            int bildschirmY = weltY - sp.mainSpieler.weltY + sp.mainSpieler.bildschirmY;
 
             g2.drawImage(vorlauefigeFliese.getFlieseImage(), bildschirmX, bildschirmY, sp.vergroesserteFliesenGroesse, sp.vergroesserteFliesenGroesse, null);
             if(mapFliesen[weltZeile][weltSpalte].feld != null){

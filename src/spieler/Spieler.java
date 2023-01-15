@@ -10,7 +10,7 @@ public class Spieler {
     Graphics2D g2;
     public Spielfigur spielfigur;
     public Wuerfel wuerfel;
-    public final int bildschirmX, bildschirmY;
+    public int bildschirmX, bildschirmY;
     public int weltX, weltY;
     public int geschwindigkeit, schritteAnzahl;
     public Feld naechstesFeld, aktuellesFeld, tempFeld, aktuellFeld; //tempFeld ist zu prüfen, ob das nächste Feld nicht gleich wie das vorherige Feld ist
@@ -22,15 +22,15 @@ public class Spieler {
         this.sp = sp;
         konto = new Konto();
         inventar = new Inventar(this);
-        bildschirmX = sp.bildschirmBreite/2 - (sp.vergroesserteFliesenGroesse/2);
-        bildschirmY = sp.bildschirmHoehe/2 - (sp.vergroesserteFliesenGroesse/2);
-        sp.mapManager.hinzufuegeSpieler(this);
+
         setzeWerte();
     }
 
     public void setzeWerte(){
-        weltX = sp.vergroesserteFliesenGroesse * 11;
-        weltY = sp.vergroesserteFliesenGroesse * 21;
+        this.bildschirmX = sp.bildschirmBreite / 2 - (sp.vergroesserteFliesenGroesse / 2);
+        this.bildschirmY = sp.bildschirmHoehe / 2 - (sp.vergroesserteFliesenGroesse / 2);
+        this.weltY = (int) (sp.vergroesserteFliesenGroesse * 21.5);
+
         geschwindigkeit = 3;
         richtung = "nord";
         naechstesFeld = sp.mapManager.mapFliesen[19][11].feld;
@@ -41,13 +41,36 @@ public class Spieler {
         if(sp.menueManager.spielfigurAuswaehlen.befehlNum1 == 0){
             spielfigur = new Abdo(this);
             wuerfel = new AbdoWuerfel(this);
+            this.weltX = (int) (sp.vergroesserteFliesenGroesse * 9.5);
+
         } else if(sp.menueManager.spielfigurAuswaehlen.befehlNum1 == 1){
             spielfigur = new Husam(this);
             wuerfel = new HusamWuerfel(this);
+            this.weltX = (int) (sp.vergroesserteFliesenGroesse * 10.5);
+
         } else if(sp.menueManager.spielfigurAuswaehlen.befehlNum1 == 2){
             spielfigur = new Taha(this);
             wuerfel = new TahaWuerfel(this);
+            this.weltX = (int) (sp.vergroesserteFliesenGroesse * 11.5);
         } else if(sp.menueManager.spielfigurAuswaehlen.befehlNum1 == 3){
+            spielfigur = new Yousef(this);
+            spielfigur = new Yousef(this);
+            wuerfel = new YousefWuerfel(this);
+            this.weltX = (int) (sp.vergroesserteFliesenGroesse * 12.5);
+
+        }
+    }
+    public void spielfigurAuswaehlen(int spielfigurIndex) {
+        if(spielfigurIndex == 0){
+            spielfigur = new Abdo(this);
+            wuerfel = new AbdoWuerfel(this);
+        } else if(spielfigurIndex == 1){
+            spielfigur = new Husam(this);
+            wuerfel = new HusamWuerfel(this);
+        } else if(spielfigurIndex == 2){
+            spielfigur = new Taha(this);
+            wuerfel = new TahaWuerfel(this);
+        } else if(spielfigurIndex == 3){
             spielfigur = new Yousef(this);
             wuerfel = new YousefWuerfel(this);
         }
@@ -64,7 +87,9 @@ public class Spieler {
     public void malen(Graphics2D g2){
         this.g2 = g2;
         g2.setFont(sp.marioPartyFont);
-        spielfigur.malen(g2);
+        if(sp.mainSpieler.spielfigur!=null){
+            spielfigur.malen(g2);
+        }
         spielerStatusBoxMalen();
         spielerStatusMalen();
         if(wuerfelZustand){
