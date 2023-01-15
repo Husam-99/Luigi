@@ -159,7 +159,7 @@ public class SpielPanel extends JPanel implements Runnable{
             menueManager.malen(g2);
             g2.dispose();
         }else if(zustand == spielZustand){
-            this.setBackground(new Color(39, 105, 195));
+            this.setBackground(new Color(19, 250, 19));
             this.removeKeyListener(this.getKeyListeners()[0]);
             this.addKeyListener(mapManager.mapEingabeManager);
             mapManager.malen(g2);

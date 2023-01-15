@@ -21,6 +21,6 @@ public class RotesFeld extends Feld{
     @Override
     public void effeckteAnwenden(){
         verlierneMuenzen = random.nextInt(1,3);
-        mapManager.sp.spieler.konto.muenzenVerlieren(verlierneMuenzen);
+        mapManager.sp.mainSpieler.konto.muenzenVerlieren(verlierneMuenzen);
     }
 }

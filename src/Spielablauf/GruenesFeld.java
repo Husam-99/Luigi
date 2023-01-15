@@ -22,6 +22,6 @@ public class GruenesFeld extends Feld{
     @Override
     public void effeckteAnwenden(){
         erhalteneMuenzen = random.nextInt(1,3);
-        mapManager.sp.spieler.konto.muenzenErhalten(erhalteneMuenzen);
+        mapManager.sp.mainSpieler.konto.muenzenErhalten(erhalteneMuenzen);
     }
 }

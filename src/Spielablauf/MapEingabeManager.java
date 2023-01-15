@@ -16,46 +16,7 @@ public class MapEingabeManager implements KeyListener {
     public MapEingabeManager(SpielMapManager spielMapManager) {
         this.spielMapManager = spielMapManager;
     }
-    //für die Bewegung Richtung erstes Feld
-    //spieler.weltY -= spielMapManager.sp.vergroesserteFliesenGroesse / 2;
-    //spieler.weltX += spielMapManager.sp.vergroesserteFliesenGroesse / 2;
-    //                for(Spieler andererSpieler : spielMapManager.sp.alleSpieler){
-    //    andererSpieler.bildschirmY += spielMapManager.sp.vergroesserteFliesenGroesse / 2;
-    //    andererSpieler.bildschirmX -= spielMapManager.sp.vergroesserteFliesenGroesse / 2;
-//
-    //}
-    //case W : bewegung anpassen für andere spieler
-    //if(!spielMapManager.sp.alleSpieler.isEmpty())
-    //                            for(Spieler andererSpieler : spielMapManager.sp.alleSpieler){
-    //                                andererSpieler.bildschirmY += spielMapManager.sp.vergroesserteFliesenGroesse / 2;
-    //
-    //                            }
-    //case W
-    //SpielerPosition spielerPosition = new SpielerPosition();
-    //                    spielerPosition.weltX = spieler.naechstesFeld.weltX;
-    //                    spielerPosition.weltY = spieler.naechstesFeld.weltY - spielMapManager.sp.vergroesserteFliesenGroesse/2;
 
-    //                    Bescheid bescheid = new Bescheid();
-    //                    bescheid.fertig = true;
-    //
-    //                    spielMapManager.sp.client.send(spielerPosition);
-    //                    spielMapManager.sp.client.send(bescheid);
-    //Case S
-    // if(!spielMapManager.sp.alleSpieler.isEmpty())
-    //                            for(Spieler andererSpieler : spielMapManager.sp.alleSpieler){
-    //                                andererSpieler.bildschirmY -= spielMapManager.sp.vergroesserteFliesenGroesse / 2;
-    //
-    //                            }
-    //case D if(!spielMapManager.sp.alleSpieler.isEmpty())
-    //                            for(Spieler andererSpieler:spielMapManager.sp.alleSpieler){
-    //                                andererSpieler.bildschirmX -= spielMapManager.sp.vergroesserteFliesenGroesse / 2;
-    //
-    //                            }
-    //case A  if(!spielMapManager.sp.alleSpieler.isEmpty())
-    //                            for(Spieler andererSpieler : spielMapManager.sp.alleSpieler){
-    //                                andererSpieler.bildschirmX += spielMapManager.sp.vergroesserteFliesenGroesse / 2;
-    //
-    //                            }
     @Override
     public void keyPressed(KeyEvent e) {
         spieler = this.spielMapManager.sp.mainSpieler;
@@ -94,12 +55,15 @@ public class MapEingabeManager implements KeyListener {
                                     spieler.schritteAnzahl--;
                                     spieler.bewegung = true;
                                     bewegungOben = true;
-                                    if (spielMapManager.sp.alleSpieler.get(0).weltY == (spieler.naechstesFeld.weltY - spielMapManager.sp.vergroesserteFliesenGroesse / 2)) {
+                                    if (spielMapManager.sp.mainSpieler.weltY == (spieler.naechstesFeld.weltY - spielMapManager.sp.vergroesserteFliesenGroesse / 2)) {
                                         spieler.spielfigur.richtung = "stehen";
                                         spieler.aktuellesFeld = spieler.naechstesFeld;
                                         spieler.naechstesFeld = null;
                                         if (spieler.schritteAnzahl == 0) {
                                             spieler.aktuellFeld.effeckteAnwenden();
+                                            Bescheid bescheid = new Bescheid();
+                                            bescheid.fertig = true;
+                                            spielMapManager.sp.client.send(bescheid);
                                         }
                                     }
                                 }
@@ -125,12 +89,15 @@ public class MapEingabeManager implements KeyListener {
                                     spieler.schritteAnzahl--;
                                     spieler.bewegung = true;
                                     bewegungUnten = true;
-                                    if (spielMapManager.sp.alleSpieler.get(0).weltY == (spieler.naechstesFeld.weltY - spielMapManager.sp.vergroesserteFliesenGroesse / 2)) {
+                                    if (spielMapManager.sp.mainSpieler.weltY == (spieler.naechstesFeld.weltY - spielMapManager.sp.vergroesserteFliesenGroesse / 2)) {
                                         spieler.spielfigur.richtung = "stehen";
                                         spieler.aktuellesFeld = spieler.naechstesFeld;
                                         spieler.naechstesFeld = null;
                                         if (spieler.schritteAnzahl == 0) {
                                             spieler.aktuellFeld.effeckteAnwenden();
+                                            Bescheid bescheid = new Bescheid();
+                                            bescheid.fertig = true;
+                                            spielMapManager.sp.client.send(bescheid);
                                         }
                                     }
                                 }
@@ -156,12 +123,15 @@ public class MapEingabeManager implements KeyListener {
                                     spieler.schritteAnzahl--;
                                     spieler.bewegung = true;
                                     bewegungRechts = true;
-                                    if (spielMapManager.sp.alleSpieler.get(0).weltX == (spieler.naechstesFeld.weltX)) {
+                                    if (spielMapManager.sp.mainSpieler.weltX == (spieler.naechstesFeld.weltX)) {
                                         spieler.spielfigur.richtung = "stehen";
                                         spieler.aktuellesFeld = spieler.naechstesFeld;
                                         spieler.naechstesFeld = null;
                                         if (spieler.schritteAnzahl == 0) {
                                             spieler.aktuellFeld.effeckteAnwenden();
+                                            Bescheid bescheid = new Bescheid();
+                                            bescheid.fertig = true;
+                                            spielMapManager.sp.client.send(bescheid);
                                         }
                                     }
                                 }
@@ -187,12 +157,15 @@ public class MapEingabeManager implements KeyListener {
                                     spieler.schritteAnzahl--;
                                     spieler.bewegung = true;
                                     bewegungLinks = true;
-                                    if (spielMapManager.sp.alleSpieler.get(0).weltX == (spieler.naechstesFeld.weltX)) {
+                                    if (spielMapManager.sp.mainSpieler.weltX == (spieler.naechstesFeld.weltX)) {
                                         spieler.spielfigur.richtung = "stehen";
                                         spieler.aktuellesFeld = spieler.naechstesFeld;
                                         spieler.naechstesFeld = null;
                                         if (spieler.schritteAnzahl == 0) {
                                             spieler.aktuellFeld.effeckteAnwenden();
+                                            Bescheid bescheid = new Bescheid();
+                                            bescheid.fertig = true;
+                                            spielMapManager.sp.client.send(bescheid);
                                         }
                                     }
                                 }
