@@ -1,7 +1,11 @@
 package menue;
 
-import Networking.Pakete.BescheidSagen;
+import Networking.Pakete.AnzahlMitspieler;
+import Networking.Pakete.Bescheid;
+import Networking.Pakete.Rundenzahl;
+import Networking.Pakete.SpielfigurAuswahl;
 
+import javax.sound.sampled.FloatControl;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
@@ -54,36 +58,49 @@ public class MenueEingabeManager implements KeyListener {
         if (code == KeyEvent.VK_ENTER) {
             if (mn.spielfigurAuswaehlen.befehlNum1 == 0) {
                 mn.spielfigurAuswaehlen.enterZustand = 1;
-                BescheidSagen bescheidSagen = new BescheidSagen();
-                bescheidSagen.fertig = true;
-                mn.sp.client.send(bescheidSagen);
-                mn.sp.spieler.spielfigurAuswaehlen();
+                SpielfigurAuswahl spielfigurAuswahl = new SpielfigurAuswahl();
+                spielfigurAuswahl.spielfigurIndex = 0;
+                mn.sp.client.send(spielfigurAuswahl);
+                Bescheid bescheid = new Bescheid();
+                bescheid.fertig = true;
+                mn.sp.client.send(bescheid);
+                mn.sp.mainSpieler.spielfigurAuswaehlen();
                 mn.sp.zustand = mn.sp.spielZustand;
             }
             else if (mn.spielfigurAuswaehlen.befehlNum1 == 1) {
                 mn.spielfigurAuswaehlen.enterZustand = 1;
-                BescheidSagen bescheidSagen = new BescheidSagen();
-                bescheidSagen.fertig = true;
-                mn.sp.client.send(bescheidSagen);
-                mn.sp.spieler.spielfigurAuswaehlen();
+                SpielfigurAuswahl spielfigurAuswahl = new SpielfigurAuswahl();
+                spielfigurAuswahl.spielfigurIndex = 1;
+                mn.sp.client.send(spielfigurAuswahl);
+                Bescheid bescheid = new Bescheid();
+                bescheid.fertig = true;
+                mn.sp.client.send(bescheid);
+                mn.sp.mainSpieler.spielfigurAuswaehlen();
                 mn.sp.zustand = mn.sp.spielZustand;
             }
             else if (mn.spielfigurAuswaehlen.befehlNum1 == 2) {
                 mn.spielfigurAuswaehlen.enterZustand = 1;
-                BescheidSagen bescheidSagen = new BescheidSagen();
-                bescheidSagen.fertig = true;
-                mn.sp.client.send(bescheidSagen);
-                mn.sp.spieler.spielfigurAuswaehlen();
+                SpielfigurAuswahl spielfigurAuswahl = new SpielfigurAuswahl();
+                spielfigurAuswahl.spielfigurIndex = 2;
+                mn.sp.client.send(spielfigurAuswahl);
+                Bescheid bescheid = new Bescheid();
+                bescheid.fertig = true;
+                mn.sp.client.send(bescheid);
+                mn.sp.mainSpieler.spielfigurAuswaehlen();
                 mn.sp.zustand = mn.sp.spielZustand;
             }
             else if (mn.spielfigurAuswaehlen.befehlNum1 == 3) {
                 mn.spielfigurAuswaehlen.enterZustand = 1;
-                BescheidSagen bescheidSagen = new BescheidSagen();
-                bescheidSagen.fertig = true;
-                mn.sp.client.send(bescheidSagen);
-                mn.sp.spieler.spielfigurAuswaehlen();
+                SpielfigurAuswahl spielfigurAuswahl = new SpielfigurAuswahl();
+                spielfigurAuswahl.spielfigurIndex = 3;
+                mn.sp.client.send(spielfigurAuswahl);
+                Bescheid bescheid = new Bescheid();
+                bescheid.fertig = true;
+                mn.sp.client.send(bescheid);
+                mn.sp.mainSpieler.spielfigurAuswaehlen();
                 mn.sp.zustand = mn.sp.spielZustand;
             }
+            mn.sp.soundClip.close();
         }
     }
     public void hauptmenueZustand2Host(int code){
@@ -94,13 +111,13 @@ public class MenueEingabeManager implements KeyListener {
                     mn.hauptmenue.befehlNum3 = 0;
                 }
             }
-            if (code == KeyEvent.VK_A) {
+            else if (code == KeyEvent.VK_A) {
                 mn.hauptmenue.befehlNum3--;
                 if (mn.hauptmenue.befehlNum3 < 0) {
                     mn.hauptmenue.befehlNum3 = 2;
                 }
             }
-            if (code == KeyEvent.VK_ENTER) {
+            else if (code == KeyEvent.VK_ENTER) {
                 if (mn.hauptmenue.befehlNum3 == 0) {
                     mn.spielerAnzahl = 2;
                     mn.hauptmenue.enterZustand = 1;
@@ -116,6 +133,9 @@ public class MenueEingabeManager implements KeyListener {
                     mn.hauptmenue.enterZustand = 1;
                     mn.hauptmenue.befehlNum2 = 0;
                 }
+                AnzahlMitspieler anzahlMitspieler = new AnzahlMitspieler();
+                anzahlMitspieler.anzahlDerMitspielerHost = mn.spielerAnzahl;
+                mn.sp.client.send(anzahlMitspieler);
             }
         } else if (mn.hauptmenue.enterZustand == 1) {
             if (code == KeyEvent.VK_D) {
@@ -151,6 +171,9 @@ public class MenueEingabeManager implements KeyListener {
                     mn.rundenAnzahl = 10;
                     mn.menueZustand = mn.spielfigurAuswaehlenZustand;
                 }
+                Rundenzahl rundenzahl = new Rundenzahl();
+                rundenzahl.anzahlDerRunden = mn.rundenAnzahl;
+                mn.sp.client.send(rundenzahl);
             }
         }
     }
@@ -171,9 +194,6 @@ public class MenueEingabeManager implements KeyListener {
             if (mn.hauptmenue.befehlNum1 == 0) {
                 mn.menueZustand = mn.hauptmenueZustand2;
                 System.out.println("HostSpieler ist da");
-            }
-            if (mn.hauptmenue.befehlNum1 == 1) {
-
             }
             if (mn.hauptmenue.befehlNum1 == 2) {
                 mn.sp.client.close();
@@ -197,36 +217,49 @@ public class MenueEingabeManager implements KeyListener {
         if (code == KeyEvent.VK_ENTER) {
             if (mn.spielfigurAuswaehlen.befehlNum1 == 0) {
                 mn.spielfigurAuswaehlen.enterZustand = 1;
-                BescheidSagen bescheidSagen = new BescheidSagen();
-                bescheidSagen.fertig = true;
-                mn.sp.client.send(bescheidSagen);
-                mn.sp.spieler.spielfigurAuswaehlen();
+                SpielfigurAuswahl spielfigurAuswahl = new SpielfigurAuswahl();
+                spielfigurAuswahl.spielfigurIndex = 0;
+                mn.sp.client.send(spielfigurAuswahl);
+                Bescheid bescheid = new Bescheid();
+                bescheid.fertig = true;
+                mn.sp.client.send(bescheid);
+                mn.sp.mainSpieler.spielfigurAuswaehlen();
                 mn.sp.zustand = mn.sp.spielZustand;
             }
             else if (mn.spielfigurAuswaehlen.befehlNum1 == 1) {
                 mn.spielfigurAuswaehlen.enterZustand = 1;
-                BescheidSagen bescheidSagen = new BescheidSagen();
-                bescheidSagen.fertig = true;
-                mn.sp.client.send(bescheidSagen);
-                mn.sp.spieler.spielfigurAuswaehlen();
+                SpielfigurAuswahl spielfigurAuswahl = new SpielfigurAuswahl();
+                spielfigurAuswahl.spielfigurIndex = 1;
+                mn.sp.client.send(spielfigurAuswahl);
+                Bescheid bescheid = new Bescheid();
+                bescheid.fertig = true;
+                mn.sp.client.send(bescheid);
+                mn.sp.mainSpieler.spielfigurAuswaehlen();
                 mn.sp.zustand = mn.sp.spielZustand;
             }
             else if (mn.spielfigurAuswaehlen.befehlNum1 == 2) {
                 mn.spielfigurAuswaehlen.enterZustand = 1;
-                BescheidSagen bescheidSagen = new BescheidSagen();
-                bescheidSagen.fertig = true;
-                mn.sp.client.send(bescheidSagen);
-                mn.sp.spieler.spielfigurAuswaehlen();
+                SpielfigurAuswahl spielfigurAuswahl = new SpielfigurAuswahl();
+                spielfigurAuswahl.spielfigurIndex = 2;
+                mn.sp.client.send(spielfigurAuswahl);
+                Bescheid bescheid = new Bescheid();
+                bescheid.fertig = true;
+                mn.sp.client.send(bescheid);
+                mn.sp.mainSpieler.spielfigurAuswaehlen();
                 mn.sp.zustand = mn.sp.spielZustand;
             }
             else if (mn.spielfigurAuswaehlen.befehlNum1 == 3) {
                 mn.spielfigurAuswaehlen.enterZustand = 1;
-                BescheidSagen bescheidSagen = new BescheidSagen();
-                bescheidSagen.fertig = true;
-                mn.sp.client.send(bescheidSagen);
-                mn.sp.spieler.spielfigurAuswaehlen();
+                SpielfigurAuswahl spielfigurAuswahl = new SpielfigurAuswahl();
+                spielfigurAuswahl.spielfigurIndex = 3;
+                mn.sp.client.send(spielfigurAuswahl);
+                Bescheid bescheid = new Bescheid();
+                bescheid.fertig = true;
+                mn.sp.client.send(bescheid);
+                mn.sp.mainSpieler.spielfigurAuswaehlen();
                 mn.sp.zustand = mn.sp.spielZustand;
             }
+            mn.sp.soundClip.close();
         }
     }
     public void hauptmenueZustand2Client(int code){
@@ -259,6 +292,9 @@ public class MenueEingabeManager implements KeyListener {
                     mn.hauptmenue.enterZustand = 1;
                     mn.hauptmenue.befehlNum2 = 0;
                 }
+                AnzahlMitspieler anzahl = new AnzahlMitspieler();
+                anzahl.anzahlDerMitspielerHost = mn.spielerAnzahl;
+                mn.sp.client.send(anzahl);
             }
         } else if (mn.hauptmenue.enterZustand == 1) {
             if (code == KeyEvent.VK_D) {
@@ -294,6 +330,9 @@ public class MenueEingabeManager implements KeyListener {
                     mn.rundenAnzahl = 10;
                     mn.menueZustand = mn.spielfigurAuswaehlenZustand;
                 }
+                Rundenzahl rundenzahl = new Rundenzahl();
+                rundenzahl.anzahlDerRunden = mn.rundenAnzahl;
+                mn.sp.client.send(rundenzahl);
             }
         }
     }

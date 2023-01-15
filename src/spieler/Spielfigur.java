@@ -9,7 +9,6 @@ public abstract class Spielfigur {
     int spriteNum = 1;
     int spriteZaehler = 0;
     String richtung = "unten";
-
     public Spielfigur(Spieler s){
         this.s = s;
     }
@@ -94,7 +93,11 @@ public abstract class Spielfigur {
                     image = right3;
                 }
                 break;
+        }if(this.s == s.sp.mainSpieler ){
+            g2.drawImage(image, s.sp.mainSpieler.bildschirmX, s.sp.mainSpieler.bildschirmY, s.sp.vergroesserteFliesenGroesse, s.sp.vergroesserteFliesenGroesse, null);
+        }else if(s.sp.alleSpieler.contains(this.s)){
+            g2.drawImage(image, this.s.bildschirmX, this.s.bildschirmY, s.sp.vergroesserteFliesenGroesse, s.sp.vergroesserteFliesenGroesse, null);
         }
-        g2.drawImage(image, s.bildschirmX, s.bildschirmY, s.sp.vergroesserteFliesenGroesse, s.sp.vergroesserteFliesenGroesse, null);
+
     }
 }

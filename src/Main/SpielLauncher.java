@@ -1,6 +1,9 @@
 package Main;
 
+import javax.sound.sampled.*;
 import javax.swing.*;
+import java.io.File;
+import java.io.IOException;
 
 public class SpielLauncher {
     public static void main (String[] args) {
@@ -8,6 +11,7 @@ public class SpielLauncher {
         window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         window.setResizable(false);
         window.setTitle("Luigi Party");
+
 
         SpielPanel spielPanel = new SpielPanel();
         window.add(spielPanel);

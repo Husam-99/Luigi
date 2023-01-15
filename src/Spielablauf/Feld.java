@@ -20,8 +20,6 @@ public abstract class Feld {
         this.weltY = weltY;
         this.weltX = weltX;
 
-
-
     }
 
     public BufferedImage getFeldImage() {

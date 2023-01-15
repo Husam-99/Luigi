@@ -16,16 +16,16 @@ public class SpielMapManager {
     public final Fliese[][] mapFliesen;
     SpielPanel sp;
     Graphics2D g2;
-    ArrayList<Spieler> alleSpieler = new ArrayList<>();
+
     public MapEingabeManager mapEingabeManager;
     public SpielMapManager(SpielPanel sp) {
         this.sp = sp;
         mapEingabeManager = new MapEingabeManager(this);
-        String[][] mapFelder = new String[26][30];
-        this.mapFliesen = new Fliese[26][30];
+        String[][] mapFelder = new String[25][30];
+        this.mapFliesen = new Fliese[25][30];
         BufferedReader reader = null;
         try {
-            reader = new BufferedReader(new FileReader("src/map.txt"));
+            reader = new BufferedReader(new FileReader("src/tileStructure.txt"));
             String line;
             int zeilenIndex = 0;
             while ((line = reader.readLine()) != null) {
@@ -35,16 +35,14 @@ public class SpielMapManager {
                 zeilenIndex++;
             }
             for(int zeile = 0; zeile < 25; zeile++){
-                System.out.println();
                 for(int spalte = 0; spalte < 30; spalte++){
                     try{
                         Fliese fliese = new Fliese();
-                        fliese.flieseImage = ImageIO.read(new File("src/source/mapk/tileset" + mapFelder[zeile][spalte] + ".png"));
+                        fliese.flieseImage = ImageIO.read(new File("src/source/mapBilder/tileset (" + mapFelder[zeile][spalte] + ").png"));
 
                         fliese.feld = feldEinrichten(zeile, spalte);
 
                         mapFliesen[zeile][spalte] = fliese;
-                        System.out.printf("%s\t", mapFelder[zeile][spalte]);
                     } catch (IOException e) {
                         throw new RuntimeException(e);
                     }
@@ -151,10 +149,9 @@ public class SpielMapManager {
     }
 
 
-    public void hinzufuegeSpieler(Spieler spieler){
-        alleSpieler.add(spieler);
-    }
+
     public void update(){
+
 
     }
     public void malen(Graphics2D g2){
@@ -167,8 +164,8 @@ public class SpielMapManager {
 
             int weltX = weltSpalte * sp.vergroesserteFliesenGroesse;
             int weltY = weltZeile * sp.vergroesserteFliesenGroesse;
-            int bildschirmX = weltX - sp.spieler.weltX + sp.spieler.bildschirmX;
-            int bildschirmY = weltY - sp.spieler.weltY + sp.spieler.bildschirmY;
+            int bildschirmX = weltX - sp.mainSpieler.weltX + sp.mainSpieler.bildschirmX;
+            int bildschirmY = weltY - sp.mainSpieler.weltY + sp.mainSpieler.bildschirmY;
 
             g2.drawImage(vorlauefigeFliese.getFlieseImage(), bildschirmX, bildschirmY, sp.vergroesserteFliesenGroesse, sp.vergroesserteFliesenGroesse, null);
             if(mapFliesen[weltZeile][weltSpalte].feld != null){
