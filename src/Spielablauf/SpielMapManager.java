@@ -140,7 +140,6 @@ public class SpielMapManager {
                 zeilenIndex++;
             }
             for(int zeile = 0; zeile < 25; zeile++){
-                System.out.println();
                 for(int spalte = 0; spalte < 30; spalte++){
                     try{
                         Fliese fliese = new Fliese();
@@ -149,7 +148,6 @@ public class SpielMapManager {
                         fliese.feld = feldEinrichten(zeile, spalte);
 
                         mapFliesen[zeile][spalte] = fliese;
-                        System.out.printf("%s\t", mapFelder[zeile][spalte]);
                     } catch (IOException e) {
                         throw new RuntimeException(e);
                     }
@@ -292,6 +290,30 @@ public class SpielMapManager {
     public void malen(Graphics2D g2){
         this.g2 = g2;
         mapMalen();
+        spielerStatusBoxMalen();
+        spielerStatusMalen();
+    }
+    public void spielerStatusMalen(){
+        g2.drawImage(sp.mainSpieler.spielfigur.profile, 10, 10, sp.vergroesserteFliesenGroesse+30, sp.vergroesserteFliesenGroesse+30, null);
+        g2.drawImage(sp.mapManager.muenze.muenze1, 127, 15, sp.vergroesserteFliesenGroesse, sp.vergroesserteFliesenGroesse, null);
+        g2.drawImage(sp.mapManager.stern.stern, 105, 50, sp.vergroesserteFliesenGroesse, sp.vergroesserteFliesenGroesse, null);
+        g2.setFont(g2.getFont().deriveFont(Font.PLAIN,50F));
+        g2.drawString("X",180,58);
+        g2.drawString("X",180,115);
+        String text = Integer.toString(sp.mainSpieler.konto.muenzen);
+        g2.setColor(Color.yellow);
+        g2.drawString(text,215, 57);
+        text = Integer.toString(sp.mainSpieler.konto.sterne);
+        g2.drawString(text,215, 115);
+    }
+    public void spielerStatusBoxMalen(){
+        Color c = new Color(0,0,0,200);
+        g2.setColor(c);
+        g2.fillRoundRect(0, 0, 285, 140, 35, 35);
+        c = new Color(255,255,255,200);
+        g2.setColor(c);
+        g2.setStroke(new BasicStroke(5));
+        g2.drawRoundRect(5,5,275, 130, 25, 25);
     }
     private void mapMalen(){
         int weltSpalte = 0;
@@ -322,13 +344,13 @@ public class SpielMapManager {
                         image = stern.stern5;
                     }
                     int xSternPosition = bildschirmX , ySternPosition = bildschirmY;
-                    if(stern.sternPostition == "unten"){
+                    if(stern.sternPostition.equals("unten")){
                         ySternPosition -= sp.vergroesserteFliesenGroesse;
-                    }else if(stern.sternPostition == "oben"){
+                    }else if(stern.sternPostition.equals("oben")){
                         ySternPosition += sp.vergroesserteFliesenGroesse;
-                    }else if(stern.sternPostition == "rechts"){
+                    }else if(stern.sternPostition.equals("rechts")){
                         xSternPosition += sp.vergroesserteFliesenGroesse;
-                    }else if(stern.sternPostition == "links"){
+                    }else if(stern.sternPostition.equals("links")){
                         xSternPosition -= sp.vergroesserteFliesenGroesse;
                     }
                     g2.drawImage(image, xSternPosition, ySternPosition, sp.vergroesserteFliesenGroesse, sp.vergroesserteFliesenGroesse, null);                }

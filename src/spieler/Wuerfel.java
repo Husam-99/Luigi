@@ -1,5 +1,7 @@
 package spieler;
 
+import Networking.Pakete.Schritte;
+
 import java.awt.*;
 import java.awt.image.BufferedImage;
 
@@ -24,6 +26,9 @@ public abstract class Wuerfel {
         }else if (spriteNum == 5) {
             s.schritteAnzahl = 6;
         }
+        Schritte schritte = new Schritte();
+        schritte.schritteAnzahl = s.schritteAnzahl;
+        s.sp.client.send(schritte);
     }
     public void getWuerfelBilder() {}
     public void update(){

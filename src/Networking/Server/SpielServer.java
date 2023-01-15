@@ -6,6 +6,7 @@ import com.esotericsoftware.kryonet.Server;
 
 import java.io.IOException;
 import java.util.LinkedHashMap;
+import java.util.Random;
 
 public class SpielServer  {
 
@@ -13,7 +14,8 @@ public class SpielServer  {
     static int udp_Port = 54555;
     static Server server;
     static LinkedHashMap<Connection, SpielerAuskuenfte> alleClients = new LinkedHashMap<>();
-
+    static Generator generator = new Generator();
+    static Random positionGenerator = new Random();
 
     public static void start(){
 
@@ -24,6 +26,7 @@ public class SpielServer  {
             server.start();
             server.addListener(new ServerListener());
             System.out.println("Server gestartet");
+            generator.sternFeldnummer = positionGenerator.nextInt(1, 36);
         } catch (IOException e) {
             e.printStackTrace();
         }

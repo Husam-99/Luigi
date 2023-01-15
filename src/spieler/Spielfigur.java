@@ -1,6 +1,5 @@
 package spieler;
 
-import Networking.Pakete.Bescheid;
 import Networking.Pakete.SpielerPosition;
 
 import java.awt.*;
@@ -98,10 +97,12 @@ public abstract class Spielfigur {
                     }
                     SpielerPosition spielerPosition = new SpielerPosition();
                     spielerPosition.weltX = s.weltX;
-                    spielerPosition.weltY = s.weltY - s.sp.vergroesserteFliesenGroesse/2;
+                    spielerPosition.weltY = s.weltY;
 
 
-                   // s.sp.client.send(spielerPosition);
+
+                    s.sp.client.send(spielerPosition);
+
                 }
             }else if (s.sp.mapManager.mapEingabeManager.bewegungUnten){
                 if (s.naechstesFeld == null) {
@@ -172,9 +173,9 @@ public abstract class Spielfigur {
                     }
                     SpielerPosition spielerPosition = new SpielerPosition();
                     spielerPosition.weltX = s.weltX;
-                    spielerPosition.weltY = s.weltY - s.sp.vergroesserteFliesenGroesse/2;
+                    spielerPosition.weltY = s.weltY;
 
-                    //s.sp.client.send(spielerPosition);
+                    s.sp.client.send(spielerPosition);
 
                 }
             }else if (s.sp.mapManager.mapEingabeManager.bewegungLinks){
@@ -198,9 +199,9 @@ public abstract class Spielfigur {
                     }
                     SpielerPosition spielerPosition = new SpielerPosition();
                     spielerPosition.weltX = s.weltX;
-                    spielerPosition.weltY = s.weltY - s.sp.vergroesserteFliesenGroesse/2;
+                    spielerPosition.weltY = s.weltY;
 
-                    //s.sp.client.send(spielerPosition);
+                    s.sp.client.send(spielerPosition);
                 }
             }else if(s.sp.mapManager.mapEingabeManager.bewegungRechts){
                 if (s.naechstesFeld == null) {
@@ -222,9 +223,9 @@ public abstract class Spielfigur {
                     }
                     SpielerPosition spielerPosition = new SpielerPosition();
                     spielerPosition.weltX = s.weltX;
-                    spielerPosition.weltY = s.weltY - s.sp.vergroesserteFliesenGroesse/2;
+                    spielerPosition.weltY = s.weltY;
 
-                    //s.sp.client.send(spielerPosition);
+                    s.sp.client.send(spielerPosition);
                 }
             }
             spriteZaehler++;
@@ -240,7 +241,7 @@ public abstract class Spielfigur {
                 }
                 spriteZaehler = 0;
             }
-       }
+        }
     }
     public void malen(Graphics2D g2){
         BufferedImage image = null;
@@ -249,10 +250,10 @@ public abstract class Spielfigur {
                 if(spriteNum == 1 ||spriteNum ==3) {
                     image = up1;
                 }
-                if(spriteNum == 2) {
+                else if(spriteNum == 2) {
                     image = up2;
                 }
-                if(spriteNum == 4) {
+                else if(spriteNum == 4) {
                     image = up3;
                 }
                 break;
@@ -260,10 +261,10 @@ public abstract class Spielfigur {
                 if(spriteNum == 1 || spriteNum == 3) {
                     image = down1;
                 }
-                if(spriteNum == 2) {
+                else if(spriteNum == 2) {
                     image = down2;
                 }
-                if(spriteNum == 4) {
+                else if(spriteNum == 4) {
                     image = down3;
                 }
                 break;
@@ -271,10 +272,10 @@ public abstract class Spielfigur {
                 if(spriteNum == 1 || spriteNum == 3) {
                     image = left1;
                 }
-                if(spriteNum == 2) {
+                else if(spriteNum == 2) {
                     image = left2;
                 }
-                if(spriteNum == 4) {
+                else if(spriteNum == 4) {
                     image = left3;
                 }
                 break;
@@ -282,10 +283,10 @@ public abstract class Spielfigur {
                 if(spriteNum == 1 || spriteNum == 3) {
                     image = right1;
                 }
-                if(spriteNum == 2) {
+                else if(spriteNum == 2) {
                     image = right2;
                 }
-                if(spriteNum == 4) {
+                else if(spriteNum == 4) {
                     image = right3;
                 }
                 break;

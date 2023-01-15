@@ -80,10 +80,6 @@ public class SpielPanel extends JPanel implements Runnable{
             throw new RuntimeException(e);
         }
     }
-
-    public void setClient(SpielClient client) {
-        this.client = client;
-    }
     public void hinzufuegeSpieler(Spieler spieler, int clientIndex){
         System.out.println("hier is the clientIndex " + clientIndex);
         alleSpieler.set(clientIndex, spieler);
@@ -146,9 +142,16 @@ public class SpielPanel extends JPanel implements Runnable{
             menueManager.update();
         }else if(zustand == spielZustand){
             mapManager.update();
-            mainSpieler.update();
+            if(mainSpieler.spielfigur!=null) {
+                if (!alleSpieler.isEmpty())
+                    for (Spieler spieler : alleSpieler) {
+                        if (spieler.spielfigur != null) {
+                            spieler.update();
+                        }
+                    }
+                mainSpieler.update();
+            }
         }
-
     }
 
     public void paintComponent(Graphics g){
@@ -159,7 +162,7 @@ public class SpielPanel extends JPanel implements Runnable{
             menueManager.malen(g2);
             g2.dispose();
         }else if(zustand == spielZustand){
-            this.setBackground(new Color(19, 250, 19));
+            this.setBackground(new Color(39, 105, 195));
             this.removeKeyListener(this.getKeyListeners()[0]);
             this.addKeyListener(mapManager.mapEingabeManager);
             mapManager.malen(g2);

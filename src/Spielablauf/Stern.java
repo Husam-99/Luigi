@@ -1,28 +1,30 @@
 package Spielablauf;
 
+import Networking.Pakete.SternKaufen;
+
 import javax.imageio.ImageIO;
-import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
-import java.util.Map;
-import java.util.Random;
 
 public class Stern {
+    //inventar
+    //schritte
+    //zoom in out
     SpielMapManager mapManager;
-    private int xPosition, yPosition, feldNum;
+    private int feldNum;
     public int spriteNum = 0;
     private int spriteZaehler = 0;
     public String sternPostition;
 
     public BufferedImage stern, stern1, stern2, stern3, stern4, stern5;
-    Random random = new Random();
+
+
 
 
 
     public Stern(SpielMapManager mapManager) {
         this.mapManager = mapManager;
         getSternBilder();
-        setSternPosition();
     }
     public void getSternBilder(){
         try {
@@ -36,8 +38,32 @@ public class Stern {
             e.printStackTrace();
         }
     }
+
+    public void setFeldNum(int feldNum) {
+        for(int spalte = 0; spalte < 26; spalte++){
+            for(int zeile = 0; zeile < 30; zeile++) {
+                if (mapManager.mapFliesen[spalte][zeile] != null) {
+                    if (mapManager.mapFliesen[spalte][zeile].feld != null) {
+                        if (mapManager.mapFliesen[spalte][zeile].feld.feldNum == this.feldNum) {
+                            mapManager.mapFliesen[spalte][zeile].feld.hatStern = false;
+                        }
+                    }
+                }
+            }
+        }
+
+        this.feldNum = feldNum;
+        setSternPosition();
+        System.out.println("setSternposition " + this.feldNum);
+    }
+
+    public void sternKaufen(){
+        SternKaufen sternKaufen = new SternKaufen();
+        sternKaufen.sternGekauft = true;
+        mapManager.sp.client.send(sternKaufen);
+
+    }
     private void setSternPosition(){
-        feldNum = random.nextInt(1,36);
         for(int spalte = 0; spalte < 26; spalte++){
             for(int zeile = 0; zeile < 30; zeile++) {
                 if (mapManager.mapFliesen[spalte][zeile] != null) {

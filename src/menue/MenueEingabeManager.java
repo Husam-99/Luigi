@@ -11,7 +11,6 @@ import java.awt.event.KeyListener;
 
 public class MenueEingabeManager implements KeyListener {
 
-    public static int anzahlClients = 0;
     MenueManager mn;
     public MenueEingabeManager(MenueManager mn){
         this.mn = mn;
@@ -20,8 +19,6 @@ public class MenueEingabeManager implements KeyListener {
     public void keyTyped(KeyEvent e) {}
     @Override
     public void keyPressed(KeyEvent e) {
-        anzahlClients = mn.sp.client.anzahlVerbundeneClients;
-        System.out.println(anzahlClients);
         int code = e.getKeyCode();
         if(mn.sp.client.isIstHost()){
             if(mn.menueZustand == mn.hauptmenueZustand1) {

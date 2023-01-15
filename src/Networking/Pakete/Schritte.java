@@ -1,7 +1,6 @@
 package Networking.Pakete;
 
-public class HostClient {
-    public boolean istHost;
+public class Schritte {
     public int clientIndex;
-
+    public int schritteAnzahl;
 }

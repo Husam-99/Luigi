@@ -6,7 +6,7 @@ import Spielablauf.Feld;
 import java.awt.*;
 
 public class Spieler {
-    SpielPanel sp;
+    public SpielPanel sp;
     Graphics2D g2;
     public Spielfigur spielfigur;
     public Wuerfel wuerfel;
@@ -20,7 +20,7 @@ public class Spieler {
     public boolean bewegung = false, wuerfelZustand = false, inventarZustand = false;
     public Spieler(SpielPanel sp) {
         this.sp = sp;
-        konto = new Konto();
+        konto = new Konto(this);
         inventar = new Inventar(this);
 
         setzeWerte();
@@ -90,8 +90,6 @@ public class Spieler {
         if(sp.mainSpieler.spielfigur!=null){
             spielfigur.malen(g2);
         }
-        spielerStatusBoxMalen();
-        spielerStatusMalen();
         if(wuerfelZustand){
             wuerfel.malen(g2);
         }else if(schritteAnzahl > 0){
@@ -123,28 +121,6 @@ public class Spieler {
         String schritte = Integer.toString(schritteAnzahl);
         int x = getXfuerCenter(schritte);
         g2.drawString(schritte, x, 200);
-    }
-    public void spielerStatusMalen(){
-        g2.drawImage(spielfigur.profile, 10, 10, sp.vergroesserteFliesenGroesse+30, sp.vergroesserteFliesenGroesse+30, null);
-        g2.drawImage(sp.mapManager.muenze.muenze1, 127, 15, sp.vergroesserteFliesenGroesse, sp.vergroesserteFliesenGroesse, null);
-        g2.drawImage(sp.mapManager.stern.stern, 105, 50, sp.vergroesserteFliesenGroesse, sp.vergroesserteFliesenGroesse, null);
-        g2.setFont(g2.getFont().deriveFont(Font.PLAIN,50F));
-        g2.drawString("X",180,58);
-        g2.drawString("X",180,115);
-        String text = Integer.toString(konto.muenzen);
-        g2.setColor(Color.yellow);
-        g2.drawString(text,215, 57);
-        text = Integer.toString(konto.sterne);
-        g2.drawString(text,215, 115);
-    }
-    public void spielerStatusBoxMalen(){
-        Color c = new Color(0,0,0,200);
-        g2.setColor(c);
-        g2.fillRoundRect(0, 0, 285, 140, 35, 35);
-        c = new Color(255,255,255,200);
-        g2.setColor(c);
-        g2.setStroke(new BasicStroke(5));
-        g2.drawRoundRect(5,5,275, 130, 25, 25);
     }
     public int getXfuerCenter(String text) {
         int length = (int)g2.getFontMetrics().getStringBounds(text, g2).getWidth();

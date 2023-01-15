@@ -14,6 +14,15 @@ public class Register {
         k.register(AnzahlMitspieler.class);
         k.register(Rundenzahl.class);
         k.register(SpielerPosition.class);
+        k.register(Sternzahl.class);
+        k.register(Muenzenzahl.class);
+        k.register(SternPosition.class);
+        k.register(SternKaufen.class);
+        k.register(Bewegung.class);
+        k.register(Schritte.class);
+
+
+
 
     }
 }
