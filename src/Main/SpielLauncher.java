@@ -13,7 +13,7 @@ public class SpielLauncher {
         window.setTitle("Luigi Party");
 
 
-        SpielPanel spielPanel = new SpielPanel();
+        SpielPanel spielPanel = new SpielPanel(window);
         window.add(spielPanel);
 
         window.pack();
@@ -24,4 +24,5 @@ public class SpielLauncher {
         spielPanel.startSpielThread();
 
     }
+
 }

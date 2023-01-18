@@ -1,5 +1,6 @@
 package Main;
 
+import Minispiele.MinispielManager;
 import Networking.Client.SpielClient;
 import Spielablauf.SpielMapManager;
 import spieler.*;
@@ -15,17 +16,18 @@ import java.util.ArrayList;
 
 public class SpielPanel extends JPanel implements Runnable{
 
+    public JFrame window;
     public int zustand;
-    public final int menueZustand = 0, spielZustand = 1;
+    public final int menueZustand = 0, spielBrettZustand = 1, minispielZustand = 2;
     public final int fliesenGroesse = 32;
-    public final int skalaMenue = 5,     skala = 3,
+    public int skalaMenue = 5,     skala = 3,
             vergroesserteFliesenGroesseMenue = fliesenGroesse * skalaMenue, vergroesserteFliesenGroesse = fliesenGroesse * skala;
-    public final double maxBildschirmSpalteMenue = 9,     maxBildschirmSpalte = 22.5,
-            maxBildschirmZeileMenue = 5, maxBildschirmZeile = 12.5;
-    public final int bildschirmHoeheMenue = (int) (vergroesserteFliesenGroesseMenue * maxBildschirmZeileMenue),
-            bildschirmHoehe = (int) (fliesenGroesse * 2 * maxBildschirmZeile),
-            bildschirmBreiteMenue = (int) (vergroesserteFliesenGroesseMenue * maxBildschirmSpalteMenue),
-            bildschirmBreite = (int)(fliesenGroesse * 2 * maxBildschirmSpalte);
+    public final int maxBildschirmSpalteMenue = 9,     maxBildschirmSpalte = 15,
+            maxBildschirmZeileMenue = 5, maxBildschirmZeile = 9;
+    public final int bildschirmHoeheMenue = vergroesserteFliesenGroesseMenue * maxBildschirmZeileMenue,
+            bildschirmHoehe = vergroesserteFliesenGroesse * maxBildschirmZeile,
+            bildschirmBreiteMenue = vergroesserteFliesenGroesseMenue * maxBildschirmSpalteMenue,
+            bildschirmBreite = vergroesserteFliesenGroesse * maxBildschirmSpalte;
 
     // Welt
     public final int maxWeltSpalte = 30;
@@ -44,9 +46,11 @@ public class SpielPanel extends JPanel implements Runnable{
     public ArrayList<Spieler> alleSpieler;
     public SpielClient client;
     public MenueManager menueManager;
+    public MinispielManager minispielManager;
 
 
-    public SpielPanel(){
+    public SpielPanel(JFrame window){
+        this.window = window;
         client = new SpielClient(this);
         client.start();
         this.zustand = 0;
@@ -109,6 +113,20 @@ public class SpielPanel extends JPanel implements Runnable{
 
         }
     }
+    public void setzeZustand(int neueZustand){
+        if(neueZustand == spielBrettZustand){
+            this.setBackground(new Color(39, 105, 195));
+            this.removeKeyListener(this.getKeyListeners()[0]);
+            this.addKeyListener(mapManager.mapEingabeManager);
+            this.zustand = spielBrettZustand;
+        } else if(neueZustand == minispielZustand){
+            this.minispielManager = new MinispielManager(this, 0);
+            this.removeKeyListener(this.getKeyListeners()[0]);
+            this.addKeyListener(minispielManager.sammlerEingabeManager);
+
+            this.zustand = minispielZustand;
+        }
+    }
 
     public void startSpielThread(){
         spielThread = new Thread(this);
@@ -140,7 +158,7 @@ public class SpielPanel extends JPanel implements Runnable{
         if(zustand == menueZustand){
             menueManager.menueHintergrund.update();
             menueManager.update();
-        }else if(zustand == spielZustand){
+        } else if(zustand == spielBrettZustand){
             mapManager.update();
             if(mainSpieler.spielfigur!=null) {
                 if (!alleSpieler.isEmpty())
@@ -151,6 +169,9 @@ public class SpielPanel extends JPanel implements Runnable{
                     }
                 mainSpieler.update();
             }
+        } else if(zustand == minispielZustand) {
+            minispielManager.update();
+
         }
     }
 
@@ -161,10 +182,8 @@ public class SpielPanel extends JPanel implements Runnable{
             menueManager.menueHintergrund.malen(g2);
             menueManager.malen(g2);
             g2.dispose();
-        }else if(zustand == spielZustand){
-            this.setBackground(new Color(39, 105, 195));
-            this.removeKeyListener(this.getKeyListeners()[0]);
-            this.addKeyListener(mapManager.mapEingabeManager);
+        }else if(zustand == spielBrettZustand){
+
             mapManager.malen(g2);
             if(mainSpieler.spielfigur!=null){
                 if(!alleSpieler.isEmpty())
@@ -177,6 +196,9 @@ public class SpielPanel extends JPanel implements Runnable{
 
 
             }
+        } else if(zustand == minispielZustand){
+            minispielManager.malen(g2);
+
         }
         g2.dispose();
     }

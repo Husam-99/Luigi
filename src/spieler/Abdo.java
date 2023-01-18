@@ -7,6 +7,11 @@ import java.io.IOException;
 
 public class Abdo extends Spielfigur {
 
+    public Abdo(){
+        super();
+        getSpielFigurBilder();
+
+    }
     public Abdo(Spieler s){
         super(s);
         getSpielFigurBilder();

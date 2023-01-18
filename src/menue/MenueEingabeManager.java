@@ -5,7 +5,6 @@ import Networking.Pakete.Bescheid;
 import Networking.Pakete.Rundenzahl;
 import Networking.Pakete.SpielfigurAuswahl;
 
-import javax.sound.sampled.FloatControl;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
@@ -62,7 +61,9 @@ public class MenueEingabeManager implements KeyListener {
                 bescheid.fertig = true;
                 mn.sp.client.send(bescheid);
                 mn.sp.mainSpieler.spielfigurAuswaehlen();
-                mn.sp.zustand = mn.sp.spielZustand;
+                mn.sp.setzeZustand(mn.sp.spielBrettZustand);
+
+                // mn.sp.zustand = mn.sp.spielBrettZustand;
             }
             else if (mn.spielfigurAuswaehlen.befehlNum1 == 1) {
                 mn.spielfigurAuswaehlen.enterZustand = 1;
@@ -73,7 +74,9 @@ public class MenueEingabeManager implements KeyListener {
                 bescheid.fertig = true;
                 mn.sp.client.send(bescheid);
                 mn.sp.mainSpieler.spielfigurAuswaehlen();
-                mn.sp.zustand = mn.sp.spielZustand;
+                mn.sp.setzeZustand(mn.sp.spielBrettZustand);
+
+//                mn.sp.zustand = mn.sp.spielBrettZustand;
             }
             else if (mn.spielfigurAuswaehlen.befehlNum1 == 2) {
                 mn.spielfigurAuswaehlen.enterZustand = 1;
@@ -84,7 +87,9 @@ public class MenueEingabeManager implements KeyListener {
                 bescheid.fertig = true;
                 mn.sp.client.send(bescheid);
                 mn.sp.mainSpieler.spielfigurAuswaehlen();
-                mn.sp.zustand = mn.sp.spielZustand;
+                mn.sp.setzeZustand(mn.sp.spielBrettZustand);
+
+                // mn.sp.zustand = mn.sp.spielBrettZustand;
             }
             else if (mn.spielfigurAuswaehlen.befehlNum1 == 3) {
                 mn.spielfigurAuswaehlen.enterZustand = 1;
@@ -95,7 +100,9 @@ public class MenueEingabeManager implements KeyListener {
                 bescheid.fertig = true;
                 mn.sp.client.send(bescheid);
                 mn.sp.mainSpieler.spielfigurAuswaehlen();
-                mn.sp.zustand = mn.sp.spielZustand;
+                mn.sp.setzeZustand(mn.sp.spielBrettZustand);
+
+                // mn.sp.zustand = mn.sp.spielBrettZustand;
             }
             mn.sp.soundClip.close();
         }
@@ -221,7 +228,9 @@ public class MenueEingabeManager implements KeyListener {
                 bescheid.fertig = true;
                 mn.sp.client.send(bescheid);
                 mn.sp.mainSpieler.spielfigurAuswaehlen();
-                mn.sp.zustand = mn.sp.spielZustand;
+                //mn.sp.zustand = mn.sp.spielBrettZustand;
+                mn.sp.setzeZustand(mn.sp.spielBrettZustand);
+
             }
             else if (mn.spielfigurAuswaehlen.befehlNum1 == 1) {
                 mn.spielfigurAuswaehlen.enterZustand = 1;
@@ -232,7 +241,7 @@ public class MenueEingabeManager implements KeyListener {
                 bescheid.fertig = true;
                 mn.sp.client.send(bescheid);
                 mn.sp.mainSpieler.spielfigurAuswaehlen();
-                mn.sp.zustand = mn.sp.spielZustand;
+                mn.sp.setzeZustand(mn.sp.spielBrettZustand);
             }
             else if (mn.spielfigurAuswaehlen.befehlNum1 == 2) {
                 mn.spielfigurAuswaehlen.enterZustand = 1;
@@ -243,7 +252,9 @@ public class MenueEingabeManager implements KeyListener {
                 bescheid.fertig = true;
                 mn.sp.client.send(bescheid);
                 mn.sp.mainSpieler.spielfigurAuswaehlen();
-                mn.sp.zustand = mn.sp.spielZustand;
+                mn.sp.setzeZustand(mn.sp.spielBrettZustand);
+
+//                mn.sp.zustand = mn.sp.spielBrettZustand;
             }
             else if (mn.spielfigurAuswaehlen.befehlNum1 == 3) {
                 mn.spielfigurAuswaehlen.enterZustand = 1;
@@ -254,7 +265,9 @@ public class MenueEingabeManager implements KeyListener {
                 bescheid.fertig = true;
                 mn.sp.client.send(bescheid);
                 mn.sp.mainSpieler.spielfigurAuswaehlen();
-                mn.sp.zustand = mn.sp.spielZustand;
+//                mn.sp.zustand = mn.sp.spielBrettZustand;
+                mn.sp.setzeZustand(mn.sp.spielBrettZustand);
+
             }
             mn.sp.soundClip.close();
         }

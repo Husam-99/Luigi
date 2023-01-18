@@ -5,7 +5,11 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 
 public class Husam extends Spielfigur {
+    public Husam(){
+        super();
+        getSpielFigurBilder();
 
+    }
     public Husam(Spieler s){
         super(s);
         getSpielFigurBilder();

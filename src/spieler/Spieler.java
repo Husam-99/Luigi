@@ -10,14 +10,19 @@ public class Spieler {
     Graphics2D g2;
     public Spielfigur spielfigur;
     public Wuerfel wuerfel;
+
     public int bildschirmX, bildschirmY;
     public int weltX, weltY;
     public int geschwindigkeit, schritteAnzahl;
     public Feld naechstesFeld, aktuellesFeld, tempFeld, aktuellFeld; //tempFeld ist zu prüfen, ob das nächste Feld nicht gleich wie das vorherige Feld ist
-    public String richtung;
     public Konto konto;
     public Inventar inventar;
     public boolean bewegung = false, wuerfelZustand = false, inventarZustand = false;
+
+    public Spieler(){
+
+
+    }
     public Spieler(SpielPanel sp) {
         this.sp = sp;
         konto = new Konto(this);
@@ -32,7 +37,7 @@ public class Spieler {
         this.weltY = (int) (sp.vergroesserteFliesenGroesse * 21.5);
 
         geschwindigkeit = 3;
-        richtung = "nord";
+
         naechstesFeld = sp.mapManager.mapFliesen[19][11].feld;
         aktuellesFeld = null;
     }
@@ -53,7 +58,6 @@ public class Spieler {
             wuerfel = new TahaWuerfel(this);
             this.weltX = (int) (sp.vergroesserteFliesenGroesse * 11.5);
         } else if(sp.menueManager.spielfigurAuswaehlen.befehlNum1 == 3){
-            spielfigur = new Yousef(this);
             spielfigur = new Yousef(this);
             wuerfel = new YousefWuerfel(this);
             this.weltX = (int) (sp.vergroesserteFliesenGroesse * 12.5);
