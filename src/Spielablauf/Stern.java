@@ -7,9 +7,6 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 
 public class Stern {
-    //inventar
-    //schritte
-    //zoom in out
     SpielMapManager mapManager;
     private int feldNum;
     public int spriteNum = 0;

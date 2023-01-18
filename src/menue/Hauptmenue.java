@@ -6,11 +6,7 @@ public class Hauptmenue{
 
     MenueManager mn;
     Graphics2D g2;
-
-    public int befehlNum1;
-    public int befehlNum2 = -1;
-    public int befehlNum3 = 0;
-    public int enterZustand = 0;
+    public int befehlNum1 ,befehlNum2 = -1, befehlNum3 = 0, enterZustand = 0;
 
     public Hauptmenue(MenueManager mn){
         this.mn = mn;

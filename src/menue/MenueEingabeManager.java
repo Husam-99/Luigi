@@ -340,5 +340,7 @@ public class MenueEingabeManager implements KeyListener {
     }
 
     @Override
-    public void keyReleased(KeyEvent e) {}
+    public void keyReleased(KeyEvent e) {
+
+    }
 }

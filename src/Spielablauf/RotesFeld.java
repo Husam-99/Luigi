@@ -1,5 +1,7 @@
 package Spielablauf;
 
+import spieler.Spieler;
+
 import javax.imageio.ImageIO;
 import java.io.File;
 import java.io.IOException;
@@ -22,5 +24,13 @@ public class RotesFeld extends Feld{
     public void effeckteAnwenden(){
         verlierneMuenzen = random.nextInt(1,3);
         mapManager.sp.mainSpieler.konto.muenzenVerlieren(verlierneMuenzen);
+        if(!mapManager.sp.alleSpieler.isEmpty())
+            for(Spieler spieler : mapManager.sp.alleSpieler) {
+                if (spieler.spielfigur != null) {
+                    spieler.amSpiel = false;
+
+                }
+            }
+        mapManager.sp.mainSpieler.amSpiel = false;
     }
 }

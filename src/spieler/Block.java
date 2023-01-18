@@ -8,6 +8,8 @@ public class Block extends Gegenstand{
 
     public Block(Spieler s) {
         super(s);
+        preis = 7;
+        nummer = 1;
         getGegenstandBilder();
     }
 

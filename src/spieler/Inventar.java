@@ -4,124 +4,158 @@ import java.awt.*;
 
 public class Inventar {
 
-    Spieler s;
-    int blockNum = 1, bubeNum = 2, megaWuerfelNum = 3, miniWuerfelNum = 4, reposNum = 5, sternTaxiNum = 6;
+    Spieler spieler;
+    Graphics2D g2;
+    private int slot1Messungen,  slot2Messungen, slot3Messungen,  slot4Messungen;
     public Gegenstand[] inventar;
-    public int befehlNum = 0;
-    Gegenstand sterntaxi;
-    Gegenstand bube;
-    Gegenstand block;
-    Gegenstand repos;
-
-
-    public Inventar(Spieler s){
-        this.s = s;
+    public int befehlNum = 0, gegenstaendeAnzahl;
+    public Inventar(Spieler spieler){
+        this.spieler = spieler;
         inventar = new Gegenstand[4];
-        sterntaxi = new SternTaxi(s);
-        bube = new Bube(s);
-        block = new Block(s);
-        repos = new Repos(s);
-    }
-    public void ersteSlot(int gegenstandNum){
-        if(gegenstandNum == blockNum){
-            inventar[0] = new Block(s);
-        }else if(gegenstandNum == bubeNum){
-            inventar[0] = new Bube(s);
-        }else if(gegenstandNum == megaWuerfelNum){
-            inventar[0] = new MegaWuerfel(s);
-        }else if(gegenstandNum == miniWuerfelNum){
-            inventar[0] = new MiniWuerfel(s);
-        }else if(gegenstandNum == reposNum){
-            inventar[0] = new Repos(s);
-        }else if(gegenstandNum == sternTaxiNum){
-            inventar[0] = new SternTaxi(s);
-        }
-    }
-    public void zweiteSlot(int gegenstandNum){
-        if(gegenstandNum == blockNum){
-            inventar[1] = new Block(s);
-        }else if(gegenstandNum == bubeNum){
-            inventar[1] = new Bube(s);
-        }else if(gegenstandNum == megaWuerfelNum){
-            inventar[1] = new MegaWuerfel(s);
-        }else if(gegenstandNum == miniWuerfelNum){
-            inventar[1] = new MiniWuerfel(s);
-        }else if(gegenstandNum == reposNum){
-            inventar[1] = new Repos(s);
-        }else if(gegenstandNum == sternTaxiNum){
-            inventar[1] = new SternTaxi(s);
-        }
-    }
-    public void dritteSlot(int gegenstandNum){
-        if(gegenstandNum == blockNum){
-            inventar[2] = new Block(s);
-        }else if(gegenstandNum == bubeNum){
-            inventar[2] = new Bube(s);
-        }else if(gegenstandNum == megaWuerfelNum){
-            inventar[2] = new MegaWuerfel(s);
-        }else if(gegenstandNum == miniWuerfelNum){
-            inventar[2] = new MiniWuerfel(s);
-        }else if(gegenstandNum == reposNum){
-            inventar[2] = new Repos(s);
-        }else if(gegenstandNum == sternTaxiNum){
-            inventar[2] = new SternTaxi(s);
-        }
-    }
-    public void vierteSlot(int gegenstandNum){
-        if(gegenstandNum == blockNum){
-            inventar[3] = new Block(s);
-        }else if(gegenstandNum == bubeNum){
-            inventar[3] = new Bube(s);
-        }else if(gegenstandNum == megaWuerfelNum){
-            inventar[3] = new MegaWuerfel(s);
-        }else if(gegenstandNum == miniWuerfelNum){
-            inventar[3] = new MiniWuerfel(s);
-        }else if(gegenstandNum == reposNum){
-            inventar[3] = new Repos(s);
-        }else if(gegenstandNum == sternTaxiNum){
-            inventar[3] = new SternTaxi(s);
-        }
-    }
-    public void verwenden(int slotNum){
-        inventar[slotNum].effeckteAnwenden();
-        inventar[slotNum] = null;
     }
 
+    public void gegenstandBekommen(int gegenstandNum){
+        if(gegenstandNum == 1){
+            if (inventar[0] == null) {
+                inventar[0] = new Block(spieler);
+            }else if(inventar[1] == null){
+                inventar[1] = new Block(spieler);
+            }else if(inventar[2] == null){
+                inventar[2] = new Block(spieler);
+            }else if(inventar[3] == null){
+                inventar[3] = new Block(spieler);
+            }
+        }else if(gegenstandNum == 2){
+            if (inventar[0] == null) {
+                inventar[0] = new Bube(spieler);
+            }else if(inventar[1] == null){
+                inventar[1] = new Bube(spieler);
+            }else if(inventar[2] == null){
+                inventar[2] = new Bube(spieler);
+            }else if(inventar[3] == null){
+                inventar[3] = new Bube(spieler);
+            }
+        }else if(gegenstandNum == 3){
+            if (inventar[0] == null) {
+                inventar[0] = new MegaWuerfel(spieler);
+            }else if(inventar[1] == null){
+                inventar[1] = new MegaWuerfel(spieler);
+            }else if(inventar[2] == null){
+                inventar[2] = new MegaWuerfel(spieler);
+            }else if(inventar[3] == null){
+                inventar[3] = new MegaWuerfel(spieler);
+            }
+        }else if(gegenstandNum == 4){
+            if (inventar[0] == null) {
+                inventar[0] = new MiniWuerfel(spieler);
+            }else if(inventar[1] == null){
+                inventar[1] = new MiniWuerfel(spieler);
+            }else if(inventar[2] == null){
+                inventar[2] = new MiniWuerfel(spieler);
+            }else if(inventar[3] == null){
+                inventar[3] = new MiniWuerfel(spieler);
+            }
+        }else if(gegenstandNum == 5){
+            if (inventar[0] == null) {
+                inventar[0] = new Repos(spieler);
+            }else if(inventar[1] == null){
+                inventar[1] = new Repos(spieler);
+            }else if(inventar[2] == null){
+                inventar[2] = new Repos(spieler);
+            }else if(inventar[3] == null){
+                inventar[3] = new Repos(spieler);
+            }
+        }else if(gegenstandNum == 6){
+            if (inventar[0] == null) {
+                inventar[0] = new SternTaxi(spieler);
+            }else if(inventar[1] == null){
+                inventar[1] = new SternTaxi(spieler);
+            }else if(inventar[2] == null){
+                inventar[2] = new SternTaxi(spieler);
+            }else if(inventar[3] == null){
+                inventar[3] = new SternTaxi(spieler);
+            }
+        }
+    }
+    public void gegenstandVerwenden(int befehlNum){
+        if(befehlNum == 0) {
+            inventar[0].effeckteAnwenden();
+            inventar[0] = null;
+        }else if(befehlNum == 1){
+            inventar[1].effeckteAnwenden();
+            inventar[1] = null;
+        }else if(befehlNum == 2){
+            inventar[2].effeckteAnwenden();
+            inventar[2] = null;
+        }else if(befehlNum == 3){
+            inventar[3].effeckteAnwenden();
+            inventar[3] = null;
+        }
+    }
+    public void anzahlGegenstaendeInInventar(){
+        gegenstaendeAnzahl = 0;
+        for(int slot = 0; slot < 4; slot++){
+            if (inventar[slot] != null) {
+                gegenstaendeAnzahl++;
+            }
+        }
+    }
     public void malen(Graphics2D g2){
-        Color c = new Color(0, 0, 0, 200);
+        this.g2 = g2;
+        inventarBoxMalen();
+        gegenstaendeMalen();
+    }
+    private void inventarBoxMalen(){
+        Color c = new Color(0,0,0,100);
+        g2.setColor(c);
+        g2.fillRect(0, 0, 1440, 864);
+        c = new Color(0, 0, 0, 200);
         g2.setColor(c);
         g2.fillRoundRect(1000, 20, 420, 400, 35, 35);
         c = new Color(255, 255, 255, 200);
         g2.setColor(c);
         g2.setStroke(new BasicStroke(5));
         g2.drawRoundRect(1005, 25, 410, 390, 25, 25);
-
-        if(befehlNum == 0){
-            g2.drawImage(sterntaxi.icon, 1000, 20, s.sp.vergroesserteFliesenGroesse*2+40,s.sp.vergroesserteFliesenGroesse*2+40,null);
-            g2.drawImage(block.icon, 1200, 20, s.sp.vergroesserteFliesenGroesse*2,s.sp.vergroesserteFliesenGroesse*2,null);
-            g2.drawImage(bube.icon, 1000, 170, s.sp.vergroesserteFliesenGroesse*2,s.sp.vergroesserteFliesenGroesse*2,null);
-            g2.drawImage(repos.icon, 1200, 170, s.sp.vergroesserteFliesenGroesse*2,s.sp.vergroesserteFliesenGroesse*2,null);
-        }else if(befehlNum == 1){
-            g2.drawImage(bube.icon, 1000, 170, s.sp.vergroesserteFliesenGroesse*2+40,s.sp.vergroesserteFliesenGroesse*2+40,null);
-            g2.drawImage(sterntaxi.icon, 1000, 20, s.sp.vergroesserteFliesenGroesse*2,s.sp.vergroesserteFliesenGroesse*2,null);
-            g2.drawImage(repos.icon, 1200, 170, s.sp.vergroesserteFliesenGroesse*2,s.sp.vergroesserteFliesenGroesse*2,null);
-            g2.drawImage(block.icon, 1200, 20, s.sp.vergroesserteFliesenGroesse*2,s.sp.vergroesserteFliesenGroesse*2,null);
-        }else if(befehlNum == 2){
-            g2.drawImage(block.icon, 1200, 20, s.sp.vergroesserteFliesenGroesse*2+40,s.sp.vergroesserteFliesenGroesse*2+40,null);
-            g2.drawImage(repos.icon, 1200, 170, s.sp.vergroesserteFliesenGroesse*2,s.sp.vergroesserteFliesenGroesse*2,null);
-            g2.drawImage(bube.icon, 1000, 170, s.sp.vergroesserteFliesenGroesse*2,s.sp.vergroesserteFliesenGroesse*2,null);
-            g2.drawImage(sterntaxi.icon, 1000, 20, s.sp.vergroesserteFliesenGroesse*2,s.sp.vergroesserteFliesenGroesse*2,null);
-
-        } else if (befehlNum == 3) {
-            g2.drawImage(repos.icon, 1200, 170, s.sp.vergroesserteFliesenGroesse*2+40,s.sp.vergroesserteFliesenGroesse*2+40,null);
-            g2.drawImage(sterntaxi.icon, 1000, 20, s.sp.vergroesserteFliesenGroesse*2,s.sp.vergroesserteFliesenGroesse*2,null);
-            g2.drawImage(block.icon, 1200, 20, s.sp.vergroesserteFliesenGroesse*2,s.sp.vergroesserteFliesenGroesse*2,null);
-            g2.drawImage(bube.icon, 1000, 170, s.sp.vergroesserteFliesenGroesse*2,s.sp.vergroesserteFliesenGroesse*2,null);
-
-        }
         g2.setColor(Color.yellow);
         g2.setFont(g2.getFont().deriveFont(Font.BOLD,90F));
         g2.drawString("Inventar",1035,400);
     }
-
+    private void groesseAnpssen(){
+        if (befehlNum == 0){
+            slot1Messungen = spieler.sp.vergroesserteFliesenGroesse * 2 +40;
+            slot2Messungen =  spieler.sp.vergroesserteFliesenGroesse * 2;
+            slot3Messungen =  spieler.sp.vergroesserteFliesenGroesse * 2;
+            slot4Messungen =  spieler.sp.vergroesserteFliesenGroesse * 2;
+        }else if(befehlNum == 1){
+            slot1Messungen = spieler.sp.vergroesserteFliesenGroesse * 2;
+            slot2Messungen =  spieler.sp.vergroesserteFliesenGroesse * 2;
+            slot3Messungen = spieler.sp.vergroesserteFliesenGroesse * 2 +40;
+            slot4Messungen =  spieler.sp.vergroesserteFliesenGroesse * 2;
+        }else if(befehlNum == 2){
+            slot1Messungen = spieler.sp.vergroesserteFliesenGroesse * 2;
+            slot2Messungen = spieler.sp.vergroesserteFliesenGroesse * 2 +40;
+            slot3Messungen =  spieler.sp.vergroesserteFliesenGroesse * 2;
+            slot4Messungen =  spieler.sp.vergroesserteFliesenGroesse * 2;
+        }else if(befehlNum == 3){
+            slot1Messungen = spieler.sp.vergroesserteFliesenGroesse * 2;
+            slot2Messungen =  spieler.sp.vergroesserteFliesenGroesse * 2;
+            slot3Messungen =  spieler.sp.vergroesserteFliesenGroesse * 2;
+            slot4Messungen = spieler.sp.vergroesserteFliesenGroesse * 2 +40;
+        }
+    }
+    private void gegenstaendeMalen() {
+        groesseAnpssen();
+        if (inventar[0] != null) {
+            g2.drawImage(inventar[0].icon, 1000, 20, slot1Messungen, slot1Messungen, null);
+        }
+        if (inventar[1] != null) {
+            g2.drawImage(inventar[1].icon, 1200, 20, slot2Messungen, slot2Messungen, null);
+        }
+        if (inventar[2] != null) {
+            g2.drawImage(inventar[2].icon, 1000, 170, slot3Messungen, slot3Messungen, null);
+        }
+        if (inventar[3] != null) {
+            g2.drawImage(inventar[3].icon, 1200, 170, slot4Messungen, slot4Messungen, null);
+        }
+    }
 }

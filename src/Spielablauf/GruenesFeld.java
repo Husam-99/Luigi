@@ -1,5 +1,7 @@
 package Spielablauf;
 
+import spieler.Spieler;
+
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.io.File;
@@ -23,5 +25,13 @@ public class GruenesFeld extends Feld{
     public void effeckteAnwenden(){
         erhalteneMuenzen = random.nextInt(1,3);
         mapManager.sp.mainSpieler.konto.muenzenErhalten(erhalteneMuenzen);
+        if(!mapManager.sp.alleSpieler.isEmpty())
+            for(Spieler spieler : mapManager.sp.alleSpieler) {
+                if (spieler.spielfigur != null) {
+                    spieler.amSpiel = false;
+
+                }
+            }
+        mapManager.sp.mainSpieler.amSpiel = false;
     }
 }

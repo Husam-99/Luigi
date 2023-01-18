@@ -47,6 +47,7 @@ public class SpielPanel extends JPanel implements Runnable{
     public SpielClient client;
     public MenueManager menueManager;
     public MinispielManager minispielManager;
+    public int spielerNum = 0;
 
 
     public SpielPanel(JFrame window){
@@ -198,12 +199,12 @@ public class SpielPanel extends JPanel implements Runnable{
                 if(!alleSpieler.isEmpty())
                     for(Spieler spieler : alleSpieler) {
                         if (spieler.spielfigur != null) {
+                            spielerNum++;
                             spieler.malen(g2);
                         }
                     }
+                spielerNum = 0;
                 mainSpieler.malen(g2);
-
-
             }
         } else if(zustand == minispielZustand){
             minispielManager.malen(g2);

@@ -8,8 +8,8 @@ import java.awt.image.BufferedImage;
 public abstract class Spielfigur {
     Spieler s;
     public BufferedImage up1, up2, up3, down1, down2, down3, right1, right2, right3, left1, left2, left3, profile;
-    public int spriteNum = 1;
-    public int spriteZaehler = 0;
+    public int spriteNum = 1, spriteZaehler = 0;
+    Graphics2D g2;
     public String richtung = "unten";
     public Spielfigur(Spieler s){
         this.s = s;
@@ -19,9 +19,13 @@ public abstract class Spielfigur {
     }
     public void getSpielFigurBilder() {}
     public void update(){
-        if(s.sp.mapManager.mapEingabeManager.bewegungOben || s.sp.mapManager.mapEingabeManager.bewegungUnten ||
+        /*if(!s.amSpiel) {
+            Bescheid bescheid = new Bescheid();
+            bescheid.fertig = true;
+            s.sp.client.send(bescheid);
+            s.amSpiel = true;
+        }else*/ if(s.sp.mapManager.mapEingabeManager.bewegungOben || s.sp.mapManager.mapEingabeManager.bewegungUnten ||
                 s.sp.mapManager.mapEingabeManager.bewegungLinks || s.sp.mapManager.mapEingabeManager.bewegungRechts){
-
 
             if(s.sp.mapManager.mapEingabeManager.bewegungOben){
                 if(s.aktuellesFeld == null){
@@ -49,6 +53,9 @@ public abstract class Spielfigur {
                             s.bewegung = false;
                             richtung = "stehen";
                             s.sp.mapManager.mapEingabeManager.bewegungOben = false;
+                            if (s.schritteAnzahl == 0) {
+                                s.aktuellFeld.effeckteAnwenden();
+                            }
                         }
                     }else if (s.naechstesFeld.equals(s.sp.mapManager.mapFliesen[6][26].feld)) {
                         if (s.sp.mainSpieler.weltX < s.naechstesFeld.weltX) {
@@ -61,6 +68,9 @@ public abstract class Spielfigur {
                             s.bewegung = false;
                             richtung = "stehen";
                             s.sp.mapManager.mapEingabeManager.bewegungOben = false;
+                            if (s.schritteAnzahl == 0) {
+                                s.aktuellFeld.effeckteAnwenden();
+                            }
                         }
                     }else if (s.naechstesFeld.equals(s.sp.mapManager.mapFliesen[6][9].feld) || s.naechstesFeld.equals(s.sp.mapManager.mapFliesen[3][17].feld)) {
                         if (s.sp.mainSpieler.weltY > (s.naechstesFeld.weltY - s.sp.vergroesserteFliesenGroesse / 2)) {
@@ -73,6 +83,9 @@ public abstract class Spielfigur {
                             s.bewegung = false;
                             richtung = "stehen";
                             s.sp.mapManager.mapEingabeManager.bewegungOben = false;
+                            if (s.schritteAnzahl == 0) {
+                                s.aktuellFeld.effeckteAnwenden();
+                            }
                         }
                     }else if (s.naechstesFeld.equals(s.sp.mapManager.mapFliesen[3][23].feld)) {
                         if (s.sp.mainSpieler.weltY > (s.naechstesFeld.weltY - s.sp.vergroesserteFliesenGroesse / 2)) {
@@ -85,6 +98,9 @@ public abstract class Spielfigur {
                             s.bewegung = false;
                             richtung = "stehen";
                             s.sp.mapManager.mapEingabeManager.bewegungOben = false;
+                            if (s.schritteAnzahl == 0) {
+                                s.aktuellFeld.effeckteAnwenden();
+                            }
                         }
                     }else if (s.sp.mainSpieler.weltY > (s.naechstesFeld.weltY - s.sp.vergroesserteFliesenGroesse / 2)) {
                         richtung = "oben";
@@ -97,6 +113,9 @@ public abstract class Spielfigur {
                         s.bewegung = false;
                         richtung = "stehen";
                         s.sp.mapManager.mapEingabeManager.bewegungOben = false;
+                        if (s.schritteAnzahl == 0) {
+                            s.aktuellFeld.effeckteAnwenden();
+                        }
                     }
                     //SpielerPosition spielerPosition = new SpielerPosition();
                     //spielerPosition.weltX = s.weltX;
@@ -124,6 +143,9 @@ public abstract class Spielfigur {
                             s.bewegung = false;
                             richtung = "stehen";
                             s.sp.mapManager.mapEingabeManager.bewegungUnten = false;
+                            if (s.schritteAnzahl == 0) {
+                                s.aktuellFeld.effeckteAnwenden();
+                            }
                         }
                     }else if (s.naechstesFeld.equals(s.sp.mapManager.mapFliesen[4][24].feld)) {
                         if (s.sp.mainSpieler.weltX < (s.naechstesFeld.weltX)) {
@@ -136,6 +158,9 @@ public abstract class Spielfigur {
                             s.bewegung = false;
                             richtung = "stehen";
                             s.sp.mapManager.mapEingabeManager.bewegungUnten = false;
+                            if (s.schritteAnzahl == 0) {
+                                s.aktuellFeld.effeckteAnwenden();
+                            }
                         }
                     }else if (s.naechstesFeld.equals(s.sp.mapManager.mapFliesen[4][16].feld) || s.naechstesFeld.equals(s.sp.mapManager.mapFliesen[7][8].feld)) {
                         if (s.sp.mainSpieler.weltX > (s.naechstesFeld.weltX)) {
@@ -148,6 +173,9 @@ public abstract class Spielfigur {
                             s.bewegung = false;
                             richtung = "stehen";
                             s.sp.mapManager.mapEingabeManager.bewegungUnten = false;
+                            if (s.schritteAnzahl == 0) {
+                                s.aktuellFeld.effeckteAnwenden();
+                            }
                         }
                     }else if (s.naechstesFeld.equals(s.sp.mapManager.mapFliesen[7][25].feld)) {
                         if (s.sp.mainSpieler.weltY < (s.naechstesFeld.weltY - s.sp.vergroesserteFliesenGroesse / 2)) {
@@ -160,6 +188,9 @@ public abstract class Spielfigur {
                             s.bewegung = false;
                             richtung = "stehen";
                             s.sp.mapManager.mapEingabeManager.bewegungUnten = false;
+                            if (s.schritteAnzahl == 0) {
+                                s.aktuellFeld.effeckteAnwenden();
+                            }
                         }
                     }else if (s.sp.mainSpieler.weltY < (s.naechstesFeld.weltY - s.sp.vergroesserteFliesenGroesse / 2)) {
                         s.sp.mainSpieler.weltY += s.geschwindigkeit;
@@ -167,12 +198,14 @@ public abstract class Spielfigur {
                         if(!s.sp.alleSpieler.isEmpty())
                             for(Spieler andererSpieler : s.sp.alleSpieler){
                                andererSpieler.bildschirmY -= s.geschwindigkeit;
-
                             }
                     }else if (s.sp.mainSpieler.weltY == (s.naechstesFeld.weltY - s.sp.vergroesserteFliesenGroesse / 2)) {
                         s.bewegung = false;
                         richtung = "stehen";
                         s.sp.mapManager.mapEingabeManager.bewegungUnten = false;
+                        if (s.schritteAnzahl == 0) {
+                            s.aktuellFeld.effeckteAnwenden();
+                        }
                     }
                     //SpielerPosition spielerPosition = new SpielerPosition();
                     //spielerPosition.weltX = s.weltX;
@@ -199,6 +232,9 @@ public abstract class Spielfigur {
                         s.bewegung = false;
                         richtung = "stehen";
                         s.sp.mapManager.mapEingabeManager.bewegungLinks = false;
+                        if (s.schritteAnzahl == 0) {
+                            s.aktuellFeld.effeckteAnwenden();
+                        }
                     }
                     //SpielerPosition spielerPosition = new SpielerPosition();
                     //spielerPosition.weltX = s.weltX;
@@ -223,6 +259,9 @@ public abstract class Spielfigur {
                         s.bewegung = false;
                         richtung = "stehen";
                         s.sp.mapManager.mapEingabeManager.bewegungRechts = false;
+                        if (s.schritteAnzahl == 0) {
+                            s.aktuellFeld.effeckteAnwenden();
+                        }
                     }
                     //SpielerPosition spielerPosition = new SpielerPosition();
                     //spielerPosition.weltX = s.weltX;
@@ -247,6 +286,10 @@ public abstract class Spielfigur {
         }
     }
     public void malen(Graphics2D g2){
+       this.g2 = g2;
+       spielfigureMalen();
+    }
+    private void spielfigureMalen(){
         BufferedImage image = null;
         switch(richtung) {
             case "oben":
@@ -298,7 +341,5 @@ public abstract class Spielfigur {
                 break;
         }
         g2.drawImage(image, this.s.bildschirmX, this.s.bildschirmY, s.sp.vergroesserteFliesenGroesse, s.sp.vergroesserteFliesenGroesse, null);
-
-
     }
 }
