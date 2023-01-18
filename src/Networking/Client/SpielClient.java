@@ -21,6 +21,7 @@ public class SpielClient {
     private SpielPanel sp;
     public int anzahlSpieler;
     public int clientIndex;
+    public boolean wartung = false;
     public SpielClient(SpielPanel sp){
         this.sp = sp;
         client = new Client();
@@ -40,9 +41,16 @@ public class SpielClient {
                         if(zug.dispose){
                             sp.window.dispose();
                             System.exit(0);
+                        } else if(zug.wartung){
+                            wartung = true;
+                            istDran = zug.istDran;
+                        }else{
+                            wartung = false;
+                            istDran = zug.istDran;
+
                         }
-                        istDran = zug.istDran;
                         System.out.println("Clinet: dran " + istDran);
+                        System.out.println("Client: wartung " + wartung);
                     } else if (object instanceof HostClient hostAuskuefte) {
                         istHost = hostAuskuefte.istHost;
                         clientIndex = hostAuskuefte.clientIndex;

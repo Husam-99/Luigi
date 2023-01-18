@@ -9,7 +9,7 @@ public class MenueManager {
     SpielPanel sp;
     public int spielerAnzahl;
     public int rundenAnzahl;
-    public menueHintergrund menueHintergrund = new menueHintergrund(this);
+    public MenueHintergrund menueHintergrund = new MenueHintergrund(this);
     public MenueEingabeManager menueEingabeManager = new MenueEingabeManager(this);
     Hauptmenue hauptmenue;
     public int menueZustand;

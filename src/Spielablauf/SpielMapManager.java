@@ -127,7 +127,7 @@ public class SpielMapManager {
     }
     
     private void mapLaden(){
-        String[][] mapFelder = new String[26][30];
+        String[][] mapFelder = new String[25][30];
         BufferedReader reader = null;
         try {
             reader = new BufferedReader(new FileReader("src/source/mapBilder/mapStructure.txt"));

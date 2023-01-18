@@ -4,7 +4,6 @@ import Networking.Pakete.*;
 import com.esotericsoftware.kryonet.Connection;
 import com.esotericsoftware.kryonet.Listener;
 
-import java.util.Iterator;
 import java.util.Map;
 
 import static Networking.Server.SpielServer.*;
@@ -15,6 +14,8 @@ public class ServerListener extends Listener {
     private int anzahlDerRunden;
     private Connection[] connections;
     private int naechsterClient;
+    private final int menueZustand = 0;
+    private int zustand = 0;
 
     @Override
     public void connected(Connection connection) {
@@ -42,46 +43,15 @@ public class ServerListener extends Listener {
         server.sendToAllTCP(anzahl);
         naechsterClient = alleClients.size() - 2;
 
-        /*System.out.println("Client ist verbunden.");
-        ClientsZug zug = new ClientsZug();
-        HostClient host = new HostClient();
-        host.istHost = false;
-        SpielerAuskuenfte spielerAuskuenfte = new SpielerAuskuenfte();
-        spielerAuskuenfte.istDran = false;
-        alleClients.put(connection, spielerAuskuenfte);
-
-        if(alleClients.size()== 1){
-            alleClients.get(connection).istDran = true;
-            host.istHost = true;
-        }
-        System.out.println(alleClients.size());
-        AnzahlClients anzahl = new AnzahlClients();
-        anzahl.anzahlVerbundeneClients = alleClients.size();
-        zug.istDran = alleClients.get(connection).istDran;
-
-
-        connections = new Connection[alleClients.size()];
-        Connection[] connections = alleClients.keySet().toArray(new Connection[0]);
-        for(int i = 0; i < connections.length-1; i++){
-            alleClients.get(connections[i]).naechsterClient = connections[i++];
-        }alleClients.get(connections[connections.length-1]).naechsterClient = connections[0];
-
-        server.sendToTCP(connection.getID(), host);
-        server.sendToTCP(connection.getID(), zug);
-        server.sendToAllTCP(anzahl);
-
-
-
-        //}else{
-        //    System.out.println("Server: Verbindung ist untersagt, da die Anzahl der Spieler ueberschritten wird.");
-        //    connection.close();
-        //}*/
     }
 
     @Override
     public void disconnected(Connection connection) {
         System.out.println("Client ist nicht mehr verbunden.");
         alleClients.remove(connection);
+        if(alleClients.size()<2){
+
+        }
         AnzahlClients anzahl = new AnzahlClients();
         anzahl.anzahlVerbundeneClients = alleClients.size();
         server.sendToAllTCP(anzahl);
@@ -96,17 +66,34 @@ public class ServerListener extends Listener {
                 alleClients.get(connection).istDran = false;
                 ClientsZug zug = new ClientsZug();
                 zug.istDran = false;
+
+              // if(zustand == menueZustand){
+              //     zug.wartung = true;
+              // }
+
                 server.sendToTCP(connection.getID(), zug);
                 System.out.println("nächste client " + naechsterClient);
 
-                zug.istDran = true;
+
+          //    if(zustand == menueZustand && alleClients.get(connection).clientIndex == alleClients.size()-1){
+          //        zustand = 1;
+          //        zug.wartung = false;
+          //        server.sendToTCP(server.getConnections()[2].getID(), zug);
+          //        server.sendToTCP(server.getConnections()[1].getID(), zug);
+          //        server.sendToTCP(server.getConnections()[0].getID(), zug);
+
+          //    }
                 alleClients.get(server.getConnections()[naechsterClient]).istDran = true;
+                zug.istDran = true;
+                server.sendToTCP(server.getConnections()[naechsterClient].getID(), zug);
+
+
 
                 for (Map.Entry<Connection, SpielerAuskuenfte> entry : alleClients.entrySet()) {
                     System.out.println(entry.getKey() + " is : " + entry.getValue().clientIndex
                             + " and the turn is:" + entry.getValue().istDran);
                 }
-                server.sendToTCP(server.getConnections()[naechsterClient].getID(), zug);
+
 
                 naechsterClient--;
                 if (naechsterClient < 0) {
