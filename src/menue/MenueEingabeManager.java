@@ -52,59 +52,48 @@ public class MenueEingabeManager implements KeyListener {
             }
         }
         if (code == KeyEvent.VK_ENTER) {
+            SpielfigurAuswahl spielfigurAuswahl = new SpielfigurAuswahl();
             if (mn.spielfigurAuswaehlen.befehlNum1 == 0) {
                 mn.spielfigurAuswaehlen.enterZustand = 1;
-                SpielfigurAuswahl spielfigurAuswahl = new SpielfigurAuswahl();
                 spielfigurAuswahl.spielfigurIndex = 0;
-                mn.sp.client.send(spielfigurAuswahl);
-                Bescheid bescheid = new Bescheid();
-                bescheid.fertig = true;
-                mn.sp.client.send(bescheid);
-                mn.sp.mainSpieler.spielfigurAuswaehlen();
-                mn.sp.setzeZustand(mn.sp.spielBrettZustand);
+
 
                 // mn.sp.zustand = mn.sp.spielBrettZustand;
             }
             else if (mn.spielfigurAuswaehlen.befehlNum1 == 1) {
                 mn.spielfigurAuswaehlen.enterZustand = 1;
-                SpielfigurAuswahl spielfigurAuswahl = new SpielfigurAuswahl();
                 spielfigurAuswahl.spielfigurIndex = 1;
-                mn.sp.client.send(spielfigurAuswahl);
-                Bescheid bescheid = new Bescheid();
-                bescheid.fertig = true;
-                mn.sp.client.send(bescheid);
-                mn.sp.mainSpieler.spielfigurAuswaehlen();
-                mn.sp.setzeZustand(mn.sp.spielBrettZustand);
+
 
 //                mn.sp.zustand = mn.sp.spielBrettZustand;
             }
             else if (mn.spielfigurAuswaehlen.befehlNum1 == 2) {
                 mn.spielfigurAuswaehlen.enterZustand = 1;
-                SpielfigurAuswahl spielfigurAuswahl = new SpielfigurAuswahl();
                 spielfigurAuswahl.spielfigurIndex = 2;
-                mn.sp.client.send(spielfigurAuswahl);
-                Bescheid bescheid = new Bescheid();
-                bescheid.fertig = true;
-                mn.sp.client.send(bescheid);
-                mn.sp.mainSpieler.spielfigurAuswaehlen();
-                mn.sp.setzeZustand(mn.sp.spielBrettZustand);
+
 
                 // mn.sp.zustand = mn.sp.spielBrettZustand;
             }
             else if (mn.spielfigurAuswaehlen.befehlNum1 == 3) {
                 mn.spielfigurAuswaehlen.enterZustand = 1;
-                SpielfigurAuswahl spielfigurAuswahl = new SpielfigurAuswahl();
                 spielfigurAuswahl.spielfigurIndex = 3;
-                mn.sp.client.send(spielfigurAuswahl);
-                Bescheid bescheid = new Bescheid();
-                bescheid.fertig = true;
-                mn.sp.client.send(bescheid);
-                mn.sp.mainSpieler.spielfigurAuswaehlen();
-                mn.sp.setzeZustand(mn.sp.spielBrettZustand);
 
                 // mn.sp.zustand = mn.sp.spielBrettZustand;
             }
+            Bescheid bescheid = new Bescheid();
+            bescheid.fertig = true;
+            mn.sp.client.send(bescheid);
+           //while(mn.sp.client.wartung){
+
+           //}
+            mn.sp.client.send(spielfigurAuswahl);
+            mn.sp.mainSpieler.spielfigurAuswaehlen();
+            mn.sp.setzeZustand(mn.sp.spielBrettZustand);
+            mn.sp.setzeZustand(mn.sp.minispielZustand);
+
+
             mn.sp.soundClip.close();
+
         }
     }
     public void hauptmenueZustand2Host(int code){
@@ -219,56 +208,36 @@ public class MenueEingabeManager implements KeyListener {
             }
         }
         if (code == KeyEvent.VK_ENTER) {
+            SpielfigurAuswahl spielfigurAuswahl = new SpielfigurAuswahl();
             if (mn.spielfigurAuswaehlen.befehlNum1 == 0) {
                 mn.spielfigurAuswaehlen.enterZustand = 1;
-                SpielfigurAuswahl spielfigurAuswahl = new SpielfigurAuswahl();
                 spielfigurAuswahl.spielfigurIndex = 0;
-                mn.sp.client.send(spielfigurAuswahl);
-                Bescheid bescheid = new Bescheid();
-                bescheid.fertig = true;
-                mn.sp.client.send(bescheid);
-                mn.sp.mainSpieler.spielfigurAuswaehlen();
-                //mn.sp.zustand = mn.sp.spielBrettZustand;
-                mn.sp.setzeZustand(mn.sp.spielBrettZustand);
-
             }
             else if (mn.spielfigurAuswaehlen.befehlNum1 == 1) {
                 mn.spielfigurAuswaehlen.enterZustand = 1;
-                SpielfigurAuswahl spielfigurAuswahl = new SpielfigurAuswahl();
                 spielfigurAuswahl.spielfigurIndex = 1;
-                mn.sp.client.send(spielfigurAuswahl);
-                Bescheid bescheid = new Bescheid();
-                bescheid.fertig = true;
-                mn.sp.client.send(bescheid);
-                mn.sp.mainSpieler.spielfigurAuswaehlen();
-                mn.sp.setzeZustand(mn.sp.spielBrettZustand);
             }
             else if (mn.spielfigurAuswaehlen.befehlNum1 == 2) {
                 mn.spielfigurAuswaehlen.enterZustand = 1;
-                SpielfigurAuswahl spielfigurAuswahl = new SpielfigurAuswahl();
                 spielfigurAuswahl.spielfigurIndex = 2;
-                mn.sp.client.send(spielfigurAuswahl);
-                Bescheid bescheid = new Bescheid();
-                bescheid.fertig = true;
-                mn.sp.client.send(bescheid);
-                mn.sp.mainSpieler.spielfigurAuswaehlen();
-                mn.sp.setzeZustand(mn.sp.spielBrettZustand);
-
 //                mn.sp.zustand = mn.sp.spielBrettZustand;
             }
             else if (mn.spielfigurAuswaehlen.befehlNum1 == 3) {
                 mn.spielfigurAuswaehlen.enterZustand = 1;
-                SpielfigurAuswahl spielfigurAuswahl = new SpielfigurAuswahl();
                 spielfigurAuswahl.spielfigurIndex = 3;
-                mn.sp.client.send(spielfigurAuswahl);
-                Bescheid bescheid = new Bescheid();
-                bescheid.fertig = true;
-                mn.sp.client.send(bescheid);
-                mn.sp.mainSpieler.spielfigurAuswaehlen();
-//                mn.sp.zustand = mn.sp.spielBrettZustand;
-                mn.sp.setzeZustand(mn.sp.spielBrettZustand);
 
             }
+            Bescheid bescheid = new Bescheid();
+            bescheid.fertig = true;
+            mn.sp.client.send(bescheid);
+           // while(mn.sp.client.wartung){
+//
+           // }
+            mn.sp.client.send(spielfigurAuswahl);
+            mn.sp.mainSpieler.spielfigurAuswaehlen();
+            mn.sp.setzeZustand(mn.sp.spielBrettZustand);
+            mn.sp.setzeZustand(mn.sp.minispielZustand);
+
             mn.sp.soundClip.close();
         }
     }

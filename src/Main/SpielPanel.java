@@ -171,6 +171,15 @@ public class SpielPanel extends JPanel implements Runnable{
             }
         } else if(zustand == minispielZustand) {
             minispielManager.update();
+            if(mainSpieler.spielfigur!=null) {
+                if (!alleSpieler.isEmpty())
+                    for (Spieler spieler : alleSpieler) {
+                        if (spieler.spielfigur != null) {
+                            spieler.update();
+                        }
+                    }
+                mainSpieler.update();
+            }
 
         }
     }
@@ -181,7 +190,7 @@ public class SpielPanel extends JPanel implements Runnable{
         if(zustand == menueZustand){
             menueManager.menueHintergrund.malen(g2);
             menueManager.malen(g2);
-            g2.dispose();
+
         }else if(zustand == spielBrettZustand){
 
             mapManager.malen(g2);

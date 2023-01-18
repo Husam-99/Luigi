@@ -8,7 +8,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 
-public class menueHintergrund {
+public class MenueHintergrund {
 
     MenueManager mn;
     BufferedImage[] fliese;
@@ -23,7 +23,7 @@ public class menueHintergrund {
     int zustand = hin;
 
 
-    public menueHintergrund(MenueManager mn){
+    public MenueHintergrund(MenueManager mn){
         this.mn = mn;
         fliese = new BufferedImage[75];
         hintergrundFlieseNum = new int[15][5];
