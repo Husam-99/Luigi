@@ -58,6 +58,7 @@ public class MapEingabeManager implements KeyListener {
                                     bewegungOben = true;
                                     Bewegung bewegung = new Bewegung();
                                     bewegung.bewegungOben = true;
+                                    bewegung.bewegung = true;
                                     spielMapManager.sp.client.send(bewegung);
                                     if (spielMapManager.sp.mainSpieler.weltY == (spieler.naechstesFeld.weltY - spielMapManager.sp.vergroesserteFliesenGroesse / 2)) {
                                         spieler.spielfigur.richtung = "stehen";
@@ -95,6 +96,7 @@ public class MapEingabeManager implements KeyListener {
                                     bewegungUnten = true;
                                     Bewegung bewegung = new Bewegung();
                                     bewegung.bewegungUnten = true;
+                                    bewegung.bewegung = true;
                                     spielMapManager.sp.client.send(bewegung);
                                     if (spielMapManager.sp.mainSpieler.weltY == (spieler.naechstesFeld.weltY - spielMapManager.sp.vergroesserteFliesenGroesse / 2)) {
                                         spieler.spielfigur.richtung = "stehen";
@@ -132,6 +134,7 @@ public class MapEingabeManager implements KeyListener {
                                     bewegungRechts = true;
                                     Bewegung bewegung = new Bewegung();
                                     bewegung.bewegungRechts = true;
+                                    bewegung.bewegung = true;
                                     spielMapManager.sp.client.send(bewegung);
                                     if (spielMapManager.sp.mainSpieler.weltX == (spieler.naechstesFeld.weltX)) {
                                         spieler.spielfigur.richtung = "stehen";
@@ -168,6 +171,7 @@ public class MapEingabeManager implements KeyListener {
                                     spieler.bewegung = true;
                                     bewegungLinks = true;
                                     Bewegung bewegung = new Bewegung();
+                                    bewegung.bewegung = true;
                                     bewegung.bewegungLinks = true;
                                     spielMapManager.sp.client.send(bewegung);
                                     if (spielMapManager.sp.mainSpieler.weltX == (spieler.naechstesFeld.weltX)) {

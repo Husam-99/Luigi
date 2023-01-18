@@ -116,9 +116,14 @@ public class ServerListener extends Listener {
         } else if (object instanceof AnzahlMitspieler anzahlMitspieler) {
             this.maxAnzahlDerMitspielerHost = anzahlMitspieler.anzahlDerMitspielerHost;
             System.out.println("maximum darf " + maxAnzahlDerMitspielerHost + " Spieler das spiel spielen");
-            if (alleClients.size() > maxAnzahlDerMitspielerHost) {
-                alleClients.remove(server.getConnections()[0]);
-                server.getConnections()[0].close();
+            int index = 0;
+            while (alleClients.size() > maxAnzahlDerMitspielerHost) {
+                ClientsZug zug = new ClientsZug();
+                zug.istDran = false;
+                zug.dispose = true;
+                server.sendToTCP(server.getConnections()[index].getID(), zug);
+                alleClients.remove(server.getConnections()[index]);
+                server.getConnections()[index].close();
                 naechsterClient = alleClients.size() - 2;
 
                 System.out.println("Server: Verbindung ist untersagt, da die Anzahl der Spieler ueberschritten wird.");

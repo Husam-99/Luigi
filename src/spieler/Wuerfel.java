@@ -28,7 +28,7 @@ public abstract class Wuerfel {
         }
         Schritte schritte = new Schritte();
         schritte.schritteAnzahl = s.schritteAnzahl;
-        s.sp.client.send(schritte);
+        //s.sp.client.send(schritte);
     }
     public void getWuerfelBilder() {}
     public void update(){

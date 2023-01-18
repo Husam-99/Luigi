@@ -6,6 +6,11 @@ import java.io.IOException;
 
 public class Yousef extends Spielfigur {
 
+    public Yousef(){
+        super();
+        getSpielFigurBilder();
+
+    }
     public Yousef(Spieler s){
         super(s);
         getSpielFigurBilder();

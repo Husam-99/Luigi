@@ -35,7 +35,12 @@ public class SpielClient {
             client.addListener(new Listener(){
                 @Override
                 public void received(Connection connection, Object object) {
+
                     if (object instanceof ClientsZug zug) {
+                        if(zug.dispose){
+                            sp.window.dispose();
+                            System.exit(0);
+                        }
                         istDran = zug.istDran;
                         System.out.println("Clinet: dran " + istDran);
                     } else if (object instanceof HostClient hostAuskuefte) {

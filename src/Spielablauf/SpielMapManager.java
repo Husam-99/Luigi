@@ -29,7 +29,7 @@ public class SpielMapManager {
         mapLaden();
         felderReihenfolgeFestlegen();
         this.stern = new Stern(this);
-        this.muenze = new Muenze();
+        this.muenze = new Muenze(sp);
 
     }
     public Feld feldEinrichten(int zeile, int spalte){

@@ -8,11 +8,14 @@ import java.awt.image.BufferedImage;
 public abstract class Spielfigur {
     Spieler s;
     public BufferedImage up1, up2, up3, down1, down2, down3, right1, right2, right3, left1, left2, left3, profile;
-    int spriteNum = 1;
-    int spriteZaehler = 0;
+    public int spriteNum = 1;
+    public int spriteZaehler = 0;
     public String richtung = "unten";
     public Spielfigur(Spieler s){
         this.s = s;
+    }
+    public Spielfigur(){
+
     }
     public void getSpielFigurBilder() {}
     public void update(){
@@ -95,13 +98,13 @@ public abstract class Spielfigur {
                         richtung = "stehen";
                         s.sp.mapManager.mapEingabeManager.bewegungOben = false;
                     }
-                    SpielerPosition spielerPosition = new SpielerPosition();
-                    spielerPosition.weltX = s.weltX;
-                    spielerPosition.weltY = s.weltY;
-
-
-
-                    s.sp.client.send(spielerPosition);
+                    //SpielerPosition spielerPosition = new SpielerPosition();
+                    //spielerPosition.weltX = s.weltX;
+                    //spielerPosition.weltY = s.weltY;
+//
+//
+//
+                    //s.sp.client.send(spielerPosition);
 
                 }
             }else if (s.sp.mapManager.mapEingabeManager.bewegungUnten){
@@ -171,11 +174,11 @@ public abstract class Spielfigur {
                         richtung = "stehen";
                         s.sp.mapManager.mapEingabeManager.bewegungUnten = false;
                     }
-                    SpielerPosition spielerPosition = new SpielerPosition();
-                    spielerPosition.weltX = s.weltX;
-                    spielerPosition.weltY = s.weltY;
+                    //SpielerPosition spielerPosition = new SpielerPosition();
+                    //spielerPosition.weltX = s.weltX;
+                    //spielerPosition.weltY = s.weltY;
 
-                    s.sp.client.send(spielerPosition);
+                    //s.sp.client.send(spielerPosition);
 
                 }
             }else if (s.sp.mapManager.mapEingabeManager.bewegungLinks){
@@ -197,11 +200,11 @@ public abstract class Spielfigur {
                         richtung = "stehen";
                         s.sp.mapManager.mapEingabeManager.bewegungLinks = false;
                     }
-                    SpielerPosition spielerPosition = new SpielerPosition();
-                    spielerPosition.weltX = s.weltX;
-                    spielerPosition.weltY = s.weltY;
-
-                    s.sp.client.send(spielerPosition);
+                    //SpielerPosition spielerPosition = new SpielerPosition();
+                    //spielerPosition.weltX = s.weltX;
+                    //spielerPosition.weltY = s.weltY;
+//
+                    //s.sp.client.send(spielerPosition);
                 }
             }else if(s.sp.mapManager.mapEingabeManager.bewegungRechts){
                 if (s.naechstesFeld == null) {
@@ -221,11 +224,11 @@ public abstract class Spielfigur {
                         richtung = "stehen";
                         s.sp.mapManager.mapEingabeManager.bewegungRechts = false;
                     }
-                    SpielerPosition spielerPosition = new SpielerPosition();
-                    spielerPosition.weltX = s.weltX;
-                    spielerPosition.weltY = s.weltY;
-
-                    s.sp.client.send(spielerPosition);
+                    //SpielerPosition spielerPosition = new SpielerPosition();
+                    //spielerPosition.weltX = s.weltX;
+                    //spielerPosition.weltY = s.weltY;
+//
+                    //s.sp.client.send(spielerPosition);
                 }
             }
             spriteZaehler++;

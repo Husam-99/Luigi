@@ -6,6 +6,11 @@ import java.io.IOException;
 
 public class Taha extends Spielfigur{
 
+    public Taha(){
+        super();
+        getSpielFigurBilder();
+
+    }
     public Taha(Spieler s){
         super(s);
         getSpielFigurBilder();

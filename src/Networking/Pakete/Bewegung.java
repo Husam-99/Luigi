@@ -6,4 +6,5 @@ public class Bewegung {
     public boolean bewegungUnten = false;
     public boolean bewegungRechts = false;
     public boolean bewegungLinks = false;
+    public boolean bewegung = false;
 }
