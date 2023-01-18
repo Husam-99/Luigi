@@ -63,6 +63,5 @@ public abstract class Wuerfel {
             image = wuerfel6;
         }
         g2.drawImage(image, 620 , 65, s.sp.vergroesserteFliesenGroesse*2, s.sp.vergroesserteFliesenGroesse*2, null);
-
     }
 }

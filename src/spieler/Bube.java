@@ -9,6 +9,8 @@ public class Bube extends Gegenstand{
 
     public Bube(Spieler s) {
         super(s);
+        preis = 11;
+        nummer = 2;
         getGegenstandBilder();
     }
 

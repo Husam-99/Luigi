@@ -20,20 +20,18 @@ public class SpielPanel extends JPanel implements Runnable{
     public final int fliesenGroesse = 32;
     public final int skalaMenue = 5,     skala = 3,
             vergroesserteFliesenGroesseMenue = fliesenGroesse * skalaMenue, vergroesserteFliesenGroesse = fliesenGroesse * skala;
-    public final double maxBildschirmSpalteMenue = 9,     maxBildschirmSpalte = 22.5,
-            maxBildschirmZeileMenue = 5, maxBildschirmZeile = 12.5;
+    public final double maxBildschirmSpalteMenue = 9,     maxBildschirmSpalte = 15,
+            maxBildschirmZeileMenue = 5, maxBildschirmZeile = 9;
     public final int bildschirmHoeheMenue = (int) (vergroesserteFliesenGroesseMenue * maxBildschirmZeileMenue),
-            bildschirmHoehe = (int) (fliesenGroesse * 2 * maxBildschirmZeile),
+            bildschirmHoehe = (int) (vergroesserteFliesenGroesse * maxBildschirmZeile),
             bildschirmBreiteMenue = (int) (vergroesserteFliesenGroesseMenue * maxBildschirmSpalteMenue),
-            bildschirmBreite = (int)(fliesenGroesse * 2 * maxBildschirmSpalte);
+            bildschirmBreite = (int)(vergroesserteFliesenGroesse* maxBildschirmSpalte);
 
     // Welt
     public final int maxWeltSpalte = 30;
     public final int maxWeltZeile = 25;
     public final int weltBreite = vergroesserteFliesenGroesse * maxWeltSpalte;
     public final int weltHoehe = vergroesserteFliesenGroesse * maxWeltZeile;
-
-
     int FPS = 60;
     public Font marioPartyFont;
     public Clip soundClip;
@@ -44,6 +42,7 @@ public class SpielPanel extends JPanel implements Runnable{
     public ArrayList<Spieler> alleSpieler;
     public SpielClient client;
     public MenueManager menueManager;
+    public int spielerNum = 0;
 
 
     public SpielPanel(){
@@ -159,7 +158,7 @@ public class SpielPanel extends JPanel implements Runnable{
             menueManager.malen(g2);
             g2.dispose();
         }else if(zustand == spielZustand){
-            this.setBackground(new Color(19, 250, 19));
+            this.setBackground(new Color(39, 105, 195));
             this.removeKeyListener(this.getKeyListeners()[0]);
             this.addKeyListener(mapManager.mapEingabeManager);
             mapManager.malen(g2);
@@ -167,12 +166,12 @@ public class SpielPanel extends JPanel implements Runnable{
                 if(!alleSpieler.isEmpty())
                     for(Spieler spieler : alleSpieler) {
                         if (spieler.spielfigur != null) {
+                            spielerNum++;
                             spieler.malen(g2);
                         }
                     }
+                spielerNum = 0;
                 mainSpieler.malen(g2);
-
-
             }
         }
         g2.dispose();

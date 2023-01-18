@@ -17,11 +17,9 @@ public class SpielMapManager {
     public final Fliese[][] mapFliesen;
     SpielPanel sp;
     Graphics2D g2;
-
     public MapEingabeManager mapEingabeManager;
     public Stern stern;
     public Muenze muenze;
-
     public SpielMapManager(SpielPanel sp) {
         this.sp = sp;
         mapEingabeManager = new MapEingabeManager(this);
@@ -125,7 +123,6 @@ public class SpielMapManager {
                 return null;
         }
     }
-    
     private void mapLaden(){
         String[][] mapFelder = new String[26][30];
         BufferedReader reader = null;
@@ -291,6 +288,7 @@ public class SpielMapManager {
     }
     public void malen(Graphics2D g2){
         this.g2 = g2;
+        g2.setFont(sp.marioPartyFont);
         mapMalen();
     }
     private void mapMalen(){
@@ -321,15 +319,12 @@ public class SpielMapManager {
                     }else if(stern.spriteNum == 4){
                         image = stern.stern5;
                     }
-                    int xSternPosition = bildschirmX , ySternPosition = bildschirmY;
-                    if(stern.sternPostition == "unten"){
-                        ySternPosition -= sp.vergroesserteFliesenGroesse;
-                    }else if(stern.sternPostition == "oben"){
-                        ySternPosition += sp.vergroesserteFliesenGroesse;
-                    }else if(stern.sternPostition == "rechts"){
-                        xSternPosition += sp.vergroesserteFliesenGroesse;
-                    }else if(stern.sternPostition == "links"){
-                        xSternPosition -= sp.vergroesserteFliesenGroesse;
+                    int xSternPosition = bildschirmX, ySternPosition = bildschirmY;
+                    switch (stern.sternPostition) {
+                        case "unten" -> ySternPosition += sp.vergroesserteFliesenGroesse;
+                        case "oben" -> ySternPosition -= sp.vergroesserteFliesenGroesse;
+                        case "rechts" -> xSternPosition += sp.vergroesserteFliesenGroesse;
+                        case "links" -> xSternPosition -= sp.vergroesserteFliesenGroesse;
                     }
                     g2.drawImage(image, xSternPosition, ySternPosition, sp.vergroesserteFliesenGroesse, sp.vergroesserteFliesenGroesse, null);                }
             }
@@ -341,4 +336,6 @@ public class SpielMapManager {
             }
         }
     }
+
+
 }

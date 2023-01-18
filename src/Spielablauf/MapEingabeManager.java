@@ -12,17 +12,76 @@ public class MapEingabeManager implements KeyListener {
     SpielMapManager spielMapManager;
     Spieler spieler;
     public Boolean obenGedrueckt = false, untenGedrueckt = false, rechtsGedrueckt = false, linksGedrueckt = false,
-            spaceGedrueckt = false, iGedrueckt = false, bewegungOben = false, bewegungUnten = false, bewegungRechts = false, bewegungLinks = false, falscheRichtung = false;
+            spaceGedrueckt = false, iGedrueckt = false, bewegungOben = false, bewegungUnten = false, bewegungRechts = false,
+            bewegungLinks = false, falscheRichtung = false;
     public MapEingabeManager(SpielMapManager spielMapManager) {
         this.spielMapManager = spielMapManager;
     }
-
     @Override
     public void keyPressed(KeyEvent e) {
         spieler = this.spielMapManager.sp.mainSpieler;
         int code = e.getKeyCode();
         if(spielMapManager.sp.client.istDran()) {
-            if (!spieler.bewegung && !iGedrueckt) {
+            if(iGedrueckt){
+                if(code == KeyEvent.VK_ENTER){
+                    if(spieler.inventar.befehlNum == 0){
+                        spieler.inventar.gegenstandVerwenden(0);
+                        if(spieler.inventar.inventar[1] != null) {
+                            spieler.inventar.befehlNum = 2;
+                        }else if(spieler.inventar.inventar[2] != null) {
+                            spieler.inventar.befehlNum = 1;
+                        }else if(spieler.inventar.inventar[3] != null) {
+                            spieler.inventar.befehlNum = 3;
+                        }else{
+                            spieler.inventar.befehlNum = 0;
+                        }
+                    }else if(spieler.inventar.befehlNum == 1){
+                        spieler.inventar.gegenstandVerwenden(2);
+                        if(spieler.inventar.inventar[0] != null) {
+                            spieler.inventar.befehlNum = 0;
+                        }else if(spieler.inventar.inventar[1] != null) {
+                            spieler.inventar.befehlNum = 2;
+                        }else if(spieler.inventar.inventar[3] != null) {
+                            spieler.inventar.befehlNum = 3;
+                        }else{
+                            spieler.inventar.befehlNum = 0;
+                        }
+                    }else if(spieler.inventar.befehlNum == 2){
+                        spieler.inventar.gegenstandVerwenden(1);
+                        if(spieler.inventar.inventar[0] != null) {
+                            spieler.inventar.befehlNum = 0;
+                        }else if(spieler.inventar.inventar[2] != null) {
+                            spieler.inventar.befehlNum = 1;
+                        }else if(spieler.inventar.inventar[3] != null) {
+                            spieler.inventar.befehlNum = 3;
+                        }else{
+                            spieler.inventar.befehlNum = 0;
+                        }
+                    }else if(spieler.inventar.befehlNum == 3){
+                        spieler.inventar.gegenstandVerwenden(3);
+                        if(spieler.inventar.inventar[0] != null) {
+                            spieler.inventar.befehlNum = 0;
+                        }else if(spieler.inventar.inventar[2] != null) {
+                            spieler.inventar.befehlNum = 1;
+                        }else if(spieler.inventar.inventar[1] != null) {
+                            spieler.inventar.befehlNum = 2;
+                        }else{
+                            spieler.inventar.befehlNum = 0;
+                        }
+                    }
+                }
+            }else if(spieler.shopGeoeffnet){
+                if(code == KeyEvent.VK_ENTER){
+                    if(spieler.shop.genugMuenzen) {
+                        spieler.shop.gegenstandKaufen();
+                    }else if(!spieler.shop.genugMuenzen){
+                        spieler.shop.genugMuenzen = true;
+                    }
+                }else if(code == KeyEvent.VK_ESCAPE){
+                    spieler.shopGeoeffnet = false;
+                    spieler.amSpiel = false;
+                }
+            }else if (!spieler.bewegung && !iGedrueckt) {
                 if (code == KeyEvent.VK_SPACE) {
                     spaceGedrueckt = true;
                     spieler.wuerfelZustand = true;
@@ -39,16 +98,10 @@ public class MapEingabeManager implements KeyListener {
                     case 'w':
                         obenGedrueckt = true;
                         if (iGedrueckt) {
-                            if (spieler.inventar.befehlNum == 0) {
-                                spieler.inventar.befehlNum = 1;
-                            } else if (spieler.inventar.befehlNum == 1) {
-                                spieler.inventar.befehlNum = 0;
-                            } else if (spieler.inventar.befehlNum == 2) {
-                                spieler.inventar.befehlNum = 3;
-                            } else if (spieler.inventar.befehlNum == 3) {
-                                spieler.inventar.befehlNum = 2;
-                            }
-                        } else {
+                          untenUndObenInventar();
+                        } else if(spieler.shopGeoeffnet) {
+                           untenUndObenShop();
+                        }else{
                             checkNaechstesFeld();
                             if (!falscheRichtung) {
                                 if (spieler.naechstesFeld != null && spieler.naechstesFeld.nordFeld != null) {
@@ -57,14 +110,9 @@ public class MapEingabeManager implements KeyListener {
                                     bewegungOben = true;
                                     if (spielMapManager.sp.mainSpieler.weltY == (spieler.naechstesFeld.weltY - spielMapManager.sp.vergroesserteFliesenGroesse / 2)) {
                                         spieler.spielfigur.richtung = "stehen";
+                                        spieler.aktuellFeld = spieler.tempFeld;
                                         spieler.aktuellesFeld = spieler.naechstesFeld;
                                         spieler.naechstesFeld = null;
-                                        if (spieler.schritteAnzahl == 0) {
-                                            spieler.aktuellFeld.effeckteAnwenden();
-                                            Bescheid bescheid = new Bescheid();
-                                            bescheid.fertig = true;
-                                            spielMapManager.sp.client.send(bescheid);
-                                        }
                                     }
                                 }
                             }
@@ -73,16 +121,10 @@ public class MapEingabeManager implements KeyListener {
                     case 's':
                         untenGedrueckt = true;
                         if (iGedrueckt) {
-                            if (spieler.inventar.befehlNum == 0) {
-                                spieler.inventar.befehlNum = 1;
-                            } else if (spieler.inventar.befehlNum == 1) {
-                                spieler.inventar.befehlNum = 0;
-                            } else if (spieler.inventar.befehlNum == 2) {
-                                spieler.inventar.befehlNum = 3;
-                            } else if (spieler.inventar.befehlNum == 3) {
-                                spieler.inventar.befehlNum = 2;
-                            }
-                        } else {
+                            untenUndObenInventar();
+                        }else if(spieler.shopGeoeffnet){
+                            untenUndObenShop();
+                        }else{
                             checkNaechstesFeld();
                             if (!falscheRichtung) {
                                 if (spieler.naechstesFeld != null && spieler.naechstesFeld.suedFeld != null) {
@@ -91,14 +133,10 @@ public class MapEingabeManager implements KeyListener {
                                     bewegungUnten = true;
                                     if (spielMapManager.sp.mainSpieler.weltY == (spieler.naechstesFeld.weltY - spielMapManager.sp.vergroesserteFliesenGroesse / 2)) {
                                         spieler.spielfigur.richtung = "stehen";
+                                        spieler.aktuellFeld = spieler.tempFeld;
                                         spieler.aktuellesFeld = spieler.naechstesFeld;
                                         spieler.naechstesFeld = null;
-                                        if (spieler.schritteAnzahl == 0) {
-                                            spieler.aktuellFeld.effeckteAnwenden();
-                                            Bescheid bescheid = new Bescheid();
-                                            bescheid.fertig = true;
-                                            spielMapManager.sp.client.send(bescheid);
-                                        }
+
                                     }
                                 }
                             }
@@ -107,16 +145,10 @@ public class MapEingabeManager implements KeyListener {
                     case 'd':
                         rechtsGedrueckt = true;
                         if (iGedrueckt) {
-                            if (spieler.inventar.befehlNum == 0) {
-                                spieler.inventar.befehlNum = 2;
-                            } else if (spieler.inventar.befehlNum == 2) {
-                                spieler.inventar.befehlNum = 0;
-                            } else if (spieler.inventar.befehlNum == 1) {
-                                spieler.inventar.befehlNum = 3;
-                            } else if (spieler.inventar.befehlNum == 3) {
-                                spieler.inventar.befehlNum = 1;
-                            }
-                        } else {
+                          rechtsUndLinksInventar();
+                        } else if(spieler.shopGeoeffnet){
+                            rechtsShop();
+                        }else {
                             checkNaechstesFeld();
                             if (!falscheRichtung) {
                                 if (spieler.naechstesFeld != null && spieler.naechstesFeld.ostFeld != null) {
@@ -125,14 +157,9 @@ public class MapEingabeManager implements KeyListener {
                                     bewegungRechts = true;
                                     if (spielMapManager.sp.mainSpieler.weltX == (spieler.naechstesFeld.weltX)) {
                                         spieler.spielfigur.richtung = "stehen";
+                                        spieler.aktuellFeld = spieler.tempFeld;
                                         spieler.aktuellesFeld = spieler.naechstesFeld;
                                         spieler.naechstesFeld = null;
-                                        if (spieler.schritteAnzahl == 0) {
-                                            spieler.aktuellFeld.effeckteAnwenden();
-                                            Bescheid bescheid = new Bescheid();
-                                            bescheid.fertig = true;
-                                            spielMapManager.sp.client.send(bescheid);
-                                        }
                                     }
                                 }
                             }
@@ -141,16 +168,10 @@ public class MapEingabeManager implements KeyListener {
                     case 'a':
                         linksGedrueckt = true;
                         if (iGedrueckt) {
-                            if (spieler.inventar.befehlNum == 0) {
-                                spieler.inventar.befehlNum = 2;
-                            } else if (spieler.inventar.befehlNum == 2) {
-                                spieler.inventar.befehlNum = 0;
-                            } else if (spieler.inventar.befehlNum == 1) {
-                                spieler.inventar.befehlNum = 3;
-                            } else if (spieler.inventar.befehlNum == 3) {
-                                spieler.inventar.befehlNum = 1;
-                            }
-                        } else {
+                            rechtsUndLinksInventar();
+                        }else if(spieler.shopGeoeffnet){
+                            linksShop();
+                        }else {
                             checkNaechstesFeld();
                             if (!falscheRichtung) {
                                 if (spieler.naechstesFeld != null && spieler.naechstesFeld.westFeld != null) {
@@ -159,14 +180,9 @@ public class MapEingabeManager implements KeyListener {
                                     bewegungLinks = true;
                                     if (spielMapManager.sp.mainSpieler.weltX == (spieler.naechstesFeld.weltX)) {
                                         spieler.spielfigur.richtung = "stehen";
+                                        spieler.aktuellFeld = spieler.tempFeld;
                                         spieler.aktuellesFeld = spieler.naechstesFeld;
                                         spieler.naechstesFeld = null;
-                                        if (spieler.schritteAnzahl == 0) {
-                                            spieler.aktuellFeld.effeckteAnwenden();
-                                            Bescheid bescheid = new Bescheid();
-                                            bescheid.fertig = true;
-                                            spielMapManager.sp.client.send(bescheid);
-                                        }
                                     }
                                 }
                             }
@@ -180,6 +196,7 @@ public class MapEingabeManager implements KeyListener {
                             spieler.inventarZustand = false;
                             iGedrueckt = false;
                         }
+                        break;
                 }
             }
         }
@@ -192,14 +209,23 @@ public class MapEingabeManager implements KeyListener {
             if (!spieler.bewegung && !iGedrueckt) {
                 if (code == KeyEvent.VK_SPACE) {
                     spaceGedrueckt = false;
-                    spieler.wuerfel.schritteAnzahlBestimmen();
+                    if(spieler.normaleWuerfelZustand) {
+                        spieler.wuerfel.schritteAnzahlBestimmen();
+                    }else if(spieler.megaWuerfelZustand){
+                        spieler.megaWuerfel.schritteAnzahlBestimmen();
+                        spieler.megaWuerfelZustand = false;
+                        spieler.normaleWuerfelZustand = true;
+                    }else if(spieler.miniWuerfelZustand){
+                        spieler.miniWuerfel.schritteAnzahlBestimmen();
+                        spieler.miniWuerfelZustand = false;
+                        spieler.normaleWuerfelZustand = true;
+                    }
                     spieler.wuerfelZustand = false;
                 }
             }
         }
     }
-
-    public void checkNaechstesFeld(){
+    private void checkNaechstesFeld(){
         if(spieler.aktuellesFeld == null){
         }else if(obenGedrueckt) {
             spieler.tempFeld = spieler.naechstesFeld.nordFeld;
@@ -215,17 +241,124 @@ public class MapEingabeManager implements KeyListener {
             linksGedrueckt = false;
         }
         if(spieler.naechstesFeld == null || spieler.tempFeld == null){
-            spieler.aktuellFeld = spieler.tempFeld;
             falscheRichtung = false;
         }else if(spieler.tempFeld.equals(spieler.aktuellesFeld)){
             falscheRichtung = true;
         }else if(!spieler.tempFeld.equals(spieler.aktuellesFeld)){
-            spieler.aktuellFeld = spieler.tempFeld;
             falscheRichtung = false;
         }
-        System.out.println(spieler.aktuellesFeld);
-        System.out.println(spieler.naechstesFeld);
-        System.out.println(spieler.aktuellFeld);
-
+    }
+    private void untenUndObenInventar(){
+        spieler.inventar.anzahlGegenstaendeInInventar();
+        if(spieler.inventar.gegenstaendeAnzahl == 2 || spieler.inventar.gegenstaendeAnzahl == 3){
+            if (spieler.inventar.inventar[0] != null && spieler.inventar.inventar[2] != null) {
+                if (spieler.inventar.befehlNum == 0) {
+                    spieler.inventar.befehlNum = 1;
+                } else if (spieler.inventar.befehlNum == 1) {
+                    spieler.inventar.befehlNum = 0;
+                }
+            }else if(spieler.inventar.inventar[2] != null && spieler.inventar.inventar[3] != null){
+                if (spieler.inventar.befehlNum == 2) {
+                    spieler.inventar.befehlNum = 3;
+                } else if (spieler.inventar.befehlNum == 3) {
+                    spieler.inventar.befehlNum = 2;
+                }
+            }
+        }else if(spieler.inventar.gegenstaendeAnzahl == 4) {
+            if (spieler.inventar.befehlNum == 0) {
+                spieler.inventar.befehlNum = 1;
+            } else if (spieler.inventar.befehlNum == 1) {
+                spieler.inventar.befehlNum = 0;
+            } else if (spieler.inventar.befehlNum == 2) {
+                spieler.inventar.befehlNum = 3;
+            } else if (spieler.inventar.befehlNum == 3) {
+                spieler.inventar.befehlNum = 2;
+            }
+        }
+    }
+    private void rechtsUndLinksInventar(){
+        spieler.inventar.anzahlGegenstaendeInInventar();
+        if(spieler.inventar.gegenstaendeAnzahl == 2 || spieler.inventar.gegenstaendeAnzahl == 3){
+            if (spieler.inventar.inventar[0] != null && spieler.inventar.inventar[1] != null) {
+                if (spieler.inventar.befehlNum == 0) {
+                    spieler.inventar.befehlNum = 2;
+                } else if (spieler.inventar.befehlNum == 2) {
+                    spieler.inventar.befehlNum = 0;
+                }
+            }else if(spieler.inventar.inventar[2] != null && spieler.inventar.inventar[3] != null){
+                if (spieler.inventar.befehlNum == 1) {
+                    spieler.inventar.befehlNum = 3;
+                } else if (spieler.inventar.befehlNum == 3) {
+                    spieler.inventar.befehlNum = 1;
+                }
+            }else if(spieler.inventar.inventar[0] != null && spieler.inventar.inventar[3] != null) {
+                if (spieler.inventar.befehlNum == 0) {
+                    spieler.inventar.befehlNum = 3;
+                } else if (spieler.inventar.befehlNum == 3) {
+                    spieler.inventar.befehlNum = 0;
+                }
+            }else if(spieler.inventar.inventar[1] != null && spieler.inventar.inventar[2] != null) {
+                if (spieler.inventar.befehlNum == 1) {
+                    spieler.inventar.befehlNum = 2;
+                } else if (spieler.inventar.befehlNum == 2) {
+                    spieler.inventar.befehlNum = 1;
+                }
+            }
+        }else if(spieler.inventar.gegenstaendeAnzahl == 4) {
+            if (spieler.inventar.befehlNum == 0) {
+                spieler.inventar.befehlNum = 2;
+            } else if (spieler.inventar.befehlNum == 2) {
+                spieler.inventar.befehlNum = 0;
+            } else if (spieler.inventar.befehlNum == 1) {
+                spieler.inventar.befehlNum = 3;
+            } else if (spieler.inventar.befehlNum == 3) {
+                spieler.inventar.befehlNum = 1;
+            }
+        }
+    }
+    private void untenUndObenShop(){
+        if(spieler.shop.befehlNum == 0){
+            spieler.shop.befehlNum = 3;
+        }else if(spieler.shop.befehlNum == 3){
+            spieler.shop.befehlNum = 0;
+        }else if(spieler.shop.befehlNum == 1){
+            spieler.shop.befehlNum = 4;
+        }else if(spieler.shop.befehlNum == 4){
+            spieler.shop.befehlNum = 1;
+        }else if(spieler.shop.befehlNum == 2){
+            spieler.shop.befehlNum = 5;
+        }else if(spieler.shop.befehlNum == 5){
+            spieler.shop.befehlNum = 2;
+        }
+    }
+    private void rechtsShop(){
+        if(spieler.shop.befehlNum == 0){
+            spieler.shop.befehlNum = 1;
+        }else if(spieler.shop.befehlNum == 1){
+            spieler.shop.befehlNum = 2;
+        }else if(spieler.shop.befehlNum == 2){
+            spieler.shop.befehlNum = 0;
+        }else if(spieler.shop.befehlNum == 3){
+            spieler.shop.befehlNum = 4;
+        }else if(spieler.shop.befehlNum == 4){
+            spieler.shop.befehlNum = 5;
+        }else if(spieler.shop.befehlNum == 5){
+            spieler.shop.befehlNum = 3;
+        }
+    }
+    private void linksShop(){
+        if(spieler.shop.befehlNum == 0){
+            spieler.shop.befehlNum = 2;
+        }else if(spieler.shop.befehlNum == 2){
+            spieler.shop.befehlNum = 1;
+        }else if(spieler.shop.befehlNum == 1){
+            spieler.shop.befehlNum = 0;
+        }else if(spieler.shop.befehlNum == 3){
+            spieler.shop.befehlNum = 5;
+        }else if(spieler.shop.befehlNum == 5){
+            spieler.shop.befehlNum = 4;
+        }else if(spieler.shop.befehlNum == 4){
+            spieler.shop.befehlNum = 3;
+        }
     }
 }

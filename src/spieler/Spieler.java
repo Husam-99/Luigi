@@ -17,15 +17,17 @@ public class Spieler {
     public String richtung;
     public Konto konto;
     public Inventar inventar;
-    public boolean bewegung = false, wuerfelZustand = false, inventarZustand = false;
+    public boolean amSpiel = true, bewegung = false, wuerfelZustand = false, inventarZustand = false, shopGeoeffnet = false,
+            normaleWuerfelZustand = true, megaWuerfelZustand = false, miniWuerfelZustand = false;
+    public GegenstandWuerfel megaWuerfel = new MegaWuerfel( this), miniWuerfel = new MiniWuerfel(this);
+    public Shop shop;
     public Spieler(SpielPanel sp) {
         this.sp = sp;
-        konto = new Konto();
+        konto = new Konto(this);
         inventar = new Inventar(this);
-
+        shop = new Shop(this);
         setzeWerte();
     }
-
     public void setzeWerte(){
         this.bildschirmX = sp.bildschirmBreite / 2 - (sp.vergroesserteFliesenGroesse / 2);
         this.bildschirmY = sp.bildschirmHoehe / 2 - (sp.vergroesserteFliesenGroesse / 2);
@@ -36,7 +38,6 @@ public class Spieler {
         naechstesFeld = sp.mapManager.mapFliesen[19][11].feld;
         aktuellesFeld = null;
     }
-
     public void spielfigurAuswaehlen() {
         if(sp.menueManager.spielfigurAuswaehlen.befehlNum1 == 0){
             spielfigur = new Abdo(this);
@@ -75,13 +76,16 @@ public class Spieler {
             wuerfel = new YousefWuerfel(this);
         }
     }
-    public void getSpielerPositionX() {}
-    public void getSpielerPositionY() {}
-
     public void update(){
         spielfigur.update();
-        if(wuerfelZustand) {
-            wuerfel.update();
+        if(wuerfelZustand){
+            if(normaleWuerfelZustand) {
+                wuerfel.update();
+            }else if(megaWuerfelZustand){
+                megaWuerfel.update();
+            }else if(miniWuerfelZustand){
+                miniWuerfel.update();
+            }
         }
     }
     public void malen(Graphics2D g2){
@@ -89,18 +93,26 @@ public class Spieler {
         g2.setFont(sp.marioPartyFont);
         if(sp.mainSpieler.spielfigur!=null){
             spielfigur.malen(g2);
+            konto.malen(g2);
         }
-        spielerStatusBoxMalen();
-        spielerStatusMalen();
         if(wuerfelZustand){
-            wuerfel.malen(g2);
+            if(normaleWuerfelZustand) {
+                wuerfel.malen(g2);
+            }else if(megaWuerfelZustand){
+                megaWuerfel.malen(g2);
+            }else if(miniWuerfelZustand){
+                miniWuerfel.malen(g2);
+            }
         }else if(schritteAnzahl > 0){
             schritteMalen();
-        }if(inventarZustand){
+        }
+        if(inventarZustand){
             inventar.malen(g2);
+        } else if(shopGeoeffnet){
+            shop.malen(g2);
         }
     }
-    public void schritteMalen(){
+    private void schritteMalen(){
         if(schritteAnzahl < 10) {
             Color c = new Color(0, 0, 0, 200);
             g2.setColor(c);
@@ -112,11 +124,11 @@ public class Spieler {
         }else{
             Color c = new Color(0, 0, 0, 200);
             g2.setColor(c);
-            g2.fillRoundRect(650, 80, 220, 160, 35, 35);
+            g2.fillRoundRect(610, 80, 220, 160, 35, 35);
             c = new Color(255, 255, 255, 200);
             g2.setColor(c);
             g2.setStroke(new BasicStroke(5));
-            g2.drawRoundRect(655, 85, 210, 150, 25, 25);
+            g2.drawRoundRect(615, 85, 210, 150, 25, 25);
         }
         g2.setColor(Color.yellow);
         g2.setFont(g2.getFont().deriveFont(Font.BOLD,150F));
@@ -124,29 +136,7 @@ public class Spieler {
         int x = getXfuerCenter(schritte);
         g2.drawString(schritte, x, 200);
     }
-    public void spielerStatusMalen(){
-        g2.drawImage(spielfigur.profile, 10, 10, sp.vergroesserteFliesenGroesse+30, sp.vergroesserteFliesenGroesse+30, null);
-        g2.drawImage(sp.mapManager.muenze.muenze1, 127, 15, sp.vergroesserteFliesenGroesse, sp.vergroesserteFliesenGroesse, null);
-        g2.drawImage(sp.mapManager.stern.stern, 105, 50, sp.vergroesserteFliesenGroesse, sp.vergroesserteFliesenGroesse, null);
-        g2.setFont(g2.getFont().deriveFont(Font.PLAIN,50F));
-        g2.drawString("X",180,58);
-        g2.drawString("X",180,115);
-        String text = Integer.toString(konto.muenzen);
-        g2.setColor(Color.yellow);
-        g2.drawString(text,215, 57);
-        text = Integer.toString(konto.sterne);
-        g2.drawString(text,215, 115);
-    }
-    public void spielerStatusBoxMalen(){
-        Color c = new Color(0,0,0,200);
-        g2.setColor(c);
-        g2.fillRoundRect(0, 0, 285, 140, 35, 35);
-        c = new Color(255,255,255,200);
-        g2.setColor(c);
-        g2.setStroke(new BasicStroke(5));
-        g2.drawRoundRect(5,5,275, 130, 25, 25);
-    }
-    public int getXfuerCenter(String text) {
+    private int getXfuerCenter(String text) {
         int length = (int)g2.getFontMetrics().getStringBounds(text, g2).getWidth();
         int x = sp.bildschirmBreite/2 - length/2;
         return x;

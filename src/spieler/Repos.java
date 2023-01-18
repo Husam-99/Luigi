@@ -9,6 +9,8 @@ public class Repos extends Gegenstand{
 
     public Repos(Spieler s) {
         super(s);
+        preis = 13;
+        nummer = 5;
         getGegenstandBilder();
     }
 

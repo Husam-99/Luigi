@@ -9,6 +9,8 @@ public class SternTaxi extends Gegenstand{
 
     public SternTaxi(Spieler s) {
         super(s);
+        preis = 15;
+        nummer = 6;
         getGegenstandBilder();
     }
 

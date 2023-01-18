@@ -38,6 +38,7 @@ public class Stern {
     }
     private void setSternPosition(){
         feldNum = random.nextInt(1,36);
+        feldNum = 1;
         for(int spalte = 0; spalte < 26; spalte++){
             for(int zeile = 0; zeile < 30; zeile++) {
                 if (mapManager.mapFliesen[spalte][zeile] != null) {
