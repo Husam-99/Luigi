@@ -16,16 +16,13 @@ public class Spieler {
     public Feld naechstesFeld, aktuellesFeld, tempFeld, aktuellFeld; //tempFeld ist zu prüfen, ob das nächste Feld nicht gleich wie das vorherige Feld ist
     public Konto konto;
     public Inventar inventar;
-    public boolean bewegung = false, wuerfelZustand = false, inventarZustand = false;
-
-    public Spieler(){
-
-
-    }
     public boolean amSpiel = true, bewegung = false, wuerfelZustand = false, inventarZustand = false, shopGeoeffnet = false,
             normaleWuerfelZustand = true, megaWuerfelZustand = false, miniWuerfelZustand = false;
     public GegenstandWuerfel megaWuerfel = new MegaWuerfel( this), miniWuerfel = new MiniWuerfel(this);
     public Shop shop;
+
+    public Spieler(){}
+
     public Spieler(SpielPanel sp) {
         this.sp = sp;
         konto = new Konto(this);
@@ -37,9 +34,7 @@ public class Spieler {
         this.bildschirmX = sp.bildschirmBreite / 2 - (sp.vergroesserteFliesenGroesse / 2);
         this.bildschirmY = sp.bildschirmHoehe / 2 - (sp.vergroesserteFliesenGroesse / 2);
         this.weltY = (int) (sp.vergroesserteFliesenGroesse * 21.5);
-
         geschwindigkeit = 3;
-
         naechstesFeld = sp.mapManager.mapFliesen[19][11].feld;
         aktuellesFeld = null;
     }
