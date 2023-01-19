@@ -144,11 +144,9 @@ public class Sammler extends Minispiel {
 
             int flieseIndex = minispielMap[spalte][zeile];
 
-            if(zeile == 8){
-                g2.drawImage(minispielFliesen[flieseIndex].flieseImage, x, y-(sp.fliesenGroesse*2), sp.vergroesserteFliesenGroesse, sp.vergroesserteFliesenGroesse, null);
-            } else{
-                g2.drawImage(minispielFliesen[flieseIndex].flieseImage, x, y, sp.vergroesserteFliesenGroesse, sp.vergroesserteFliesenGroesse, null);
-            }
+
+            g2.drawImage(minispielFliesen[flieseIndex].flieseImage, x, y, sp.vergroesserteFliesenGroesse, sp.vergroesserteFliesenGroesse, null);
+
 
             spalte++;
             x += sp.vergroesserteFliesenGroesse;
