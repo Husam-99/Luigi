@@ -2,7 +2,7 @@ package Main;
 
 import Minispiele.MinispielManager;
 import Networking.Client.SpielClient;
-import Spielablauf.SpielMapManager;
+
 import Spielablauf.SpielablaufManager;
 import spieler.*;
 import menue.MenueManager;
@@ -14,6 +14,9 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
+
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class SpielPanel extends JPanel implements Runnable{
 
@@ -126,6 +129,17 @@ public class SpielPanel extends JPanel implements Runnable{
             this.addKeyListener(minispielManager.sammlerEingabeManager);
 
             this.zustand = minispielZustand;
+          //  TimerTask task = new TimerTask() {
+          //      @Override
+          //      public void run() {
+          //          if(minispielManager.gesamtSekundenAnzahl > 0){
+          //              minispielManager.gesamtSekundenAnzahl--;
+          //          }
+          //      }
+          //  };
+          //  Timer timer = new Timer();
+          //  timer.schedule(task, 3000, 1000);
+//
         }
     }
 

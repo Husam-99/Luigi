@@ -105,8 +105,6 @@ public class Spieler {
             }
         }else if(schritteAnzahl > 0){
             schritteMalen();
-        }else if(inventarZustand){
-            inventar.malen(g2);
         }else if(spielablaufManager.mapManager.stern.sternKaufen){
             spielablaufManager.mapManager.stern.malen(g2);
         }

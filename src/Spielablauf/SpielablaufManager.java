@@ -50,12 +50,9 @@ public class SpielablaufManager {
 
             mainSpieler.malen(g2);
         }
-        if(shopGeoeffnet){
-            shop.malen(g2);
-        }
         mainSpieler.konto.malen(g2);
         if(mainSpieler.spielfigur!=null) {
-            if (!sp.alleSpieler.isEmpty())
+            if (!sp.alleSpieler.isEmpty()) {
                 for (Spieler spieler : sp.alleSpieler) {
                     if (spieler.spielfigur != null) {
                         spielerNum++;
@@ -63,6 +60,13 @@ public class SpielablaufManager {
 
                     }
                 }
+            }
+        }
+        if(mainSpieler.inventarZustand){
+            mainSpieler.inventar.malen(g2);
+        }
+        if(shopGeoeffnet){
+            shop.malen(g2);
         }
         spielerNum = 0;
     }
