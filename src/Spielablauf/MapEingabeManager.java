@@ -109,10 +109,6 @@ public class MapEingabeManager implements KeyListener {
                                     spieler.schritteAnzahl--;
                                     spieler.bewegung = true;
                                     bewegungOben = true;
-                                    Bewegung bewegung = new Bewegung();
-                                    bewegung.bewegungOben = true;
-                                    bewegung.bewegung = true;
-                                    spielMapManager.sp.client.send(bewegung);
                                     if (spielMapManager.sp.mainSpieler.weltY == (spieler.naechstesFeld.weltY - spielMapManager.sp.vergroesserteFliesenGroesse / 2)) {
                                         spieler.spielfigur.richtung = "stehen";
                                         spieler.aktuellFeld = spieler.tempFeld;
@@ -136,10 +132,6 @@ public class MapEingabeManager implements KeyListener {
                                     spieler.schritteAnzahl--;
                                     spieler.bewegung = true;
                                     bewegungUnten = true;
-                                    Bewegung bewegung = new Bewegung();
-                                    bewegung.bewegungUnten = true;
-                                    bewegung.bewegung = true;
-                                    spielMapManager.sp.client.send(bewegung);
                                     if (spielMapManager.sp.mainSpieler.weltY == (spieler.naechstesFeld.weltY - spielMapManager.sp.vergroesserteFliesenGroesse / 2)) {
                                         spieler.spielfigur.richtung = "stehen";
                                         spieler.aktuellFeld = spieler.tempFeld;
@@ -164,10 +156,6 @@ public class MapEingabeManager implements KeyListener {
                                     spieler.schritteAnzahl--;
                                     spieler.bewegung = true;
                                     bewegungRechts = true;
-                                    Bewegung bewegung = new Bewegung();
-                                    bewegung.bewegungRechts = true;
-                                    bewegung.bewegung = true;
-                                    spielMapManager.sp.client.send(bewegung);
                                     if (spielMapManager.sp.mainSpieler.weltX == (spieler.naechstesFeld.weltX)) {
                                         spieler.spielfigur.richtung = "stehen";
                                         spieler.aktuellFeld = spieler.tempFeld;
@@ -191,10 +179,6 @@ public class MapEingabeManager implements KeyListener {
                                     spieler.schritteAnzahl--;
                                     spieler.bewegung = true;
                                     bewegungLinks = true;
-                                    Bewegung bewegung = new Bewegung();
-                                    bewegung.bewegung = true;
-                                    bewegung.bewegungLinks = true;
-                                    spielMapManager.sp.client.send(bewegung);
                                     if (spielMapManager.sp.mainSpieler.weltX == (spieler.naechstesFeld.weltX)) {
                                         spieler.spielfigur.richtung = "stehen";
                                         spieler.aktuellFeld = spieler.tempFeld;

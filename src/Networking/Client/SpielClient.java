@@ -2,7 +2,10 @@ package Networking.Client;
 
 import Main.SpielPanel;
 import Networking.Pakete.*;
+import Spielablauf.Feld;
+import Spielablauf.Fliese;
 import Spielablauf.Stern;
+import Spielablauf.ViolettesFeld;
 import com.esotericsoftware.kryonet.Client;
 import com.esotericsoftware.kryonet.Connection;
 import com.esotericsoftware.kryonet.Listener;
@@ -95,7 +98,7 @@ public class SpielClient {
                             sp.alleSpieler.get(muenzenzahl.clientIndex).konto.muenzen += muenzenzahl.anzahlDerMuenzen;
                             System.out.println("spieler " + muenzenzahl.clientIndex + " hat " + muenzenzahl.anzahlDerMuenzen + " muenze erhalten.");
                         }else if(muenzenzahl.anzahlDerMuenzen < 0){
-                            sp.alleSpieler.get(muenzenzahl.clientIndex).konto.muenzen -= muenzenzahl.anzahlDerMuenzen;
+                            sp.alleSpieler.get(muenzenzahl.clientIndex).konto.muenzen += muenzenzahl.anzahlDerMuenzen;
                             System.out.println("spieler " + muenzenzahl.clientIndex + " hat " + muenzenzahl.anzahlDerMuenzen + " muenze verloren.");
                         }
                     } else if(object instanceof Sternzahl sternzahl){
@@ -104,20 +107,30 @@ public class SpielClient {
                             System.out.println("spieler " + sternzahl.clientIndex + " hat " + sternzahl.anzahlDerSterne + " sterne erhalten.");
 
                         }else if(sternzahl.anzahlDerSterne < 0){
-                            sp.alleSpieler.get(sternzahl.clientIndex).konto.sterne -= sternzahl.anzahlDerSterne;
+                            sp.alleSpieler.get(sternzahl.clientIndex).konto.sterne += sternzahl.anzahlDerSterne;
                             System.out.println("spieler " + sternzahl.clientIndex + " hat " + sternzahl.anzahlDerSterne + "sterne verloren.");
                         }
                     } else if(object instanceof Schritte schritte){
                         sp.alleSpieler.get(schritte.clientIndex).schritteAnzahl = schritte.schritteAnzahl;
                     } else if(object instanceof Bewegung bewegung){
-                        if(bewegung.bewegungLinks){
-                            sp.alleSpieler.get(bewegung.clientIndex).sp.mapManager.mapEingabeManager.bewegungLinks = true;
-                        }else if(bewegung.bewegungRechts){
-                            sp.alleSpieler.get(bewegung.clientIndex).sp.mapManager.mapEingabeManager.bewegungLinks = true;
-                        }else if(bewegung.bewegungUnten){
-                            sp.alleSpieler.get(bewegung.clientIndex).sp.mapManager.mapEingabeManager.bewegungUnten = true;
-                        }else if(bewegung.bewegungOben){
-                            sp.alleSpieler.get(bewegung.clientIndex).sp.mapManager.mapEingabeManager.bewegungOben = true;
+                        if(bewegung.richtung.equals("oben")){
+                            sp.alleSpieler.get(bewegung.clientIndex).spielfigur.richtung = "oben";
+                        }else if(bewegung.richtung.equals("unten")){
+                            sp.alleSpieler.get(bewegung.clientIndex).spielfigur.richtung = "unten";
+                        }else if(bewegung.richtung.equals("rechts")){
+                            sp.alleSpieler.get(bewegung.clientIndex).spielfigur.richtung = "rechts";
+                        }else if(bewegung.richtung.equals("links")){
+                            sp.alleSpieler.get(bewegung.clientIndex).spielfigur.richtung = "links";
+                        }else if(bewegung.richtung.equals("stehen")){
+                            sp.alleSpieler.get(bewegung.clientIndex).spielfigur.richtung = "stehen";
+                        }
+                        if(bewegung.feldNum!=0){
+                            for(int zeile = 0; zeile<25; zeile++)
+                                for(Fliese fliese: sp.mapManager.mapFliesen[zeile]){
+                                    if(fliese.feld.feldNum == bewegung.feldNum){
+                                    sp.alleSpieler.get(bewegung.clientIndex).aktuellFeld = fliese.feld;
+                                    }
+                            }
                         }
                     }
 

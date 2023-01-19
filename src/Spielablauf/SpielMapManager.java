@@ -24,7 +24,7 @@ public class SpielMapManager {
     public SpielMapManager(SpielPanel sp) {
         this.sp = sp;
         mapEingabeManager = new MapEingabeManager(this);
-        this.mapFliesen = new Fliese[26][30];
+        this.mapFliesen = new Fliese[25][30];
         mapLaden();
         felderReihenfolgeFestlegen();
         this.stern = new Stern(this);
@@ -294,6 +294,8 @@ public class SpielMapManager {
     private void mapMalen(){
         int weltSpalte = 0;
         int weltZeile = 0;
+        int xSternPosition = 0, ySternPosition = 0;
+        BufferedImage image = null;
 
         while(weltSpalte < sp.maxWeltSpalte && weltZeile < sp.maxWeltZeile) {
             Fliese vorlauefigeFliese = mapFliesen[weltZeile][weltSpalte];
@@ -302,12 +304,13 @@ public class SpielMapManager {
             int weltY = weltZeile * sp.vergroesserteFliesenGroesse;
             int bildschirmX = weltX - sp.mainSpieler.weltX + sp.mainSpieler.bildschirmX;
             int bildschirmY = weltY - sp.mainSpieler.weltY + sp.mainSpieler.bildschirmY;
+            xSternPosition = bildschirmX;
+            ySternPosition = bildschirmY;
 
             g2.drawImage(vorlauefigeFliese.getFlieseImage(), bildschirmX, bildschirmY, sp.vergroesserteFliesenGroesse, sp.vergroesserteFliesenGroesse, null);
             if(mapFliesen[weltZeile][weltSpalte].feld != null){
                 g2.drawImage(mapFliesen[weltZeile][weltSpalte].feld.getFeldImage(), bildschirmX, bildschirmY, sp.vergroesserteFliesenGroesse, sp.vergroesserteFliesenGroesse, null);
                 if(mapFliesen[weltZeile][weltSpalte].feld.hatStern){
-                    BufferedImage image = null;
                     if(stern.spriteNum == 0){
                         image = stern.stern1;
                     }else if(stern.spriteNum == 1 || stern.spriteNum == 7){
@@ -319,14 +322,13 @@ public class SpielMapManager {
                     }else if(stern.spriteNum == 4){
                         image = stern.stern5;
                     }
-                    int xSternPosition = bildschirmX, ySternPosition = bildschirmY;
                     switch (stern.sternPostition) {
                         case "unten" -> ySternPosition += sp.vergroesserteFliesenGroesse;
                         case "oben" -> ySternPosition -= sp.vergroesserteFliesenGroesse;
                         case "rechts" -> xSternPosition += sp.vergroesserteFliesenGroesse;
                         case "links" -> xSternPosition -= sp.vergroesserteFliesenGroesse;
                     }
-                    g2.drawImage(image, xSternPosition, ySternPosition, sp.vergroesserteFliesenGroesse, sp.vergroesserteFliesenGroesse, null);                }
+                }
             }
 
             weltSpalte++;
@@ -335,5 +337,6 @@ public class SpielMapManager {
                 weltZeile++;
             }
         }
+        g2.drawImage(stern.stern1, xSternPosition, ySternPosition, sp.vergroesserteFliesenGroesse, sp.vergroesserteFliesenGroesse, null);
     }
 }

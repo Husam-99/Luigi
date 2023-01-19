@@ -26,7 +26,8 @@ public class SpielServer  {
             server.start();
             server.addListener(new ServerListener());
             System.out.println("Server gestartet");
-            generator.sternFeldnummer = positionGenerator.nextInt(1, 36);
+            generator.sternFeldnummer = 11;
+            //generator.sternFeldnummer = positionGenerator.nextInt(1, 36);
         } catch (IOException e) {
             e.printStackTrace();
         }

@@ -29,8 +29,6 @@ public class Konto {
         Muenzenzahl muenzenzahl = new Muenzenzahl();
         muenzenzahl.anzahlDerMuenzen = - muenzenAnzahl;
         spieler.sp.client.send(muenzenzahl);
-
-
     }
 
     public void sterneErhalten(int sterneAnzahl){

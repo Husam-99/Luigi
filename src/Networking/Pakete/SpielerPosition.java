@@ -5,5 +5,4 @@ public class SpielerPosition {
     public int weltX;
     public int weltY;
 
-
 }

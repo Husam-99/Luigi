@@ -18,7 +18,7 @@ public class ServerListener extends Listener {
     private int zustand = 0;
 
     @Override
-    public void connected(Connection connection) {
+    public synchronized void connected(Connection connection) {
         System.out.println("Client ist verbunden.");
         ClientsZug zug = new ClientsZug();
         HostClient host = new HostClient();
@@ -32,15 +32,21 @@ public class ServerListener extends Listener {
             auskuenfte.istDran = true;
             alleClients.put(connection, auskuenfte);
             host.istHost = true;
+            zug.istDran = true;
+
+        } else{
+            zug.istDran = false;
+
+
         }
+        server.sendToTCP(connection.getID(), host);
+        server.sendToTCP(connection.getID(), zug);
         System.out.println(alleClients.size());
         AnzahlClients anzahl = new AnzahlClients();
         anzahl.anzahlVerbundeneClients = alleClients.size();
-        zug.istDran = alleClients.get(connection).istDran;
-
-        server.sendToTCP(connection.getID(), host);
-        server.sendToTCP(connection.getID(), zug);
         server.sendToAllTCP(anzahl);
+         alleClients.get(connection).istDran = zug.istDran;
+
         naechsterClient = alleClients.size() - 2;
 
     }
@@ -48,14 +54,15 @@ public class ServerListener extends Listener {
     @Override
     public void disconnected(Connection connection) {
         System.out.println("Client ist nicht mehr verbunden.");
-        alleClients.remove(connection);
-        if(alleClients.size()<2){
-
-        }
+        connection.close();
+        alleClients.remove(connection, alleClients.get(connection));
         AnzahlClients anzahl = new AnzahlClients();
         anzahl.anzahlVerbundeneClients = alleClients.size();
         server.sendToAllTCP(anzahl);
-        connection.close();
+        if(alleClients.size()<2){
+            System.exit(0);
+            SpielServer.start();
+        }
     }
 
     @Override
@@ -166,7 +173,7 @@ public class ServerListener extends Listener {
                 if(muenzenzahl.anzahlDerMuenzen > 0){
                     alleClients.get(connection).muenzenzahl += muenzenzahl.anzahlDerMuenzen;
                 }else if(muenzenzahl.anzahlDerMuenzen < 0){
-                    alleClients.get(connection).muenzenzahl -= muenzenzahl.anzahlDerMuenzen;
+                    alleClients.get(connection).muenzenzahl += muenzenzahl.anzahlDerMuenzen;
                 }
                 server.sendToAllExceptTCP(connection.getID(), muenzenzahl);
             }
@@ -179,7 +186,7 @@ public class ServerListener extends Listener {
                 if (sternzahl.anzahlDerSterne > 0) {
                     alleClients.get(connection).sternzahl += sternzahl.anzahlDerSterne;
                 } else if (sternzahl.anzahlDerSterne < 0) {
-                    alleClients.get(connection).sternzahl -= sternzahl.anzahlDerSterne;
+                    alleClients.get(connection).sternzahl += sternzahl.anzahlDerSterne;
                 }
                 server.sendToAllExceptTCP(connection.getID(), sternzahl);
             }

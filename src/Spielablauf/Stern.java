@@ -12,13 +12,7 @@ public class Stern {
     public int spriteNum = 0;
     private int spriteZaehler = 0;
     public String sternPostition;
-
     public BufferedImage stern, stern1, stern2, stern3, stern4, stern5;
-
-
-
-
-
     public Stern(SpielMapManager mapManager) {
         this.mapManager = mapManager;
         getSternBilder();
@@ -37,7 +31,7 @@ public class Stern {
     }
 
     public void setFeldNum(int feldNum) {
-        for(int spalte = 0; spalte < 26; spalte++){
+        for(int spalte = 0; spalte < 25; spalte++){
             for(int zeile = 0; zeile < 30; zeile++) {
                 if (mapManager.mapFliesen[spalte][zeile] != null) {
                     if (mapManager.mapFliesen[spalte][zeile].feld != null) {
@@ -48,7 +42,6 @@ public class Stern {
                 }
             }
         }
-
         this.feldNum = feldNum;
         setSternPosition();
         System.out.println("setSternposition " + this.feldNum);
@@ -61,7 +54,7 @@ public class Stern {
 
     }
     private void setSternPosition(){
-        for(int spalte = 0; spalte < 26; spalte++){
+        for(int spalte = 0; spalte < 25; spalte++){
             for(int zeile = 0; zeile < 30; zeile++) {
                 if (mapManager.mapFliesen[spalte][zeile] != null) {
                     if (mapManager.mapFliesen[spalte][zeile].feld != null) {
