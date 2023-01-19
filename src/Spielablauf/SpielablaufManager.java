@@ -44,15 +44,26 @@ public class SpielablaufManager {
             if(!sp.alleSpieler.isEmpty())
                 for(Spieler spieler : sp.alleSpieler) {
                     if (spieler.spielfigur != null) {
-                        spielerNum++;
                         spieler.malen(g2);
                     }
                 }
-            spielerNum = 0;
+
             mainSpieler.malen(g2);
         }
         if(shopGeoeffnet){
             shop.malen(g2);
         }
+        mainSpieler.konto.malen(g2);
+        if(mainSpieler.spielfigur!=null) {
+            if (!sp.alleSpieler.isEmpty())
+                for (Spieler spieler : sp.alleSpieler) {
+                    if (spieler.spielfigur != null) {
+                        spielerNum++;
+                        spieler.konto.malen(g2);
+
+                    }
+                }
+        }
+        spielerNum = 0;
     }
 }

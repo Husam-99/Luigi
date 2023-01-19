@@ -16,7 +16,9 @@ public class MinispielManager {
     ArrayList<MinispielSpieler> alleMinispielSpieler;
 
     public SammlerEingabeManager sammlerEingabeManager;
-
+    //block
+    //minispiel jo
+    //runden
     public MinispielManager(SpielPanel sp, int minispielIndex) {
         this.sp = sp;
         alleMinispielSpieler = new ArrayList<>();

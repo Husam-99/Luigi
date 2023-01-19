@@ -94,7 +94,6 @@ public class Spieler {
         g2.setFont(spielablaufManager.sp.marioPartyFont);
         if(spielablaufManager.mainSpieler.spielfigur!=null){
             spielfigur.malen(g2);
-            konto.malen(g2);
         }
         if(wuerfelZustand){
             if(normaleWuerfelZustand) {

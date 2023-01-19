@@ -15,5 +15,4 @@ public abstract class Gegenstand {
     public void effeckteAnwenden(){}
 
     public void getGegenstandBilder(){}
-
 }

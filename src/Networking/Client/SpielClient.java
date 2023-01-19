@@ -67,22 +67,27 @@ public class SpielClient {
 
                     } else if (object instanceof SpielfigurAuswahl spielfigurAuswahl) {
                         Spieler andererSpieler = new Spieler(sp.spielablaufManager);
-                        if (spielfigurAuswahl.spielfigurIndex == 0) {
-                            andererSpieler.spielfigurAuswaehlen(0);
-                            System.out.println("at recieve spielfigur the client index" + spielfigurAuswahl.clientIndex);
-                            sp.hinzufuegeSpieler(andererSpieler, spielfigurAuswahl.clientIndex);
-                        } else if (spielfigurAuswahl.spielfigurIndex == 1) {
-                            andererSpieler.spielfigurAuswaehlen(1);
-                            System.out.println("at recieve spielfigur the client index" + spielfigurAuswahl.clientIndex);
-                            sp.hinzufuegeSpieler(andererSpieler, spielfigurAuswahl.clientIndex);
-                        } else if (spielfigurAuswahl.spielfigurIndex == 2) {
-                            andererSpieler.spielfigurAuswaehlen(2);
-                            System.out.println("at recieve spielfigur the client index" + spielfigurAuswahl.clientIndex);
-                            sp.hinzufuegeSpieler(andererSpieler, spielfigurAuswahl.clientIndex);
-                        } else if (spielfigurAuswahl.spielfigurIndex == 3) {
-                            andererSpieler.spielfigurAuswaehlen(3);
-                            System.out.println("at recieve spielfigur the client index" + spielfigurAuswahl.clientIndex);
-                            sp.hinzufuegeSpieler(andererSpieler, spielfigurAuswahl.clientIndex);
+                        if(spielfigurAuswahl.spielfigurMenueIndex == -1) {
+                            if (spielfigurAuswahl.spielfigurIndex == 0) {
+                                andererSpieler.spielfigurAuswaehlen(0);
+                                System.out.println("at recieve spielfigur the client index " + spielfigurAuswahl.clientIndex);
+                                sp.hinzufuegeSpieler(andererSpieler, spielfigurAuswahl.clientIndex);
+                            } else if (spielfigurAuswahl.spielfigurIndex == 1) {
+                                andererSpieler.spielfigurAuswaehlen(1);
+                                System.out.println("at recieve spielfigur the client index " + spielfigurAuswahl.clientIndex);
+                                sp.hinzufuegeSpieler(andererSpieler, spielfigurAuswahl.clientIndex);
+                            } else if (spielfigurAuswahl.spielfigurIndex == 2) {
+                                andererSpieler.spielfigurAuswaehlen(2);
+                                System.out.println("at recieve spielfigur the client index " + spielfigurAuswahl.clientIndex);
+                                sp.hinzufuegeSpieler(andererSpieler, spielfigurAuswahl.clientIndex);
+                            } else if (spielfigurAuswahl.spielfigurIndex == 3) {
+                                andererSpieler.spielfigurAuswaehlen(3);
+                                System.out.println("at recieve spielfigur the client index " + spielfigurAuswahl.clientIndex);
+                                sp.hinzufuegeSpieler(andererSpieler, spielfigurAuswahl.clientIndex);
+                            }
+                        } else{
+                            sp.menueManager.menueEingabeManager.spielfigurMenueIndex = spielfigurAuswahl.spielfigurMenueIndex;
+
                         }
                     } else if(object instanceof SternPosition sternPosition){
                         sp.spielablaufManager.mapManager.stern.setFeldNum(sternPosition.sternFeldnummer);
@@ -132,6 +137,13 @@ public class SpielClient {
                                     }
                             }
                         }
+                    } else if(object instanceof GegenstandInfo gegenstandInfo){
+                        if(gegenstandInfo.gegenstandNum != -1){
+                            sp.alleSpieler.get(gegenstandInfo.clientIndex).inventar.gegenstandBekommen(gegenstandInfo.gegenstandNum);
+                        } else {
+                            sp.alleSpieler.get(gegenstandInfo.clientIndex).inventar.gegenstandVerwenden(gegenstandInfo.befehlNum);
+
+                        }
                     }
 
 
@@ -179,6 +191,11 @@ public class SpielClient {
         } else if(object instanceof Bewegung bewegung){
             bewegung.clientIndex = this.clientIndex;
             client.sendTCP(bewegung);
+        } else if(object instanceof GegenstandInfo gegenstandInfo){
+            gegenstandInfo.clientIndex = this.clientIndex;
+            client.sendTCP(gegenstandInfo);
+        } else if(object instanceof Blocken block){
+            client.sendTCP(block);
         }
 
     }

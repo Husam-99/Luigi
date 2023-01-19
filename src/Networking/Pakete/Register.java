@@ -20,6 +20,8 @@ public class Register {
         k.register(SternKaufen.class);
         k.register(Bewegung.class);
         k.register(Schritte.class);
+        k.register(GegenstandInfo.class);
+        k.register(Blocken.class);
 
 
 

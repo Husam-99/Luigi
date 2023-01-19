@@ -1,5 +1,7 @@
 package spieler;
 
+import Networking.Pakete.GegenstandInfo;
+
 import java.awt.*;
 
 public class Inventar {
@@ -76,21 +78,21 @@ public class Inventar {
                 inventar[3] = new SternTaxi(spieler);
             }
         }
+        if(spieler.spielablaufManager.sp.client.istDran()){
+            GegenstandInfo gegenstandInfo = new GegenstandInfo();
+            gegenstandInfo.gegenstandNum = gegenstandNum;
+            spieler.spielablaufManager.sp.client.send(gegenstandInfo);
+        }
     }
     public void gegenstandVerwenden(int befehlNum){
-        if(befehlNum == 0) {
-            inventar[0].effeckteAnwenden();
-            inventar[0] = null;
-        }else if(befehlNum == 1){
-            inventar[1].effeckteAnwenden();
-            inventar[1] = null;
-        }else if(befehlNum == 2){
-            inventar[2].effeckteAnwenden();
-            inventar[2] = null;
-        }else if(befehlNum == 3){
-            inventar[3].effeckteAnwenden();
-            inventar[3] = null;
+
+        if(spieler.spielablaufManager.sp.client.istDran()){
+            inventar[befehlNum].effeckteAnwenden();
+            GegenstandInfo gegenstandInfo = new GegenstandInfo();
+            gegenstandInfo.befehlNum = befehlNum;
+            spieler.spielablaufManager.sp.client.send(gegenstandInfo);
         }
+        inventar[befehlNum] = null;
     }
     public void anzahlGegenstaendeInInventar(){
         gegenstaendeAnzahl = 0;

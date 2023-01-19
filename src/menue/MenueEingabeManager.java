@@ -11,6 +11,7 @@ import java.awt.event.KeyListener;
 public class MenueEingabeManager implements KeyListener {
 
     MenueManager mn;
+    public int spielfigurMenueIndex = -1;
     public MenueEingabeManager(MenueManager mn){
         this.mn = mn;
     }

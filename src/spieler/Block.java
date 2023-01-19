@@ -1,7 +1,8 @@
 package spieler;
 
+import Networking.Pakete.Blocken;
+
 import javax.imageio.ImageIO;
-import java.awt.image.BufferedImage;
 import java.io.IOException;
 
 public class Block extends Gegenstand{
@@ -20,5 +21,12 @@ public class Block extends Gegenstand{
         }catch(IOException e) {
             e.printStackTrace();
         }
+    }
+    @Override
+    public void effeckteAnwenden(){
+        Blocken block = new Blocken();
+        spieler.spielablaufManager.sp.client.send(block);
+
+
     }
 }

@@ -45,7 +45,7 @@ public class ServerListener extends Listener {
         AnzahlClients anzahl = new AnzahlClients();
         anzahl.anzahlVerbundeneClients = alleClients.size();
         server.sendToAllTCP(anzahl);
-         alleClients.get(connection).istDran = zug.istDran;
+        alleClients.get(connection).istDran = zug.istDran;
 
         naechsterClient = alleClients.size() - 2;
 
@@ -147,9 +147,13 @@ public class ServerListener extends Listener {
                 spielfigurAuswahl.clientIndex = alleClients.get(connection).clientIndex;
                 alleClients.get(connection).spielfigurIndex = spielfigurAuswahl.spielfigurIndex;
             }
+            SpielfigurAuswahl auswahl = new SpielfigurAuswahl();
+            auswahl.clientIndex = alleClients.get(connection).clientIndex;
+            auswahl.spielfigurMenueIndex = alleClients.get(connection).spielfigurIndex;
+            server.sendToAllExceptTCP(connection.getID(), auswahl);
             for (Connection con : alleClients.keySet()) {
                 if (alleClients.get(con).spielfigurIndex != -1 && con != connection) {
-                    SpielfigurAuswahl auswahl = new SpielfigurAuswahl();
+                    auswahl = new SpielfigurAuswahl();
                     auswahl.clientIndex = alleClients.get(con).clientIndex;
                     auswahl.spielfigurIndex = alleClients.get(con).spielfigurIndex;
                     server.sendToTCP(connection.getID(), auswahl);
@@ -205,6 +209,15 @@ public class ServerListener extends Listener {
         } else if(object instanceof Bewegung bewegung){
             bewegung.clientIndex = alleClients.get(connection).clientIndex;
             server.sendToAllExceptTCP(connection.getID(), bewegung);
+        } else if(object instanceof GegenstandInfo gegenstandInfo){
+            gegenstandInfo.clientIndex = alleClients.get(connection).clientIndex;
+            server.sendToAllExceptTCP(connection.getID(), gegenstandInfo);
+        } else if(object instanceof Blocken){
+            naechsterClient--;
+            if (naechsterClient < 0) {
+                naechsterClient = alleClients.size() - 1;
+            }
+
         }
 
     }

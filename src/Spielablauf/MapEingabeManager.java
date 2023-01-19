@@ -1,13 +1,11 @@
 package Spielablauf;
 
-import Networking.Pakete.Bescheid;
-import Networking.Pakete.Bewegung;
-import Networking.Pakete.SpielerPosition;
+
 import spieler.Spieler;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import java.awt.image.BufferedImage;
+
 
 public class MapEingabeManager implements KeyListener {
     SpielMapManager spielMapManager;
