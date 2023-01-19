@@ -10,8 +10,8 @@ public class Husam extends Spielfigur {
         getSpielFigurBilder();
 
     }
-    public Husam(Spieler s){
-        super(s);
+    public Husam(Spieler spieler){
+        super(spieler);
         getSpielFigurBilder();
     }
     @Override

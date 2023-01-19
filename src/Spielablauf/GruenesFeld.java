@@ -24,14 +24,18 @@ public class GruenesFeld extends Feld{
     @Override
     public void effeckteAnwenden(){
         erhalteneMuenzen = random.nextInt(1,3);
-        mapManager.sp.mainSpieler.konto.muenzenErhalten(erhalteneMuenzen);
-        if(!mapManager.sp.alleSpieler.isEmpty())
-            for(Spieler spieler : mapManager.sp.alleSpieler) {
+        mapManager.spielablaufManager.mainSpieler.konto.muenzenErhalten(erhalteneMuenzen);
+        if(!mapManager.spielablaufManager.sp.alleSpieler.isEmpty())
+            for(Spieler spieler : mapManager.spielablaufManager.sp.alleSpieler) {
                 if (spieler.spielfigur != null) {
                     spieler.amSpiel = false;
 
                 }
             }
-        mapManager.sp.mainSpieler.amSpiel = false;
+        if(!mapManager.spielablaufManager.mainSpieler.aktuellFeld.hatStern) {
+            mapManager.spielablaufManager.mainSpieler.amSpiel = false;
+        }else{
+            mapManager.stern.sternKaufen = true;
+        }
     }
 }

@@ -30,7 +30,7 @@ public class MinispielManager {
 
     }
     public void setzeWerte(){
-        alleMinispielSpieler.add(new MinispielSpieler(this, sp.mainSpieler, sammlerEingabeManager));
+        alleMinispielSpieler.add(new MinispielSpieler(this, sp.spielablaufManager.mainSpieler, sammlerEingabeManager));
         // for(Spieler spieler: sp.alleSpieler){
         //     if(spieler.spielfigur!=null){
         //         alleMinispielSpieler.add(new MinispielSpieler(this, spieler, sammlerEingabeManager));

@@ -9,8 +9,8 @@ public class MegaWuerfel extends GegenstandWuerfel{
 
     public BufferedImage wuerfel7, wuerfel8, wuerfel9, wuerfel10, wuerfel11, wuerfel12;
 
-    public MegaWuerfel(Spieler s) {
-        super(s);
+    public MegaWuerfel(Spieler spieler) {
+        super(spieler);
         preis = 5;
         nummer = 3;
         getGegenstandBilder();
@@ -32,29 +32,29 @@ public class MegaWuerfel extends GegenstandWuerfel{
     }
     @Override
     public void effeckteAnwenden(){
-        s.normaleWuerfelZustand = false;
-        s.megaWuerfelZustand = true;
+        spieler.normaleWuerfelZustand = false;
+        spieler.megaWuerfelZustand = true;
     }
     @Override
     public void schritteAnzahlBestimmen(){
         if (spriteNum == 0) {
-            s.schritteAnzahl = 7;
+            spieler.schritteAnzahl = 7;
         } else if (spriteNum == 1) {
-            s.schritteAnzahl = 8;
+            spieler.schritteAnzahl = 8;
         } else if (spriteNum == 2) {
-            s.schritteAnzahl = 9;
+            spieler.schritteAnzahl = 9;
         } else if (spriteNum == 3) {
-            s.schritteAnzahl = 10;
+            spieler.schritteAnzahl = 10;
         } else if (spriteNum == 4) {
-            s.schritteAnzahl = 11;
+            spieler.schritteAnzahl = 11;
         }else if (spriteNum == 5) {
-            s.schritteAnzahl = 12;
+            spieler.schritteAnzahl = 12;
         }
     }
 
     @Override
     public void update() {
-        if(s.sp.mapManager.mapEingabeManager.spaceGedrueckt) {
+        if(spieler.spielablaufManager.mapManager.mapEingabeManager.spaceGedrueckt) {
             spriteZaehler++;
             if (spriteZaehler > 3) {
                 if (spriteNum == 0) {
@@ -79,19 +79,19 @@ public class MegaWuerfel extends GegenstandWuerfel{
     public void malen(Graphics2D g2){
         BufferedImage image = null;
         if(spriteNum == 0){
-            image = wuerfel7;
-        }else if(spriteNum == 1){
-            image = wuerfel8;
-        }else if(spriteNum == 2){
-            image = wuerfel9;
-        }else if(spriteNum == 3){
-            image = wuerfel10;
-        }else if(spriteNum == 4){
-            image = wuerfel11;
-        }else if(spriteNum == 5){
             image = wuerfel12;
+        }else if(spriteNum == 1){
+            image = wuerfel7;
+        }else if(spriteNum == 2){
+            image = wuerfel10;
+        }else if(spriteNum == 3){
+            image = wuerfel11;
+        }else if(spriteNum == 4){
+            image = wuerfel8;
+        }else if(spriteNum == 5){
+            image = wuerfel9;
         }
-        g2.drawImage(image, 620 , 65, s.sp.vergroesserteFliesenGroesse*2, s.sp.vergroesserteFliesenGroesse*2, null);
+        g2.drawImage(image, 620 , 65, spieler.spielablaufManager.sp.vergroesserteFliesenGroesse*2, spieler.spielablaufManager.sp.vergroesserteFliesenGroesse*2, null);
     }
 
 }

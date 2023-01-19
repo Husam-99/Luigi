@@ -7,8 +7,8 @@ import java.io.IOException;
 public class YousefWuerfel extends Wuerfel{
 
 
-    public YousefWuerfel(Spieler s){
-        super(s);
+    public YousefWuerfel(Spieler spieler){
+        super(spieler);
         getWuerfelBilder();
     }
     @Override

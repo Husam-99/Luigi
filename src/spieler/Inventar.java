@@ -122,25 +122,25 @@ public class Inventar {
     }
     private void groesseAnpssen(){
         if (befehlNum == 0){
-            slot1Messungen = spieler.sp.vergroesserteFliesenGroesse * 2 +40;
-            slot2Messungen =  spieler.sp.vergroesserteFliesenGroesse * 2;
-            slot3Messungen =  spieler.sp.vergroesserteFliesenGroesse * 2;
-            slot4Messungen =  spieler.sp.vergroesserteFliesenGroesse * 2;
+            slot1Messungen = spieler.spielablaufManager.sp.vergroesserteFliesenGroesse * 2 +40;
+            slot2Messungen =  spieler.spielablaufManager.sp.vergroesserteFliesenGroesse * 2;
+            slot3Messungen =  spieler.spielablaufManager.sp.vergroesserteFliesenGroesse * 2;
+            slot4Messungen =  spieler.spielablaufManager.sp.vergroesserteFliesenGroesse * 2;
         }else if(befehlNum == 1){
-            slot1Messungen = spieler.sp.vergroesserteFliesenGroesse * 2;
-            slot2Messungen =  spieler.sp.vergroesserteFliesenGroesse * 2;
-            slot3Messungen = spieler.sp.vergroesserteFliesenGroesse * 2 +40;
-            slot4Messungen =  spieler.sp.vergroesserteFliesenGroesse * 2;
+            slot1Messungen = spieler.spielablaufManager.sp.vergroesserteFliesenGroesse * 2;
+            slot2Messungen =  spieler.spielablaufManager.sp.vergroesserteFliesenGroesse * 2;
+            slot3Messungen = spieler.spielablaufManager.sp.vergroesserteFliesenGroesse * 2 +40;
+            slot4Messungen =  spieler.spielablaufManager.sp.vergroesserteFliesenGroesse * 2;
         }else if(befehlNum == 2){
-            slot1Messungen = spieler.sp.vergroesserteFliesenGroesse * 2;
-            slot2Messungen = spieler.sp.vergroesserteFliesenGroesse * 2 +40;
-            slot3Messungen =  spieler.sp.vergroesserteFliesenGroesse * 2;
-            slot4Messungen =  spieler.sp.vergroesserteFliesenGroesse * 2;
+            slot1Messungen = spieler.spielablaufManager.sp.vergroesserteFliesenGroesse * 2;
+            slot2Messungen = spieler.spielablaufManager.sp.vergroesserteFliesenGroesse * 2 +40;
+            slot3Messungen =  spieler.spielablaufManager.sp.vergroesserteFliesenGroesse * 2;
+            slot4Messungen =  spieler.spielablaufManager.sp.vergroesserteFliesenGroesse * 2;
         }else if(befehlNum == 3){
-            slot1Messungen = spieler.sp.vergroesserteFliesenGroesse * 2;
-            slot2Messungen =  spieler.sp.vergroesserteFliesenGroesse * 2;
-            slot3Messungen =  spieler.sp.vergroesserteFliesenGroesse * 2;
-            slot4Messungen = spieler.sp.vergroesserteFliesenGroesse * 2 +40;
+            slot1Messungen = spieler.spielablaufManager.sp.vergroesserteFliesenGroesse * 2;
+            slot2Messungen =  spieler.spielablaufManager.sp.vergroesserteFliesenGroesse * 2;
+            slot3Messungen =  spieler.spielablaufManager.sp.vergroesserteFliesenGroesse * 2;
+            slot4Messungen = spieler.spielablaufManager.sp.vergroesserteFliesenGroesse * 2 +40;
         }
     }
     private void gegenstaendeMalen() {

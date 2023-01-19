@@ -3,6 +3,7 @@ package Main;
 import Minispiele.MinispielManager;
 import Networking.Client.SpielClient;
 import Spielablauf.SpielMapManager;
+import Spielablauf.SpielablaufManager;
 import spieler.*;
 import menue.MenueManager;
 
@@ -41,13 +42,12 @@ public class SpielPanel extends JPanel implements Runnable{
     public Clip soundClip;
     public FloatControl floatControl;
     Thread spielThread;
-    public SpielMapManager mapManager= new SpielMapManager(this);
-    public Spieler mainSpieler;
     public ArrayList<Spieler> alleSpieler;
     public SpielClient client;
     public MenueManager menueManager;
+    public SpielablaufManager spielablaufManager;
     public MinispielManager minispielManager;
-    public int spielerNum = 0;
+
 
 
     public SpielPanel(JFrame window){
@@ -59,10 +59,10 @@ public class SpielPanel extends JPanel implements Runnable{
         this.setBackground(Color.darkGray);
         this.setDoubleBuffered(true);
         menueManager = new MenueManager(this);
-        mainSpieler = new Spieler(this);
+        spielablaufManager = new SpielablaufManager(this);
         alleSpieler = new ArrayList<>(4);
         for(int i = 0; i < 4; i++){
-            alleSpieler.add(i, new Spieler(this));
+            alleSpieler.add(i, new Spieler(spielablaufManager));
         }
         this.addKeyListener(menueManager.menueEingabeManager);
         this.setFocusable(true);
@@ -93,23 +93,23 @@ public class SpielPanel extends JPanel implements Runnable{
             if (spieler1.spielfigur instanceof Abdo) {
                 spieler1.weltY = (int) (vergroesserteFliesenGroesse * 21.5);
                 spieler1.weltX = (int) (vergroesserteFliesenGroesse * 9.5);
-                spieler1.bildschirmX = spieler1.weltX - mainSpieler.weltX + mainSpieler.bildschirmX;
-                spieler1.bildschirmY = spieler1.weltY - mainSpieler.weltY + mainSpieler.bildschirmY;
+                spieler1.bildschirmX = spieler1.weltX - spielablaufManager.mainSpieler.weltX + spielablaufManager.mainSpieler.bildschirmX;
+                spieler1.bildschirmY = spieler1.weltY - spielablaufManager.mainSpieler.weltY + spielablaufManager.mainSpieler.bildschirmY;
             } else if (spieler1.spielfigur instanceof Husam) {
                 spieler1.weltY = (int) (vergroesserteFliesenGroesse * 21.5);
                 spieler1.weltX = (int) (vergroesserteFliesenGroesse * 10.5);
-                spieler1.bildschirmX = spieler1.weltX - mainSpieler.weltX + mainSpieler.bildschirmX;
-                spieler1.bildschirmY = spieler1.weltY - mainSpieler.weltY + mainSpieler.bildschirmY;
+                spieler1.bildschirmX = spieler1.weltX - spielablaufManager.mainSpieler.weltX + spielablaufManager.mainSpieler.bildschirmX;
+                spieler1.bildschirmY = spieler1.weltY - spielablaufManager.mainSpieler.weltY + spielablaufManager.mainSpieler.bildschirmY;
             } else if (spieler1.spielfigur instanceof Taha) {
                 spieler1.weltY = (int) (vergroesserteFliesenGroesse * 21.5);
                 spieler1.weltX = (int) (vergroesserteFliesenGroesse * 11.5);
-                spieler1.bildschirmX = spieler1.weltX - mainSpieler.weltX + mainSpieler.bildschirmX;
-                spieler1.bildschirmY = spieler1.weltY - mainSpieler.weltY + mainSpieler.bildschirmY;
+                spieler1.bildschirmX = spieler1.weltX - spielablaufManager.mainSpieler.weltX + spielablaufManager.mainSpieler.bildschirmX;
+                spieler1.bildschirmY = spieler1.weltY - spielablaufManager.mainSpieler.weltY + spielablaufManager.mainSpieler.bildschirmY;
             } else if (spieler1.spielfigur instanceof Yousef) {
                 spieler1.weltY = (int) (vergroesserteFliesenGroesse * 21.5);
                 spieler1.weltX = (int) (vergroesserteFliesenGroesse * 12.5);
-                spieler1.bildschirmX = spieler1.weltX - mainSpieler.weltX + mainSpieler.bildschirmX;
-                spieler1.bildschirmY = spieler1.weltY - mainSpieler.weltY + mainSpieler.bildschirmY;
+                spieler1.bildschirmX = spieler1.weltX - spielablaufManager.mainSpieler.weltX + spielablaufManager.mainSpieler.bildschirmX;
+                spieler1.bildschirmY = spieler1.weltY - spielablaufManager.mainSpieler.weltY + spielablaufManager.mainSpieler.bildschirmY;
             }
 
         }
@@ -118,7 +118,7 @@ public class SpielPanel extends JPanel implements Runnable{
         if(neueZustand == spielBrettZustand){
             this.setBackground(new Color(39, 105, 195));
             this.removeKeyListener(this.getKeyListeners()[0]);
-            this.addKeyListener(mapManager.mapEingabeManager);
+            this.addKeyListener(spielablaufManager.mapManager.mapEingabeManager);
             this.zustand = spielBrettZustand;
         } else if(neueZustand == minispielZustand){
             this.minispielManager = new MinispielManager(this, 0);
@@ -156,32 +156,22 @@ public class SpielPanel extends JPanel implements Runnable{
     }
 
     public void update() {
-        if(zustand == menueZustand){
+        if (zustand == menueZustand) {
             menueManager.menueHintergrund.update();
             menueManager.update();
-        } else if(zustand == spielBrettZustand){
-            mapManager.update();
-            if(mainSpieler.spielfigur!=null) {
-                if (!alleSpieler.isEmpty())
-                    for (Spieler spieler : alleSpieler) {
-                        if (spieler.spielfigur != null) {
-                            spieler.update();
-                        }
-                    }
-                mainSpieler.update();
-            }
-        } else if(zustand == minispielZustand) {
+        } else if (zustand == spielBrettZustand) {
+            spielablaufManager.update();
+        } else if (zustand == minispielZustand) {
             minispielManager.update();
-            if(mainSpieler.spielfigur!=null) {
+            if (spielablaufManager.mainSpieler.spielfigur != null) {
                 if (!alleSpieler.isEmpty())
                     for (Spieler spieler : alleSpieler) {
                         if (spieler.spielfigur != null) {
                             spieler.update();
                         }
                     }
-                mainSpieler.update();
+                spielablaufManager.mainSpieler.update();
             }
-
         }
     }
 
@@ -191,21 +181,8 @@ public class SpielPanel extends JPanel implements Runnable{
         if(zustand == menueZustand){
             menueManager.menueHintergrund.malen(g2);
             menueManager.malen(g2);
-
         }else if(zustand == spielBrettZustand){
-
-            mapManager.malen(g2);
-            if(mainSpieler.spielfigur!=null){
-                if(!alleSpieler.isEmpty())
-                    for(Spieler spieler : alleSpieler) {
-                        if (spieler.spielfigur != null) {
-                            spielerNum++;
-                            spieler.malen(g2);
-                        }
-                    }
-                spielerNum = 0;
-                mainSpieler.malen(g2);
-            }
+            spielablaufManager.malen(g2);
         } else if(zustand == minispielZustand){
             minispielManager.malen(g2);
 

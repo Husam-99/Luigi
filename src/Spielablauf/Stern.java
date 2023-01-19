@@ -3,16 +3,19 @@ package Spielablauf;
 import Networking.Pakete.SternKaufen;
 
 import javax.imageio.ImageIO;
+import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 
 public class Stern {
     SpielMapManager mapManager;
-    private int feldNum;
+    Graphics2D g2;
+    private int feldNum, spriteZaehler = 0;
     public int spriteNum = 0;
-    private int spriteZaehler = 0;
     public String sternPostition;
     public BufferedImage stern, stern1, stern2, stern3, stern4, stern5;
+    public boolean sternKaufen = false;
+
     public Stern(SpielMapManager mapManager) {
         this.mapManager = mapManager;
         getSternBilder();
@@ -48,10 +51,17 @@ public class Stern {
     }
 
     public void sternKaufen(){
-        SternKaufen sternKaufen = new SternKaufen();
-        sternKaufen.sternGekauft = true;
-        mapManager.sp.client.send(sternKaufen);
-
+        if(mapManager.spielablaufManager.mainSpieler.konto.muenzen >= 10){
+            mapManager.spielablaufManager.mainSpieler.konto.muenzenVerlieren(10);
+            mapManager.spielablaufManager.mainSpieler.konto.sterneErhalten(1);
+            sternKaufen = false;
+            SternKaufen sternKaufen = new SternKaufen();
+            sternKaufen.sternGekauft = true;
+            mapManager.spielablaufManager.sp.client.send(sternKaufen);
+            mapManager.spielablaufManager.mainSpieler.amSpiel = false;
+        }else{
+            mapManager.spielablaufManager.mainSpieler.konto.genugMuenzen = false;
+        }
     }
     private void setSternPosition(){
         for(int spalte = 0; spalte < 25; spalte++){
@@ -97,6 +107,33 @@ public class Stern {
             }
             spriteZaehler = 0;
         }
+    }
+
+    public void malen(Graphics2D g2){
+        this.g2 = g2;
+        sternKaufenBox();
+        if(!mapManager.spielablaufManager.mainSpieler.konto.genugMuenzen){
+            mapManager.spielablaufManager.mainSpieler.konto.rueckMeldungMalen(10 - mapManager.spielablaufManager.mainSpieler.konto.muenzen);
+        }
+    }
+
+    private void sternKaufenBox(){
+        Color c = new Color(0,0,0,100);
+        g2.setColor(c);
+        g2.fillRect(0, 0, 1440, 864);
+        c = new Color(0,0,0,200);
+        g2.setColor(c);
+        g2.fillRoundRect(330, 350, 780, 200, 35, 35);
+        c = new Color(255,255,255,200);
+        g2.setColor(c);
+        g2.setStroke(new BasicStroke(5));
+        g2.drawRoundRect(335,355,770, 190, 25, 25);
+        g2.setColor(Color.yellow);
+        g2.setFont(g2.getFont().deriveFont(Font.BOLD,65F));
+        g2.drawString("Willst du einen Stern ",410, 430);
+        g2.drawString("für 10 Muenzen Kaufen?",370, 500);
+        g2.drawImage(stern,250,270, mapManager.spielablaufManager.sp.vergroesserteFliesenGroesse*2, mapManager.spielablaufManager.sp.vergroesserteFliesenGroesse*2, null);
+
     }
 
 }

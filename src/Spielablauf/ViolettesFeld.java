@@ -24,15 +24,19 @@ public class ViolettesFeld extends Feld{
     @Override
     public void effeckteAnwenden(){
         gegenstandNum = random.nextInt(1,6);
-        mapManager.sp.mainSpieler.inventar.gegenstandBekommen(gegenstandNum);
-        if(!mapManager.sp.alleSpieler.isEmpty())
-            for(Spieler spieler : mapManager.sp.alleSpieler) {
+        mapManager.spielablaufManager.mainSpieler.inventar.gegenstandBekommen(gegenstandNum);
+        if(!mapManager.spielablaufManager.sp.alleSpieler.isEmpty())
+            for(Spieler spieler : mapManager.spielablaufManager.sp.alleSpieler) {
                 if (spieler.spielfigur != null) {
                     spieler.amSpiel = false;
 
                 }
             }
-        mapManager.sp.mainSpieler.amSpiel = false;
+        if(!mapManager.spielablaufManager.mainSpieler.aktuellFeld.hatStern) {
+            mapManager.spielablaufManager.mainSpieler.amSpiel = false;
+        }else{
+            mapManager.stern.sternKaufen = true;
+        }
 
     }
 

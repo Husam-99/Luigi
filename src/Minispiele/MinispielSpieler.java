@@ -52,7 +52,7 @@ public class MinispielSpieler {
         }
         geschwindigkeit = 5;
         minispielSpielerRechteck = new Rectangle(minispielXPosition+30,
-                minispielYPosition+50, spieler.sp.vergroesserteFliesenGroesse-60, spieler.sp.vergroesserteFliesenGroesse-50);
+                minispielYPosition+50, spieler.spielablaufManager.sp.vergroesserteFliesenGroesse-60, spieler.spielablaufManager.sp.vergroesserteFliesenGroesse-50);
 
     }
     public void update() {

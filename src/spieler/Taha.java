@@ -11,8 +11,8 @@ public class Taha extends Spielfigur{
         getSpielFigurBilder();
 
     }
-    public Taha(Spieler s){
-        super(s);
+    public Taha(Spieler spieler){
+        super(spieler);
         getSpielFigurBilder();
     }
     @Override

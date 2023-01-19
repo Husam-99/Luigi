@@ -2,11 +2,14 @@ package spieler;
 
 import Main.SpielPanel;
 import Spielablauf.Feld;
+import Spielablauf.Shop;
+import Spielablauf.SpielMapManager;
+import Spielablauf.SpielablaufManager;
 
 import java.awt.*;
 
 public class Spieler {
-    public SpielPanel sp;
+    public SpielablaufManager spielablaufManager;
     Graphics2D g2;
     public Spielfigur spielfigur;
     public Wuerfel wuerfel;
@@ -16,48 +19,47 @@ public class Spieler {
     public Feld naechstesFeld, aktuellesFeld, tempFeld, aktuellFeld; //tempFeld ist zu prüfen, ob das nächste Feld nicht gleich wie das vorherige Feld ist
     public Konto konto;
     public Inventar inventar;
-    public boolean amSpiel = true, bewegung = false, wuerfelZustand = false, inventarZustand = false, shopGeoeffnet = false,
+    public boolean amSpiel = true, bewegung = false, wuerfelZustand = false, inventarZustand = false,
             normaleWuerfelZustand = true, megaWuerfelZustand = false, miniWuerfelZustand = false;
     public GegenstandWuerfel megaWuerfel = new MegaWuerfel( this), miniWuerfel = new MiniWuerfel(this);
-    public Shop shop;
+
 
     public Spieler(){}
 
-    public Spieler(SpielPanel sp) {
-        this.sp = sp;
+    public Spieler(SpielablaufManager spielablaufManager) {
+        this.spielablaufManager = spielablaufManager;
         konto = new Konto(this);
         inventar = new Inventar(this);
-        shop = new Shop(this);
         setzeWerte();
     }
     public void setzeWerte(){
-        this.bildschirmX = sp.bildschirmBreite / 2 - (sp.vergroesserteFliesenGroesse / 2);
-        this.bildschirmY = sp.bildschirmHoehe / 2 - (sp.vergroesserteFliesenGroesse / 2);
-        this.weltY = (int) (sp.vergroesserteFliesenGroesse * 21.5);
+        this.bildschirmX = spielablaufManager.sp.bildschirmBreite / 2 - (spielablaufManager.sp.vergroesserteFliesenGroesse / 2);
+        this.bildschirmY = spielablaufManager.sp.bildschirmHoehe / 2 - (spielablaufManager.sp.vergroesserteFliesenGroesse / 2);
+        this.weltY = (int) (spielablaufManager.sp.vergroesserteFliesenGroesse * 21.5);
         geschwindigkeit = 3;
-        naechstesFeld = sp.mapManager.mapFliesen[19][11].feld;
+        naechstesFeld = spielablaufManager.mapManager.mapFliesen[19][11].feld;
+        aktuellFeld = naechstesFeld;
         aktuellesFeld = null;
     }
     public void spielfigurAuswaehlen() {
-        if(sp.menueManager.spielfigurAuswaehlen.befehlNum1 == 0){
+        if(spielablaufManager.sp.menueManager.spielfigurAuswaehlen.befehlNum1 == 0){
             spielfigur = new Abdo(this);
             wuerfel = new AbdoWuerfel(this);
-            this.weltX = (int) (sp.vergroesserteFliesenGroesse * 9.5);
+            this.weltX = (int) (spielablaufManager.sp.vergroesserteFliesenGroesse * 9.5);
 
-        } else if(sp.menueManager.spielfigurAuswaehlen.befehlNum1 == 1){
+        } else if(spielablaufManager.sp.menueManager.spielfigurAuswaehlen.befehlNum1 == 1){
             spielfigur = new Husam(this);
             wuerfel = new HusamWuerfel(this);
-            this.weltX = (int) (sp.vergroesserteFliesenGroesse * 10.5);
+            this.weltX = (int) (spielablaufManager.sp.vergroesserteFliesenGroesse * 10.5);
 
-        } else if(sp.menueManager.spielfigurAuswaehlen.befehlNum1 == 2){
+        } else if(spielablaufManager.sp.menueManager.spielfigurAuswaehlen.befehlNum1 == 2){
             spielfigur = new Taha(this);
             wuerfel = new TahaWuerfel(this);
-            this.weltX = (int) (sp.vergroesserteFliesenGroesse * 11.5);
-        } else if(sp.menueManager.spielfigurAuswaehlen.befehlNum1 == 3){
+            this.weltX = (int) (spielablaufManager.sp.vergroesserteFliesenGroesse * 11.5);
+        } else if(spielablaufManager.sp.menueManager.spielfigurAuswaehlen.befehlNum1 == 3){
             spielfigur = new Yousef(this);
             wuerfel = new YousefWuerfel(this);
-            this.weltX = (int) (sp.vergroesserteFliesenGroesse * 12.5);
-
+            this.weltX = (int) (spielablaufManager.sp.vergroesserteFliesenGroesse * 12.5);
         }
     }
     public void spielfigurAuswaehlen(int spielfigurIndex) {
@@ -89,8 +91,8 @@ public class Spieler {
     }
     public void malen(Graphics2D g2){
         this.g2 = g2;
-        g2.setFont(sp.marioPartyFont);
-        if(sp.mainSpieler.spielfigur!=null){
+        g2.setFont(spielablaufManager.sp.marioPartyFont);
+        if(spielablaufManager.mainSpieler.spielfigur!=null){
             spielfigur.malen(g2);
             konto.malen(g2);
         }
@@ -104,11 +106,10 @@ public class Spieler {
             }
         }else if(schritteAnzahl > 0){
             schritteMalen();
-        }
-        if(inventarZustand){
+        }else if(inventarZustand){
             inventar.malen(g2);
-        } else if(shopGeoeffnet){
-            shop.malen(g2);
+        }else if(spielablaufManager.mapManager.stern.sternKaufen){
+            spielablaufManager.mapManager.stern.malen(g2);
         }
     }
     private void schritteMalen(){
@@ -137,7 +138,7 @@ public class Spieler {
     }
     private int getXfuerCenter(String text) {
         int length = (int)g2.getFontMetrics().getStringBounds(text, g2).getWidth();
-        int x = sp.bildschirmBreite/2 - length/2;
+        int x = spielablaufManager.sp.bildschirmBreite/2 - length/2;
         return x;
     }
 }

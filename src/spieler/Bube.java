@@ -7,8 +7,8 @@ import java.io.IOException;
 public class Bube extends Gegenstand{
 
 
-    public Bube(Spieler s) {
-        super(s);
+    public Bube(Spieler spieler) {
+        super(spieler);
         preis = 11;
         nummer = 2;
         getGegenstandBilder();

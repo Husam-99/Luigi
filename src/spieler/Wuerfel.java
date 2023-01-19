@@ -7,34 +7,34 @@ import java.awt.image.BufferedImage;
 
 public abstract class Wuerfel {
     public BufferedImage wuerfel1, wuerfel2, wuerfel3, wuerfel4, wuerfel5, wuerfel6;
-    Spieler s;
+    Spieler spieler;
     int spriteNum = 0, spriteZaehler = 0;
-    public Wuerfel(Spieler s){
-        this.s = s;
+    public Wuerfel(Spieler spieler){
+        this.spieler = spieler;
     }
     public void schritteAnzahlBestimmen(){
         if (spriteNum == 0) {
-            s.schritteAnzahl = 1;
+            spieler.schritteAnzahl = 1;
         } else if (spriteNum == 1) {
-            s.schritteAnzahl = 2;
+            spieler.schritteAnzahl = 2;
         } else if (spriteNum == 2) {
-            s.schritteAnzahl = 3;
+            spieler.schritteAnzahl = 3;
         } else if (spriteNum == 3) {
-            s.schritteAnzahl = 4;
+            spieler.schritteAnzahl = 4;
         } else if (spriteNum == 4) {
-            s.schritteAnzahl = 5;
+            spieler.schritteAnzahl = 5;
         }else if (spriteNum == 5) {
-            s.schritteAnzahl = 6;
+            spieler.schritteAnzahl = 6;
         }
         Schritte schritte = new Schritte();
-        schritte.schritteAnzahl = s.schritteAnzahl;
-        //s.sp.client.send(schritte);
+        schritte.schritteAnzahl = spieler.schritteAnzahl;
+        //spieler.sp.client.send(schritte);
     }
     public void getWuerfelBilder() {}
     public void update(){
-        if(s.sp.mapManager.mapEingabeManager.spaceGedrueckt) {
+        if(spieler.spielablaufManager.mapManager.mapEingabeManager.spaceGedrueckt) {
             spriteZaehler++;
-            if (spriteZaehler > 3) {
+            if (spriteZaehler > 1) {
                 if (spriteNum == 0) {
                     spriteNum = 1;
                 } else if (spriteNum == 1) {
@@ -55,18 +55,18 @@ public abstract class Wuerfel {
     public void malen(Graphics2D g2){
         BufferedImage image = null;
         if(spriteNum == 0){
-            image = wuerfel1;
+            image = wuerfel6;
         }else if(spriteNum == 1){
-            image = wuerfel2;
+            image = wuerfel1;
         }else if(spriteNum == 2){
-            image = wuerfel3;
-        }else if(spriteNum == 3){
             image = wuerfel4;
+        }else if(spriteNum == 3){
+            image = wuerfel3;
         }else if(spriteNum == 4){
             image = wuerfel5;
         }else if(spriteNum == 5){
-            image = wuerfel6;
+            image = wuerfel2;
         }
-        g2.drawImage(image, 620 , 65, s.sp.vergroesserteFliesenGroesse*2, s.sp.vergroesserteFliesenGroesse*2, null);
+        g2.drawImage(image, 620 , 65, spieler.spielablaufManager.sp.vergroesserteFliesenGroesse*2, spieler.spielablaufManager.sp.vergroesserteFliesenGroesse*2, null);
     }
 }

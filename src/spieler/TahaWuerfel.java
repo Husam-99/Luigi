@@ -5,8 +5,8 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 
 public class TahaWuerfel extends Wuerfel{
-    public TahaWuerfel(Spieler s){
-        super(s);
+    public TahaWuerfel(Spieler spieler){
+        super(spieler);
         getWuerfelBilder();
     }
 

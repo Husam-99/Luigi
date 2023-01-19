@@ -14,7 +14,7 @@ public class MenueHintergrund {
     BufferedImage[] fliese;
     int hintergrundFlieseNum[][];
     int menueHintergrundSpalte = 15;
-    int menueHintergrundZeile = 5;
+    int menueHintergrundZeile = 6;
     Graphics2D g2;
     int x = 0;
     int spriteZaehler = 0;
@@ -25,16 +25,16 @@ public class MenueHintergrund {
 
     public MenueHintergrund(MenueManager mn){
         this.mn = mn;
-        fliese = new BufferedImage[75];
-        hintergrundFlieseNum = new int[15][5];
+        fliese = new BufferedImage[90];
+        hintergrundFlieseNum = new int[15][6];
         getFlieseBilder();
         flieseLesen();
     }
 
     public void getFlieseBilder(){
         try{
-            for(int temp = 0; temp < 75; temp++){
-                    fliese[temp] = ImageIO.read(getClass().getResourceAsStream("/menueHintergrund/tileset (" + temp +").png"));
+            for(int temp = 0; temp < 90; temp++){
+                    fliese[temp] = ImageIO.read(getClass().getResourceAsStream("/menueHintergrund/tileset"+ temp +".png"));
             }
         }catch(IOException e){
             e.printStackTrace();
@@ -49,7 +49,7 @@ public class MenueHintergrund {
             int spalte = 0;
             int zeile = 0;
 
-            while(spalte < 15 && zeile < 5){
+            while(spalte < 15 && zeile < 6){
                 String line = reader.readLine();
                 while(spalte < 15){
                     String numbers[] = line.split(" ");

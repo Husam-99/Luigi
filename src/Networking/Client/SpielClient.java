@@ -66,7 +66,7 @@ public class SpielClient {
                         sp.menueManager.rundenAnzahl = rundenzahl.anzahlDerRunden;
 
                     } else if (object instanceof SpielfigurAuswahl spielfigurAuswahl) {
-                        Spieler andererSpieler = new Spieler(sp);
+                        Spieler andererSpieler = new Spieler(sp.spielablaufManager);
                         if (spielfigurAuswahl.spielfigurIndex == 0) {
                             andererSpieler.spielfigurAuswaehlen(0);
                             System.out.println("at recieve spielfigur the client index" + spielfigurAuswahl.clientIndex);
@@ -85,13 +85,13 @@ public class SpielClient {
                             sp.hinzufuegeSpieler(andererSpieler, spielfigurAuswahl.clientIndex);
                         }
                     } else if(object instanceof SternPosition sternPosition){
-                        sp.mapManager.stern.setFeldNum(sternPosition.sternFeldnummer);
+                        sp.spielablaufManager.mapManager.stern.setFeldNum(sternPosition.sternFeldnummer);
                         System.out.println("Client: ich habe die feldnummer fuer stern erhalten.");
 
 
                     } else if(object instanceof SpielerPosition spielerPosition){
-                        sp.alleSpieler.get(spielerPosition.clientIndex).bildschirmX = spielerPosition.weltX - sp.mainSpieler.weltX + sp.mainSpieler.bildschirmX;
-                        sp.alleSpieler.get(spielerPosition.clientIndex).bildschirmY = spielerPosition.weltY - sp.mainSpieler.weltY + sp.mainSpieler.bildschirmY;
+                        sp.alleSpieler.get(spielerPosition.clientIndex).bildschirmX = spielerPosition.weltX - sp.spielablaufManager.mainSpieler.weltX + sp.spielablaufManager.mainSpieler.bildschirmX;
+                        sp.alleSpieler.get(spielerPosition.clientIndex).bildschirmY = spielerPosition.weltY - sp.spielablaufManager.mainSpieler.weltY + sp.spielablaufManager.mainSpieler.bildschirmY;
 
                     } else if(object instanceof Muenzenzahl muenzenzahl){
                         if(muenzenzahl.anzahlDerMuenzen > 0){
@@ -126,7 +126,7 @@ public class SpielClient {
                         }
                         if(bewegung.feldNum!=0){
                             for(int zeile = 0; zeile<25; zeile++)
-                                for(Fliese fliese: sp.mapManager.mapFliesen[zeile]){
+                                for(Fliese fliese: sp.spielablaufManager.mapManager.mapFliesen[zeile]){
                                     if(fliese.feld.feldNum == bewegung.feldNum){
                                     sp.alleSpieler.get(bewegung.clientIndex).aktuellFeld = fliese.feld;
                                     }

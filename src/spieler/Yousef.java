@@ -11,8 +11,8 @@ public class Yousef extends Spielfigur {
         getSpielFigurBilder();
 
     }
-    public Yousef(Spieler s){
-        super(s);
+    public Yousef(Spieler spieler){
+        super(spieler);
         getSpielFigurBilder();
     }
     @Override

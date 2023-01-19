@@ -9,8 +9,8 @@ public class MiniWuerfel extends GegenstandWuerfel{
 
     public BufferedImage wuerfel1, wuerfel2, wuerfel3;
 
-    public MiniWuerfel(Spieler s) {
-        super(s);
+    public MiniWuerfel(Spieler spieler) {
+        super(spieler);
         preis = 3;
         nummer = 4;
         getGegenstandBilder();
@@ -29,22 +29,22 @@ public class MiniWuerfel extends GegenstandWuerfel{
     }
     @Override
     public void effeckteAnwenden(){
-        s.normaleWuerfelZustand = false;
-        s.miniWuerfelZustand = true;
+        spieler.normaleWuerfelZustand = false;
+        spieler.miniWuerfelZustand = true;
     }
     @Override
     public void schritteAnzahlBestimmen(){
         if (spriteNum == 0) {
-            s.schritteAnzahl = 1;
+            spieler.schritteAnzahl = 1;
         } else if (spriteNum == 1) {
-            s.schritteAnzahl = 2;
+            spieler.schritteAnzahl = 2;
         } else if (spriteNum == 2) {
-            s.schritteAnzahl = 3;
+            spieler.schritteAnzahl = 3;
         }
     }
     @Override
     public void update() {
-        if(s.sp.mapManager.mapEingabeManager.spaceGedrueckt) {
+        if(spieler.spielablaufManager.mapManager.mapEingabeManager.spaceGedrueckt) {
             spriteZaehler++;
             if (spriteZaehler > 3) {
                 if (spriteNum == 0) {
@@ -62,12 +62,12 @@ public class MiniWuerfel extends GegenstandWuerfel{
     public void malen(Graphics2D g2){
         BufferedImage image = null;
         if(spriteNum == 0){
-            image = wuerfel1;
-        }else if(spriteNum == 1){
             image = wuerfel2;
-        }else if(spriteNum == 2){
+        }else if(spriteNum == 1){
             image = wuerfel3;
+        }else if(spriteNum == 2){
+            image = wuerfel1;
         }
-        g2.drawImage(image, 620 , 65, s.sp.vergroesserteFliesenGroesse*2, s.sp.vergroesserteFliesenGroesse*2, null);
+        g2.drawImage(image, 620 , 65, spieler.spielablaufManager.sp.vergroesserteFliesenGroesse*2, spieler.spielablaufManager.sp.vergroesserteFliesenGroesse*2, null);
     }
 }

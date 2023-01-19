@@ -12,8 +12,8 @@ public class Abdo extends Spielfigur {
         getSpielFigurBilder();
 
     }
-    public Abdo(Spieler s){
-        super(s);
+    public Abdo(Spieler spieler){
+        super(spieler);
         getSpielFigurBilder();
     }
     @Override

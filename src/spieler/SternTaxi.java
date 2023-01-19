@@ -7,8 +7,8 @@ import java.io.IOException;
 public class SternTaxi extends Gegenstand{
 
 
-    public SternTaxi(Spieler s) {
-        super(s);
+    public SternTaxi(Spieler spieler) {
+        super(spieler);
         preis = 15;
         nummer = 6;
         getGegenstandBilder();

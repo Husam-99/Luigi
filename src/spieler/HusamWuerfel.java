@@ -6,8 +6,8 @@ import java.io.IOException;
 
 public class HusamWuerfel extends Wuerfel{
 
-    public HusamWuerfel(Spieler s){
-        super(s);
+    public HusamWuerfel(Spieler spieler){
+        super(spieler);
         getWuerfelBilder();
     }
     @Override

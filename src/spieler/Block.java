@@ -6,8 +6,8 @@ import java.io.IOException;
 
 public class Block extends Gegenstand{
 
-    public Block(Spieler s) {
-        super(s);
+    public Block(Spieler spieler) {
+        super(spieler);
         preis = 7;
         nummer = 1;
         getGegenstandBilder();
