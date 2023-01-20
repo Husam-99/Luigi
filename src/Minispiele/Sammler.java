@@ -128,7 +128,7 @@ public class Sammler extends Minispiel {
         }
         wandRechteck = new Rectangle[4];
         wandRechteck[0] = new Rectangle(0,0,1440,96);
-        wandRechteck[1] = new Rectangle(0,800-96,1440,96);
+        wandRechteck[1] = new Rectangle(0,864-96,1440,96);
         wandRechteck[2] = new Rectangle(0,0,96,800);
         wandRechteck[3] = new Rectangle(1440-96,0,96,800);
 

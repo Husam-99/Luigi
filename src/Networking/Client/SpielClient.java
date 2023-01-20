@@ -19,7 +19,7 @@ public class SpielClient {
     private boolean istHost = false;
     static int tcp_Port = 54777;
     static int udp_Port = 54555;
-    private static String ipAdresse = "192.168.56.1";
+    private static String ipAdresse = "127.0.0.1";
     private final Client client;
     private SpielPanel sp;
     public int anzahlSpieler;

@@ -89,8 +89,8 @@ public class MenueEingabeManager implements KeyListener {
            //}
             mn.sp.client.send(spielfigurAuswahl);
             mn.sp.spielablaufManager.mainSpieler.spielfigurAuswaehlen();
-            //mn.sp.setzeZustand(mn.sp.spielBrettZustand);
-            mn.sp.setzeZustand(mn.sp.minispielZustand);
+            mn.sp.setzeZustand(mn.sp.spielBrettZustand);
+            //mn.sp.setzeZustand(mn.sp.minispielZustand);
 
 
             mn.sp.soundClip.close();
@@ -236,8 +236,8 @@ public class MenueEingabeManager implements KeyListener {
            // }
             mn.sp.client.send(spielfigurAuswahl);
             mn.sp.spielablaufManager.mainSpieler.spielfigurAuswaehlen();
-            //mn.sp.setzeZustand(mn.sp.spielBrettZustand);
-            mn.sp.setzeZustand(mn.sp.minispielZustand);
+            mn.sp.setzeZustand(mn.sp.spielBrettZustand);
+            //mn.sp.setzeZustand(mn.sp.minispielZustand);
 
             mn.sp.soundClip.close();
         }

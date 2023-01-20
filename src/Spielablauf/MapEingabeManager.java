@@ -10,6 +10,7 @@ import java.awt.event.KeyListener;
 public class MapEingabeManager implements KeyListener {
     SpielMapManager spielMapManager;
     Spieler spieler;
+    int round= 0;
     public Boolean obenGedrueckt = false, untenGedrueckt = false, rechtsGedrueckt = false, linksGedrueckt = false,
             spaceGedrueckt = false, iGedrueckt = false, bewegungOben = false, bewegungUnten = false, bewegungRechts = false,
             bewegungLinks = false, falscheRichtung = false;
@@ -213,6 +214,9 @@ public class MapEingabeManager implements KeyListener {
                         break;
                 }
             }
+            round++;
+        } else if(round>1){
+            spielMapManager.spielablaufManager.sp.setzeZustand(spielMapManager.spielablaufManager.sp.minispielZustand);
         }
     }
     @Override

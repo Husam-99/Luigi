@@ -18,9 +18,10 @@ public class MinispielManager {
     //minispiel jo
     //runden
     public int gesamtSekundenAnzahl = 63;
-    float size = 170F;
-    int xPosition = 700;
-    int yPosition = 432;
+    float size =400F;
+    int xPosition;
+    int yPosition;
+    String go = "GO";
     public MinispielManager(SpielPanel sp, int minispielIndex) {
         this.sp = sp;
         alleMinispielSpieler = new ArrayList<>();
@@ -54,6 +55,8 @@ public class MinispielManager {
     }
     //get eingabeManager for Spielpanel
     public void malen(Graphics2D g2){
+        this.g2 = g2;
+
         g2.setFont(sp.marioPartyFont);
         g2.setFont(g2.getFont().deriveFont(Font.BOLD, 50F));
         g2.setColor(Color.YELLOW);
@@ -69,19 +72,30 @@ public class MinispielManager {
         for(MinispielSpieler spieler1: alleMinispielSpieler){
             int xPosition = 50;
             if(spieler1!=null){
-                g2.drawString("Punktzahl" + spieler1.punktzahl, xPosition, 50);
+                g2.drawString("Punktzahl: " + spieler1.punktzahl, xPosition, 50);
                 g2.drawString("verbleibend: " + gesamtSekundenAnzahl, xPosition, 80);
             }
 
         }
-        if(gesamtSekundenAnzahl == 60){
+        if(gesamtSekundenAnzahl < 60){
             g2.setFont(g2.getFont().deriveFont(Font.BOLD, size));
-            g2.drawString("GO", xPosition, yPosition);
-            size += 10;
-            xPosition -= 8;
-            yPosition += 4;
+            xPosition = getXfuerCenter(go);
+            yPosition = getYfuerCenter(go);
+            g2.drawString(go, xPosition, yPosition);
+            size += 20;
 
         }
 
     }
+    public int getXfuerCenter(String text) {
+        int length = (int)g2.getFontMetrics().getStringBounds(text, g2).getWidth();
+        int x = this.sp.bildschirmBreiteMenue/2 - length/2;
+        return x;
+    }
+    public int getYfuerCenter(String text) {
+        int length = (int)g2.getFontMetrics().getStringBounds(text, g2).getHeight();
+        int y = (this.sp.bildschirmHoeheMenue-96)/2 + length/2;
+        return y;
+    }
+
 }
