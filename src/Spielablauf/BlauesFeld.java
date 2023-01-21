@@ -5,7 +5,7 @@ import java.io.File;
 import java.io.IOException;
 
 public class BlauesFeld extends Feld{
-//    private Gegenstand gegenstand;
+
 
     public BlauesFeld(SpielMapManager mapManager, int weltY, int weltX, int feldNum) {
         super(mapManager, weltY, weltX, feldNum);
@@ -18,17 +18,4 @@ public class BlauesFeld extends Feld{
     }
 
 
-// public Gegenstand getGegenstand() {
-   //     return gegenstand;
-   // }
-//
-   // public void setGegenstand(Gegenstand gegenstand) {
-   //     this.gegenstand = gegenstand;
-   // }
-    //public void gegenstandWaehlen(){
-//
-    //}
-    //public void gegenstandKlauen(){
-//
-    //}
 }

@@ -32,7 +32,7 @@ public class GruenesFeld extends Feld{
 
                 }
             }
-        if(!mapManager.spielablaufManager.mainSpieler.aktuellFeld.hatStern) {
+        if(!mapManager.spielablaufManager.mainSpieler.aktuellFeld.hatStern){
             mapManager.spielablaufManager.mainSpieler.amSpiel = false;
         }else{
             mapManager.stern.sternKaufen = true;

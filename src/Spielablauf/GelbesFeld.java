@@ -16,7 +16,18 @@ public class GelbesFeld extends Feld{
             throw new RuntimeException(e);
         }
     }
-    public void zurSternPositionFuehren(){
 
+    @Override
+    public void effeckteAnwenden(){
+        if(mapManager.spielablaufManager.mainSpieler.aktuellFeld.hatStern){
+            mapManager.stern.sternKaufen = true;
+        }else{
+            mapManager.spielablaufManager.mainSpieler.zuStern = true;
+            mapManager.spielablaufManager.mainSpieler.naechstesFeld = mapManager.mapFliesen[mapManager.stern.sternFeldZeile][mapManager.stern.sternFeldSpalte].feld;
+            mapManager.spielablaufManager.mainSpieler.aktuellesFeld = null;
+            mapManager.spielablaufManager.mainSpieler.aktuellFeld = mapManager.mapFliesen[mapManager.stern.sternFeldZeile][mapManager.stern.sternFeldSpalte].feld;
+            mapManager.spielablaufManager.mainSpieler.tempFeld = null;
+            mapManager.spielablaufManager.mainSpieler.bewegung = true;
+        }
     }
 }

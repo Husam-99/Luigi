@@ -22,4 +22,16 @@ public class SternTaxi extends Gegenstand{
             e.printStackTrace();
         }
     }
+    @Override
+    public void effeckteAnwenden(){
+        spieler.zuStern = true;
+        spieler.naechstesFeld = spieler.spielablaufManager.mapManager.mapFliesen[spieler.spielablaufManager.mapManager.stern.sternFeldZeile][spieler.spielablaufManager.mapManager.stern.sternFeldSpalte].feld;
+        spieler.aktuellesFeld = null;
+        spieler.aktuellFeld = spieler.spielablaufManager.mapManager.mapFliesen[spieler.spielablaufManager.mapManager.stern.sternFeldZeile][spieler.spielablaufManager.mapManager.stern.sternFeldSpalte].feld;
+        spieler.tempFeld = null;
+        spieler.bewegung = true;
+        spieler.inventarZustand = false;
+        spieler.spielablaufManager.mapManager.mapEingabeManager.iGedrueckt = false;
+    }
+
 }

@@ -26,7 +26,7 @@ public class Block extends Gegenstand{
     public void effeckteAnwenden(){
         Blocken block = new Blocken();
         spieler.spielablaufManager.sp.client.send(block);
-
-
+        spieler.inventarZustand = false;
+        spieler.spielablaufManager.mapManager.mapEingabeManager.iGedrueckt = false;
     }
 }

@@ -31,6 +31,8 @@ public class MiniWuerfel extends GegenstandWuerfel{
     public void effeckteAnwenden(){
         spieler.normaleWuerfelZustand = false;
         spieler.miniWuerfelZustand = true;
+        spieler.inventarZustand = false;
+        spieler.spielablaufManager.mapManager.mapEingabeManager.iGedrueckt = false;
     }
     @Override
     public void schritteAnzahlBestimmen(){

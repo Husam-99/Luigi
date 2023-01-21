@@ -20,8 +20,6 @@ public class SpielablaufManager {
         mapManager = new SpielMapManager(this);
         mainSpieler = new Spieler(this);
         shop = new Shop(this);
-
-
     }
 
     public void update() {
@@ -67,6 +65,8 @@ public class SpielablaufManager {
         }
         if(shopGeoeffnet){
             shop.malen(g2);
+        }else if(mapManager.stern.sternKaufen){
+            mapManager.stern.malen(g2);
         }
         spielerNum = 0;
     }

@@ -12,7 +12,7 @@ public abstract class Gegenstand {
         this.spieler = spieler;
 
     }
+    public void getGegenstandBilder(){}
     public void effeckteAnwenden(){}
 
-    public void getGegenstandBilder(){}
 }

@@ -30,5 +30,7 @@ public class Repos extends Gegenstand{
         SternKaufen sternKaufen = new SternKaufen();
         sternKaufen.sternGekauft = true;
         spieler.spielablaufManager.sp.client.send(sternKaufen);
+        spieler.inventarZustand = false;
+        spieler.spielablaufManager.mapManager.mapEingabeManager.iGedrueckt = false;
     }
 }

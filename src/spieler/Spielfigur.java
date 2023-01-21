@@ -4,12 +4,14 @@ import Networking.Pakete.Bescheid;
 import Networking.Pakete.Bewegung;
 import Networking.Pakete.SpielerPosition;
 
+import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.io.IOException;
 
 public abstract class Spielfigur {
     Spieler spieler;
-    public BufferedImage up1, up2, up3, down1, down2, down3, right1, right2, right3, left1, left2, left3, profile;
+    public BufferedImage up1, up2, up3, down1, down2, down3, right1, right2, right3, left1, left2, left3, profile, wolke;
     public int spriteNum = 1, spriteZaehler = 0;
     Graphics2D g2;
     public String richtung = "stehen";
@@ -17,6 +19,12 @@ public abstract class Spielfigur {
     public Spielfigur(){}
     public Spielfigur(Spieler spieler){
         this.spieler = spieler;
+        //Wolke Bild
+        try {
+            wolke= ImageIO.read(getClass().getResourceAsStream("/bestandteile/Wolke.png"));
+        }catch(IOException e) {
+            e.printStackTrace();
+        }
     }
     public void getSpielFigurBilder() {}
     public void update(){
@@ -189,6 +197,41 @@ public abstract class Spielfigur {
                     }
                 }
                 bilderUpdate();
+            } else if(spieler.zuStern){
+                bewegung.zustern = true;
+                spieler.spielablaufManager.sp.client.send(bewegung);
+                if(spieler.spielablaufManager.mainSpieler.weltY < spieler.spielablaufManager.mapManager.mapFliesen[spieler.spielablaufManager.mapManager.stern.sternFeldZeile][spieler.spielablaufManager.mapManager.stern.sternFeldSpalte].feld.weltY - spieler.spielablaufManager.sp.vergroesserteFliesenGroesse / 2){
+                    spieler.spielablaufManager.mainSpieler.weltY += spieler.geschwindigkeit;
+                    if (!spieler.spielablaufManager.sp.alleSpieler.isEmpty())
+                        for (Spieler andererSpieler : spieler.spielablaufManager.sp.alleSpieler) {
+                            andererSpieler.bildschirmY -= spieler.geschwindigkeit;
+                        }
+                }else if(spieler.spielablaufManager.mainSpieler.weltY > spieler.spielablaufManager.mapManager.mapFliesen[spieler.spielablaufManager.mapManager.stern.sternFeldZeile][spieler.spielablaufManager.mapManager.stern.sternFeldSpalte].feld.weltY - spieler.spielablaufManager.sp.vergroesserteFliesenGroesse / 2){
+                    spieler.spielablaufManager.mainSpieler.weltY -= spieler.geschwindigkeit;
+                    if (!spieler.spielablaufManager.sp.alleSpieler.isEmpty())
+                        for (Spieler andererSpieler : spieler.spielablaufManager.sp.alleSpieler) {
+                            andererSpieler.bildschirmY += spieler.geschwindigkeit;
+                        }
+                } else if(spieler.spielablaufManager.mainSpieler.weltX > spieler.spielablaufManager.mapManager.mapFliesen[spieler.spielablaufManager.mapManager.stern.sternFeldZeile][spieler.spielablaufManager.mapManager.stern.sternFeldSpalte].feld.weltX){
+                    spieler.spielablaufManager.mainSpieler.weltX -= spieler.geschwindigkeit;
+                    if (!spieler.spielablaufManager.sp.alleSpieler.isEmpty())
+                        for (Spieler andererSpieler : spieler.spielablaufManager.sp.alleSpieler) {
+                            andererSpieler.bildschirmX += spieler.geschwindigkeit;
+                        }
+                }else if(spieler.spielablaufManager.mainSpieler.weltX < spieler.spielablaufManager.mapManager.mapFliesen[spieler.spielablaufManager.mapManager.stern.sternFeldZeile][spieler.spielablaufManager.mapManager.stern.sternFeldSpalte].feld.weltX){
+                    spieler.spielablaufManager.mainSpieler.weltX += spieler.geschwindigkeit;
+                    if (!spieler.spielablaufManager.sp.alleSpieler.isEmpty())
+                        for (Spieler andererSpieler : spieler.spielablaufManager.sp.alleSpieler) {
+                            andererSpieler.bildschirmX -= spieler.geschwindigkeit;
+                        }
+                }else if(spieler.spielablaufManager.mainSpieler.weltX == spieler.spielablaufManager.mapManager.mapFliesen[spieler.spielablaufManager.mapManager.stern.sternFeldZeile][spieler.spielablaufManager.mapManager.stern.sternFeldSpalte].feld.weltX){
+                    spieler.zuStern = false;
+                    spieler.bewegung = false;
+                    bewegung.zustern = false;
+                    spieler.spielablaufManager.sp.client.send(bewegung);
+                    spieler.aktuellFeld.effeckteAnwenden();
+                }
+                koordinatenSchicken();
             }
         }else {
             bilderUpdate();
@@ -319,6 +362,9 @@ public abstract class Spielfigur {
             case "stehen":
                 image = down1;
                 break;
+        }
+        if(spieler.zuStern){
+            g2.drawImage(wolke, this.spieler.bildschirmX, this.spieler.bildschirmY+30, spieler.spielablaufManager.sp.vergroesserteFliesenGroesse, spieler.spielablaufManager.sp.vergroesserteFliesenGroesse, null);
         }
         g2.drawImage(image, this.spieler.bildschirmX, this.spieler.bildschirmY, spieler.spielablaufManager.sp.vergroesserteFliesenGroesse, spieler.spielablaufManager.sp.vergroesserteFliesenGroesse, null);
     }

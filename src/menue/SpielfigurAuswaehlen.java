@@ -9,7 +9,7 @@ public class SpielfigurAuswaehlen{
 
     MenueManager mn;
     Graphics2D g2;
-    public int befehlNum1 = 0, enterZustand = 0;
+    public int befehlNum1, enterZustand = 0;
     int spriteNum = 1, spriteZaehler = 0, richtungNum = 0;
     String richtung = "unten";
     BufferedImage image1 = null, image2 = null;
@@ -24,6 +24,42 @@ public class SpielfigurAuswaehlen{
     public YousefWuerfel ywuerfel = new YousefWuerfel(s);
     public SpielfigurAuswaehlen(MenueManager mn){
         this.mn = mn;
+        befehlNum1Bestimmen();
+    }
+    private void befehlNum1Bestimmen(){
+        if(mn.sp.client.isIstHost()){
+            befehlNum1 = 0;
+        }else{
+            if(mn.sp.client.clientIndex == 1) {
+                if(mn.menueEingabeManager.ausgewaehlteSpielfiguren.get(0) != null) {
+                    if (mn.menueEingabeManager.ausgewaehlteSpielfiguren.get(0) == 0) {
+                        befehlNum1 = 1;
+                    } else {
+                        befehlNum1 = 0;
+                    }
+                }
+            }else if(mn.sp.client.clientIndex == 2){
+                if(mn.menueEingabeManager.ausgewaehlteSpielfiguren.contains(0) && mn.menueEingabeManager.ausgewaehlteSpielfiguren.contains(1)){
+                    befehlNum1 = 2;
+                }else if(mn.menueEingabeManager.ausgewaehlteSpielfiguren.contains(0)){
+                    befehlNum1 = 1;
+
+
+                }else if(!mn.menueEingabeManager.ausgewaehlteSpielfiguren.contains(0)){
+                    befehlNum1 = 0;
+                }
+            }else if(mn.sp.client.clientIndex == 3){
+                if(mn.menueEingabeManager.ausgewaehlteSpielfiguren.contains(0) && mn.menueEingabeManager.ausgewaehlteSpielfiguren.contains(1) && mn.menueEingabeManager.ausgewaehlteSpielfiguren.contains(2)){
+                    befehlNum1 = 3;
+                }else if(mn.menueEingabeManager.ausgewaehlteSpielfiguren.contains(0) && mn.menueEingabeManager.ausgewaehlteSpielfiguren.contains(1) && mn.menueEingabeManager.ausgewaehlteSpielfiguren.contains(3)){
+                    befehlNum1 = 2;
+                }else if(mn.menueEingabeManager.ausgewaehlteSpielfiguren.contains(0) && mn.menueEingabeManager.ausgewaehlteSpielfiguren.contains(2) && mn.menueEingabeManager.ausgewaehlteSpielfiguren.contains(3)){
+                    befehlNum1 = 1;
+                }else{
+                    befehlNum1 = 0;
+                }
+            }
+        }
     }
     public void update(){
         if(mn.menueZustand == mn.spielfigurAuswaehlenZustand){

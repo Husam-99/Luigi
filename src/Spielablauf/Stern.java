@@ -10,8 +10,8 @@ import java.io.IOException;
 public class Stern {
     SpielMapManager mapManager;
     Graphics2D g2;
-    private int feldNum, spriteZaehler = 0;
-    public int spriteNum = 0;
+    private int spriteZaehler = 0;
+    public int feldNum, sternFeldZeile, sternFeldSpalte,spriteNum = 0;
     public String sternPostition;
     public BufferedImage stern, stern1, stern2, stern3, stern4, stern5;
     public boolean sternKaufen = false;
@@ -34,12 +34,12 @@ public class Stern {
     }
 
     public void setFeldNum(int feldNum) {
-        for(int spalte = 0; spalte < 25; spalte++){
-            for(int zeile = 0; zeile < 30; zeile++) {
-                if (mapManager.mapFliesen[spalte][zeile] != null) {
-                    if (mapManager.mapFliesen[spalte][zeile].feld != null) {
-                        if (mapManager.mapFliesen[spalte][zeile].feld.feldNum == this.feldNum) {
-                            mapManager.mapFliesen[spalte][zeile].feld.hatStern = false;
+        for(int zeile = 0; zeile < 25; zeile++){
+            for(int spalte = 0; spalte < 30; spalte++) {
+                if (mapManager.mapFliesen[zeile][spalte] != null) {
+                    if (mapManager.mapFliesen[zeile][spalte].feld != null) {
+                        if (mapManager.mapFliesen[zeile][spalte].feld.feldNum == this.feldNum) {
+                            mapManager.mapFliesen[zeile][spalte].feld.hatStern = false;
                         }
                     }
                 }
@@ -64,11 +64,11 @@ public class Stern {
         }
     }
     private void setSternPosition(){
-        for(int spalte = 0; spalte < 25; spalte++){
-            for(int zeile = 0; zeile < 30; zeile++) {
-                if (mapManager.mapFliesen[spalte][zeile] != null) {
-                    if (mapManager.mapFliesen[spalte][zeile].feld != null) {
-                        if (mapManager.mapFliesen[spalte][zeile].feld.feldNum == feldNum) {
+        for(int zeile = 0; zeile < 25; zeile++){
+            for(int spalte = 0; spalte < 30; spalte++) {
+                if (mapManager.mapFliesen[zeile][spalte] != null) {
+                    if (mapManager.mapFliesen[zeile][spalte].feld != null) {
+                        if (mapManager.mapFliesen[zeile][spalte].feld.feldNum == feldNum) {
                             if(feldNum == 2 || feldNum == 3 || feldNum == 4 || feldNum == 7 || feldNum == 11 || feldNum == 12 || feldNum == 19 || feldNum == 20 || feldNum == 22 || feldNum == 23 || feldNum == 24 || feldNum == 34 || feldNum == 35){
                                 sternPostition = "unten";
                             }else if(feldNum == 13 || feldNum == 21 || feldNum == 25 || feldNum == 27 || feldNum == 33 || feldNum == 36){
@@ -78,7 +78,9 @@ public class Stern {
                             }else{
                                 sternPostition = "rechts";
                             }
-                            mapManager.mapFliesen[spalte][zeile].feld.hatStern = true;
+                            mapManager.mapFliesen[zeile][spalte].feld.hatStern = true;
+                            sternFeldSpalte = spalte;
+                            sternFeldZeile = zeile;
                         }
                     }
                 }
@@ -133,7 +135,6 @@ public class Stern {
         g2.drawString("Willst du einen Stern ",410, 430);
         g2.drawString("für 10 Muenzen Kaufen?",370, 500);
         g2.drawImage(stern,250,270, mapManager.spielablaufManager.sp.vergroesserteFliesenGroesse*2, mapManager.spielablaufManager.sp.vergroesserteFliesenGroesse*2, null);
-
     }
 
 }

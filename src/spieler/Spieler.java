@@ -20,7 +20,7 @@ public class Spieler {
     public Konto konto;
     public Inventar inventar;
     public boolean amSpiel = true, bewegung = false, wuerfelZustand = false, inventarZustand = false,
-            normaleWuerfelZustand = true, megaWuerfelZustand = false, miniWuerfelZustand = false;
+            normaleWuerfelZustand = true, megaWuerfelZustand = false, miniWuerfelZustand = false, zuStern = false;
     public GegenstandWuerfel megaWuerfel = new MegaWuerfel( this), miniWuerfel = new MiniWuerfel(this);
 
 
@@ -105,8 +105,6 @@ public class Spieler {
             }
         }else if(schritteAnzahl > 0){
             schritteMalen();
-        }else if(spielablaufManager.mapManager.stern.sternKaufen){
-            spielablaufManager.mapManager.stern.malen(g2);
         }
     }
     private void schritteMalen(){

@@ -7,13 +7,21 @@ import Networking.Pakete.SpielfigurAuswahl;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.util.ArrayList;
+import java.util.List;
 
 public class MenueEingabeManager implements KeyListener {
 
     MenueManager mn;
     public int spielfigurMenueIndex = -1;
+    public List<Integer> ausgewaehlteSpielfiguren;
     public MenueEingabeManager(MenueManager mn){
         this.mn = mn;
+        ausgewaehlteSpielfiguren = new ArrayList<>();
+        ausgewaehlteSpielfiguren.add(-1);
+        ausgewaehlteSpielfiguren.add(-1);
+        ausgewaehlteSpielfiguren.add(-1);
+        ausgewaehlteSpielfiguren.add(-1);
     }
     @Override
     public void keyTyped(KeyEvent e) {}
@@ -57,34 +65,28 @@ public class MenueEingabeManager implements KeyListener {
             if (mn.spielfigurAuswaehlen.befehlNum1 == 0) {
                 mn.spielfigurAuswaehlen.enterZustand = 1;
                 spielfigurAuswahl.spielfigurIndex = 0;
-
-
-                // mn.sp.zustand = mn.sp.spielBrettZustand;
+                spielfigurAuswahl.spielfigurMenueIndex = 0;
             }
             else if (mn.spielfigurAuswaehlen.befehlNum1 == 1) {
                 mn.spielfigurAuswaehlen.enterZustand = 1;
                 spielfigurAuswahl.spielfigurIndex = 1;
-
-
-//                mn.sp.zustand = mn.sp.spielBrettZustand;
+                spielfigurAuswahl.spielfigurMenueIndex = 1;
             }
             else if (mn.spielfigurAuswaehlen.befehlNum1 == 2) {
                 mn.spielfigurAuswaehlen.enterZustand = 1;
                 spielfigurAuswahl.spielfigurIndex = 2;
-
-
-                // mn.sp.zustand = mn.sp.spielBrettZustand;
+                spielfigurAuswahl.spielfigurMenueIndex = 2;
             }
             else if (mn.spielfigurAuswaehlen.befehlNum1 == 3) {
                 mn.spielfigurAuswaehlen.enterZustand = 1;
                 spielfigurAuswahl.spielfigurIndex = 3;
-
-                // mn.sp.zustand = mn.sp.spielBrettZustand;
+                spielfigurAuswahl.spielfigurMenueIndex = 3;
             }
             Bescheid bescheid = new Bescheid();
             bescheid.fertig = true;
             mn.sp.client.send(bescheid);
-           //while(mn.sp.client.wartung){
+            ausgewaehlteSpielfiguren.add(0, spielfigurMenueIndex);
+            //while(mn.sp.client.wartung){
 
            //}
             mn.sp.client.send(spielfigurAuswahl);
@@ -205,7 +207,7 @@ public class MenueEingabeManager implements KeyListener {
         if (code == KeyEvent.VK_S) {
             mn.spielfigurAuswaehlen.befehlNum1++;
             if (mn.spielfigurAuswaehlen.befehlNum1 > 3) {
-                mn.spielfigurAuswaehlen.befehlNum1 = 0;
+                mn.spielfigurAuswaehlen.befehlNum1 = 0 ;
             }
         }
         if (code == KeyEvent.VK_ENTER) {
@@ -221,12 +223,10 @@ public class MenueEingabeManager implements KeyListener {
             else if (mn.spielfigurAuswaehlen.befehlNum1 == 2) {
                 mn.spielfigurAuswaehlen.enterZustand = 1;
                 spielfigurAuswahl.spielfigurIndex = 2;
-//                mn.sp.zustand = mn.sp.spielBrettZustand;
             }
             else if (mn.spielfigurAuswaehlen.befehlNum1 == 3) {
                 mn.spielfigurAuswaehlen.enterZustand = 1;
                 spielfigurAuswahl.spielfigurIndex = 3;
-
             }
             Bescheid bescheid = new Bescheid();
             bescheid.fertig = true;

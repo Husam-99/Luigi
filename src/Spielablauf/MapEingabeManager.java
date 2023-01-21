@@ -1,6 +1,7 @@
 package Spielablauf;
 
 
+import Networking.Pakete.Bewegung;
 import spieler.Spieler;
 
 import java.awt.event.KeyEvent;
@@ -25,7 +26,9 @@ public class MapEingabeManager implements KeyListener {
             if(iGedrueckt){
                 if(code == KeyEvent.VK_ENTER){
                     if(spieler.inventar.befehlNum == 0){
-                        spieler.inventar.gegenstandVerwenden(0);
+                        if(spieler.inventar.inventar[0] != null) {
+                            spieler.inventar.gegenstandVerwenden(0);
+                        }
                         if(spieler.inventar.inventar[1] != null) {
                             spieler.inventar.befehlNum = 2;
                         }else if(spieler.inventar.inventar[2] != null) {
@@ -36,7 +39,9 @@ public class MapEingabeManager implements KeyListener {
                             spieler.inventar.befehlNum = 0;
                         }
                     }else if(spieler.inventar.befehlNum == 1){
-                        spieler.inventar.gegenstandVerwenden(2);
+                        if(spieler.inventar.inventar[2] != null) {
+                            spieler.inventar.gegenstandVerwenden(2);
+                        }
                         if(spieler.inventar.inventar[0] != null) {
                             spieler.inventar.befehlNum = 0;
                         }else if(spieler.inventar.inventar[1] != null) {
@@ -47,7 +52,9 @@ public class MapEingabeManager implements KeyListener {
                             spieler.inventar.befehlNum = 0;
                         }
                     }else if(spieler.inventar.befehlNum == 2){
-                        spieler.inventar.gegenstandVerwenden(1);
+                        if(spieler.inventar.inventar[1] != null) {
+                            spieler.inventar.gegenstandVerwenden(1);
+                        }
                         if(spieler.inventar.inventar[0] != null) {
                             spieler.inventar.befehlNum = 0;
                         }else if(spieler.inventar.inventar[2] != null) {
@@ -58,7 +65,9 @@ public class MapEingabeManager implements KeyListener {
                             spieler.inventar.befehlNum = 0;
                         }
                     }else if(spieler.inventar.befehlNum == 3){
-                        spieler.inventar.gegenstandVerwenden(3);
+                        if(spieler.inventar.inventar[3] != null) {
+                            spieler.inventar.gegenstandVerwenden(3);
+                        }
                         if(spieler.inventar.inventar[0] != null) {
                             spieler.inventar.befehlNum = 0;
                         }else if(spieler.inventar.inventar[2] != null) {
@@ -106,9 +115,10 @@ public class MapEingabeManager implements KeyListener {
     }
     @Override
     public void keyTyped(KeyEvent e) {
+        Bewegung bewegung = new Bewegung();
         spieler = this.spielMapManager.spielablaufManager.mainSpieler;
         if(spielMapManager.spielablaufManager.sp.client.istDran()) {
-            if (!spieler.bewegung) {
+            if (!spieler.bewegung && !spielMapManager.stern.sternKaufen) {
                 switch (e.getKeyChar()) {
                     case 'w':
                         obenGedrueckt = true;
@@ -125,7 +135,6 @@ public class MapEingabeManager implements KeyListener {
                                     bewegungOben = true;
                                     if (spielMapManager.spielablaufManager.mainSpieler.weltY == (spieler.naechstesFeld.weltY - spielMapManager.spielablaufManager.sp.vergroesserteFliesenGroesse / 2)) {
                                         spieler.spielfigur.richtung = "stehen";
-                                        spieler.aktuellFeld = spieler.tempFeld;
                                         spieler.aktuellesFeld = spieler.naechstesFeld;
                                         spieler.naechstesFeld = null;
                                     }
@@ -148,7 +157,6 @@ public class MapEingabeManager implements KeyListener {
                                     bewegungUnten = true;
                                     if (spielMapManager.spielablaufManager.mainSpieler.weltY == (spieler.naechstesFeld.weltY - spielMapManager.spielablaufManager.sp.vergroesserteFliesenGroesse / 2)) {
                                         spieler.spielfigur.richtung = "stehen";
-                                        spieler.aktuellFeld = spieler.tempFeld;
                                         spieler.aktuellesFeld = spieler.naechstesFeld;
                                         spieler.naechstesFeld = null;
 
@@ -172,7 +180,6 @@ public class MapEingabeManager implements KeyListener {
                                     bewegungRechts = true;
                                     if (spielMapManager.spielablaufManager.mainSpieler.weltX == (spieler.naechstesFeld.weltX)) {
                                         spieler.spielfigur.richtung = "stehen";
-                                        spieler.aktuellFeld = spieler.tempFeld;
                                         spieler.aktuellesFeld = spieler.naechstesFeld;
                                         spieler.naechstesFeld = null;
                                     }
@@ -195,7 +202,6 @@ public class MapEingabeManager implements KeyListener {
                                     bewegungLinks = true;
                                     if (spielMapManager.spielablaufManager.mainSpieler.weltX == (spieler.naechstesFeld.weltX)) {
                                         spieler.spielfigur.richtung = "stehen";
-                                        spieler.aktuellFeld = spieler.tempFeld;
                                         spieler.aktuellesFeld = spieler.naechstesFeld;
                                         spieler.naechstesFeld = null;
                                     }
@@ -213,6 +219,8 @@ public class MapEingabeManager implements KeyListener {
                         }
                         break;
                 }
+                bewegung.feldNum  =  spieler.aktuellFeld.feldNum;
+                spieler.spielablaufManager.sp.client.send(bewegung);
             }
             round++;
         } else if(round>1){
@@ -263,6 +271,7 @@ public class MapEingabeManager implements KeyListener {
         }else if(spieler.tempFeld.equals(spieler.aktuellesFeld)){
             falscheRichtung = true;
         }else if(!spieler.tempFeld.equals(spieler.aktuellesFeld)){
+            spieler.aktuellFeld = spieler.tempFeld;
             falscheRichtung = false;
         }
     }

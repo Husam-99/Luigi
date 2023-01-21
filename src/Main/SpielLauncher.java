@@ -24,5 +24,4 @@ public class SpielLauncher {
         spielPanel.startSpielThread();
 
     }
-
 }

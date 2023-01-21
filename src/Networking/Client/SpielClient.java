@@ -95,6 +95,8 @@ public class SpielClient {
 
 
                     } else if(object instanceof SpielerPosition spielerPosition){
+                        sp.alleSpieler.get(spielerPosition.clientIndex).weltX = spielerPosition.weltX;
+                        sp.alleSpieler.get(spielerPosition.clientIndex).weltY = spielerPosition.weltY;
                         sp.alleSpieler.get(spielerPosition.clientIndex).bildschirmX = spielerPosition.weltX - sp.spielablaufManager.mainSpieler.weltX + sp.spielablaufManager.mainSpieler.bildschirmX;
                         sp.alleSpieler.get(spielerPosition.clientIndex).bildschirmY = spielerPosition.weltY - sp.spielablaufManager.mainSpieler.weltY + sp.spielablaufManager.mainSpieler.bildschirmY;
 
@@ -129,12 +131,44 @@ public class SpielClient {
                         }else if(bewegung.richtung.equals("stehen")){
                             sp.alleSpieler.get(bewegung.clientIndex).spielfigur.richtung = "stehen";
                         }
+                        if(bewegung.zustern){
+                            sp.alleSpieler.get(bewegung.clientIndex).zuStern = true;
+                        }else if(!bewegung.zustern){
+                            sp.alleSpieler.get(bewegung.clientIndex).zuStern = false;
+                        }
                         if(bewegung.feldNum!=0){
-                            for(int zeile = 0; zeile<25; zeile++)
-                                for(Fliese fliese: sp.spielablaufManager.mapManager.mapFliesen[zeile]){
-                                    if(fliese.feld.feldNum == bewegung.feldNum){
-                                    sp.alleSpieler.get(bewegung.clientIndex).aktuellFeld = fliese.feld;
+                            for(int zeile = 0; zeile < 25; zeile++) {
+                                for (int spalte = 0; spalte < 30; spalte++) {
+                                    if (sp.spielablaufManager.mapManager.mapFliesen[zeile][spalte] != null) {
+                                        if (sp.spielablaufManager.mapManager.mapFliesen[zeile][spalte].feld != null) {
+                                            if (sp.spielablaufManager.mapManager.mapFliesen[zeile][spalte].feld.feldNum == bewegung.feldNum) {
+                                                if(bewegung.bubeClientIndex != -1) {
+                                                    sp.alleSpieler.get(bewegung.clientIndex).aktuellFeld = sp.spielablaufManager.mainSpieler.aktuellFeld;
+                                                    sp.alleSpieler.get(bewegung.clientIndex).naechstesFeld = sp.spielablaufManager.mainSpieler.aktuellFeld;
+                                                    sp.alleSpieler.get(bewegung.clientIndex).aktuellesFeld = null;
+                                                    sp.alleSpieler.get(bewegung.clientIndex).tempFeld = null;
+                                                    sp.spielablaufManager.mainSpieler.aktuellFeld = sp.spielablaufManager.mapManager.mapFliesen[zeile][spalte].feld;
+                                                    sp.spielablaufManager.mainSpieler.naechstesFeld = sp.spielablaufManager.mapManager.mapFliesen[zeile][spalte].feld;
+                                                    sp.spielablaufManager.mainSpieler.aktuellesFeld = null;
+                                                    sp.spielablaufManager.mainSpieler.tempFeld = null;
+                                                    int weltXtemp = sp.spielablaufManager.mainSpieler.weltX;
+                                                    int weltYtemp = sp.spielablaufManager.mainSpieler.weltY;
+                                                    sp.alleSpieler.get(bewegung.clientIndex).weltX = weltXtemp;
+                                                    sp.alleSpieler.get(bewegung.clientIndex).weltY = weltYtemp;
+                                                    sp.spielablaufManager.mainSpieler.weltX = sp.spielablaufManager.mapManager.mapFliesen[zeile][spalte].feld.weltX;
+                                                    sp.spielablaufManager.mainSpieler.weltY = sp.spielablaufManager.mapManager.mapFliesen[zeile][spalte].feld.weltY - sp.vergroesserteFliesenGroesse / 2;
+                                                    sp.alleSpieler.get(bewegung.clientIndex).bildschirmX = weltXtemp - sp.spielablaufManager.mainSpieler.weltX + sp.spielablaufManager.mainSpieler.bildschirmX;
+                                                    sp.alleSpieler.get(bewegung.clientIndex).bildschirmY = weltYtemp - sp.spielablaufManager.mainSpieler.weltY + sp.spielablaufManager.mainSpieler.bildschirmY;
+                                                }else{
+                                                    sp.alleSpieler.get(bewegung.clientIndex).aktuellFeld = sp.spielablaufManager.mapManager.mapFliesen[zeile][spalte].feld;
+                                                    sp.alleSpieler.get(bewegung.clientIndex).naechstesFeld = sp.spielablaufManager.mapManager.mapFliesen[zeile][spalte].feld;
+                                                    sp.alleSpieler.get(bewegung.clientIndex).aktuellesFeld = null;
+                                                    sp.alleSpieler.get(bewegung.clientIndex).tempFeld = null;
+                                                }
+                                            }
+                                        }
                                     }
+                                }
                             }
                         }
                     } else if(object instanceof GegenstandInfo gegenstandInfo){

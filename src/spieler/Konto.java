@@ -131,12 +131,12 @@ public class Konto {
     private void spielerStatusBoxMalen(){
         Color c = new Color(0,0,0,150);
         g2.setColor(c);
-        g2.fillRoundRect(0, boxHeight, 285, 140, 35, 35);
-        g2.fillRoundRect(0, boxHeight + 130, 285, 82, 35, 35);
+        g2.fillRoundRect(0, boxHeight, 290, 140, 35, 35);
+        g2.fillRoundRect(0, boxHeight + 130, 290, 82, 35, 35);
         g2.setColor(Color.white);
         g2.setStroke(new BasicStroke(5));
-        g2.drawRoundRect(5,boxHeight + 5,275, 130, 25, 25);
-        g2.drawRoundRect(5,boxHeight + 135,275, 72, 25, 25);
+        g2.drawRoundRect(5,boxHeight + 5,280, 130, 25, 25);
+        g2.drawRoundRect(5,boxHeight + 135,280, 72, 25, 25);
     }
 
     public void rueckMeldungMalen(int fehlendeMuenzen){
@@ -153,7 +153,11 @@ public class Konto {
         g2.drawString("noch",370, 470);
         g2.setColor(Color.red);
         String fehlendeMuenzenStr = Integer.toString(fehlendeMuenzen);
-        g2.drawString(fehlendeMuenzenStr,520, 470);
+        if(fehlendeMuenzen >= 10) {
+            g2.drawString(fehlendeMuenzenStr, 520, 470);
+        }else{
+            g2.drawString(fehlendeMuenzenStr, 535, 470);
+        }
         g2.setColor(Color.yellow);
         g2.drawString("Münzen fehlen!",620, 470);
 

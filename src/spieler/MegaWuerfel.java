@@ -34,6 +34,8 @@ public class MegaWuerfel extends GegenstandWuerfel{
     public void effeckteAnwenden(){
         spieler.normaleWuerfelZustand = false;
         spieler.megaWuerfelZustand = true;
+        spieler.inventarZustand = false;
+        spieler.spielablaufManager.mapManager.mapEingabeManager.iGedrueckt = false;
     }
     @Override
     public void schritteAnzahlBestimmen(){
