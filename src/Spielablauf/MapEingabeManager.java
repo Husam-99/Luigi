@@ -2,6 +2,7 @@ package Spielablauf;
 
 
 import Networking.Pakete.Bewegung;
+import spieler.Bube;
 import spieler.Spieler;
 
 import java.awt.event.KeyEvent;
@@ -105,7 +106,12 @@ public class MapEingabeManager implements KeyListener {
                     spielMapManager.stern.sternKaufen = false;
                     spielMapManager.spielablaufManager.mainSpieler.amSpiel = false;
                 }
-            } else if (!spieler.bewegung && !iGedrueckt) {
+            }else if(spieler.spielablaufManager.clientAuswaehlen){
+                if (code == KeyEvent.VK_ENTER) {
+                    spieler.spielablaufManager.clientAuswaehlen = false;
+                    spieler.spielablaufManager.bube.positionWechsel();
+                }
+            } else if (!spieler.bewegung) {
                 if (code == KeyEvent.VK_SPACE) {
                     spaceGedrueckt = true;
                     spieler.wuerfelZustand = true;
@@ -126,7 +132,7 @@ public class MapEingabeManager implements KeyListener {
                           untenUndObenInventar();
                         } else if(spieler.spielablaufManager.shopGeoeffnet) {
                            untenUndObenShop();
-                        }else{
+                        }else if(!spieler.spielablaufManager.clientAuswaehlen){
                             checkNaechstesFeld();
                             if (!falscheRichtung) {
                                 if (spieler.naechstesFeld != null && spieler.naechstesFeld.nordFeld != null) {
@@ -137,6 +143,11 @@ public class MapEingabeManager implements KeyListener {
                                         spieler.spielfigur.richtung = "stehen";
                                         spieler.aktuellesFeld = spieler.naechstesFeld;
                                         spieler.naechstesFeld = null;
+                                        System.out.println("afeter map");
+                                        System.out.println("aktuelles: " +spieler.aktuellesFeld);
+                                        System.out.println("naechstes: " +spieler.naechstesFeld);
+                                        System.out.println("aktuell: "+ spieler.aktuellFeld);
+                                        System.out.println("temp: " + spieler.tempFeld);
                                     }
                                 }
                             }
@@ -148,7 +159,7 @@ public class MapEingabeManager implements KeyListener {
                             untenUndObenInventar();
                         }else if(spieler.spielablaufManager.shopGeoeffnet){
                             untenUndObenShop();
-                        }else{
+                        }else if(!spieler.spielablaufManager.clientAuswaehlen){
                             checkNaechstesFeld();
                             if (!falscheRichtung) {
                                 if (spieler.naechstesFeld != null && spieler.naechstesFeld.suedFeld != null) {
@@ -159,6 +170,11 @@ public class MapEingabeManager implements KeyListener {
                                         spieler.spielfigur.richtung = "stehen";
                                         spieler.aktuellesFeld = spieler.naechstesFeld;
                                         spieler.naechstesFeld = null;
+                                        System.out.println("afeter map");
+                                        System.out.println("aktuelles: " +spieler.aktuellesFeld);
+                                        System.out.println("naechstes: " +spieler.naechstesFeld);
+                                        System.out.println("aktuell: "+ spieler.aktuellFeld);
+                                        System.out.println("temp: " + spieler.tempFeld);
 
                                     }
                                 }
@@ -171,7 +187,28 @@ public class MapEingabeManager implements KeyListener {
                           rechtsUndLinksInventar();
                         } else if(spieler.spielablaufManager.shopGeoeffnet){
                             rechtsShop();
-                        }else {
+                        }else if(spieler.spielablaufManager.clientAuswaehlen){
+                            if(spieler.spielablaufManager.sp.client.anzahlSpieler == 3){
+                                if(spieler.spielablaufManager.bube.befehlNum == 0 || spieler.spielablaufManager.blauesFeldBefehlNum1 == 0){
+                                    spieler.spielablaufManager.bube.befehlNum = 1;
+                                    spieler.spielablaufManager.blauesFeldBefehlNum1 = 1;
+                                }else if(spieler.spielablaufManager.bube.befehlNum == 1 || spieler.spielablaufManager.blauesFeldBefehlNum1 == 1){
+                                    spieler.spielablaufManager.bube.befehlNum = 0;
+                                    spieler.spielablaufManager.blauesFeldBefehlNum1 = 0;
+                                }
+                            }else if(spieler.spielablaufManager.sp.client.anzahlSpieler == 4){
+                                if(spieler.spielablaufManager.bube.befehlNum == 0 || spieler.spielablaufManager.blauesFeldBefehlNum1 == 0){
+                                    spieler.spielablaufManager.bube.befehlNum = 1;
+                                    spieler.spielablaufManager.blauesFeldBefehlNum1 = 1;
+                                }else if(spieler.spielablaufManager.bube.befehlNum == 1 || spieler.spielablaufManager.blauesFeldBefehlNum1 == 1){
+                                    spieler.spielablaufManager.bube.befehlNum = 2;
+                                    spieler.spielablaufManager.blauesFeldBefehlNum1 = 2;
+                                }else if(spieler.spielablaufManager.bube.befehlNum == 2 || spieler.spielablaufManager.blauesFeldBefehlNum1 == 2){
+                                    spieler.spielablaufManager.bube.befehlNum = 0;
+                                    spieler.spielablaufManager.blauesFeldBefehlNum1 = 0;
+                                }
+                            }
+                        } else{
                             checkNaechstesFeld();
                             if (!falscheRichtung) {
                                 if (spieler.naechstesFeld != null && spieler.naechstesFeld.ostFeld != null) {
@@ -182,10 +219,17 @@ public class MapEingabeManager implements KeyListener {
                                         spieler.spielfigur.richtung = "stehen";
                                         spieler.aktuellesFeld = spieler.naechstesFeld;
                                         spieler.naechstesFeld = null;
+                                        System.out.println("afeter map");
+                                        System.out.println("aktuelles: " + spieler.aktuellesFeld);
+                                        System.out.println("naechstes: " + spieler.naechstesFeld);
+                                        System.out.println("aktuell: " + spieler.aktuellFeld);
+                                        System.out.println("temp: " + spieler.tempFeld);
+
                                     }
                                 }
                             }
                         }
+
                         break;
                     case 'a':
                         linksGedrueckt = true;
@@ -193,6 +237,26 @@ public class MapEingabeManager implements KeyListener {
                             rechtsUndLinksInventar();
                         }else if(spieler.spielablaufManager.shopGeoeffnet){
                             linksShop();
+                        }else if(spieler.spielablaufManager.clientAuswaehlen) {
+                            if(spieler.spielablaufManager.sp.client.anzahlSpieler == 3){
+                                if(spieler.spielablaufManager.bube.befehlNum == 0 || spieler.spielablaufManager.blauesFeldBefehlNum1 == 0){
+                                    spieler.spielablaufManager.bube.befehlNum = 1;
+                                    spieler.spielablaufManager.blauesFeldBefehlNum1 = 1;
+                                }else if(spieler.spielablaufManager.bube.befehlNum == 1 || spieler.spielablaufManager.blauesFeldBefehlNum1 == 1){
+                                    spieler.spielablaufManager.bube.befehlNum = 0;
+                                    spieler.spielablaufManager.blauesFeldBefehlNum1 = 0;
+                                }
+                            }else if(spieler.spielablaufManager.sp.client.anzahlSpieler == 4){
+                                if(spieler.spielablaufManager.bube.befehlNum == 0 || spieler.spielablaufManager.blauesFeldBefehlNum1 == 0){
+                                    spieler.spielablaufManager.bube.befehlNum = 2;
+                                    spieler.spielablaufManager.blauesFeldBefehlNum1 = 2;
+                                }else if(spieler.spielablaufManager.bube.befehlNum == 1|| spieler.spielablaufManager.blauesFeldBefehlNum1 == 1){
+                                    spieler.spielablaufManager.bube.befehlNum = 0;
+                                    spieler.spielablaufManager.blauesFeldBefehlNum1 = 0;
+                                }else if(spieler.spielablaufManager.bube.befehlNum == 2 || spieler.spielablaufManager.blauesFeldBefehlNum1 == 2){
+                                    spieler.spielablaufManager.bube.befehlNum = 1;
+                                    spieler.spielablaufManager.blauesFeldBefehlNum1 = 1;                                }
+                            }
                         }else {
                             checkNaechstesFeld();
                             if (!falscheRichtung) {
@@ -204,6 +268,11 @@ public class MapEingabeManager implements KeyListener {
                                         spieler.spielfigur.richtung = "stehen";
                                         spieler.aktuellesFeld = spieler.naechstesFeld;
                                         spieler.naechstesFeld = null;
+                                        System.out.println("afeter map");
+                                        System.out.println("aktuelles: " +spieler.aktuellesFeld);
+                                        System.out.println("naechstes: " +spieler.naechstesFeld);
+                                        System.out.println("aktuell: "+ spieler.aktuellFeld);
+                                        System.out.println("temp: " + spieler.tempFeld);
                                     }
                                 }
                             }
@@ -274,6 +343,12 @@ public class MapEingabeManager implements KeyListener {
             spieler.aktuellFeld = spieler.tempFeld;
             falscheRichtung = false;
         }
+        System.out.println("afeter test");
+        System.out.println("aktuelles: " +spieler.aktuellesFeld);
+        System.out.println("naechstes: " +spieler.naechstesFeld);
+        System.out.println("aktuell: "+ spieler.aktuellFeld);
+        System.out.println("temp: " + spieler.tempFeld);
+
     }
     private void untenUndObenInventar(){
         spieler.inventar.anzahlGegenstaendeInInventar();

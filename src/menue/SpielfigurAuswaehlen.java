@@ -31,7 +31,7 @@ public class SpielfigurAuswaehlen{
             befehlNum1 = 0;
         }else{
             if(mn.sp.client.clientIndex == 1) {
-                if(mn.menueEingabeManager.ausgewaehlteSpielfiguren.get(0) != null) {
+                if(mn.menueEingabeManager.ausgewaehlteSpielfiguren != null) {
                     if (mn.menueEingabeManager.ausgewaehlteSpielfiguren.get(0) == 0) {
                         befehlNum1 = 1;
                     } else {
@@ -43,8 +43,6 @@ public class SpielfigurAuswaehlen{
                     befehlNum1 = 2;
                 }else if(mn.menueEingabeManager.ausgewaehlteSpielfiguren.contains(0)){
                     befehlNum1 = 1;
-
-
                 }else if(!mn.menueEingabeManager.ausgewaehlteSpielfiguren.contains(0)){
                     befehlNum1 = 0;
                 }

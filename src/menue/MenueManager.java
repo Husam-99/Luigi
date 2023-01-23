@@ -24,6 +24,7 @@ public class MenueManager {
         menueEingabeManager = new MenueEingabeManager(this);
         hauptmenue = new Hauptmenue(this);
         spielfigurAuswaehlen = new SpielfigurAuswaehlen(this);
+
     }
     public int spielerAnzahlFestlegen(){
         return spielerAnzahl;

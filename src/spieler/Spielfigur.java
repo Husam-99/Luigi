@@ -112,6 +112,11 @@ public abstract class Spielfigur {
                             obenUpdate();
                         } else if (spieler.spielablaufManager.mainSpieler.weltY == (spieler.naechstesFeld.weltY - spieler.spielablaufManager.sp.vergroesserteFliesenGroesse / 2)) {
                             stehenUpdate();
+                            System.out.println("when equal");
+                            System.out.println("aktuelles: " +spieler.aktuellesFeld);
+                            System.out.println("naechstes: " +spieler.naechstesFeld);
+                            System.out.println("aktuell: "+ spieler.aktuellFeld);
+                            System.out.println("temp: " + spieler.tempFeld);
                             spieler.spielablaufManager.mapManager.mapEingabeManager.bewegungOben = false;
                         }
                         koordinatenSchicken();
@@ -162,6 +167,12 @@ public abstract class Spielfigur {
                             untenUpdate();
                         } else if (spieler.spielablaufManager.mainSpieler.weltY == (spieler.naechstesFeld.weltY - spieler.spielablaufManager.sp.vergroesserteFliesenGroesse / 2)) {
                             stehenUpdate();
+                            System.out.println("when equal");
+                            System.out.println("aktuelles: " +spieler.aktuellesFeld);
+                            System.out.println("naechstes: " +spieler.naechstesFeld);
+                            System.out.println("aktuell: "+ spieler.aktuellFeld);
+                            System.out.println("temp: " + spieler.tempFeld);
+
                             spieler.spielablaufManager.mapManager.mapEingabeManager.bewegungUnten = false;
                         }
                         koordinatenSchicken();
@@ -177,6 +188,12 @@ public abstract class Spielfigur {
                             linksUpdate();
                         } else if (spieler.spielablaufManager.mainSpieler.weltX == (spieler.naechstesFeld.weltX)) {
                             stehenUpdate();
+                            System.out.println("when equal");
+                            System.out.println("aktuelles: " +spieler.aktuellesFeld);
+                            System.out.println("naechstes: " +spieler.naechstesFeld);
+                            System.out.println("aktuell: "+ spieler.aktuellFeld);
+                            System.out.println("temp: " + spieler.tempFeld);
+
                             spieler.spielablaufManager.mapManager.mapEingabeManager.bewegungLinks = false;
                         }
                         koordinatenSchicken();
@@ -191,6 +208,12 @@ public abstract class Spielfigur {
                             rechtsUpdate();
                         } else if (spieler.spielablaufManager.mainSpieler.weltX == (spieler.naechstesFeld.weltX)) {
                             stehenUpdate();
+                            System.out.println("when equal");
+                            System.out.println("aktuelles: " +spieler.aktuellesFeld);
+                            System.out.println("naechstes: " +spieler.naechstesFeld);
+                            System.out.println("aktuell: "+ spieler.aktuellFeld);
+                            System.out.println("temp: " + spieler.tempFeld);
+
                             spieler.spielablaufManager.mapManager.mapEingabeManager.bewegungRechts = false;
                         }
                        koordinatenSchicken();
@@ -281,9 +304,10 @@ public abstract class Spielfigur {
         spieler.bewegung = false;
         richtung = "stehen";
         bewegung.richtung = "stehen";
+        spieler.aktuellFeld = spieler.naechstesFeld;
         spieler.spielablaufManager.sp.client.send(bewegung);
         if (spieler.schritteAnzahl == 0) {
-            spieler.aktuellFeld.effeckteAnwenden();
+            spieler.naechstesFeld.effeckteAnwenden();
         }
     }
     private void bilderUpdate(){

@@ -14,10 +14,10 @@ public class MenueEingabeManager implements KeyListener {
 
     MenueManager mn;
     public int spielfigurMenueIndex = -1;
-    public List<Integer> ausgewaehlteSpielfiguren;
+    public ArrayList<Integer> ausgewaehlteSpielfiguren;
     public MenueEingabeManager(MenueManager mn){
         this.mn = mn;
-        ausgewaehlteSpielfiguren = new ArrayList<>();
+        ausgewaehlteSpielfiguren = new ArrayList<>(4);
         ausgewaehlteSpielfiguren.add(-1);
         ausgewaehlteSpielfiguren.add(-1);
         ausgewaehlteSpielfiguren.add(-1);
@@ -85,7 +85,6 @@ public class MenueEingabeManager implements KeyListener {
             Bescheid bescheid = new Bescheid();
             bescheid.fertig = true;
             mn.sp.client.send(bescheid);
-            ausgewaehlteSpielfiguren.add(0, spielfigurMenueIndex);
             //while(mn.sp.client.wartung){
 
            //}
@@ -234,6 +233,7 @@ public class MenueEingabeManager implements KeyListener {
            // while(mn.sp.client.wartung){
 //
            // }
+
             mn.sp.client.send(spielfigurAuswahl);
             mn.sp.spielablaufManager.mainSpieler.spielfigurAuswaehlen();
             mn.sp.setzeZustand(mn.sp.spielBrettZustand);
