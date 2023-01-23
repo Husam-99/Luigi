@@ -16,11 +16,12 @@ public class MinispielSpieler {
     int geschwindigkeit;
     Rectangle minispielSpielerRechteck;
     int punktzahl;
+    public boolean obenGedrueckt, untenGedrueckt, linksGedrueckt, rechtsGedrueckt;
 
-    public MinispielSpieler(MinispielManager minispielManager, Spieler spieler, SammlerEingabeManager sammlerEingabeManager){
+
+    public MinispielSpieler(MinispielManager minispielManager, Spieler spieler){
 
         this.minispielManager = minispielManager;
-        this.sammlerEingabeManager = sammlerEingabeManager;
 
         if(spieler.spielfigur instanceof Abdo){
             minispielSpieler = new Spieler();
@@ -56,41 +57,39 @@ public class MinispielSpieler {
 
     }
     public void update() {
+        if (obenGedrueckt || untenGedrueckt || linksGedrueckt || rechtsGedrueckt) {
 
-        if(sammlerEingabeManager.obenGedrueckt || sammlerEingabeManager.untenGedrueckt ||
-                sammlerEingabeManager.linksGedrueckt || sammlerEingabeManager.rechtsGedrueckt){
+            if (obenGedrueckt) {
 
-            if(sammlerEingabeManager.obenGedrueckt){
-                
                 richtung = "up";
-                if(!this.minispielSpielerRechteck.intersects(minispielManager.sammler.wandRechteck[0])){
+                if (!this.minispielSpielerRechteck.intersects(minispielManager.sammler.wandRechteck[0])) {
                     minispielYPosition -= geschwindigkeit;
                     minispielSpielerRechteck.y -= geschwindigkeit;
                 }
                 minispielManager.sammler.kollisionChecken(this);
 
-            }else if (sammlerEingabeManager.untenGedrueckt){
+            } else if (untenGedrueckt) {
 
                 richtung = "down";
-                if(!this.minispielSpielerRechteck.intersects(minispielManager.sammler.wandRechteck[1])) {
+                if (!this.minispielSpielerRechteck.intersects(minispielManager.sammler.wandRechteck[1])) {
                     minispielYPosition += geschwindigkeit;
                     minispielSpielerRechteck.y += geschwindigkeit;
                 }
                 minispielManager.sammler.kollisionChecken(this);
 
-            }else if (sammlerEingabeManager.linksGedrueckt){
+            } else if (linksGedrueckt) {
 
                 richtung = "left";
-                if(!this.minispielSpielerRechteck.intersects(minispielManager.sammler.wandRechteck[2])) {
+                if (!this.minispielSpielerRechteck.intersects(minispielManager.sammler.wandRechteck[2])) {
                     minispielXPosition -= geschwindigkeit;
                     minispielSpielerRechteck.x -= geschwindigkeit;
                 }
                 minispielManager.sammler.kollisionChecken(this);
 
-            }else {
+            } else {
 
                 richtung = "right";
-                if(!this.minispielSpielerRechteck.intersects(minispielManager.sammler.wandRechteck[3])) {
+                if (!this.minispielSpielerRechteck.intersects(minispielManager.sammler.wandRechteck[3])) {
                     minispielXPosition += geschwindigkeit;
                     minispielSpielerRechteck.x += geschwindigkeit;
                 }
@@ -98,8 +97,8 @@ public class MinispielSpieler {
             }
 
             minispielSpieler.spielfigur.spriteZaehler++;
-            if(minispielSpieler.spielfigur.spriteZaehler > 3){
-                if(minispielSpieler.spielfigur.spriteNum == 1){
+            if (minispielSpieler.spielfigur.spriteZaehler > 3) {
+                if (minispielSpieler.spielfigur.spriteNum == 1) {
                     minispielSpieler.spielfigur.spriteNum = 2;
                 } else if (minispielSpieler.spielfigur.spriteNum == 2) {
                     minispielSpieler.spielfigur.spriteNum = 3;
@@ -112,8 +111,12 @@ public class MinispielSpieler {
             }
         }
     }
+    
 
-    public void malen(Graphics2D g2) {
+    public void malen(Graphics2D g2, int width) {
+        minispielerBoxMalen(g2, width);
+        minispielerStatusMalen(g2, width);
+
         BufferedImage image = null;
 
         switch (richtung) {
@@ -163,6 +166,27 @@ public class MinispielSpieler {
             }
         }
         g2.drawImage(image, minispielXPosition, minispielYPosition, this.minispielManager.sp.vergroesserteFliesenGroesse, this.minispielManager.sp.vergroesserteFliesenGroesse, null);
+
+    }
+
+    private void minispielerBoxMalen(Graphics2D g2, int boxWidth) {
+        g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.7f));
+        g2.setColor(new Color(20, 9, 54));
+        g2.fillRoundRect(boxWidth,5, 210, 90, 25, 25);
+        g2.setColor(Color.white);
+        g2.setStroke(new BasicStroke(5));
+        g2.drawRoundRect(boxWidth + 5,10,200, 80, 15, 15);
+        g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1.0f));
+
+
+    }
+
+    private void minispielerStatusMalen(Graphics2D g2, int width) {
+        g2.drawImage(minispielSpieler.spielfigur.profile, width + 8, 8, minispielManager.sp.vergroesserteFliesenGroesse-10, minispielManager.sp.vergroesserteFliesenGroesse-10, null);
+        g2.setFont(g2.getFont().deriveFont(Font.PLAIN, 80F));
+        g2.setColor(new Color(196, 29, 29, 203));
+        g2.drawString("" + punktzahl, width + 110, 70);
+
     }
 
 }

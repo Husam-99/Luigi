@@ -10,11 +10,13 @@ public abstract class Minispiel {
     SpielPanel sp;
     Fliese[] minispielFliesen;
     int[][] minispielMap;
+    MinispielSpieler mainMinispielSpieler;
     ArrayList<MinispielSpieler> alleMinispielSpieler;
 
 
-    public Minispiel(SpielPanel sp, ArrayList<MinispielSpieler> alleMinispielSpieler){
+    public Minispiel(SpielPanel sp, MinispielSpieler mainMinispielSpieler, ArrayList<MinispielSpieler> alleMinispielSpieler){
         this.sp = sp;
+        this.mainMinispielSpieler = mainMinispielSpieler;
         this.alleMinispielSpieler = alleMinispielSpieler;
 
 

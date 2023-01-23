@@ -19,8 +19,9 @@ public class Sammler extends Minispiel {
     Rectangle[] wandRechteck;
 
 
-    public Sammler(SpielPanel sp, ArrayList<MinispielSpieler> alleMinispielSpieler) {
-        super(sp, alleMinispielSpieler);
+
+    public Sammler(SpielPanel sp, MinispielSpieler mainMinispielSpieler, ArrayList<MinispielSpieler> alleMinispielSpieler) {
+        super(sp, mainMinispielSpieler, alleMinispielSpieler);
         this.minispielFliesen = new Fliese[9];
         this.minispielMap = new int[15][9];
         muenze1 = new Muenze(this.sp);
@@ -28,8 +29,12 @@ public class Sammler extends Minispiel {
         this.getFlieseImage();
         this.mapLaden();
     }
+    public void setzeMuenzen(Muenze muenze1, Muenze muenze2){
+
+    }
 
     public void update(){
+        mainMinispielSpieler.update();
         for(MinispielSpieler spieler: alleMinispielSpieler){
             if(spieler!= null){
                 spieler.update();
@@ -42,23 +47,14 @@ public class Sammler extends Minispiel {
     public void kollisionChecken(MinispielSpieler spieler) {
 
         if (spieler.minispielSpielerRechteck.intersects(muenze1.muenzeRechteck)) {
-            muenze1 = null;
             muenze1 = new Muenze(this.sp);
             spieler.punktzahl++;
         }
-        else if (spieler.minispielSpielerRechteck.intersects(muenze2.muenzeRechteck)) {
-            muenze2 = null;
+        if (spieler.minispielSpielerRechteck.intersects(muenze2.muenzeRechteck)) {
             muenze2 = new Muenze(this.sp);
             spieler.punktzahl++;
 
         }
-
-        //if (this.playerRect.intersects(this.wandRechteck)) {
-        //    keyH.upPressed =false;
-        //    keyH.downPressed = false;
-        //    keyH.leftPressed = false;
-        //    keyH.rightPressed = false;
-        //}
     }
 
 

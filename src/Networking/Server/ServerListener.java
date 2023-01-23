@@ -1,10 +1,13 @@
 package Networking.Server;
 
 import Networking.Pakete.*;
+import com.esotericsoftware.kryonet.Client;
 import com.esotericsoftware.kryonet.Connection;
 import com.esotericsoftware.kryonet.Listener;
 
 import java.util.Map;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import static Networking.Server.SpielServer.*;
 
@@ -12,13 +15,19 @@ public class ServerListener extends Listener {
 
     private int maxAnzahlDerMitspielerHost;
     private int anzahlDerRunden;
-    private Connection[] connections;
+    private int runde = -1;
     private int naechsterClient;
-    private final int menueZustand = 0;
-    private int zustand = 0;
+    int minispielDauer = 64;
+    private enum zustand{
+        MENUE_ZUSTAND,
+        SPIELBRETT_ZUSTAND,
+        MINISPIEL_ZUSTAND
+    }
+
+    private zustand spielZustand = zustand.MENUE_ZUSTAND;
 
     @Override
-    public synchronized void connected(Connection connection) {
+    public void connected(Connection connection) {
         System.out.println("Client ist verbunden.");
         ClientsZug zug = new ClientsZug();
         HostClient host = new HostClient();
@@ -64,48 +73,103 @@ public class ServerListener extends Listener {
             SpielServer.start();
         }
     }
+    public void zustandWechsel(){
+        ClientsZug zug = new ClientsZug();
+
+        if(spielZustand == zustand.SPIELBRETT_ZUSTAND){
+            spielZustand = zustand.MINISPIEL_ZUSTAND;
+            zug.istDran = true;
+            zug.zustand = 2;
+            server.sendToAllTCP(zug);
+
+            Timer timer = new Timer();
+            TimerTask minispielTask = new TimerTask() {
+                @Override
+                public void run() {
+                    if(minispielDauer > 0){
+                        minispielDauer--;
+                    } else {
+                        timer.cancel();
+                        minispielDauer = 64;
+                        zug.zustand = 1;
+
+                        zug.istDran = false;
+                        server.sendToAllExceptTCP(server.getConnections()[naechsterClient].getID(), zug);
+                        zug.istDran = true;
+                        alleClients.get(server.getConnections()[naechsterClient]).istDran = true;
+                        server.sendToTCP(server.getConnections()[naechsterClient].getID(), zug);
+                        spielZustand = zustand.SPIELBRETT_ZUSTAND;
+                        for (Map.Entry<Connection, SpielerAuskuenfte> entry : alleClients.entrySet()) {
+                            System.out.println(entry.getKey() + " is : " + entry.getValue().clientIndex
+                                    + " and the turn is:" + entry.getValue().istDran);
+                        }
+
+                        naechsterClient--;
+                        if (naechsterClient < 0) {
+                            naechsterClient = alleClients.size() - 1;
+                        }
+
+
+                    }
+                }
+            };
+            timer.schedule(minispielTask, 3000, 1000);
+
+        }
+
+    }
 
     @Override
     public void received(Connection connection, Object object) {
 
         if (object instanceof Bescheid signal) {
+
             if (signal.fertig) {
                 alleClients.get(connection).istDran = false;
                 ClientsZug zug = new ClientsZug();
                 zug.istDran = false;
 
-              // if(zustand == menueZustand){
-              //     zug.wartung = true;
-              // }
-
                 server.sendToTCP(connection.getID(), zug);
                 System.out.println("nächste client " + naechsterClient);
 
 
-          //    if(zustand == menueZustand && alleClients.get(connection).clientIndex == alleClients.size()-1){
-          //        zustand = 1;
-          //        zug.wartung = false;
-          //        server.sendToTCP(server.getConnections()[2].getID(), zug);
-          //        server.sendToTCP(server.getConnections()[1].getID(), zug);
-          //        server.sendToTCP(server.getConnections()[0].getID(), zug);
+                 //to delete
 
-          //    }
-                alleClients.get(server.getConnections()[naechsterClient]).istDran = true;
-                zug.istDran = true;
-                server.sendToTCP(server.getConnections()[naechsterClient].getID(), zug);
+                //
 
 
+                if(connection == server.getConnections()[0]){
+                    if(spielZustand == zustand.MENUE_ZUSTAND){
+                        alleClients.get(server.getConnections()[naechsterClient]).istDran = true;
+                        zug.istDran = true;
+                        server.sendToTCP(server.getConnections()[naechsterClient].getID(), zug);
+                        naechsterClient--;
+                        if (naechsterClient < 0) {
+                            naechsterClient = alleClients.size() - 1;
+                        }
+                        spielZustand = zustand.SPIELBRETT_ZUSTAND;
+                    }
+                    else if(spielZustand == zustand.SPIELBRETT_ZUSTAND){
+                        zustandWechsel();
+                        anzahlDerRunden--;
+                    }
 
+                }else{
+                    alleClients.get(server.getConnections()[naechsterClient]).istDran = true;
+                    zug.istDran = true;
+                    server.sendToTCP(server.getConnections()[naechsterClient].getID(), zug);
+                    naechsterClient--;
+                    if (naechsterClient < 0) {
+                        naechsterClient = alleClients.size() - 1;
+                    }
+
+                }
                 for (Map.Entry<Connection, SpielerAuskuenfte> entry : alleClients.entrySet()) {
                     System.out.println(entry.getKey() + " is : " + entry.getValue().clientIndex
                             + " and the turn is:" + entry.getValue().istDran);
                 }
 
 
-                naechsterClient--;
-                if (naechsterClient < 0) {
-                    naechsterClient = alleClients.size() - 1;
-                }
             }
         } else if (object instanceof AnzahlMitspieler anzahlMitspieler) {
             this.maxAnzahlDerMitspielerHost = anzahlMitspieler.anzahlDerMitspielerHost;

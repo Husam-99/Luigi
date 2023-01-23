@@ -129,17 +129,21 @@ public class SpielPanel extends JPanel implements Runnable{
             this.addKeyListener(minispielManager.sammlerEingabeManager);
 
             this.zustand = minispielZustand;
+            Timer timer = new Timer();
             TimerTask task = new TimerTask() {
                 @Override
                 public void run() {
                     if(minispielManager.gesamtSekundenAnzahl > 0){
                         minispielManager.gesamtSekundenAnzahl--;
+                        minispielManager.size = 200F;
+                        minispielManager.yPosition = 465;
+
                     } else if(minispielManager.gesamtSekundenAnzahl == 0){
+                        timer.cancel();
                         setzeZustand(spielBrettZustand);
                     }
                 }
             };
-            Timer timer = new Timer();
             timer.schedule(task, 3000, 1000);
 
         }

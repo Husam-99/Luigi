@@ -12,15 +12,15 @@ public class MinispielManager {
     private int minispielWahl;
     private final int SAMMLER_INDEX = 0;
     Sammler sammler;
-    ArrayList<MinispielSpieler> alleMinispielSpieler;
+    public MinispielSpieler mainMinispielSpieler;
+    public ArrayList<MinispielSpieler> alleMinispielSpieler;
 
     public SammlerEingabeManager sammlerEingabeManager;
-    //minispiel jo
-    //runden
-    public int gesamtSekundenAnzahl = 63;
-    float size =400F;
+
+    public int gesamtSekundenAnzahl = 64;
+    public float size = 700F;
     int xPosition;
-    int yPosition;
+    public int yPosition = 432;
     String go = "GO";
     public MinispielManager(SpielPanel sp, int minispielIndex) {
         this.sp = sp;
@@ -28,74 +28,105 @@ public class MinispielManager {
 
         if(minispielIndex == SAMMLER_INDEX){
             minispielWahl = SAMMLER_INDEX;
-            sammlerEingabeManager = new SammlerEingabeManager();
-
-            }
+        }
         setzeWerte();
 
     }
     public void setzeWerte(){
-        alleMinispielSpieler.add(new MinispielSpieler(this, sp.spielablaufManager.mainSpieler, sammlerEingabeManager));
+        mainMinispielSpieler = new MinispielSpieler(this, sp.spielablaufManager.mainSpieler);
         for(Spieler spieler: sp.alleSpieler){
             if(spieler.spielfigur!=null){
-                alleMinispielSpieler.add(new MinispielSpieler(this, spieler, sammlerEingabeManager));
-            } else{
+                alleMinispielSpieler.add(new MinispielSpieler(this, spieler));
+            }
+            else{
                 alleMinispielSpieler.add(null);
             }
         }
-        sammler = new Sammler(this.sp, alleMinispielSpieler);
+        sammlerEingabeManager = new SammlerEingabeManager(this, mainMinispielSpieler);
+        sammler = new Sammler(this.sp, mainMinispielSpieler, alleMinispielSpieler);
 
     }
 
     public void update(){
-        if(minispielWahl == SAMMLER_INDEX){
+        if(minispielWahl == SAMMLER_INDEX) {
             sammler.update();
         }
 
     }
-    //get eingabeManager for Spielpanel
     public void malen(Graphics2D g2){
         this.g2 = g2;
 
         g2.setFont(sp.marioPartyFont);
-        g2.setFont(g2.getFont().deriveFont(Font.BOLD, 50F));
-        g2.setColor(Color.YELLOW);
 
         if(minispielWahl == SAMMLER_INDEX){
             sammler.malen(g2);
+            int width = 25;
+            mainMinispielSpieler.malen(g2, width);
+
+            width += 210;
+            int spielerIndex = 0;
             for(MinispielSpieler spieler: alleMinispielSpieler){
                 if(spieler!= null){
-                    spieler.malen(g2);
+                    spieler.malen(g2, width);
+                    if(spielerIndex == 0){
+                        width = 1205;
+                    } else{
+                        width -= 210;
+                    }
+                    spielerIndex++;
+
                 }
             }
         }
-        for(MinispielSpieler spieler1: alleMinispielSpieler){
-            int xPosition = 50;
-            if(spieler1!=null){
-                g2.drawString("Punktzahl: " + spieler1.punktzahl, xPosition, 50);
-                g2.drawString("verbleibend: " + gesamtSekundenAnzahl, xPosition, 80);
-            }
+        zeitBoxmalen(g2);
 
+        g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.7f));
+
+        g2.setColor(Color.YELLOW);
+
+        if(gesamtSekundenAnzahl <= 63 && gesamtSekundenAnzahl > 60){
+            g2.setFont(g2.getFont().deriveFont(Font.BOLD, size));
+            xPosition = getXfuerCenter(Integer.toString(gesamtSekundenAnzahl-60));
+            g2.drawString(Integer.toString(gesamtSekundenAnzahl-60), xPosition, yPosition);
+            yPosition += 15;
+            size += 50F;
         }
-        if(gesamtSekundenAnzahl < 60){
+        else if(gesamtSekundenAnzahl == 60){
             g2.setFont(g2.getFont().deriveFont(Font.BOLD, size));
             xPosition = getXfuerCenter(go);
-            yPosition = getYfuerCenter(go);
+            yPosition += 15;
             g2.drawString(go, xPosition, yPosition);
-            size += 20;
-
+            size += 50F;
+        }
+    }
+    private void zeitBoxmalen(Graphics2D g2){
+        if(gesamtSekundenAnzahl <= 60) {
+            g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.9f));
+            g2.setColor(new Color(20, 9, 54));
+            g2.fillRoundRect(620, 5, 200, 90, 25, 25);
+            if(gesamtSekundenAnzahl >= 30){
+                g2.setColor(new Color(93, 206, 31, 203));
+            } else if(gesamtSekundenAnzahl >= 10){
+                g2.setColor(new Color(255, 243, 0, 255));
+            } else{
+                g2.setColor(new Color(196, 29, 29, 203));
+            }
+            g2.setStroke(new BasicStroke(5));
+            g2.drawRoundRect(620 + 5, 10, 190, 80, 15, 15);
+            g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1.0f));
+            g2.setFont(g2.getFont().deriveFont(Font.PLAIN, 80F));
+            if(gesamtSekundenAnzahl < 10){
+                g2.drawString("" + gesamtSekundenAnzahl, 620 + 70, 70);
+            } else{
+                g2.drawString("" + gesamtSekundenAnzahl, 620 + 50, 70);
+            }
         }
 
     }
     public int getXfuerCenter(String text) {
-        int length = (int)g2.getFontMetrics().getStringBounds(text, g2).getWidth();
-        int x = this.sp.bildschirmBreiteMenue/2 - length/2;
+        int length = (int) g2.getFontMetrics().getStringBounds(text, g2).getWidth();
+        int x = this.sp.bildschirmBreiteMenue / 2 - length / 2;
         return x;
-    }
-    public int getYfuerCenter(String text) {
-        int length = (int)g2.getFontMetrics().getStringBounds(text, g2).getHeight();
-        int y = (this.sp.bildschirmHoeheMenue-96)/2 + length/2;
-        return y;
     }
 
 }
