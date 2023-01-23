@@ -114,8 +114,7 @@ public class MinispielSpieler {
     
 
     public void malen(Graphics2D g2, int width) {
-        minispielerBoxMalen(g2, width);
-        minispielerStatusMalen(g2, width);
+
 
         BufferedImage image = null;
 
@@ -166,7 +165,8 @@ public class MinispielSpieler {
             }
         }
         g2.drawImage(image, minispielXPosition, minispielYPosition, this.minispielManager.sp.vergroesserteFliesenGroesse, this.minispielManager.sp.vergroesserteFliesenGroesse, null);
-
+        minispielerBoxMalen(g2, width);
+        minispielerStatusMalen(g2, width);
     }
 
     private void minispielerBoxMalen(Graphics2D g2, int boxWidth) {

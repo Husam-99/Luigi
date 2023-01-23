@@ -11,7 +11,7 @@ public class MinispielManager {
     Graphics2D g2;
     private int minispielWahl;
     private final int SAMMLER_INDEX = 0;
-    Sammler sammler;
+    public Sammler sammler;
     public MinispielSpieler mainMinispielSpieler;
     public ArrayList<MinispielSpieler> alleMinispielSpieler;
 

@@ -2,10 +2,7 @@ package Networking.Client;
 
 import Main.SpielPanel;
 import Networking.Pakete.*;
-import Spielablauf.Feld;
-import Spielablauf.Fliese;
-import Spielablauf.Stern;
-import Spielablauf.ViolettesFeld;
+import Spielablauf.*;
 import com.esotericsoftware.kryonet.Client;
 import com.esotericsoftware.kryonet.Connection;
 import com.esotericsoftware.kryonet.Listener;
@@ -207,6 +204,9 @@ public class SpielClient {
                             sp.alleSpieler.get(gegenstandInfo.clientIndex).inventar.gegenstandVerwenden(gegenstandInfo.befehlNum);
 
                         }
+                    } else if(object instanceof SammlerGegenstaende sammlerGegenstaende){
+                        //Muenze muenze = new Muenze(sp, sammlerGegenstaende.muenzeX, sammlerGegenstaende.muenzeY);
+                        sp.minispielManager.sammler.setzeMuenze(sammlerGegenstaende.muenzenIndex,  new Muenze(sp, sammlerGegenstaende.muenzeX, sammlerGegenstaende.muenzeY));
                     }
 
 
@@ -259,7 +259,10 @@ public class SpielClient {
             client.sendTCP(gegenstandInfo);
         } else if(object instanceof Blocken block){
             client.sendTCP(block);
+        } else if(object instanceof SammlerGegenstaende sammlerGegenstaende){
+            client.sendTCP(sammlerGegenstaende);
         }
+
 
     }
 

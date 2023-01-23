@@ -1,6 +1,7 @@
 package Minispiele;
 
 import Main.SpielPanel;
+import Networking.Pakete.SammlerGegenstaende;
 import Spielablauf.Fliese;
 import Spielablauf.Muenze;
 
@@ -24,13 +25,15 @@ public class Sammler extends Minispiel {
         super(sp, mainMinispielSpieler, alleMinispielSpieler);
         this.minispielFliesen = new Fliese[9];
         this.minispielMap = new int[15][9];
-        muenze1 = new Muenze(this.sp);
-        muenze2 = new Muenze(this.sp);
         this.getFlieseImage();
         this.mapLaden();
     }
-    public void setzeMuenzen(Muenze muenze1, Muenze muenze2){
-
+    public void setzeMuenze(int muenzenIndex, Muenze muenze){
+        if(muenzenIndex == 1){
+            this.muenze1 = muenze;
+        } else {
+            this.muenze2 = muenze;
+        }
     }
 
     public void update(){
@@ -40,20 +43,34 @@ public class Sammler extends Minispiel {
                 spieler.update();
             }
         }
-        muenze1.update();
-        muenze2.update();
+        if(muenze1 != null){
+            muenze1.update();
+        }
+        if(muenze2 != null){
+            muenze2.update();
+        }
 
     }
     public void kollisionChecken(MinispielSpieler spieler) {
 
-        if (spieler.minispielSpielerRechteck.intersects(muenze1.muenzeRechteck)) {
-            muenze1 = new Muenze(this.sp);
-            spieler.punktzahl++;
+        if(muenze1!=null) {
+            if (spieler.minispielSpielerRechteck.intersects(muenze1.muenzeRechteck)) {
+                SammlerGegenstaende sammlerGegenstaende = new SammlerGegenstaende();
+                sammlerGegenstaende.muenzenIndex = 1;
+                sp.client.send(sammlerGegenstaende);
+                spieler.punktzahl++;
+                muenze1= null;
+            }
         }
-        if (spieler.minispielSpielerRechteck.intersects(muenze2.muenzeRechteck)) {
-            muenze2 = new Muenze(this.sp);
-            spieler.punktzahl++;
+        if(muenze2!=null) {
+            if (spieler.minispielSpielerRechteck.intersects(muenze2.muenzeRechteck)) {
+                SammlerGegenstaende sammlerGegenstaende = new SammlerGegenstaende();
+                sammlerGegenstaende.muenzenIndex = 2;
+                sp.client.send(sammlerGegenstaende);
+                spieler.punktzahl++;
+                muenze2= null;
 
+            }
         }
     }
 
@@ -155,8 +172,11 @@ public class Sammler extends Minispiel {
             }
         }
 
-
-        muenze1.malen(g2);
-        muenze2.malen(g2);
+        if(muenze1!=null){
+            muenze1.malen(g2);
+        }
+        if(muenze2!=null){
+            muenze2.malen(g2);
+        }
     }
 }

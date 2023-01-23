@@ -15,15 +15,22 @@ public class Muenze {
     public BufferedImage muenze1, muenze2, muenze3, muenze4, muenze5, muenze6;
 
     public Rectangle muenzeRechteck;
-    private int muenzeX;
-    private int muenzeY;
-    public int spriteNum = 0;
-    private int spriteZaehler = 0;
+    public int muenzeX;
+    public int muenzeY;
+    public int spriteNum;
+    private int spriteZaehler;
     public Muenze(SpielPanel sp){
         this.sp = sp;
-        Random random = new Random();
-        this.muenzeX = random.nextInt(100, 1290);
-        this.muenzeY = random.nextInt(100, 668);
+        spriteZaehler = 0;
+        spriteNum = 0;
+        getMuenzeBilder();
+    }
+    public Muenze(SpielPanel sp, int muenzeX, int muenzeY){
+        this.sp = sp;
+        this.muenzeX = muenzeX;
+        this.muenzeY = muenzeY;
+        spriteNum = 0;
+        spriteZaehler = 0;
         this.muenzeRechteck = new Rectangle(this.muenzeX, this.muenzeY, sp.fliesenGroesse*2, sp.fliesenGroesse*2);
         getMuenzeBilder();
     }
@@ -75,7 +82,10 @@ public class Muenze {
         } else if (this.spriteNum == 5) {
             image = this.muenze2;
         }
-        g2.drawImage(image, muenzeX, muenzeY, sp.vergroesserteFliesenGroesse, sp.vergroesserteFliesenGroesse, null);
+        if(muenzeY !=0 && muenzeX!=0){
+            g2.drawImage(image, muenzeX, muenzeY, sp.vergroesserteFliesenGroesse, sp.vergroesserteFliesenGroesse, null);
+
+        }
     }
 
 

@@ -1,5 +1,6 @@
 package Networking.Server;
 
+import Minispiele.Sammler;
 import Networking.Pakete.*;
 import com.esotericsoftware.kryonet.Client;
 import com.esotericsoftware.kryonet.Connection;
@@ -81,6 +82,17 @@ public class ServerListener extends Listener {
             zug.istDran = true;
             zug.zustand = 2;
             server.sendToAllTCP(zug);
+            SammlerGegenstaende sammlerGegenstaende = new SammlerGegenstaende();
+            sammlerGegenstaende.muenzenIndex = 1;
+            sammlerGegenstaende.muenzeX = positionGenerator.nextInt(100, 1290);
+            sammlerGegenstaende.muenzeY = positionGenerator.nextInt(100, 668);
+            server.sendToAllTCP(sammlerGegenstaende);
+            sammlerGegenstaende.muenzenIndex = 2;
+            sammlerGegenstaende.muenzeX = positionGenerator.nextInt(100, 1290);
+            sammlerGegenstaende.muenzeY = positionGenerator.nextInt(100, 668);
+            server.sendToAllTCP(sammlerGegenstaende);
+
+
 
             Timer timer = new Timer();
             TimerTask minispielTask = new TimerTask() {
@@ -131,12 +143,6 @@ public class ServerListener extends Listener {
 
                 server.sendToTCP(connection.getID(), zug);
                 System.out.println("nächste client " + naechsterClient);
-
-
-                 //to delete
-
-                //
-
 
                 if(connection == server.getConnections()[0]){
                     if(spielZustand == zustand.MENUE_ZUSTAND){
@@ -282,6 +288,10 @@ public class ServerListener extends Listener {
                 naechsterClient = alleClients.size() - 1;
             }
 
+        } else if(object instanceof SammlerGegenstaende sammlerGegenstaende){
+            sammlerGegenstaende.muenzeX = positionGenerator.nextInt(100, 1290);
+            sammlerGegenstaende.muenzeY = positionGenerator.nextInt(100, 668);
+            server.sendToAllTCP(sammlerGegenstaende);
         }
 
     }

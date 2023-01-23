@@ -22,6 +22,7 @@ public class Register {
         k.register(Schritte.class);
         k.register(GegenstandInfo.class);
         k.register(Blocken.class);
+        k.register(SammlerGegenstaende.class);
 
 
 
