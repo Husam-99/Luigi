@@ -125,7 +125,7 @@ public class SpielMapManager {
         }
     }
     
-    private void mapLaden(){
+    private void  mapLaden(){
         String[][] mapFelder = new String[25][30];
         BufferedReader reader = null;
         try {

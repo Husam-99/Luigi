@@ -87,12 +87,11 @@ public class ServerListener extends Listener {
             sammlerGegenstaende.muenzeX = positionGenerator.nextInt(100, 1290);
             sammlerGegenstaende.muenzeY = positionGenerator.nextInt(100, 668);
             server.sendToAllTCP(sammlerGegenstaende);
-            sammlerGegenstaende.muenzenIndex = 2;
-            sammlerGegenstaende.muenzeX = positionGenerator.nextInt(100, 1290);
-            sammlerGegenstaende.muenzeY = positionGenerator.nextInt(100, 668);
-            server.sendToAllTCP(sammlerGegenstaende);
-
-
+            SammlerGegenstaende sammlerGegenstaende2 = new SammlerGegenstaende();
+            sammlerGegenstaende2.muenzenIndex = 2;
+            sammlerGegenstaende2.muenzeX = positionGenerator.nextInt(100, 1290);
+            sammlerGegenstaende2.muenzeY = positionGenerator.nextInt(100, 668);
+            server.sendToAllTCP(sammlerGegenstaende2);
 
             Timer timer = new Timer();
             TimerTask minispielTask = new TimerTask() {
@@ -287,11 +286,14 @@ public class ServerListener extends Listener {
             if (naechsterClient < 0) {
                 naechsterClient = alleClients.size() - 1;
             }
-
         } else if(object instanceof SammlerGegenstaende sammlerGegenstaende){
             sammlerGegenstaende.muenzeX = positionGenerator.nextInt(100, 1290);
             sammlerGegenstaende.muenzeY = positionGenerator.nextInt(100, 668);
             server.sendToAllTCP(sammlerGegenstaende);
+            System.out.println("i have sent the muenze " + sammlerGegenstaende.muenzenIndex + " with coord " + sammlerGegenstaende.muenzeX + " und " + sammlerGegenstaende.muenzeY);
+
+        } else if(object instanceof SammlerPunkte sammlerPunkte){
+            server.sendToAllExceptTCP(connection.getID(), sammlerPunkte);
         }
 
     }

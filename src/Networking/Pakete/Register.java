@@ -23,6 +23,7 @@ public class Register {
         k.register(GegenstandInfo.class);
         k.register(Blocken.class);
         k.register(SammlerGegenstaende.class);
+        k.register(SammlerPunkte.class);
 
 
 

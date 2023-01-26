@@ -2,6 +2,7 @@ package Minispiele;
 
 import Main.SpielPanel;
 import Networking.Pakete.SammlerGegenstaende;
+import Networking.Pakete.SammlerPunkte;
 import Spielablauf.Fliese;
 import Spielablauf.Muenze;
 
@@ -29,10 +30,13 @@ public class Sammler extends Minispiel {
         this.mapLaden();
     }
     public void setzeMuenze(int muenzenIndex, Muenze muenze){
+        System.out.println("yah entered");
         if(muenzenIndex == 1){
-            this.muenze1 = muenze;
-        } else {
-            this.muenze2 = muenze;
+            this.muenze1 = new Muenze(sp, muenze.muenzeX, muenze.muenzeY);
+            System.out.println("i've got the muenze1 " + muenze1.muenzeX + " " + muenze1.muenzeY);
+        } else if(muenzenIndex == 2){
+            this.muenze2 = new Muenze(sp, muenze.muenzeX, muenze.muenzeY);
+            System.out.println("i've got the muenze2 " + muenze2.muenzeX + " " + muenze2.muenzeY);
         }
     }
 
@@ -55,21 +59,32 @@ public class Sammler extends Minispiel {
 
         if(muenze1!=null) {
             if (spieler.minispielSpielerRechteck.intersects(muenze1.muenzeRechteck)) {
-                SammlerGegenstaende sammlerGegenstaende = new SammlerGegenstaende();
-                sammlerGegenstaende.muenzenIndex = 1;
-                sp.client.send(sammlerGegenstaende);
-                spieler.punktzahl++;
-                muenze1= null;
+                if(spieler == mainMinispielSpieler) {
+                    muenze1 = null;
+                    spieler.punktzahl++;
+                    SammlerPunkte punkte = new SammlerPunkte();
+                    punkte.clientIndex = sp.client.clientIndex;
+                    sp.client.send(punkte);
+                    SammlerGegenstaende sammlerGegenstaende = new SammlerGegenstaende();
+                    sammlerGegenstaende.muenzenIndex = 1;
+                    sp.client.send(sammlerGegenstaende);
+                    System.out.println("i asked for anothor muenze 1");
+                }
             }
         }
         if(muenze2!=null) {
             if (spieler.minispielSpielerRechteck.intersects(muenze2.muenzeRechteck)) {
-                SammlerGegenstaende sammlerGegenstaende = new SammlerGegenstaende();
-                sammlerGegenstaende.muenzenIndex = 2;
-                sp.client.send(sammlerGegenstaende);
-                spieler.punktzahl++;
-                muenze2= null;
-
+                if(spieler == mainMinispielSpieler) {
+                    muenze2 = null;
+                    spieler.punktzahl++;
+                    SammlerPunkte punkte = new SammlerPunkte();
+                    punkte.clientIndex = sp.client.clientIndex;
+                    sp.client.send(punkte);
+                    SammlerGegenstaende sammlerGegenstaende = new SammlerGegenstaende();
+                    sammlerGegenstaende.muenzenIndex = 2;
+                    sp.client.send(sammlerGegenstaende);
+                    System.out.println("i asked for anothor muenze 2");
+                }
             }
         }
     }

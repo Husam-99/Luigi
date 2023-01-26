@@ -63,7 +63,7 @@ public class MinispielManager {
             int width = 25;
             mainMinispielSpieler.malen(g2, width);
 
-            width += 210;
+            width += 230;
             int spielerIndex = 0;
             for(MinispielSpieler spieler: alleMinispielSpieler){
                 if(spieler!= null){
@@ -71,7 +71,7 @@ public class MinispielManager {
                     if(spielerIndex == 0){
                         width = 1205;
                     } else{
-                        width -= 210;
+                        width -= 230;
                     }
                     spielerIndex++;
 

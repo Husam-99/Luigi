@@ -1,5 +1,6 @@
 package Minispiele;
 
+import Networking.Pakete.SpielerPosition;
 import spieler.*;
 
 import java.awt.*;
@@ -9,13 +10,13 @@ public class MinispielSpieler {
     MinispielManager minispielManager;
     Spieler minispielSpieler;
     SammlerEingabeManager sammlerEingabeManager;
-    int minispielXPosition;
-    int minispielYPosition;
+    public int minispielXPosition;
+    public int minispielYPosition;
     String richtung = "up";
  
     int geschwindigkeit;
-    Rectangle minispielSpielerRechteck;
-    int punktzahl;
+    public Rectangle minispielSpielerRechteck;
+    public int punktzahl;
     public boolean obenGedrueckt, untenGedrueckt, linksGedrueckt, rechtsGedrueckt;
 
 
@@ -51,50 +52,81 @@ public class MinispielSpieler {
             minispielYPosition = 501;
             richtung = "down";
         }
-        geschwindigkeit = 5;
+        geschwindigkeit = 15;
         minispielSpielerRechteck = new Rectangle(minispielXPosition+30,
                 minispielYPosition+50, spieler.spielablaufManager.sp.vergroesserteFliesenGroesse-60, spieler.spielablaufManager.sp.vergroesserteFliesenGroesse-50);
+
 
     }
     public void update() {
         if (obenGedrueckt || untenGedrueckt || linksGedrueckt || rechtsGedrueckt) {
-
             if (obenGedrueckt) {
 
                 richtung = "up";
-                if (!this.minispielSpielerRechteck.intersects(minispielManager.sammler.wandRechteck[0])) {
-                    minispielYPosition -= geschwindigkeit;
-                    minispielSpielerRechteck.y -= geschwindigkeit;
+                if(this == minispielManager.mainMinispielSpieler) {
+                    if (!this.minispielSpielerRechteck.intersects(minispielManager.sammler.wandRechteck[0])) {
+                        minispielYPosition -= geschwindigkeit;
+                        minispielSpielerRechteck.y -= geschwindigkeit;
+                        SpielerPosition spielerPosition = new SpielerPosition();
+                        spielerPosition.clientIndex = this.minispielManager.sp.client.clientIndex;
+                        spielerPosition.weltX = minispielXPosition;
+                        spielerPosition.weltY = minispielYPosition;
+                        minispielManager.sp.client.send(spielerPosition);
+                    }
                 }
-                minispielManager.sammler.kollisionChecken(this);
+                //minispielManager.sammler.kollisionChecken(this);
 
             } else if (untenGedrueckt) {
 
                 richtung = "down";
-                if (!this.minispielSpielerRechteck.intersects(minispielManager.sammler.wandRechteck[1])) {
-                    minispielYPosition += geschwindigkeit;
-                    minispielSpielerRechteck.y += geschwindigkeit;
+                if(this == minispielManager.mainMinispielSpieler) {
+
+                    if (!this.minispielSpielerRechteck.intersects(minispielManager.sammler.wandRechteck[1])) {
+                        minispielYPosition += geschwindigkeit;
+                        minispielSpielerRechteck.y += geschwindigkeit;
+                        SpielerPosition spielerPosition = new SpielerPosition();
+                        spielerPosition.clientIndex = this.minispielManager.sp.client.clientIndex;
+                        spielerPosition.weltX = minispielXPosition;
+                        spielerPosition.weltY = minispielYPosition;
+                        minispielManager.sp.client.send(spielerPosition);
+                    }
                 }
-                minispielManager.sammler.kollisionChecken(this);
+                //minispielManager.sammler.kollisionChecken(this);
 
             } else if (linksGedrueckt) {
 
                 richtung = "left";
-                if (!this.minispielSpielerRechteck.intersects(minispielManager.sammler.wandRechteck[2])) {
-                    minispielXPosition -= geschwindigkeit;
-                    minispielSpielerRechteck.x -= geschwindigkeit;
+                if(this == minispielManager.mainMinispielSpieler) {
+
+                    if (!this.minispielSpielerRechteck.intersects(minispielManager.sammler.wandRechteck[2])) {
+                        minispielXPosition -= geschwindigkeit;
+                        minispielSpielerRechteck.x -= geschwindigkeit;
+                        SpielerPosition spielerPosition = new SpielerPosition();
+                        spielerPosition.clientIndex = this.minispielManager.sp.client.clientIndex;
+                        spielerPosition.weltX = minispielXPosition;
+                        spielerPosition.weltY = minispielYPosition;
+                        minispielManager.sp.client.send(spielerPosition);
+                    }
                 }
-                minispielManager.sammler.kollisionChecken(this);
+                //minispielManager.sammler.kollisionChecken(this);
 
             } else {
 
                 richtung = "right";
-                if (!this.minispielSpielerRechteck.intersects(minispielManager.sammler.wandRechteck[3])) {
-                    minispielXPosition += geschwindigkeit;
-                    minispielSpielerRechteck.x += geschwindigkeit;
+                if (this == minispielManager.mainMinispielSpieler) {
+
+                    if (!this.minispielSpielerRechteck.intersects(minispielManager.sammler.wandRechteck[3])) {
+                        minispielXPosition += geschwindigkeit;
+                        minispielSpielerRechteck.x += geschwindigkeit;
+                        SpielerPosition spielerPosition = new SpielerPosition();
+                        spielerPosition.clientIndex = this.minispielManager.sp.client.clientIndex;
+                        spielerPosition.weltX = minispielXPosition;
+                        spielerPosition.weltY = minispielYPosition;
+                        minispielManager.sp.client.send(spielerPosition);
+                    }
                 }
-                minispielManager.sammler.kollisionChecken(this);
             }
+            minispielManager.sammler.kollisionChecken(this);
 
             minispielSpieler.spielfigur.spriteZaehler++;
             if (minispielSpieler.spielfigur.spriteZaehler > 3) {
@@ -110,6 +142,7 @@ public class MinispielSpieler {
                 minispielSpieler.spielfigur.spriteZaehler = 0;
             }
         }
+        System.out.println(this.minispielXPosition + " " + this.minispielYPosition);
     }
     
 
@@ -172,10 +205,10 @@ public class MinispielSpieler {
     private void minispielerBoxMalen(Graphics2D g2, int boxWidth) {
         g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.7f));
         g2.setColor(new Color(20, 9, 54));
-        g2.fillRoundRect(boxWidth,5, 210, 90, 25, 25);
+        g2.fillRoundRect(boxWidth,5, 230, 90, 25, 25);
         g2.setColor(Color.white);
         g2.setStroke(new BasicStroke(5));
-        g2.drawRoundRect(boxWidth + 5,10,200, 80, 15, 15);
+        g2.drawRoundRect(boxWidth + 5,10,220, 80, 15, 15);
         g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1.0f));
 
 

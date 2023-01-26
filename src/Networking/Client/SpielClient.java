@@ -96,11 +96,20 @@ public class SpielClient {
 
 
                     } else if(object instanceof SpielerPosition spielerPosition){
-                        sp.alleSpieler.get(spielerPosition.clientIndex).weltX = spielerPosition.weltX;
-                        sp.alleSpieler.get(spielerPosition.clientIndex).weltY = spielerPosition.weltY;
-                        sp.alleSpieler.get(spielerPosition.clientIndex).bildschirmX = spielerPosition.weltX - sp.spielablaufManager.mainSpieler.weltX + sp.spielablaufManager.mainSpieler.bildschirmX;
-                        sp.alleSpieler.get(spielerPosition.clientIndex).bildschirmY = spielerPosition.weltY - sp.spielablaufManager.mainSpieler.weltY + sp.spielablaufManager.mainSpieler.bildschirmY;
+                        if(sp.zustand == sp.minispielZustand) {
+                            sp.minispielManager.alleMinispielSpieler.get(spielerPosition.clientIndex).minispielXPosition = spielerPosition.weltX;
+                            sp.minispielManager.alleMinispielSpieler.get(spielerPosition.clientIndex).minispielYPosition = spielerPosition.weltY;
+                            sp.minispielManager.alleMinispielSpieler.get(spielerPosition.clientIndex).minispielSpielerRechteck.y = spielerPosition.weltY+50;
+                            sp.minispielManager.alleMinispielSpieler.get(spielerPosition.clientIndex).minispielSpielerRechteck.x = spielerPosition.weltX+30;
 
+
+                        } else{
+                            sp.alleSpieler.get(spielerPosition.clientIndex).weltX = spielerPosition.weltX;
+                            sp.alleSpieler.get(spielerPosition.clientIndex).weltY = spielerPosition.weltY;
+                            sp.alleSpieler.get(spielerPosition.clientIndex).bildschirmX = spielerPosition.weltX - sp.spielablaufManager.mainSpieler.weltX + sp.spielablaufManager.mainSpieler.bildschirmX;
+                            sp.alleSpieler.get(spielerPosition.clientIndex).bildschirmY = spielerPosition.weltY - sp.spielablaufManager.mainSpieler.weltY + sp.spielablaufManager.mainSpieler.bildschirmY;
+
+                        }
                     } else if(object instanceof Muenzenzahl muenzenzahl){
                         if(clientIndex == muenzenzahl.blauesFeldClientIndex) {
                             sp.spielablaufManager.mainSpieler.konto.muenzenVerlieren(5);
@@ -119,7 +128,7 @@ public class SpielClient {
                         sp.alleSpieler.get(schritte.clientIndex).schritteAnzahl = schritte.schritteAnzahl;
                     } else if(object instanceof Bewegung bewegung){
                         if(sp.zustand == sp.minispielZustand){
-                            System.out.println("ich habe die bewegung von " + bewegung.clientIndex);
+                            //System.out.println("ich habe die bewegung von " + bewegung.clientIndex);
                             sp.minispielManager.alleMinispielSpieler.get(bewegung.clientIndex).obenGedrueckt = bewegung.obenGedrueckt;
                             sp.minispielManager.alleMinispielSpieler.get(bewegung.clientIndex).untenGedrueckt = bewegung.untenGedrueckt;
                             sp.minispielManager.alleMinispielSpieler.get(bewegung.clientIndex).linksGedrueckt = bewegung.linksGedrueckt;
@@ -205,8 +214,19 @@ public class SpielClient {
 
                         }
                     } else if(object instanceof SammlerGegenstaende sammlerGegenstaende){
-                        //Muenze muenze = new Muenze(sp, sammlerGegenstaende.muenzeX, sammlerGegenstaende.muenzeY);
-                        sp.minispielManager.sammler.setzeMuenze(sammlerGegenstaende.muenzenIndex,  new Muenze(sp, sammlerGegenstaende.muenzeX, sammlerGegenstaende.muenzeY));
+                        if(sammlerGegenstaende.muenzenIndex == 1){
+                            Muenze muenze1 = new Muenze(sp, sammlerGegenstaende.muenzeX, sammlerGegenstaende.muenzeY);
+                            sp.minispielManager.sammler.setzeMuenze(sammlerGegenstaende.muenzenIndex,  muenze1);
+                            System.out.println("i've got muenze " + sammlerGegenstaende.muenzenIndex + " " + sammlerGegenstaende.muenzeX + sammlerGegenstaende.muenzeY);
+
+                        }else{
+                            Muenze muenze2 = new Muenze(sp, sammlerGegenstaende.muenzeX, sammlerGegenstaende.muenzeY);
+                            sp.minispielManager.sammler.setzeMuenze(sammlerGegenstaende.muenzenIndex,  muenze2);
+                            System.out.println("i've got muenze " + sammlerGegenstaende.muenzenIndex + " " + sammlerGegenstaende.muenzeX + sammlerGegenstaende.muenzeY);
+
+                        }
+                    } else if(object instanceof SammlerPunkte sammlerPunkte){
+                        sp.minispielManager.alleMinispielSpieler.get(sammlerPunkte.clientIndex).punktzahl++;
                     }
 
 
@@ -261,6 +281,8 @@ public class SpielClient {
             client.sendTCP(block);
         } else if(object instanceof SammlerGegenstaende sammlerGegenstaende){
             client.sendTCP(sammlerGegenstaende);
+        } else if(object instanceof SammlerPunkte sammlerPunkte){
+            client.sendTCP(sammlerPunkte);
         }
 
 
