@@ -1,15 +1,14 @@
 package Networking.Client;
 
 import Main.SpielPanel;
+import Minispiele.SammlerElement;
 import Networking.Pakete.*;
-import Spielablauf.*;
 import com.esotericsoftware.kryonet.Client;
 import com.esotericsoftware.kryonet.Connection;
 import com.esotericsoftware.kryonet.Listener;
 import spieler.Spieler;
 
 import java.io.IOException;
-import java.util.Random;
 
 public class SpielClient {
     private boolean istDran = false;
@@ -215,12 +214,12 @@ public class SpielClient {
                         }
                     } else if(object instanceof SammlerGegenstaende sammlerGegenstaende){
                         if(sammlerGegenstaende.muenzenIndex == 1){
-                            Muenze muenze1 = new Muenze(sp, sammlerGegenstaende.muenzeX, sammlerGegenstaende.muenzeY);
-                            sp.minispielManager.sammler.setzeMuenze(sammlerGegenstaende.muenzenIndex,  muenze1);
+                            SammlerElmenet muenze1 = new SammlerElement(sp, sammlerGegenstaende.muenzeX, sammlerGegenstaende.muenzeY);
+                            sp.minispielManager.sammler.setzeElement(sammlerGegenstaende.elementIndex,  muenze1);
                             System.out.println("i've got muenze " + sammlerGegenstaende.muenzenIndex + " " + sammlerGegenstaende.muenzeX + sammlerGegenstaende.muenzeY);
 
                         }else{
-                            Muenze muenze2 = new Muenze(sp, sammlerGegenstaende.muenzeX, sammlerGegenstaende.muenzeY);
+                            Muenze muenze2 = new SammlerElement(sp, sammlerGegenstaende.elementX, sammlerGegenstaende.elementY, sammlerGegenstaende.elementIndex);
                             sp.minispielManager.sammler.setzeMuenze(sammlerGegenstaende.muenzenIndex,  muenze2);
                             System.out.println("i've got muenze " + sammlerGegenstaende.muenzenIndex + " " + sammlerGegenstaende.muenzeX + sammlerGegenstaende.muenzeY);
 

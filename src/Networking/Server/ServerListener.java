@@ -1,8 +1,6 @@
 package Networking.Server;
 
-import Minispiele.Sammler;
 import Networking.Pakete.*;
-import com.esotericsoftware.kryonet.Client;
 import com.esotericsoftware.kryonet.Connection;
 import com.esotericsoftware.kryonet.Listener;
 
@@ -83,10 +81,16 @@ public class ServerListener extends Listener {
             zug.zustand = 2;
             server.sendToAllTCP(zug);
             SammlerGegenstaende sammlerGegenstaende = new SammlerGegenstaende();
-            sammlerGegenstaende.muenzenIndex = 1;
-            sammlerGegenstaende.muenzeX = positionGenerator.nextInt(100, 1290);
-            sammlerGegenstaende.muenzeY = positionGenerator.nextInt(100, 668);
+            sammlerGegenstaende.elementIndex = 1;
+            sammlerGegenstaende.elementX = positionGenerator.nextInt(100, 1290);
+            sammlerGegenstaende.elementY = positionGenerator.nextInt(100, 668);
             server.sendToAllTCP(sammlerGegenstaende);
+            sammlerGegenstaende.elementIndex = 2;
+            sammlerGegenstaende.elementX = positionGenerator.nextInt(100, 1290);
+            sammlerGegenstaende.elementY = positionGenerator.nextInt(100, 668);
+            server.sendToAllTCP(sammlerGegenstaende);
+
+
             SammlerGegenstaende sammlerGegenstaende2 = new SammlerGegenstaende();
             sammlerGegenstaende2.muenzenIndex = 2;
             sammlerGegenstaende2.muenzeX = positionGenerator.nextInt(100, 1290);
@@ -287,8 +291,8 @@ public class ServerListener extends Listener {
                 naechsterClient = alleClients.size() - 1;
             }
         } else if(object instanceof SammlerGegenstaende sammlerGegenstaende){
-            sammlerGegenstaende.muenzeX = positionGenerator.nextInt(100, 1290);
-            sammlerGegenstaende.muenzeY = positionGenerator.nextInt(100, 668);
+            sammlerGegenstaende.elementX = positionGenerator.nextInt(100, 1290);
+            sammlerGegenstaende.elementY = positionGenerator.nextInt(100, 668);
             server.sendToAllTCP(sammlerGegenstaende);
             System.out.println("i have sent the muenze " + sammlerGegenstaende.muenzenIndex + " with coord " + sammlerGegenstaende.muenzeX + " und " + sammlerGegenstaende.muenzeY);
 
