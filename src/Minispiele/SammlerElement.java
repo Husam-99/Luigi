@@ -10,55 +10,59 @@ import java.util.Objects;
 
 public class SammlerElement {
     SpielPanel sp;
-    public BufferedImage  muenze7, muenze8, muenze9, muenze10, muenze11,muenze12,muenze13,daimond1,daimond2,daimond3,mushroom,spider;
+    public BufferedImage muenze1, muenze2, muenze3, muenze4, muenze5, muenze6, muenze7, muenze8,
+            daimond1, daimond2, daimond3, mushroom, spider;
 
     public Rectangle gegenstandRechteck;
-    public int gegenstandX;
-    public int gegenstandY;
+    public int elementXPosition;
+    public int elementYPosition;
 
     public int spriteNum;
-    public int Imageindex;
+    public int elementIndex;
     private int spriteZaehler;
 
-    public SammlerElement(SpielPanel sp, int gegenstandX, int gegenstandY, int Imageindex){
+    public SammlerElement(SpielPanel sp, int elementXPosition, int elementYPosition, int elementIndex) {
         this.sp = sp;
-        this.gegenstandX = gegenstandX;
-        this.gegenstandY = gegenstandY;
-        this.Imageindex=Imageindex;
+        this.elementXPosition = elementXPosition;
+        this.elementYPosition = elementYPosition;
+        this.elementIndex = elementIndex;
         spriteNum = 0;
         spriteZaehler = 0;
-        this.gegenstandRechteck = new Rectangle(this.gegenstandX, this.gegenstandY, sp.fliesenGroesse*2, sp.fliesenGroesse*2);
+        this.gegenstandRechteck = new Rectangle(this.elementXPosition, this.elementYPosition, sp.fliesenGroesse * 2, sp.fliesenGroesse * 2);
         getSammlerBilder();
     }
 
-    public void getSammlerBilder(){
+    public void getSammlerBilder() {
         try {
-            if(Imageindex==0){
-            muenze7= ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/miniSpiele.sammlerMapBilder/SammlerBilder/coin7.png")));
-            muenze8= ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/miniSpiele.sammlerMapBilder/SammlerBilder/coin8.png")));
-            muenze9= ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/miniSpiele.sammlerMapBilder/SammlerBilder/coin9.png")));
-            muenze10= ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/miniSpiele.sammlerMapBilder/SammlerBilder/coin10.png")));
-            muenze11= ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/miniSpiele.sammlerMapBilder/SammlerBilder/coin11.png")));
-            muenze12= ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/miniSpiele.sammlerMapBilder/SammlerBilder/coin12.png")));
-            muenze13= ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/miniSpiele.sammlerMapBilder/SammlerBilder/coin13.png")));
+            if (elementIndex == 1) {
+                muenze1 = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/miniSpiele/sammlerMapBilder/SammlerBilder/coin1.png")));
+                muenze2 = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/miniSpiele/sammlerMapBilder/SammlerBilder/coin2.png")));
+                muenze3 = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/miniSpiele/sammlerMapBilder/SammlerBilder/coin3.png")));
+                muenze4 = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/miniSpiele/sammlerMapBilder/SammlerBilder/coin4.png")));
+                muenze5 = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/miniSpiele/sammlerMapBilder/SammlerBilder/coin5.png")));
+                muenze6 = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/miniSpiele/sammlerMapBilder/SammlerBilder/coin6.png")));
+                muenze7 = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/miniSpiele/sammlerMapBilder/SammlerBilder/coin7.png")));
+                muenze7 = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/miniSpiele/sammlerMapBilder/SammlerBilder/coin8.png")));
+
             }
-            if(Imageindex==1){
-                spider= ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/miniSpiele/sammlerMapBilder/SammlerBilder/SpiderWeb.png")));
+            else if (elementIndex == 2) {
+                spider = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/miniSpiele/sammlerMapBilder/SammlerBilder/SpiderWeb.png")));
             }
-            if(Imageindex==2){
-                daimond1= ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/miniSpiele/sammlerMapBilder/SammlerBilder/Diamond1.png")));
-                daimond2= ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/miniSpiele/sammlerMapBilder/SammlerBilder/Diamond2.png")));
-                daimond3= ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/miniSpiele/sammlerMapBilder/SammlerBilder/Diamond3.png")));
+            else if (elementIndex == 3) {
+                daimond1 = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/miniSpiele/sammlerMapBilder/SammlerBilder/Diamond1.png")));
+                daimond2 = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/miniSpiele/sammlerMapBilder/SammlerBilder/Diamond2.png")));
+                daimond3 = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/miniSpiele/sammlerMapBilder/SammlerBilder/Diamond3.png")));
             }
-            if(Imageindex==3){
-                mushroom= ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/miniSpiele/sammlerMapBilder/SammlerBilder/Mushroom.png")));
+            else if (elementIndex == 4) {
+                mushroom = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/miniSpiele/sammlerMapBilder/SammlerBilder/Mushroom.png")));
             }
 
-        }catch(IOException e) {
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }
-    public void muenzeupdate() {
+
+    public void muenzeUpdate() {
         spriteZaehler++;
         if (spriteZaehler > 15) {
             if (spriteNum == 0) {
@@ -73,12 +77,15 @@ public class SammlerElement {
                 spriteNum = 5;
             } else if (spriteNum == 5) {
                 spriteNum = 6;
+            } else if (spriteNum == 6) {
+                spriteNum = 7;
+            } else if(spriteNum == 7) {
+                spriteNum = 0;
             }
-        } else if (spriteNum == 6) {
-            spriteNum = 0;
         }
-            spriteZaehler = 0;
-        }
+        spriteZaehler = 0;
+    }
+
     public void daimondupdate() {
         spriteZaehler++;
         if (spriteZaehler > 15) {
@@ -94,6 +101,7 @@ public class SammlerElement {
             spriteZaehler = 0;
         }
     }
+
     public void daimondmalen(Graphics2D g2) {
         BufferedImage image2 = null;
         if (this.spriteNum == 0) {
@@ -104,40 +112,42 @@ public class SammlerElement {
             image2 = this.daimond3;
         }
 
-            g2.drawImage(image2, gegenstandX, gegenstandY, sp.vergroesserteFliesenGroesse, sp.vergroesserteFliesenGroesse, null);
+        g2.drawImage(image2, elementXPosition, elementYPosition, sp.vergroesserteFliesenGroesse, sp.vergroesserteFliesenGroesse, null);
 
 
     }
 
-    public void muenzemalen(Graphics2D g2) {
+    public void muenzeMalen(Graphics2D g2) {
         BufferedImage image = null;
         if (this.spriteNum == 0) {
-            image = this.muenze7;
+            image = this.muenze1;
         } else if (this.spriteNum == 1) {
-            image = this.muenze8;
+            image = this.muenze2;
         } else if (this.spriteNum == 2) {
-            image = this.muenze9;
+            image = this.muenze3;
         } else if (this.spriteNum == 3) {
-            image = this.muenze10;
+            image = this.muenze4;
         } else if (this.spriteNum == 4) {
-            image = this.muenze11;
+            image = this.muenze5;
         } else if (this.spriteNum == 5) {
-            image = this.muenze12;
-        }
-        else if (this.spriteNum == 6) {
-            image = this.muenze13;
+            image = this.muenze6;
+        } else if (this.spriteNum == 6) {
+            image = this.muenze7;
+        } else if(this.spriteNum == 7) {
+            image = this.muenze8;
         }
 
-            g2.drawImage(image, gegenstandX, gegenstandY, sp.vergroesserteFliesenGroesse, sp.vergroesserteFliesenGroesse, null);
-
+        g2.drawImage(image, elementXPosition, elementYPosition, sp.vergroesserteFliesenGroesse, sp.vergroesserteFliesenGroesse, null);
 
     }
-    public void spidermalen(Graphics2D g2) {
-        g2.drawImage(spider, gegenstandX, gegenstandY, sp.vergroesserteFliesenGroesse*2, sp.vergroesserteFliesenGroesse*2, null);
+
+    public void spiderMalen(Graphics2D g2) {
+        g2.drawImage(spider, elementXPosition, elementYPosition, sp.vergroesserteFliesenGroesse * 2, sp.vergroesserteFliesenGroesse * 2, null);
 
     }
-    public void mushroommalen(Graphics2D g2) {
-        g2.drawImage(mushroom, gegenstandX, gegenstandY, sp.vergroesserteFliesenGroesse, sp.vergroesserteFliesenGroesse, null);
+
+    public void mushroomMalen(Graphics2D g2) {
+        g2.drawImage(mushroom, elementXPosition, elementYPosition, sp.vergroesserteFliesenGroesse, sp.vergroesserteFliesenGroesse, null);
 
     }
 
