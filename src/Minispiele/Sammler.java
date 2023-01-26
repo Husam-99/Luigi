@@ -17,8 +17,15 @@ import java.util.Objects;
 public class Sammler extends Minispiel {
     private Muenze muenze1;
     private Muenze muenze2;
-    Rectangle[] wandRechteck;
+    private SammlerElement muenze;
+    private SammlerElement daimond;
+    private SammlerElement mushroom;
+    private SammlerElement spider;
 
+
+    int mushroomZeit;
+    Rectangle[] wandRechteck;
+boolean mashroobhaben =false;
 
 
     public Sammler(SpielPanel sp, MinispielSpieler mainMinispielSpieler, ArrayList<MinispielSpieler> alleMinispielSpieler) {
@@ -27,6 +34,11 @@ public class Sammler extends Minispiel {
         this.minispielMap = new int[15][9];
         this.getFlieseImage();
         this.mapLaden();
+       // this.mushroom=mushroom;
+          mushroom =new SammlerElement(sp,700,700,3);
+        daimond =new SammlerElement(sp,500,600,2);
+        spider =new SammlerElement(sp,200,200,1);
+
     }
     public void setzeMuenze(int muenzenIndex, Muenze muenze){
         if(muenzenIndex == 1){
@@ -34,6 +46,7 @@ public class Sammler extends Minispiel {
         } else {
             this.muenze2 = muenze;
         }
+        //muenze = new SammlerGegenstaende(sp,0,0,0);
     }
 
     public void update(){
@@ -49,29 +62,93 @@ public class Sammler extends Minispiel {
         if(muenze2 != null){
             muenze2.update();
         }
+        if(daimond != null){
+            daimond.daimondupdate();
+        }
+
+        if( mushroomZeit-5== sp.minispielManager.gesamtSekundenAnzahl){
+            mainMinispielSpieler.geschwindigkeit = 5;
+        }
+      //  if (spieler.minispielSpielerRechteck.intersects(spider.gegenstandRechteck)) {
+        //    if (spieler == mainMinispielSpieler) {
+
+          //  }
+
+
 
     }
     public void kollisionChecken(MinispielSpieler spieler) {
 
         if(muenze1!=null) {
             if (spieler.minispielSpielerRechteck.intersects(muenze1.muenzeRechteck)) {
-                SammlerGegenstaende sammlerGegenstaende = new SammlerGegenstaende();
-                sammlerGegenstaende.muenzenIndex = 1;
-                sp.client.send(sammlerGegenstaende);
-                spieler.punktzahl++;
-                muenze1= null;
+                if(spieler==mainMinispielSpieler) {
+                    SammlerGegenstaende sammlerGegenstaende = new SammlerGegenstaende();
+                    sammlerGegenstaende.muenzenIndex = 1;
+                    sp.client.send(sammlerGegenstaende);
+                    spieler.punktzahl++;
+                    muenze1 = null;
+                }
             }
         }
         if(muenze2!=null) {
             if (spieler.minispielSpielerRechteck.intersects(muenze2.muenzeRechteck)) {
-                SammlerGegenstaende sammlerGegenstaende = new SammlerGegenstaende();
-                sammlerGegenstaende.muenzenIndex = 2;
-                sp.client.send(sammlerGegenstaende);
-                spieler.punktzahl++;
-                muenze2= null;
-
+                if(spieler==mainMinispielSpieler) {
+                    SammlerGegenstaende sammlerGegenstaende = new SammlerGegenstaende();
+                    sammlerGegenstaende.muenzenIndex = 2;
+                    sp.client.send(sammlerGegenstaende);
+                    spieler.punktzahl++;
+                    muenze2 = null;
+                }
             }
         }
+
+        if(mushroom!=null) {
+         if (spieler.minispielSpielerRechteck.intersects(mushroom.gegenstandRechteck)) {
+            if(spieler==mainMinispielSpieler) {
+                 mainMinispielSpieler.geschwindigkeit = 10;
+                 mushroomZeit = sp.minispielManager.gesamtSekundenAnzahl;
+                 mushroom = null;
+             }
+         }
+        }
+
+
+        if(daimond!=null) {
+            if (spieler.minispielSpielerRechteck.intersects(daimond.gegenstandRechteck)) {
+                if(spieler==mainMinispielSpieler) {
+                    spieler.punktzahl +=3;
+                    daimond = null;
+                }
+            }
+        }
+      // if(spider!=null) {
+      //     if (spieler.minispielSpielerRechteck.intersects(spider.gegenstandRechteck)) {
+      //         if(spieler==mainMinispielSpieler) {
+      //             mainMinispielSpieler.geschwindigkeit = 2;
+      //         }
+      //     }
+      // }
+        if(spider!=null) {
+                if (spieler.minispielSpielerRechteck.intersects(spider.gegenstandRechteck)) {
+                    if (spieler == mainMinispielSpieler) {
+                        mainMinispielSpieler.obenGedrueckt = false;
+                        mainMinispielSpieler.untenGedrueckt = false;
+                        mainMinispielSpieler.linksGedrueckt = false;
+                        mainMinispielSpieler.rechtsGedrueckt = false;
+                    }
+                }
+        }
+
+
+
+        //if            if (spieler.minispielSpielerRechteck.intersects(diamond.diamondRechteck)){
+      //  spieler.punktzahl +=3;
+       // }
+        //if            if (spieler.minispielSpielerRechteck.intersects(spider.spiderRechteck)){
+      //  minispieler.geshcwindigkeit=3;
+       // }
+
+
     }
 
 
@@ -178,5 +255,15 @@ public class Sammler extends Minispiel {
         if(muenze2!=null){
             muenze2.malen(g2);
         }
+        if(mushroom!=null) {
+            mushroom.mushroommalen(g2);
+        }
+        if(daimond!=null) {
+            daimond.daimondmalen(g2);
+        }
+        if(spider!=null) {
+            spider.spidermalen(g2);
+        }
     }
+
 }
