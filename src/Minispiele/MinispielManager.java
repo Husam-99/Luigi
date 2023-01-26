@@ -11,6 +11,10 @@ public class MinispielManager {
     Graphics2D g2;
     private int minispielWahl;
     private final int SAMMLER_INDEX = 0;
+    private  final int SQUIDGAME_INDEX=1;
+
+     SquidGame squidGame;
+    SquidGameEingabeManger squidGameEingabeManger;
     public Sammler sammler;
     public MinispielSpieler mainMinispielSpieler;
     public ArrayList<MinispielSpieler> alleMinispielSpieler;
@@ -29,21 +33,31 @@ public class MinispielManager {
         if(minispielIndex == SAMMLER_INDEX){
             minispielWahl = SAMMLER_INDEX;
         }
+        else if (minispielIndex==SQUIDGAME_INDEX){
+
+            minispielWahl = SQUIDGAME_INDEX;
+        }
         setzeWerte();
     }
     public void setzeWerte(){
-        mainMinispielSpieler = new MinispielSpieler(this, sp.spielablaufManager.mainSpieler);
+        mainMinispielSpieler = new MinispielSpieler(this, sp.spielablaufManager.mainSpieler,minispielWahl);
         for(Spieler spieler: sp.alleSpieler){
             if(spieler.spielfigur!=null){
-                alleMinispielSpieler.add(new MinispielSpieler(this, spieler));
+                alleMinispielSpieler.add(new MinispielSpieler(this, spieler,minispielWahl));
             }
             else{
                 alleMinispielSpieler.add(null);
             }
         }
-        sammlerEingabeManager = new SammlerEingabeManager(this, mainMinispielSpieler);
-        sammler = new Sammler(this.sp, mainMinispielSpieler, alleMinispielSpieler);
+        if(minispielWahl==SAMMLER_INDEX) {
+            sammlerEingabeManager = new SammlerEingabeManager(this, mainMinispielSpieler);
+            sammler = new Sammler(this.sp, mainMinispielSpieler, alleMinispielSpieler);
+        }
 
+        else if(minispielWahl==SQUIDGAME_INDEX){
+            squidGameEingabeManger=new SquidGameEingabeManger(this, mainMinispielSpieler);
+            squidGame=new SquidGame(sp,mainMinispielSpieler,alleMinispielSpieler);
+        }
     }
 
     public void update(){
@@ -146,5 +160,4 @@ public class MinispielManager {
         int x = this.sp.bildschirmBreiteMenue / 2 - length / 2;
         return x;
     }
-
 }
