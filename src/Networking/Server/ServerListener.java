@@ -80,22 +80,6 @@ public class ServerListener extends Listener {
             zug.istDran = true;
             zug.zustand = 2;
             server.sendToAllTCP(zug);
-            SammlerGegenstaende sammlerGegenstaende = new SammlerGegenstaende();
-            sammlerGegenstaende.elementIndex = 1;
-            sammlerGegenstaende.elementX = positionGenerator.nextInt(100, 1290);
-            sammlerGegenstaende.elementY = positionGenerator.nextInt(100, 668);
-            server.sendToAllTCP(sammlerGegenstaende);
-            sammlerGegenstaende.elementIndex = 2;
-            sammlerGegenstaende.elementX = positionGenerator.nextInt(100, 1290);
-            sammlerGegenstaende.elementY = positionGenerator.nextInt(100, 668);
-            server.sendToAllTCP(sammlerGegenstaende);
-
-
-            SammlerGegenstaende sammlerGegenstaende2 = new SammlerGegenstaende();
-            sammlerGegenstaende2.muenzenIndex = 2;
-            sammlerGegenstaende2.muenzeX = positionGenerator.nextInt(100, 1290);
-            sammlerGegenstaende2.muenzeY = positionGenerator.nextInt(100, 668);
-            server.sendToAllTCP(sammlerGegenstaende2);
 
             Timer timer = new Timer();
             TimerTask minispielTask = new TimerTask() {
@@ -103,6 +87,54 @@ public class ServerListener extends Listener {
                 public void run() {
                     if(minispielDauer > 0){
                         minispielDauer--;
+                        if(minispielDauer == 60){
+                            SammlerGegenstaende muenze1 = new SammlerGegenstaende();
+                            muenze1.elementIndex = 1;
+                            muenze1.elementX = positionGenerator.nextInt(100, 1250);
+                            muenze1.elementY = positionGenerator.nextInt(100, 668);
+                            server.sendToAllTCP(muenze1);
+
+
+                            SammlerGegenstaende muenze2 = new SammlerGegenstaende();
+                            muenze2.elementIndex = 2;
+                            muenze2.elementX = positionGenerator.nextInt(100, 1250);
+                            muenze2.elementY = positionGenerator.nextInt(100, 668);
+                            server.sendToAllTCP(muenze2);
+
+                            SammlerGegenstaende spider1 = new SammlerGegenstaende();
+                            spider1.elementIndex = 3;
+                            spider1.elementX = positionGenerator.nextInt(100, 318);
+                            spider1.elementY = positionGenerator.nextInt(100, 575);
+                            server.sendToAllTCP(spider1);
+
+                            SammlerGegenstaende spider2 = new SammlerGegenstaende();
+                            spider2.elementIndex = 4;
+                            spider2.elementX = positionGenerator.nextInt(510, 698);
+                            spider2.elementY = positionGenerator.nextInt(100, 575);
+                            server.sendToAllTCP(spider2);
+
+                            SammlerGegenstaende spider3 = new SammlerGegenstaende();
+                            spider3.elementIndex = 5;
+                            spider3.elementX = positionGenerator.nextInt(890, 1152);
+                            spider3.elementY = positionGenerator.nextInt(100, 575);
+                            server.sendToAllTCP(spider3);
+
+                        } else if(minispielDauer%10 == 0 && minispielDauer < 60 && minispielDauer > 0) {
+                            SammlerGegenstaende mushroom = new SammlerGegenstaende();
+                            mushroom.elementIndex = 7;
+                            mushroom.elementX = positionGenerator.nextInt(100, 1250);
+                            mushroom.elementY = positionGenerator.nextInt(100, 668);
+                            server.sendToAllTCP(mushroom);
+
+                        } else if(minispielDauer == 51 || minispielDauer == 33 || minispielDauer == 15){
+                            SammlerGegenstaende diamond = new SammlerGegenstaende();
+                            diamond.elementIndex = 6;
+                            diamond.elementX = positionGenerator.nextInt(100, 1216);
+                            diamond.elementY = positionGenerator.nextInt(100, 636);
+                            server.sendToAllTCP(diamond);
+
+                        }
+
                     } else {
                         timer.cancel();
                         minispielDauer = 64;
@@ -291,10 +323,13 @@ public class ServerListener extends Listener {
                 naechsterClient = alleClients.size() - 1;
             }
         } else if(object instanceof SammlerGegenstaende sammlerGegenstaende){
-            sammlerGegenstaende.elementX = positionGenerator.nextInt(100, 1290);
-            sammlerGegenstaende.elementY = positionGenerator.nextInt(100, 668);
-            server.sendToAllTCP(sammlerGegenstaende);
-            System.out.println("i have sent the muenze " + sammlerGegenstaende.muenzenIndex + " with coord " + sammlerGegenstaende.muenzeX + " und " + sammlerGegenstaende.muenzeY);
+            if(sammlerGegenstaende.elementIndex == 1 || sammlerGegenstaende.elementIndex == 2){
+                sammlerGegenstaende.elementX = positionGenerator.nextInt(100, 1290);
+                sammlerGegenstaende.elementY = positionGenerator.nextInt(100, 668);
+                server.sendToAllTCP(sammlerGegenstaende);
+                System.out.println("i have sent the muenze " + sammlerGegenstaende.elementIndex + " with coord " + sammlerGegenstaende.elementX + " und " + sammlerGegenstaende.elementY);
+
+            }
 
         } else if(object instanceof SammlerPunkte sammlerPunkte){
             server.sendToAllExceptTCP(connection.getID(), sammlerPunkte);

@@ -9,7 +9,6 @@ import java.awt.image.BufferedImage;
 public class MinispielSpieler {
     MinispielManager minispielManager;
     Spieler minispielSpieler;
-    SammlerEingabeManager sammlerEingabeManager;
     public int minispielXPosition;
     public int minispielYPosition;
     String richtung = "up";
@@ -18,6 +17,10 @@ public class MinispielSpieler {
     public Rectangle minispielSpielerRechteck;
     public int punktzahl;
     public boolean obenGedrueckt, untenGedrueckt, linksGedrueckt, rechtsGedrueckt;
+    boolean hatMushroom = false;
+    boolean unterSpider = false;
+    public boolean amSpielen = false;
+    int mushroomZeit;
 
 
     public MinispielSpieler(MinispielManager minispielManager, Spieler spieler){
@@ -52,13 +55,25 @@ public class MinispielSpieler {
             minispielYPosition = 501;
             richtung = "down";
         }
-        geschwindigkeit = 15;
+        geschwindigkeit = 6;
         minispielSpielerRechteck = new Rectangle(minispielXPosition+30,
                 minispielYPosition+50, spieler.spielablaufManager.sp.vergroesserteFliesenGroesse-60, spieler.spielablaufManager.sp.vergroesserteFliesenGroesse-50);
 
 
     }
     public void update() {
+        if(hatMushroom && !unterSpider){
+            geschwindigkeit = 10;
+        }
+        else if(unterSpider && !hatMushroom){
+            geschwindigkeit = 2;
+        }
+        else {
+            geschwindigkeit = 6;
+        }
+        if (mushroomZeit - 5 == minispielManager.gesamtSekundenAnzahl) {
+            hatMushroom = false;
+        }
         if (obenGedrueckt || untenGedrueckt || linksGedrueckt || rechtsGedrueckt) {
             if (obenGedrueckt) {
 
@@ -142,11 +157,11 @@ public class MinispielSpieler {
                 minispielSpieler.spielfigur.spriteZaehler = 0;
             }
         }
-        System.out.println(this.minispielXPosition + " " + this.minispielYPosition);
+        //System.out.println(this.minispielXPosition + " " + this.minispielYPosition);
     }
     
 
-    public void malen(Graphics2D g2, int width) {
+    public void malen(Graphics2D g2) {
 
 
         BufferedImage image = null;
@@ -198,11 +213,10 @@ public class MinispielSpieler {
             }
         }
         g2.drawImage(image, minispielXPosition, minispielYPosition, this.minispielManager.sp.vergroesserteFliesenGroesse, this.minispielManager.sp.vergroesserteFliesenGroesse, null);
-        minispielerBoxMalen(g2, width);
-        minispielerStatusMalen(g2, width);
+
     }
 
-    private void minispielerBoxMalen(Graphics2D g2, int boxWidth) {
+    public void minispielerBoxMalen(Graphics2D g2, int boxWidth) {
         g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.7f));
         g2.setColor(new Color(20, 9, 54));
         g2.fillRoundRect(boxWidth,5, 230, 90, 25, 25);
@@ -214,7 +228,7 @@ public class MinispielSpieler {
 
     }
 
-    private void minispielerStatusMalen(Graphics2D g2, int width) {
+    public void minispielerStatusMalen(Graphics2D g2, int width) {
         g2.drawImage(minispielSpieler.spielfigur.profile, width + 8, 8, minispielManager.sp.vergroesserteFliesenGroesse-10, minispielManager.sp.vergroesserteFliesenGroesse-10, null);
         g2.setFont(g2.getFont().deriveFont(Font.PLAIN, 80F));
         g2.setColor(new Color(196, 29, 29, 203));

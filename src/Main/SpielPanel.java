@@ -135,10 +135,14 @@ public class SpielPanel extends JPanel implements Runnable{
                 public void run() {
                     if(minispielManager.gesamtSekundenAnzahl > 0){
                         minispielManager.gesamtSekundenAnzahl--;
+                        if(minispielManager.gesamtSekundenAnzahl == 60){
+                            minispielManager.mainMinispielSpieler.amSpielen = true;
+                        }
                         minispielManager.size = 200F;
                         minispielManager.yPosition = 465;
 
                     } else if(minispielManager.gesamtSekundenAnzahl == 0){
+                        minispielManager.mainMinispielSpieler.amSpielen = false;
                         timer.cancel();
                         setzeZustand(spielBrettZustand);
                     }

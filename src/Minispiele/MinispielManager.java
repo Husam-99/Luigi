@@ -30,7 +30,6 @@ public class MinispielManager {
             minispielWahl = SAMMLER_INDEX;
         }
         setzeWerte();
-
     }
     public void setzeWerte(){
         mainMinispielSpieler = new MinispielSpieler(this, sp.spielablaufManager.mainSpieler);
@@ -58,16 +57,35 @@ public class MinispielManager {
 
         g2.setFont(sp.marioPartyFont);
 
+
         if(minispielWahl == SAMMLER_INDEX){
             sammler.malen(g2);
+            mainMinispielSpieler.malen(g2);
+            for(MinispielSpieler spieler: alleMinispielSpieler) {
+                if (spieler != null) {
+                    spieler.malen(g2);
+                }
+            }
+            if(sammler.spider1 != null){
+                sammler.spider1.spiderMalen(g2);
+            }
+            if(sammler.spider2 != null){
+                sammler.spider2.spiderMalen(g2);
+            }
+            if(sammler.spider3 != null){
+                sammler.spider3.spiderMalen(g2);
+            }
+
             int width = 25;
-            mainMinispielSpieler.malen(g2, width);
+            mainMinispielSpieler.minispielerBoxMalen(g2, width);
+            mainMinispielSpieler.minispielerStatusMalen(g2, width);
 
             width += 230;
             int spielerIndex = 0;
             for(MinispielSpieler spieler: alleMinispielSpieler){
                 if(spieler!= null){
-                    spieler.malen(g2, width);
+                    spieler.minispielerBoxMalen(g2, width);
+                    spieler.minispielerStatusMalen(g2, width);
                     if(spielerIndex == 0){
                         width = 1205;
                     } else{
