@@ -12,8 +12,6 @@ public class MinispielSpieler {
     Spieler minispielSpieler;
     public int minispielXPosition;
     public int minispielYPosition;
-    int minispielXPosition;
-    int minispielYPosition;
     public int bildschirmX=-1;
     public int bildschirmY=-1;
     public Palette aktuellePalette=null;
@@ -35,6 +33,14 @@ public class MinispielSpieler {
         this.minispielManager = minispielManager;
         this.miniSpielIndex=miniSpielIndex;
 
+        setzeDefaultWerte(spieler);
+        geschwindigkeit = 6;
+        minispielSpielerRechteck = new Rectangle(minispielXPosition+30,
+                minispielYPosition+50, spieler.spielablaufManager.sp.vergroesserteFliesenGroesse-60, spieler.spielablaufManager.sp.vergroesserteFliesenGroesse-50);
+
+
+    }
+    public void setzeDefaultWerte(Spieler spieler){
         if(spieler.spielfigur instanceof Abdo){
             minispielSpieler = new Spieler();
             minispielSpieler.spielfigur = new Abdo();
@@ -44,9 +50,17 @@ public class MinispielSpieler {
                 richtung = "up";
             }
             else{
-                respawn();
-                bildschirmX = minispielManager.sp.bildschirmBreite / 2 - (minispielManager.sp.vergroesserteFliesenGroesse / 2)*3;
-                bildschirmY = minispielManager.sp.bildschirmHoehe / 2 - (minispielManager.sp.vergroesserteFliesenGroesse / 2)*4;
+                if(this == minispielManager.mainMinispielSpieler){
+                    bildschirmX = minispielManager.sp.bildschirmBreite / 2 - (minispielManager.sp.vergroesserteFliesenGroesse / 2)*3;
+                    bildschirmY = minispielManager.sp.bildschirmHoehe / 2 - (minispielManager.sp.vergroesserteFliesenGroesse / 2)*4;
+                    respawn();
+
+                } else {
+                    respawn();
+                    bildschirmX = minispielXPosition - minispielManager.mainMinispielSpieler.minispielXPosition + minispielManager.mainMinispielSpieler.bildschirmX;
+                    bildschirmY = minispielYPosition - minispielManager.mainMinispielSpieler.minispielYPosition + minispielManager.mainMinispielSpieler.bildschirmY;
+
+                }
 
             }
 
@@ -59,9 +73,17 @@ public class MinispielSpieler {
                 richtung = "left";
             }
             else{
-                respawn();
-                bildschirmX = minispielManager.sp.bildschirmBreite / 2 - (minispielManager.sp.vergroesserteFliesenGroesse / 2)*3;
-                bildschirmY = minispielManager.sp.bildschirmHoehe / 2 - (minispielManager.sp.vergroesserteFliesenGroesse / 2)*4;
+                if(this == minispielManager.mainMinispielSpieler){
+                    bildschirmX = minispielManager.sp.bildschirmBreite / 2 - (minispielManager.sp.vergroesserteFliesenGroesse / 2)*3;
+                    bildschirmY = minispielManager.sp.bildschirmHoehe / 2 - (minispielManager.sp.vergroesserteFliesenGroesse / 2)*4;
+                    respawn();
+
+                } else {
+                    respawn();
+                    bildschirmX = minispielXPosition - minispielManager.mainMinispielSpieler.minispielXPosition + minispielManager.mainMinispielSpieler.bildschirmX;
+                    bildschirmY = minispielYPosition - minispielManager.mainMinispielSpieler.minispielYPosition + minispielManager.mainMinispielSpieler.bildschirmY;
+
+                }
             }
 
         } else if(spieler.spielfigur instanceof Taha){
@@ -73,9 +95,17 @@ public class MinispielSpieler {
                 richtung = "right";
             }
             else{
-                respawn();
-                bildschirmX = minispielManager.sp.bildschirmBreite / 2 - (minispielManager.sp.vergroesserteFliesenGroesse / 2)*3;
-                bildschirmY = minispielManager.sp.bildschirmHoehe / 2 - (minispielManager.sp.vergroesserteFliesenGroesse / 2)*4;
+                if(this == minispielManager.mainMinispielSpieler){
+                    bildschirmX = minispielManager.sp.bildschirmBreite / 2 - (minispielManager.sp.vergroesserteFliesenGroesse / 2)*3;
+                    bildschirmY = minispielManager.sp.bildschirmHoehe / 2 - (minispielManager.sp.vergroesserteFliesenGroesse / 2)*4;
+                    respawn();
+
+                } else {
+                    respawn();
+                    bildschirmX = minispielXPosition - minispielManager.mainMinispielSpieler.minispielXPosition + minispielManager.mainMinispielSpieler.bildschirmX;
+                    bildschirmY = minispielYPosition - minispielManager.mainMinispielSpieler.minispielYPosition + minispielManager.mainMinispielSpieler.bildschirmY;
+
+                }
 
             }
 
@@ -88,33 +118,36 @@ public class MinispielSpieler {
                 richtung = "down";
             }
             else{
-                respawn();
-                bildschirmX = minispielManager.sp.bildschirmBreite / 2 - (minispielManager.sp.vergroesserteFliesenGroesse / 2)*3;
-                bildschirmY = minispielManager.sp.bildschirmHoehe / 2 - (minispielManager.sp.vergroesserteFliesenGroesse / 2)*4;
+                if(this == minispielManager.mainMinispielSpieler){
+                    bildschirmX = minispielManager.sp.bildschirmBreite / 2 - (minispielManager.sp.vergroesserteFliesenGroesse / 2)*3;
+                    bildschirmY = minispielManager.sp.bildschirmHoehe / 2 - (minispielManager.sp.vergroesserteFliesenGroesse / 2)*4;
+                    respawn();
 
+                } else {
+                    respawn();
+                    bildschirmX = minispielXPosition - minispielManager.mainMinispielSpieler.minispielXPosition + minispielManager.mainMinispielSpieler.bildschirmX;
+                    bildschirmY = minispielYPosition - minispielManager.mainMinispielSpieler.minispielYPosition + minispielManager.mainMinispielSpieler.bildschirmY;
+
+                }
             }
         }
-        geschwindigkeit = 6;
-        minispielSpielerRechteck = new Rectangle(minispielXPosition+30,
-                minispielYPosition+50, spieler.spielablaufManager.sp.vergroesserteFliesenGroesse-60, spieler.spielablaufManager.sp.vergroesserteFliesenGroesse-50);
-
 
     }
     public void respawn() {
-        if(this.minispielSpieler.spielfigur instanceof Abdo) {
-            minispielXPosition = 5 * minispielManager.sp.vergroesserteFliesenGroesse;
-            minispielYPosition = 17 * minispielManager.sp.vergroesserteFliesenGroesse - minispielManager.sp.vergroesserteFliesenGroesse / 3;
-        }
-       else if(this.minispielSpieler.spielfigur instanceof Husam) {
-            minispielXPosition = 6 * minispielManager.sp.vergroesserteFliesenGroesse;
-            minispielYPosition = 17 * minispielManager.sp.vergroesserteFliesenGroesse - minispielManager.sp.vergroesserteFliesenGroesse / 3;
-        }
-        else if(this.minispielSpieler.spielfigur instanceof Taha) {
+        if(minispielSpieler.spielfigur instanceof Abdo) {
             minispielXPosition = 7 * minispielManager.sp.vergroesserteFliesenGroesse;
             minispielYPosition = 17 * minispielManager.sp.vergroesserteFliesenGroesse - minispielManager.sp.vergroesserteFliesenGroesse / 3;
         }
-        else if(this.minispielSpieler.spielfigur instanceof Yousef) {
+       else if(minispielSpieler.spielfigur instanceof Husam) {
             minispielXPosition = 8 * minispielManager.sp.vergroesserteFliesenGroesse;
+            minispielYPosition = 17 * minispielManager.sp.vergroesserteFliesenGroesse - minispielManager.sp.vergroesserteFliesenGroesse / 3;
+        }
+        else if(minispielSpieler.spielfigur instanceof Taha) {
+            minispielXPosition = 9 * minispielManager.sp.vergroesserteFliesenGroesse;
+            minispielYPosition = 17 * minispielManager.sp.vergroesserteFliesenGroesse - minispielManager.sp.vergroesserteFliesenGroesse / 3;
+        }
+        else if(minispielSpieler.spielfigur instanceof Yousef) {
+            minispielXPosition = 10 * minispielManager.sp.vergroesserteFliesenGroesse;
             minispielYPosition = 17 * minispielManager.sp.vergroesserteFliesenGroesse - minispielManager.sp.vergroesserteFliesenGroesse / 3;
         }
     }

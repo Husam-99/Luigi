@@ -13,8 +13,8 @@ public class MinispielManager {
     private final int SAMMLER_INDEX = 0;
     private  final int SQUIDGAME_INDEX=1;
 
-     SquidGame squidGame;
-    SquidGameEingabeManger squidGameEingabeManger;
+    public SquidGame squidGame;
+    public SquidGameEingabeManger squidGameEingabeManger;
     public Sammler sammler;
     public MinispielSpieler mainMinispielSpieler;
     public ArrayList<MinispielSpieler> alleMinispielSpieler;
@@ -43,7 +43,7 @@ public class MinispielManager {
         mainMinispielSpieler = new MinispielSpieler(this, sp.spielablaufManager.mainSpieler,minispielWahl);
         for(Spieler spieler: sp.alleSpieler){
             if(spieler.spielfigur!=null){
-                alleMinispielSpieler.add(new MinispielSpieler(this, spieler,minispielWahl));
+                alleMinispielSpieler.add(new MinispielSpieler(this, spieler, minispielWahl));
             }
             else{
                 alleMinispielSpieler.add(null);
@@ -55,8 +55,8 @@ public class MinispielManager {
         }
 
         else if(minispielWahl==SQUIDGAME_INDEX){
-            squidGameEingabeManger=new SquidGameEingabeManger(this, mainMinispielSpieler);
-            squidGame=new SquidGame(sp,mainMinispielSpieler,alleMinispielSpieler);
+            squidGameEingabeManger = new SquidGameEingabeManger(this, mainMinispielSpieler);
+            squidGame = new SquidGame(sp, mainMinispielSpieler, alleMinispielSpieler);
         }
     }
 
@@ -107,6 +107,15 @@ public class MinispielManager {
                     }
                     spielerIndex++;
 
+                }
+            }
+        }
+        else if(minispielWahl == SQUIDGAME_INDEX){
+            squidGame.malen(g2);
+            mainMinispielSpieler.malen(g2);
+            for(MinispielSpieler spieler: alleMinispielSpieler) {
+                if (spieler != null) {
+                    spieler.malen(g2);
                 }
             }
         }

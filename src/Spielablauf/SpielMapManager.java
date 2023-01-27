@@ -306,7 +306,7 @@ public class SpielMapManager {
             int bildschirmY = weltY - spielablaufManager.mainSpieler.weltY + spielablaufManager.mainSpieler.bildschirmY;
 
 
-            g2.drawImage(vorlauefigeFliese.getFlieseImage(), bildschirmX, bildschirmY, spielablaufManager.sp.vergroesserteFliesenGroesse, spielablaufManager.sp.vergroesserteFliesenGroesse, null);
+            g2.drawImage(vorlauefigeFliese.flieseImage, bildschirmX, bildschirmY, spielablaufManager.sp.vergroesserteFliesenGroesse +3, spielablaufManager.sp.vergroesserteFliesenGroesse+3, null);
             if(mapFliesen[weltZeile][weltSpalte].feld != null){
                 g2.drawImage(mapFliesen[weltZeile][weltSpalte].feld.getFeldImage(), bildschirmX, bildschirmY, spielablaufManager.sp.vergroesserteFliesenGroesse, spielablaufManager.sp.vergroesserteFliesenGroesse, null);
                 if(mapFliesen[weltZeile][weltSpalte].feld.hatStern){

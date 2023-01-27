@@ -17,7 +17,7 @@ public class SquidGameEingabeManger implements KeyListener {
         if (tippenErlaubt) {
             if (e.getKeyChar() == 'd'){
                 if (mainMinispielSpieler.aktuellePalette == null) {
-                    mainMinispielSpieler.aktuellePalette = squidGame.paletten[1];
+                    mainMinispielSpieler.aktuellePalette = minispielManager.squidGame.paletten[1];
                 } else {
                     mainMinispielSpieler.aktuellePalette = mainMinispielSpieler.aktuellePalette.naechsteRechts;
                 }
@@ -25,7 +25,7 @@ public class SquidGameEingabeManger implements KeyListener {
                 mainMinispielSpieler.minispielYPosition = mainMinispielSpieler.aktuellePalette.weltY;
             } else if (e.getKeyChar() == 'a') {
                 if (mainMinispielSpieler.aktuellePalette == null) {
-                    mainMinispielSpieler.aktuellePalette = squidGame.paletten[0];
+                    mainMinispielSpieler.aktuellePalette = minispielManager.squidGame.paletten[0];
                 } else {
                     mainMinispielSpieler.aktuellePalette = mainMinispielSpieler.aktuellePalette.naechsteLinks;
                 }
@@ -46,7 +46,7 @@ public class SquidGameEingabeManger implements KeyListener {
                 mainMinispielSpieler.aktuellePalette = null;
             }
             else if (mainMinispielSpieler.aktuellePalette.paletteNummer == 13 && mainMinispielSpieler.aktuellePalette.hatFalle==false) {
-                siegerKueren();
+                minispielManager.squidGame.siegerKueren();
             }
         } else if (e.getKeyCode() == KeyEvent.VK_A) {
             if(mainMinispielSpieler.aktuellePalette.hatFalle){
@@ -54,7 +54,7 @@ public class SquidGameEingabeManger implements KeyListener {
                 mainMinispielSpieler.aktuellePalette = null;
             }
             else if (mainMinispielSpieler.aktuellePalette.paletteNummer == 12 && mainMinispielSpieler.aktuellePalette.hatFalle==false) {
-                siegerKueren();
+                minispielManager.squidGame.siegerKueren();
             }
         }
         tippenErlaubt =true;

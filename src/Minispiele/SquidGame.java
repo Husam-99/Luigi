@@ -7,6 +7,7 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.*;
 import java.util.ArrayList;
+import java.util.Objects;
 import java.util.Random;
 
 public class SquidGame extends Minispiel {
@@ -36,10 +37,11 @@ public class SquidGame extends Minispiel {
 
     @Override
     public void mapLaden() {
-        String[][] mapFelder=new String[20][20];
-        BufferedReader br = null;
+        String[][] mapFelder = new String[20][20];
+
         try {
-            br = new BufferedReader(new FileReader("/map/squidbilder.txt"));
+            InputStream is = getClass().getResourceAsStream("/miniSpiele/Squidgamemap/squidbilder.txt");
+            BufferedReader br = new BufferedReader(new InputStreamReader(is));
             int zeilenIndex = 0;
             String line;
             while ((line = br.readLine()) != null) {
@@ -48,23 +50,22 @@ public class SquidGame extends Minispiel {
                 zeilenIndex++;
             }
             for(int zeile = 0; zeile < 20; zeile++){
+                System.out.println();
                 for(int spalte = 0; spalte < 20; spalte++){
                     try{
-                        minispielFliesen[zeile][spalte] = ImageIO.read(new File("src/source/mapBilder/tileset" + mapFelder[zeile][spalte] + ".png"));
+                        minispielFliesen[zeile][spalte] = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/miniSpiele/Squidgamemap/SquidgameBilder/tileset" + mapFelder[zeile][spalte] + ".png")));
+                        System.out.printf(mapFelder[zeile][spalte]);
                     } catch (IOException e) {
                         throw new RuntimeException(e);
                     }
                 }
             }
+            br.close();
+
         } catch (IOException e) {
             e.printStackTrace();
-        } finally {
-            try {
-                br.close();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
         }
+
         
 
     }
@@ -133,7 +134,7 @@ public class SquidGame extends Minispiel {
 
             g2.drawImage(minispielFliesen[zeile][spalte], bildschirmX, bildschirmY, sp.vergroesserteFliesenGroesse, sp.vergroesserteFliesenGroesse, null);
             spalte++;
-            if (spalte == 15) {
+            if (spalte == 20) {
                 spalte = 0;
                 zeile++;
             }

@@ -124,9 +124,9 @@ public class SpielPanel extends JPanel implements Runnable{
             this.addKeyListener(spielablaufManager.mapManager.mapEingabeManager);
             this.zustand = spielBrettZustand;
         } else if(neueZustand == minispielZustand){
-            this.minispielManager = new MinispielManager(this, 0);
+            this.minispielManager = new MinispielManager(this, 1);
             this.removeKeyListener(this.getKeyListeners()[0]);
-            this.addKeyListener(minispielManager.sammlerEingabeManager);
+            this.addKeyListener(minispielManager.squidGameEingabeManger);
 
             this.zustand = minispielZustand;
             Timer timer = new Timer();
