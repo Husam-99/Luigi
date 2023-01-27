@@ -9,7 +9,7 @@ import java.util.ArrayList;
 public class MinispielManager {
     SpielPanel sp;
     Graphics2D g2;
-    private int minispielWahl;
+    public int minispielWahl;
     private final int SAMMLER_INDEX = 0;
     private  final int SQUIDGAME_INDEX=1;
 

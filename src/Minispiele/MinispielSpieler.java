@@ -33,14 +33,6 @@ public class MinispielSpieler {
         this.minispielManager = minispielManager;
         this.miniSpielIndex=miniSpielIndex;
 
-        setzeDefaultWerte(spieler);
-        geschwindigkeit = 6;
-        minispielSpielerRechteck = new Rectangle(minispielXPosition+30,
-                minispielYPosition+50, spieler.spielablaufManager.sp.vergroesserteFliesenGroesse-60, spieler.spielablaufManager.sp.vergroesserteFliesenGroesse-50);
-
-
-    }
-    public void setzeDefaultWerte(Spieler spieler){
         if(spieler.spielfigur instanceof Abdo){
             minispielSpieler = new Spieler();
             minispielSpieler.spielfigur = new Abdo();
@@ -50,9 +42,9 @@ public class MinispielSpieler {
                 richtung = "up";
             }
             else{
-                if(this == minispielManager.mainMinispielSpieler){
-                    bildschirmX = minispielManager.sp.bildschirmBreite / 2 - (minispielManager.sp.vergroesserteFliesenGroesse / 2)*3;
-                    bildschirmY = minispielManager.sp.bildschirmHoehe / 2 - (minispielManager.sp.vergroesserteFliesenGroesse / 2)*4;
+                if(spieler == minispielManager.sp.spielablaufManager.mainSpieler){
+                   // bildschirmX = minispielManager.sp.bildschirmBreite / 2 - (minispielManager.sp.vergroesserteFliesenGroesse / 2)*3;
+                    bildschirmY = minispielManager.sp.bildschirmHoehe / 2 + (minispielManager.sp.vergroesserteFliesenGroesse / 2)*4;
                     respawn();
 
                 } else {
@@ -73,9 +65,10 @@ public class MinispielSpieler {
                 richtung = "left";
             }
             else{
-                if(this == minispielManager.mainMinispielSpieler){
-                    bildschirmX = minispielManager.sp.bildschirmBreite / 2 - (minispielManager.sp.vergroesserteFliesenGroesse / 2)*3;
-                    bildschirmY = minispielManager.sp.bildschirmHoehe / 2 - (minispielManager.sp.vergroesserteFliesenGroesse / 2)*4;
+                if(spieler == minispielManager.sp.spielablaufManager.mainSpieler){
+
+                   // bildschirmX = minispielManager.sp.bildschirmBreite / 2 - (minispielManager.sp.vergroesserteFliesenGroesse / 2)*3;
+                    bildschirmY = minispielManager.sp.bildschirmHoehe / 2 + (minispielManager.sp.vergroesserteFliesenGroesse / 2)*4;
                     respawn();
 
                 } else {
@@ -95,9 +88,11 @@ public class MinispielSpieler {
                 richtung = "right";
             }
             else{
-                if(this == minispielManager.mainMinispielSpieler){
-                    bildschirmX = minispielManager.sp.bildschirmBreite / 2 - (minispielManager.sp.vergroesserteFliesenGroesse / 2)*3;
-                    bildschirmY = minispielManager.sp.bildschirmHoehe / 2 - (minispielManager.sp.vergroesserteFliesenGroesse / 2)*4;
+
+                if(spieler == minispielManager.sp.spielablaufManager.mainSpieler){
+
+                    //bildschirmX = minispielManager.sp.bildschirmBreite / 2 - (minispielManager.sp.vergroesserteFliesenGroesse / 2)*3;
+                    bildschirmY = minispielManager.sp.bildschirmHoehe / 2 + (minispielManager.sp.vergroesserteFliesenGroesse / 2)*4;
                     respawn();
 
                 } else {
@@ -118,9 +113,10 @@ public class MinispielSpieler {
                 richtung = "down";
             }
             else{
-                if(this == minispielManager.mainMinispielSpieler){
-                    bildschirmX = minispielManager.sp.bildschirmBreite / 2 - (minispielManager.sp.vergroesserteFliesenGroesse / 2)*3;
-                    bildschirmY = minispielManager.sp.bildschirmHoehe / 2 - (minispielManager.sp.vergroesserteFliesenGroesse / 2)*4;
+                if(spieler == minispielManager.sp.spielablaufManager.mainSpieler){
+
+                   // bildschirmX = minispielManager.sp.bildschirmBreite / 2 - (minispielManager.sp.vergroesserteFliesenGroesse / 2)*3;
+                    bildschirmY = minispielManager.sp.bildschirmHoehe / 2 + (minispielManager.sp.vergroesserteFliesenGroesse / 2)*4;
                     respawn();
 
                 } else {
@@ -131,120 +127,125 @@ public class MinispielSpieler {
                 }
             }
         }
+        geschwindigkeit = 6;
+        minispielSpielerRechteck = new Rectangle(minispielXPosition+30,
+                minispielYPosition+50, spieler.spielablaufManager.sp.vergroesserteFliesenGroesse-60, spieler.spielablaufManager.sp.vergroesserteFliesenGroesse-50);
+
 
     }
+
     public void respawn() {
         if(minispielSpieler.spielfigur instanceof Abdo) {
-            minispielXPosition = 7 * minispielManager.sp.vergroesserteFliesenGroesse;
+            minispielXPosition = 6 * minispielManager.sp.vergroesserteFliesenGroesse;
             minispielYPosition = 17 * minispielManager.sp.vergroesserteFliesenGroesse - minispielManager.sp.vergroesserteFliesenGroesse / 3;
         }
        else if(minispielSpieler.spielfigur instanceof Husam) {
-            minispielXPosition = 8 * minispielManager.sp.vergroesserteFliesenGroesse;
+            minispielXPosition = (int) (6.5 * minispielManager.sp.vergroesserteFliesenGroesse);
             minispielYPosition = 17 * minispielManager.sp.vergroesserteFliesenGroesse - minispielManager.sp.vergroesserteFliesenGroesse / 3;
         }
         else if(minispielSpieler.spielfigur instanceof Taha) {
-            minispielXPosition = 9 * minispielManager.sp.vergroesserteFliesenGroesse;
+            minispielXPosition = 7 * minispielManager.sp.vergroesserteFliesenGroesse;
             minispielYPosition = 17 * minispielManager.sp.vergroesserteFliesenGroesse - minispielManager.sp.vergroesserteFliesenGroesse / 3;
         }
         else if(minispielSpieler.spielfigur instanceof Yousef) {
-            minispielXPosition = 10 * minispielManager.sp.vergroesserteFliesenGroesse;
+            minispielXPosition = (int) (7.5 * minispielManager.sp.vergroesserteFliesenGroesse);
             minispielYPosition = 17 * minispielManager.sp.vergroesserteFliesenGroesse - minispielManager.sp.vergroesserteFliesenGroesse / 3;
         }
     }
     public void update() {
-        if(hatMushroom && !unterSpider){
-            geschwindigkeit = 10;
-        }
-        else if(unterSpider && !hatMushroom){
-            geschwindigkeit = 2;
-        }
-        else {
-            geschwindigkeit = 6;
-        }
-        if (mushroomZeit - 5 == minispielManager.gesamtSekundenAnzahl) {
-            hatMushroom = false;
-        }
-        if (obenGedrueckt || untenGedrueckt || linksGedrueckt || rechtsGedrueckt) {
-            if (obenGedrueckt) {
-
-                richtung = "up";
-                if(this == minispielManager.mainMinispielSpieler) {
-                    if (!this.minispielSpielerRechteck.intersects(minispielManager.sammler.wandRechteck[0])) {
-                        minispielYPosition -= geschwindigkeit;
-                        minispielSpielerRechteck.y -= geschwindigkeit;
-                        SpielerPosition spielerPosition = new SpielerPosition();
-                        spielerPosition.clientIndex = this.minispielManager.sp.client.clientIndex;
-                        spielerPosition.weltX = minispielXPosition;
-                        spielerPosition.weltY = minispielYPosition;
-                        minispielManager.sp.client.send(spielerPosition);
-                    }
-                }
-                //minispielManager.sammler.kollisionChecken(this);
-
-            } else if (untenGedrueckt) {
-
-                richtung = "down";
-                if(this == minispielManager.mainMinispielSpieler) {
-
-                    if (!this.minispielSpielerRechteck.intersects(minispielManager.sammler.wandRechteck[1])) {
-                        minispielYPosition += geschwindigkeit;
-                        minispielSpielerRechteck.y += geschwindigkeit;
-                        SpielerPosition spielerPosition = new SpielerPosition();
-                        spielerPosition.clientIndex = this.minispielManager.sp.client.clientIndex;
-                        spielerPosition.weltX = minispielXPosition;
-                        spielerPosition.weltY = minispielYPosition;
-                        minispielManager.sp.client.send(spielerPosition);
-                    }
-                }
-                //minispielManager.sammler.kollisionChecken(this);
-
-            } else if (linksGedrueckt) {
-
-                richtung = "left";
-                if(this == minispielManager.mainMinispielSpieler) {
-
-                    if (!this.minispielSpielerRechteck.intersects(minispielManager.sammler.wandRechteck[2])) {
-                        minispielXPosition -= geschwindigkeit;
-                        minispielSpielerRechteck.x -= geschwindigkeit;
-                        SpielerPosition spielerPosition = new SpielerPosition();
-                        spielerPosition.clientIndex = this.minispielManager.sp.client.clientIndex;
-                        spielerPosition.weltX = minispielXPosition;
-                        spielerPosition.weltY = minispielYPosition;
-                        minispielManager.sp.client.send(spielerPosition);
-                    }
-                }
-                //minispielManager.sammler.kollisionChecken(this);
-
+        if(miniSpielIndex == 0) {
+            if (hatMushroom && !unterSpider) {
+                geschwindigkeit = 10;
+            } else if (unterSpider && !hatMushroom) {
+                geschwindigkeit = 2;
             } else {
+                geschwindigkeit = 6;
+            }
+            if (mushroomZeit - 5 == minispielManager.gesamtSekundenAnzahl) {
+                hatMushroom = false;
+            }
+            if (obenGedrueckt || untenGedrueckt || linksGedrueckt || rechtsGedrueckt) {
+                if (obenGedrueckt) {
 
-                richtung = "right";
-                if (this == minispielManager.mainMinispielSpieler) {
+                    richtung = "up";
+                    if (this == minispielManager.mainMinispielSpieler) {
+                        if (!this.minispielSpielerRechteck.intersects(minispielManager.sammler.wandRechteck[0])) {
+                            minispielYPosition -= geschwindigkeit;
+                            minispielSpielerRechteck.y -= geschwindigkeit;
+                            SpielerPosition spielerPosition = new SpielerPosition();
+                            spielerPosition.clientIndex = this.minispielManager.sp.client.clientIndex;
+                            spielerPosition.weltX = minispielXPosition;
+                            spielerPosition.weltY = minispielYPosition;
+                            minispielManager.sp.client.send(spielerPosition);
+                        }
+                    }
+                    //minispielManager.sammler.kollisionChecken(this);
 
-                    if (!this.minispielSpielerRechteck.intersects(minispielManager.sammler.wandRechteck[3])) {
-                        minispielXPosition += geschwindigkeit;
-                        minispielSpielerRechteck.x += geschwindigkeit;
-                        SpielerPosition spielerPosition = new SpielerPosition();
-                        spielerPosition.clientIndex = this.minispielManager.sp.client.clientIndex;
-                        spielerPosition.weltX = minispielXPosition;
-                        spielerPosition.weltY = minispielYPosition;
-                        minispielManager.sp.client.send(spielerPosition);
+                } else if (untenGedrueckt) {
+
+                    richtung = "down";
+                    if (this == minispielManager.mainMinispielSpieler) {
+
+                        if (!this.minispielSpielerRechteck.intersects(minispielManager.sammler.wandRechteck[1])) {
+                            minispielYPosition += geschwindigkeit;
+                            minispielSpielerRechteck.y += geschwindigkeit;
+                            SpielerPosition spielerPosition = new SpielerPosition();
+                            spielerPosition.clientIndex = this.minispielManager.sp.client.clientIndex;
+                            spielerPosition.weltX = minispielXPosition;
+                            spielerPosition.weltY = minispielYPosition;
+                            minispielManager.sp.client.send(spielerPosition);
+                        }
+                    }
+                    //minispielManager.sammler.kollisionChecken(this);
+
+                } else if (linksGedrueckt) {
+
+                    richtung = "left";
+                    if (this == minispielManager.mainMinispielSpieler) {
+
+                        if (!this.minispielSpielerRechteck.intersects(minispielManager.sammler.wandRechteck[2])) {
+                            minispielXPosition -= geschwindigkeit;
+                            minispielSpielerRechteck.x -= geschwindigkeit;
+                            SpielerPosition spielerPosition = new SpielerPosition();
+                            spielerPosition.clientIndex = this.minispielManager.sp.client.clientIndex;
+                            spielerPosition.weltX = minispielXPosition;
+                            spielerPosition.weltY = minispielYPosition;
+                            minispielManager.sp.client.send(spielerPosition);
+                        }
+                    }
+                    //minispielManager.sammler.kollisionChecken(this);
+
+                } else {
+
+                    richtung = "right";
+                    if (this == minispielManager.mainMinispielSpieler) {
+
+                        if (!this.minispielSpielerRechteck.intersects(minispielManager.sammler.wandRechteck[3])) {
+                            minispielXPosition += geschwindigkeit;
+                            minispielSpielerRechteck.x += geschwindigkeit;
+                            SpielerPosition spielerPosition = new SpielerPosition();
+                            spielerPosition.clientIndex = this.minispielManager.sp.client.clientIndex;
+                            spielerPosition.weltX = minispielXPosition;
+                            spielerPosition.weltY = minispielYPosition;
+                            minispielManager.sp.client.send(spielerPosition);
+                        }
                     }
                 }
-            }
-            minispielManager.sammler.kollisionChecken(this);
+                minispielManager.sammler.kollisionChecken(this);
 
-            minispielSpieler.spielfigur.spriteZaehler++;
-            if (minispielSpieler.spielfigur.spriteZaehler > 3) {
-                if (minispielSpieler.spielfigur.spriteNum == 1) {
-                    minispielSpieler.spielfigur.spriteNum = 2;
-                } else if (minispielSpieler.spielfigur.spriteNum == 2) {
-                    minispielSpieler.spielfigur.spriteNum = 3;
-                } else if (minispielSpieler.spielfigur.spriteNum == 3) {
-                    minispielSpieler.spielfigur.spriteNum = 4;
-                } else if (minispielSpieler.spielfigur.spriteNum == 4) {
-                    minispielSpieler.spielfigur.spriteNum = 1;
+                minispielSpieler.spielfigur.spriteZaehler++;
+                if (minispielSpieler.spielfigur.spriteZaehler > 3) {
+                    if (minispielSpieler.spielfigur.spriteNum == 1) {
+                        minispielSpieler.spielfigur.spriteNum = 2;
+                    } else if (minispielSpieler.spielfigur.spriteNum == 2) {
+                        minispielSpieler.spielfigur.spriteNum = 3;
+                    } else if (minispielSpieler.spielfigur.spriteNum == 3) {
+                        minispielSpieler.spielfigur.spriteNum = 4;
+                    } else if (minispielSpieler.spielfigur.spriteNum == 4) {
+                        minispielSpieler.spielfigur.spriteNum = 1;
+                    }
+                    minispielSpieler.spielfigur.spriteZaehler = 0;
                 }
-                minispielSpieler.spielfigur.spriteZaehler = 0;
             }
         }
         //System.out.println(this.minispielXPosition + " " + this.minispielYPosition);
@@ -255,56 +256,56 @@ public class MinispielSpieler {
         if(this.miniSpielIndex==0) {
             BufferedImage image = null;
 
-        switch (richtung) {
-            case "up" -> {
-                if (minispielSpieler.spielfigur.spriteNum == 1 || minispielSpieler.spielfigur.spriteNum == 3) {
-                    image = minispielSpieler.spielfigur.up1;
+            switch (richtung) {
+                case "up" -> {
+                    if (minispielSpieler.spielfigur.spriteNum == 1 || minispielSpieler.spielfigur.spriteNum == 3) {
+                        image = minispielSpieler.spielfigur.up1;
+                    }
+                    if (minispielSpieler.spielfigur.spriteNum == 2) {
+                        image = minispielSpieler.spielfigur.up2;
+                    }
+                    if (minispielSpieler.spielfigur.spriteNum == 4) {
+                        image = minispielSpieler.spielfigur.up3;
+                    }
                 }
-                if (minispielSpieler.spielfigur.spriteNum == 2) {
-                    image = minispielSpieler.spielfigur.up2;
+                case "down" -> {
+                    if (minispielSpieler.spielfigur.spriteNum == 1 || minispielSpieler.spielfigur.spriteNum == 3) {
+                        image = minispielSpieler.spielfigur.down1;
+                    }
+                    if (minispielSpieler.spielfigur.spriteNum == 2) {
+                        image = minispielSpieler.spielfigur.down2;
+                    }
+                    if (minispielSpieler.spielfigur.spriteNum == 4) {
+                        image = minispielSpieler.spielfigur.down3;
+                    }
                 }
-                if (minispielSpieler.spielfigur.spriteNum == 4) {
-                    image = minispielSpieler.spielfigur.up3;
+                case "left" -> {
+                    if (minispielSpieler.spielfigur.spriteNum == 1 || minispielSpieler.spielfigur.spriteNum == 3) {
+                        image = minispielSpieler.spielfigur.left1;
+                    }
+                    if (minispielSpieler.spielfigur.spriteNum == 2) {
+                        image = minispielSpieler.spielfigur.left2;
+                    }
+                    if (minispielSpieler.spielfigur.spriteNum == 4) {
+                        image = minispielSpieler.spielfigur.left3;
+                    }
+                }
+                case "right" -> {
+                    if (minispielSpieler.spielfigur.spriteNum == 1 || minispielSpieler.spielfigur.spriteNum == 3) {
+                        image = minispielSpieler.spielfigur.right1;
+                    }
+                    if (minispielSpieler.spielfigur.spriteNum == 2) {
+                        image = minispielSpieler.spielfigur.right2;
+                    }
+                    if (minispielSpieler.spielfigur.spriteNum == 4) {
+                        image = minispielSpieler.spielfigur.right3;
+                    }
                 }
             }
-            case "down" -> {
-                if (minispielSpieler.spielfigur.spriteNum == 1 || minispielSpieler.spielfigur.spriteNum == 3) {
-                    image = minispielSpieler.spielfigur.down1;
-                }
-                if (minispielSpieler.spielfigur.spriteNum == 2) {
-                    image = minispielSpieler.spielfigur.down2;
-                }
-                if (minispielSpieler.spielfigur.spriteNum == 4) {
-                    image = minispielSpieler.spielfigur.down3;
-                }
-            }
-            case "left" -> {
-                if (minispielSpieler.spielfigur.spriteNum == 1 || minispielSpieler.spielfigur.spriteNum == 3) {
-                    image = minispielSpieler.spielfigur.left1;
-                }
-                if (minispielSpieler.spielfigur.spriteNum == 2) {
-                    image = minispielSpieler.spielfigur.left2;
-                }
-                if (minispielSpieler.spielfigur.spriteNum == 4) {
-                    image = minispielSpieler.spielfigur.left3;
-                }
-            }
-            case "right" -> {
-                if (minispielSpieler.spielfigur.spriteNum == 1 || minispielSpieler.spielfigur.spriteNum == 3) {
-                    image = minispielSpieler.spielfigur.right1;
-                }
-                if (minispielSpieler.spielfigur.spriteNum == 2) {
-                    image = minispielSpieler.spielfigur.right2;
-                }
-                if (minispielSpieler.spielfigur.spriteNum == 4) {
-                    image = minispielSpieler.spielfigur.right3;
-                }
-            }
-        }
             g2.drawImage(image, minispielXPosition, minispielYPosition, this.minispielManager.sp.vergroesserteFliesenGroesse, this.minispielManager.sp.vergroesserteFliesenGroesse, null);
         }
         else{
-            g2.drawImage(minispielSpieler.spielfigur.down1, bildschirmX, bildschirmY, this.minispielManager.sp.vergroesserteFliesenGroesse,  this.minispielManager.sp.vergroesserteFliesenGroesse, null);
+            g2.drawImage(minispielSpieler.spielfigur.down1, minispielXPosition, bildschirmY, this.minispielManager.sp.vergroesserteFliesenGroesse,  this.minispielManager.sp.vergroesserteFliesenGroesse, null);
         }
     }
 

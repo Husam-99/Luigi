@@ -213,41 +213,43 @@ public class SpielClient {
 
                         }
                     } else if(object instanceof SammlerGegenstaende sammlerGegenstaende){
-                        if(sammlerGegenstaende.elementIndex == 1){
-                            SammlerElement muenze1 = new SammlerElement(sp, sammlerGegenstaende.elementX, sammlerGegenstaende.elementY, 1);
-                            sp.minispielManager.sammler.setzeElement(sammlerGegenstaende.elementIndex,  muenze1);
-                            System.out.println("i've got muenze " + sammlerGegenstaende.elementIndex + " " + sammlerGegenstaende.elementX + sammlerGegenstaende.elementY);
+                        if(sp.minispielManager.minispielWahl == 0) {
+                            if (sammlerGegenstaende.elementIndex == 1) {
+                                SammlerElement muenze1 = new SammlerElement(sp, sammlerGegenstaende.elementX, sammlerGegenstaende.elementY, 1);
+                                sp.minispielManager.sammler.setzeElement(sammlerGegenstaende.elementIndex, muenze1);
+                                System.out.println("i've got muenze " + sammlerGegenstaende.elementIndex + " " + sammlerGegenstaende.elementX + sammlerGegenstaende.elementY);
 
-                        } else if(sammlerGegenstaende.elementIndex == 2){
-                            SammlerElement muenze2 = new SammlerElement(sp, sammlerGegenstaende.elementX, sammlerGegenstaende.elementY, 1);
-                            sp.minispielManager.sammler.setzeElement(sammlerGegenstaende.elementIndex,  muenze2);
-                            System.out.println("i've got muenze " + sammlerGegenstaende.elementIndex + " " + sammlerGegenstaende.elementX + sammlerGegenstaende.elementY);
+                            } else if (sammlerGegenstaende.elementIndex == 2) {
+                                SammlerElement muenze2 = new SammlerElement(sp, sammlerGegenstaende.elementX, sammlerGegenstaende.elementY, 1);
+                                sp.minispielManager.sammler.setzeElement(sammlerGegenstaende.elementIndex, muenze2);
+                                System.out.println("i've got muenze " + sammlerGegenstaende.elementIndex + " " + sammlerGegenstaende.elementX + sammlerGegenstaende.elementY);
 
-                        } else if(sammlerGegenstaende.elementIndex == 3){
-                            SammlerElement spider1 = new SammlerElement(sp, sammlerGegenstaende.elementX, sammlerGegenstaende.elementY, 2);
-                            sp.minispielManager.sammler.setzeElement(sammlerGegenstaende.elementIndex,  spider1);
-                            System.out.println("i've got muenze " + sammlerGegenstaende.elementIndex + " " + sammlerGegenstaende.elementX + sammlerGegenstaende.elementY);
+                            } else if (sammlerGegenstaende.elementIndex == 3) {
+                                SammlerElement spider1 = new SammlerElement(sp, sammlerGegenstaende.elementX, sammlerGegenstaende.elementY, 2);
+                                sp.minispielManager.sammler.setzeElement(sammlerGegenstaende.elementIndex, spider1);
+                                System.out.println("i've got muenze " + sammlerGegenstaende.elementIndex + " " + sammlerGegenstaende.elementX + sammlerGegenstaende.elementY);
 
-                        } else if(sammlerGegenstaende.elementIndex == 4){
-                            SammlerElement spider2 = new SammlerElement(sp, sammlerGegenstaende.elementX, sammlerGegenstaende.elementY, 2);
-                            sp.minispielManager.sammler.setzeElement(sammlerGegenstaende.elementIndex,  spider2);
-                            System.out.println("i've got muenze " + sammlerGegenstaende.elementIndex + " " + sammlerGegenstaende.elementX + sammlerGegenstaende.elementY);
+                            } else if (sammlerGegenstaende.elementIndex == 4) {
+                                SammlerElement spider2 = new SammlerElement(sp, sammlerGegenstaende.elementX, sammlerGegenstaende.elementY, 2);
+                                sp.minispielManager.sammler.setzeElement(sammlerGegenstaende.elementIndex, spider2);
+                                System.out.println("i've got muenze " + sammlerGegenstaende.elementIndex + " " + sammlerGegenstaende.elementX + sammlerGegenstaende.elementY);
 
-                        } else if(sammlerGegenstaende.elementIndex == 5){
-                            SammlerElement spider3 = new SammlerElement(sp, sammlerGegenstaende.elementX, sammlerGegenstaende.elementY, 2);
-                            sp.minispielManager.sammler.setzeElement(sammlerGegenstaende.elementIndex,  spider3);
-                            System.out.println("i've got muenze " + sammlerGegenstaende.elementIndex + " " + sammlerGegenstaende.elementX + sammlerGegenstaende.elementY);
+                            } else if (sammlerGegenstaende.elementIndex == 5) {
+                                SammlerElement spider3 = new SammlerElement(sp, sammlerGegenstaende.elementX, sammlerGegenstaende.elementY, 2);
+                                sp.minispielManager.sammler.setzeElement(sammlerGegenstaende.elementIndex, spider3);
+                                System.out.println("i've got muenze " + sammlerGegenstaende.elementIndex + " " + sammlerGegenstaende.elementX + sammlerGegenstaende.elementY);
 
-                        } else if(sammlerGegenstaende.elementIndex == 6){
-                            SammlerElement diamond = new SammlerElement(sp, sammlerGegenstaende.elementX, sammlerGegenstaende.elementY, 3);
-                            sp.minispielManager.sammler.setzeElement(sammlerGegenstaende.elementIndex,  diamond);
-                            System.out.println("i've got muenze " + sammlerGegenstaende.elementIndex + " " + sammlerGegenstaende.elementX + sammlerGegenstaende.elementY);
+                            } else if (sammlerGegenstaende.elementIndex == 6) {
+                                SammlerElement diamond = new SammlerElement(sp, sammlerGegenstaende.elementX, sammlerGegenstaende.elementY, 3);
+                                sp.minispielManager.sammler.setzeElement(sammlerGegenstaende.elementIndex, diamond);
+                                System.out.println("i've got muenze " + sammlerGegenstaende.elementIndex + " " + sammlerGegenstaende.elementX + sammlerGegenstaende.elementY);
 
-                        } else if(sammlerGegenstaende.elementIndex == 7){
-                            SammlerElement mushroom = new SammlerElement(sp, sammlerGegenstaende.elementX, sammlerGegenstaende.elementY, 4);
-                            sp.minispielManager.sammler.setzeElement(sammlerGegenstaende.elementIndex,  mushroom);
-                            System.out.println("i've got muenze " + sammlerGegenstaende.elementIndex + " " + sammlerGegenstaende.elementX + sammlerGegenstaende.elementY);
+                            } else if (sammlerGegenstaende.elementIndex == 7) {
+                                SammlerElement mushroom = new SammlerElement(sp, sammlerGegenstaende.elementX, sammlerGegenstaende.elementY, 4);
+                                sp.minispielManager.sammler.setzeElement(sammlerGegenstaende.elementIndex, mushroom);
+                                System.out.println("i've got muenze " + sammlerGegenstaende.elementIndex + " " + sammlerGegenstaende.elementX + sammlerGegenstaende.elementY);
 
+                            }
                         }
                     } else if(object instanceof SammlerPunkte sammlerPunkte){
                         if(sammlerPunkte.diamond){
