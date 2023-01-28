@@ -51,11 +51,13 @@ public class MinispielManager {
         }
         if(minispielWahl==SAMMLER_INDEX) {
             sammlerEingabeManager = new SammlerEingabeManager(this, mainMinispielSpieler);
+            sp.addKeyListener(sammlerEingabeManager);
             sammler = new Sammler(this.sp, mainMinispielSpieler, alleMinispielSpieler);
         }
 
         else if(minispielWahl==SQUIDGAME_INDEX){
             squidGameEingabeManger = new SquidGameEingabeManger(this, mainMinispielSpieler);
+            sp.addKeyListener(squidGameEingabeManger);
             squidGame = new SquidGame(sp, mainMinispielSpieler, alleMinispielSpieler);
         }
     }
@@ -63,6 +65,8 @@ public class MinispielManager {
     public void update(){
         if(minispielWahl == SAMMLER_INDEX) {
             sammler.update();
+        } else if(minispielWahl == SQUIDGAME_INDEX){
+            squidGame.update();
         }
 
     }
@@ -90,25 +94,6 @@ public class MinispielManager {
                 sammler.spider3.spiderMalen(g2);
             }
 
-            int width = 25;
-            mainMinispielSpieler.minispielerBoxMalen(g2, width);
-            mainMinispielSpieler.minispielerStatusMalen(g2, width);
-
-            width += 230;
-            int spielerIndex = 0;
-            for(MinispielSpieler spieler: alleMinispielSpieler){
-                if(spieler!= null){
-                    spieler.minispielerBoxMalen(g2, width);
-                    spieler.minispielerStatusMalen(g2, width);
-                    if(spielerIndex == 0){
-                        width = 1205;
-                    } else{
-                        width -= 230;
-                    }
-                    spielerIndex++;
-
-                }
-            }
         }
         else if(minispielWahl == SQUIDGAME_INDEX){
             squidGame.malen(g2);
@@ -117,6 +102,25 @@ public class MinispielManager {
                 if (spieler != null) {
                     spieler.malen(g2);
                 }
+            }
+        }
+        int width = 25;
+        mainMinispielSpieler.minispielerBoxMalen(g2, width);
+        mainMinispielSpieler.minispielerStatusMalen(g2, width);
+
+        width += 230;
+        int spielerIndex = 0;
+        for(MinispielSpieler spieler: alleMinispielSpieler){
+            if(spieler!= null){
+                spieler.minispielerBoxMalen(g2, width);
+                spieler.minispielerStatusMalen(g2, width);
+                if(spielerIndex == 0){
+                    width = 1205;
+                } else{
+                    width -= 230;
+                }
+                spielerIndex++;
+
             }
         }
         zeitBoxmalen(g2);

@@ -4,6 +4,7 @@ import Networking.Pakete.*;
 import com.esotericsoftware.kryonet.Connection;
 import com.esotericsoftware.kryonet.Listener;
 
+import java.util.ArrayList;
 import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -15,10 +16,12 @@ public class ServerListener extends Listener {
     private int maxAnzahlDerMitspielerHost;
     private int anzahlDerRunden;
     private int runde = -1;
+
     private int naechsterClient;
     int minispielDauer = 64;
     private enum zustand{
         MENUE_ZUSTAND,
+        WUERFEL_ZUSTAND,
         SPIELBRETT_ZUSTAND,
         MINISPIEL_ZUSTAND
     }
@@ -44,8 +47,6 @@ public class ServerListener extends Listener {
 
         } else{
             zug.istDran = false;
-
-
         }
         server.sendToTCP(connection.getID(), host);
         server.sendToTCP(connection.getID(), zug);
@@ -78,7 +79,9 @@ public class ServerListener extends Listener {
         if(spielZustand == zustand.SPIELBRETT_ZUSTAND){
             spielZustand = zustand.MINISPIEL_ZUSTAND;
             zug.istDran = true;
-            zug.zustand = 2;
+            zug.zustand = 3;
+            //zug.minispielIndex = generator.nextInt(0,2);
+            zug.minispielIndex = 1;
             server.sendToAllTCP(zug);
 
             Timer timer = new Timer();
@@ -90,47 +93,47 @@ public class ServerListener extends Listener {
                         if(minispielDauer == 60){
                             SammlerGegenstaende muenze1 = new SammlerGegenstaende();
                             muenze1.elementIndex = 1;
-                            muenze1.elementX = positionGenerator.nextInt(100, 1250);
-                            muenze1.elementY = positionGenerator.nextInt(100, 668);
+                            muenze1.elementX = generator.nextInt(100, 1250);
+                            muenze1.elementY = generator.nextInt(100, 668);
                             server.sendToAllTCP(muenze1);
 
 
                             SammlerGegenstaende muenze2 = new SammlerGegenstaende();
                             muenze2.elementIndex = 2;
-                            muenze2.elementX = positionGenerator.nextInt(100, 1250);
-                            muenze2.elementY = positionGenerator.nextInt(100, 668);
+                            muenze2.elementX = generator.nextInt(100, 1250);
+                            muenze2.elementY = generator.nextInt(100, 668);
                             server.sendToAllTCP(muenze2);
 
                             SammlerGegenstaende spider1 = new SammlerGegenstaende();
                             spider1.elementIndex = 3;
-                            spider1.elementX = positionGenerator.nextInt(100, 318);
-                            spider1.elementY = positionGenerator.nextInt(100, 575);
+                            spider1.elementX = generator.nextInt(100, 318);
+                            spider1.elementY = generator.nextInt(100, 575);
                             server.sendToAllTCP(spider1);
 
                             SammlerGegenstaende spider2 = new SammlerGegenstaende();
                             spider2.elementIndex = 4;
-                            spider2.elementX = positionGenerator.nextInt(510, 698);
-                            spider2.elementY = positionGenerator.nextInt(100, 575);
+                            spider2.elementX = generator.nextInt(510, 698);
+                            spider2.elementY = generator.nextInt(100, 575);
                             server.sendToAllTCP(spider2);
 
                             SammlerGegenstaende spider3 = new SammlerGegenstaende();
                             spider3.elementIndex = 5;
-                            spider3.elementX = positionGenerator.nextInt(890, 1152);
-                            spider3.elementY = positionGenerator.nextInt(100, 575);
+                            spider3.elementX = generator.nextInt(890, 1152);
+                            spider3.elementY = generator.nextInt(100, 575);
                             server.sendToAllTCP(spider3);
 
                         } else if(minispielDauer%10 == 0 && minispielDauer < 60 && minispielDauer > 0) {
                             SammlerGegenstaende mushroom = new SammlerGegenstaende();
                             mushroom.elementIndex = 7;
-                            mushroom.elementX = positionGenerator.nextInt(100, 1250);
-                            mushroom.elementY = positionGenerator.nextInt(100, 668);
+                            mushroom.elementX = generator.nextInt(100, 1250);
+                            mushroom.elementY = generator.nextInt(100, 668);
                             server.sendToAllTCP(mushroom);
 
                         } else if(minispielDauer == 51 || minispielDauer == 33 || minispielDauer == 15){
                             SammlerGegenstaende diamond = new SammlerGegenstaende();
                             diamond.elementIndex = 6;
-                            diamond.elementX = positionGenerator.nextInt(100, 1216);
-                            diamond.elementY = positionGenerator.nextInt(100, 636);
+                            diamond.elementX = generator.nextInt(100, 1216);
+                            diamond.elementY = generator.nextInt(100, 636);
                             server.sendToAllTCP(diamond);
 
                         }
@@ -138,7 +141,7 @@ public class ServerListener extends Listener {
                     } else {
                         timer.cancel();
                         minispielDauer = 64;
-                        zug.zustand = 1;
+                        zug.zustand = 2;
 
                         zug.istDran = false;
                         server.sendToAllExceptTCP(server.getConnections()[naechsterClient].getID(), zug);
@@ -183,12 +186,15 @@ public class ServerListener extends Listener {
                     if(spielZustand == zustand.MENUE_ZUSTAND){
                         alleClients.get(server.getConnections()[naechsterClient]).istDran = true;
                         zug.istDran = true;
+                        zug.zustand = 2;
+                     //   server.sendToAllTCP(zug);
                         server.sendToTCP(server.getConnections()[naechsterClient].getID(), zug);
                         naechsterClient--;
                         if (naechsterClient < 0) {
                             naechsterClient = alleClients.size() - 1;
                         }
                         spielZustand = zustand.SPIELBRETT_ZUSTAND;
+                        //spielZustand = zustand.WUERFEL_ZUSTAND;
                     }
                     else if(spielZustand == zustand.SPIELBRETT_ZUSTAND){
                         zustandWechsel();
@@ -268,7 +274,7 @@ public class ServerListener extends Listener {
                 }
             }
             SternPosition sternPosition = new SternPosition();
-            sternPosition.sternFeldnummer = generator.sternFeldnummer;
+            sternPosition.sternFeldnummer = sternGenerator.sternFeldnummer;
             server.sendToTCP(connection.getID(), sternPosition);
             System.out.println("Server spielFigur ich habe die position stern geschickt " + sternPosition.sternFeldnummer);
 
@@ -302,13 +308,18 @@ public class ServerListener extends Listener {
 
         } else if (object instanceof SternKaufen sternKaufen){
             if(sternKaufen.sternGekauft){
-                generator.sternFeldnummer = positionGenerator.nextInt(1, 36);
+                sternGenerator.sternFeldnummer = generator.nextInt(1, 36);
                 SternPosition sternPosition = new SternPosition();
-                sternPosition.sternFeldnummer = generator.sternFeldnummer;
+                sternPosition.sternFeldnummer = sternGenerator.sternFeldnummer;
                 server.sendToAllTCP(sternPosition);
                 System.out.println("Server ich habe die position stern geschickt " + sternPosition.sternFeldnummer);
             }
         } else if(object instanceof Schritte schritte){
+            //if(spielZustand == zustand.WUERFEL_ZUSTAND){
+//
+//
+            //} else {
+            //}
             schritte.clientIndex = alleClients.get(connection).clientIndex;
             server.sendToAllExceptTCP(connection.getID(), schritte);
         } else if(object instanceof Bewegung bewegung){
@@ -324,8 +335,8 @@ public class ServerListener extends Listener {
             }
         } else if(object instanceof SammlerGegenstaende sammlerGegenstaende){
             if(sammlerGegenstaende.elementIndex == 1 || sammlerGegenstaende.elementIndex == 2){
-                sammlerGegenstaende.elementX = positionGenerator.nextInt(100, 1290);
-                sammlerGegenstaende.elementY = positionGenerator.nextInt(100, 668);
+                sammlerGegenstaende.elementX = generator.nextInt(100, 1290);
+                sammlerGegenstaende.elementY = generator.nextInt(100, 668);
                 server.sendToAllTCP(sammlerGegenstaende);
                 System.out.println("i have sent the muenze " + sammlerGegenstaende.elementIndex + " with coord " + sammlerGegenstaende.elementX + " und " + sammlerGegenstaende.elementY);
 

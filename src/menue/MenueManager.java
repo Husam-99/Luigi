@@ -8,7 +8,6 @@ public class MenueManager {
 
     SpielPanel sp;
     public int spielerAnzahl;
-    public int rundenAnzahl;
     public MenueHintergrund menueHintergrund;
     public MenueEingabeManager menueEingabeManager;
     Hauptmenue hauptmenue;
@@ -25,12 +24,6 @@ public class MenueManager {
         hauptmenue = new Hauptmenue(this);
         spielfigurAuswaehlen = new SpielfigurAuswaehlen(this);
 
-    }
-    public int spielerAnzahlFestlegen(){
-        return spielerAnzahl;
-    }
-    public int rundenAnzahlFestlegen(){
-        return rundenAnzahl;
     }
     public void update(){
         spielfigurAuswaehlen.update();

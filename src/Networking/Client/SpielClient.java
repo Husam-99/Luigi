@@ -49,9 +49,11 @@ public class SpielClient {
 
                         }
                         if(zug.zustand == sp.minispielZustand){
-                            sp.setzeZustand(sp.minispielZustand);
+                            sp.setzeZustand(sp.minispielZustand, zug.minispielIndex);
                         } else if(zug.zustand == sp.spielBrettZustand){
-                            sp.setzeZustand(sp.spielBrettZustand);
+                            sp.setzeZustand(sp.spielBrettZustand, -1);
+                        } else if(zug.zustand == sp.wuerfelZustand){
+                            sp.zustand = sp.wuerfelZustand;
                         }
                         System.out.println("Clinet: dran " + istDran);
                         System.out.println("Client: wartung " + wartung);
@@ -64,7 +66,7 @@ public class SpielClient {
                         anzahlSpieler = anzahl.anzahlVerbundeneClients;
 
                     } else if (object instanceof Rundenzahl rundenzahl) {
-                        sp.menueManager.rundenAnzahl = rundenzahl.anzahlDerRunden;
+                        sp.ausgewaehlteRundenAnzahl = rundenzahl.anzahlDerRunden;
 
                     } else if (object instanceof SpielfigurAuswahl spielfigurAuswahl) {
                         Spieler andererSpieler = new Spieler(sp.spielablaufManager);

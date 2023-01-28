@@ -8,7 +8,6 @@ import Networking.Pakete.SpielfigurAuswahl;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.ArrayList;
-import java.util.List;
 
 public class MenueEingabeManager implements KeyListener {
 
@@ -39,8 +38,6 @@ public class MenueEingabeManager implements KeyListener {
         }else{
             if(mn.menueZustand == mn.hauptmenueZustand1) {
                 hauptmenueZustand1Client(code);
-            } else if(mn.menueZustand == mn.hauptmenueZustand2) {
-                hauptmenueZustand2Client(code);
             } else if(mn.menueZustand == mn.spielfigurAuswaehlenZustand){
                 spielfigureAuswaehlenZustandClient(code);
             }
@@ -90,7 +87,7 @@ public class MenueEingabeManager implements KeyListener {
            //}
             mn.sp.client.send(spielfigurAuswahl);
             mn.sp.spielablaufManager.mainSpieler.spielfigurAuswaehlen();
-            mn.sp.setzeZustand(mn.sp.spielBrettZustand);
+            mn.sp.setzeZustand(mn.sp.spielBrettZustand, -1);
             //mn.sp.setzeZustand(mn.sp.minispielZustand);
 
 
@@ -147,27 +144,27 @@ public class MenueEingabeManager implements KeyListener {
             }
             if (code == KeyEvent.VK_ENTER) {
                 if (mn.hauptmenue.befehlNum2 == 0) {
-                    mn.rundenAnzahl = 6;
+                    mn.sp.ausgewaehlteRundenAnzahl = 6;
                     mn.menueZustand = mn.spielfigurAuswaehlenZustand;
                 }
                 if (mn.hauptmenue.befehlNum2 == 1) {
-                    mn.rundenAnzahl = 7;
+                    mn.sp.ausgewaehlteRundenAnzahl = 7;
                     mn.menueZustand = mn.spielfigurAuswaehlenZustand;
                 }
                 if (mn.hauptmenue.befehlNum2 == 2) {
-                    mn.rundenAnzahl = 8;
+                    mn.sp.ausgewaehlteRundenAnzahl = 8;
                     mn.menueZustand = mn.spielfigurAuswaehlenZustand;
                 }
                 if (mn.hauptmenue.befehlNum2 == 3) {
-                    mn.rundenAnzahl = 9;
+                    mn.sp.ausgewaehlteRundenAnzahl = 9;
                     mn.menueZustand = mn.spielfigurAuswaehlenZustand;
                 }
                 if (mn.hauptmenue.befehlNum2 == 4) {
-                    mn.rundenAnzahl = 10;
+                    mn.sp.ausgewaehlteRundenAnzahl = 10;
                     mn.menueZustand = mn.spielfigurAuswaehlenZustand;
                 }
                 Rundenzahl rundenzahl = new Rundenzahl();
-                rundenzahl.anzahlDerRunden = mn.rundenAnzahl;
+                rundenzahl.anzahlDerRunden = mn.sp.ausgewaehlteRundenAnzahl;
                 mn.sp.client.send(rundenzahl);
             }
         }
@@ -236,86 +233,13 @@ public class MenueEingabeManager implements KeyListener {
 
             mn.sp.client.send(spielfigurAuswahl);
             mn.sp.spielablaufManager.mainSpieler.spielfigurAuswaehlen();
-            mn.sp.setzeZustand(mn.sp.spielBrettZustand);
+            mn.sp.setzeZustand(mn.sp.spielBrettZustand, -1);
             //mn.sp.setzeZustand(mn.sp.minispielZustand);
 
             mn.sp.soundClip.close();
         }
     }
-    public void hauptmenueZustand2Client(int code){
-        if(mn.hauptmenue.enterZustand == 0) {
-            if (code == KeyEvent.VK_D) {
-                mn.hauptmenue.befehlNum3++;
-                if (mn.hauptmenue.befehlNum3 > 2) {
-                    mn.hauptmenue.befehlNum3 = 0;
-                }
-            }
-            if (code == KeyEvent.VK_A) {
-                mn.hauptmenue.befehlNum3--;
-                if (mn.hauptmenue.befehlNum3 < 0) {
-                    mn.hauptmenue.befehlNum3 = 2;
-                }
-            }
-            if (code == KeyEvent.VK_ENTER) {
-                if (mn.hauptmenue.befehlNum3 == 0) {
-                    mn.spielerAnzahl = 2;
-                    mn.hauptmenue.enterZustand = 1;
-                    mn.hauptmenue.befehlNum2 = 0;
-                }
-                if (mn.hauptmenue.befehlNum3 == 1) {
-                    mn.spielerAnzahl = 3;
-                    mn.hauptmenue.enterZustand = 1;
-                    mn.hauptmenue.befehlNum2 = 0;
-                }
-                if (mn.hauptmenue.befehlNum3 == 2) {
-                    mn.spielerAnzahl = 4;
-                    mn.hauptmenue.enterZustand = 1;
-                    mn.hauptmenue.befehlNum2 = 0;
-                }
-                AnzahlMitspieler anzahl = new AnzahlMitspieler();
-                anzahl.anzahlDerMitspielerHost = mn.spielerAnzahl;
-                mn.sp.client.send(anzahl);
-            }
-        } else if (mn.hauptmenue.enterZustand == 1) {
-            if (code == KeyEvent.VK_D) {
-                mn.hauptmenue.befehlNum2++;
-                if (mn.hauptmenue.befehlNum2 > 4) {
-                    mn.hauptmenue.befehlNum2 = 0;
-                }
-            }
-            if (code == KeyEvent.VK_A) {
-                mn.hauptmenue.befehlNum2--;
-                if (mn.hauptmenue.befehlNum2 < 0) {
-                    mn.hauptmenue.befehlNum2 = 4;
-                }
-            }
-            if (code == KeyEvent.VK_ENTER) {
-                if (mn.hauptmenue.befehlNum2 == 0) {
-                    mn.rundenAnzahl = 6;
-                    mn.menueZustand = mn.spielfigurAuswaehlenZustand;
-                }
-                if (mn.hauptmenue.befehlNum2 == 1) {
-                    mn.rundenAnzahl = 7;
-                    mn.menueZustand = mn.spielfigurAuswaehlenZustand;
-                }
-                if (mn.hauptmenue.befehlNum2 == 2) {
-                    mn.rundenAnzahl = 8;
-                    mn.menueZustand = mn.spielfigurAuswaehlenZustand;
-                }
-                if (mn.hauptmenue.befehlNum2 == 3) {
-                    mn.rundenAnzahl = 9;
-                    mn.menueZustand = mn.spielfigurAuswaehlenZustand;
-                }
-                if (mn.hauptmenue.befehlNum2 == 4) {
-                    mn.rundenAnzahl = 10;
-                    mn.menueZustand = mn.spielfigurAuswaehlenZustand;
-                }
-                Rundenzahl rundenzahl = new Rundenzahl();
-                rundenzahl.anzahlDerRunden = mn.rundenAnzahl;
-                mn.sp.client.send(rundenzahl);
-            }
-        }
-    }
+
     public void hauptmenueZustand1Client(int code){
         if (code == KeyEvent.VK_W) {
             mn.hauptmenue.befehlNum1--;
