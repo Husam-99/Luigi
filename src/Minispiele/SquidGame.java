@@ -6,6 +6,7 @@ import spieler.Husam;
 import spieler.Taha;
 import spieler.Yousef;
 
+
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -18,11 +19,13 @@ public class SquidGame extends Minispiel {
     /*
           squidgameManger.wasserMalen(g2);
         squidgameManger.malen(g2);
-        squidgameManger.spieler.spielerMalen(g2);
+        squidgameManger.mainMinispielSpieler.spielerMalen(g2);
 
      */
     Palette[] paletten;
     BufferedImage[][] minispielFliesen;
+
+    BufferedImage falle1, falle2, falle3, falle4;
 
     SquidGame(SpielPanel sp, MinispielSpieler mainMinispielSpieler, ArrayList<MinispielSpieler> alleMinispielSpieler) {
         super(sp, mainMinispielSpieler, alleMinispielSpieler);
@@ -63,6 +66,10 @@ public class SquidGame extends Minispiel {
                 }
             }
             br.close();
+            falle1=ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/miniSpiele/Squidgamemap/SquidgameBilder/Falle1.png")));
+            falle2=ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/miniSpiele/Squidgamemap/SquidgameBilder/Falle2.png")));
+            falle3=ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/miniSpiele/Squidgamemap/SquidgameBilder/Falle3.png")));
+            falle4=ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/miniSpiele/Squidgamemap/SquidgameBilder/Falle4.png")));
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -101,12 +108,13 @@ public class SquidGame extends Minispiel {
     }
 
     public void falleFestlegen() {
-        for (int i = 0; i < 13; i += 2) {
-            paletten[i].hatFalle = true;
+        for (int i = 0; i < 13; i++) {
+            Random random=new Random();
+            paletten[i].hatFalle=random.nextBoolean();
         }
-        for (int i = 0; i < 13; i += 2) {
+        for (int i = 0; i < 13; i +=2) {
             if (paletten[i].hatFalle == paletten[i + 1].hatFalle) {
-                paletten[i].hatFalle = !paletten[i + 1].hatFalle;
+                paletten[i].hatFalle =!paletten[i + 1].hatFalle;
             }
         }
     }
@@ -116,13 +124,13 @@ public class SquidGame extends Minispiel {
         if(mainMinispielSpieler.minispielSpieler.spielfigur instanceof Abdo) {
             mainMinispielSpieler.minispielXPosition = 6 * sp.vergroesserteFliesenGroesse;
         }
-        else if(mainMinispielSpieler.minispielSpieler.spielfigur instanceof Husam) {
+        else if(mainMinispielSpieler.minispielSpieler.spielfigur  instanceof Husam) {
             mainMinispielSpieler.minispielXPosition = (int) (6.5 * sp.vergroesserteFliesenGroesse);
         }
-        else if(mainMinispielSpieler.minispielSpieler.spielfigur instanceof Taha) {
+        else if(mainMinispielSpieler.minispielSpieler.spielfigur  instanceof Taha) {
             mainMinispielSpieler.minispielXPosition = 7 * sp.vergroesserteFliesenGroesse;
         }
-        else if(mainMinispielSpieler.minispielSpieler.spielfigur instanceof Yousef) {
+        else if(mainMinispielSpieler.minispielSpieler.spielfigur  instanceof Yousef) {
             mainMinispielSpieler.minispielXPosition = (int) (7.5 * sp.vergroesserteFliesenGroesse);
         }
         mainMinispielSpieler.minispielYPosition = sp.vergroesserteFliesenGroesse;
@@ -137,7 +145,19 @@ public class SquidGame extends Minispiel {
             int worldX = spalte * sp.vergroesserteFliesenGroesse;
             int worldY = zeile * sp.vergroesserteFliesenGroesse;
             int bildschirmX = worldX - (int) (sp.vergroesserteFliesenGroesse * 2.5);
-            int bildschirmY = worldY - mainMinispielSpieler.minispielYPosition + mainMinispielSpieler.bildschirmY;
+            int bildschirmY = worldY - mainMinispielSpieler.minispielYPosition +mainMinispielSpieler.bildschirmY;
+
+            if(mainMinispielSpieler.aktuellePalette!=null&&mainMinispielSpieler.aktuellePalette.hatFalle) {
+                if (mainMinispielSpieler.aktuellePalette.paletteNummer <= 1 || mainMinispielSpieler.aktuellePalette.paletteNummer == 12 ||mainMinispielSpieler.aktuellePalette.paletteNummer == 13) {
+                    g2.drawImage(falle1, mainMinispielSpieler.minispielXPosition, mainMinispielSpieler.bildschirmY +sp.vergroesserteFliesenGroesse / 3, sp.vergroesserteFliesenGroesse, sp.vergroesserteFliesenGroesse, null);
+                } else if (mainMinispielSpieler.aktuellePalette.paletteNummer == 2 || mainMinispielSpieler.aktuellePalette.paletteNummer == 3) {
+                    g2.drawImage(falle2, mainMinispielSpieler.minispielXPosition, mainMinispielSpieler.bildschirmY +sp.vergroesserteFliesenGroesse / 3, sp.vergroesserteFliesenGroesse, sp.vergroesserteFliesenGroesse, null);
+                } else if ( mainMinispielSpieler.aktuellePalette.paletteNummer <= 9) {
+                    g2.drawImage(falle3, mainMinispielSpieler.minispielXPosition, mainMinispielSpieler.bildschirmY + sp.vergroesserteFliesenGroesse / 3, sp.vergroesserteFliesenGroesse, sp.vergroesserteFliesenGroesse, null);
+                } else if (mainMinispielSpieler.aktuellePalette.paletteNummer == 10 || mainMinispielSpieler.aktuellePalette.paletteNummer == 11) {
+                    g2.drawImage(falle4, mainMinispielSpieler.minispielXPosition, mainMinispielSpieler.bildschirmY + sp.vergroesserteFliesenGroesse / 3, sp.vergroesserteFliesenGroesse, sp.vergroesserteFliesenGroesse, null);
+                }
+            }
 
             g2.drawImage(minispielFliesen[zeile][spalte], bildschirmX, bildschirmY, sp.vergroesserteFliesenGroesse, sp.vergroesserteFliesenGroesse, null);
             spalte++;

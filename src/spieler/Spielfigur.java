@@ -11,7 +11,7 @@ import java.io.IOException;
 
 public abstract class Spielfigur {
     Spieler spieler;
-    public BufferedImage up1, up2, up3, down1, down2, down3, right1, right2, right3, left1, left2, left3, profile, wolke;
+    public BufferedImage up1, up2, up3, down1, down2, down3, right1, right2, right3, left1, left2, left3, profile, wolke, fallen1, fallen2, fallen3, fallen4, fallen5;
     public int spriteNum = 1, spriteZaehler = 0;
     Graphics2D g2;
     public String richtung = "stehen";

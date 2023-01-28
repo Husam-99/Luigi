@@ -15,8 +15,7 @@ public class SquidGameEingabeManger implements KeyListener {
     @Override
     public void keyTyped(KeyEvent e) {
         if(this.mainMinispielSpieler == minispielManager.mainMinispielSpieler) {
-            System.out.println("ich bin abdo");
-            if (tippenErlaubt) {
+            if (tippenErlaubt&&mainMinispielSpieler.aktuellerZustand.equals("stehen")) {
                 if (e.getKeyChar() == 'd') {
                     if (mainMinispielSpieler.aktuellePalette == null) {
                         mainMinispielSpieler.aktuellePalette = minispielManager.squidGame.paletten[1];
@@ -87,47 +86,27 @@ public class SquidGameEingabeManger implements KeyListener {
     @Override
     public void keyReleased(KeyEvent e) {
         if (this.mainMinispielSpieler == minispielManager.mainMinispielSpieler) {
-
             if (e.getKeyCode() == KeyEvent.VK_D) {
-                if (mainMinispielSpieler.aktuellePalette.hatFalle) {
-                    mainMinispielSpieler.respawn();
-                    mainMinispielSpieler.bildschirmY = minispielManager.sp.bildschirmHoehe / 2 + (minispielManager.sp.vergroesserteFliesenGroesse / 2)*4;
-                    for(MinispielSpieler spieler: minispielManager.alleMinispielSpieler){
-                        if(spieler != null){
-                            spieler.bildschirmX = spieler.minispielXPosition - mainMinispielSpieler.minispielXPosition + minispielManager.mainMinispielSpieler.bildschirmX;
-                            spieler.bildschirmY = spieler.minispielYPosition - mainMinispielSpieler.minispielYPosition + minispielManager.mainMinispielSpieler.bildschirmY;
-                        }
-                    }
-                    mainMinispielSpieler.aktuellePalette = null;
-                    tippenErlaubt = true;
-
-                } else if (mainMinispielSpieler.aktuellePalette.paletteNummer == 13) {
-                    //mainMinispielSpieler.bildschirmY += minispielManager.sp.vergroesserteFliesenGroesse/2;
-                    tippenErlaubt = false;
+                if(mainMinispielSpieler.aktuellePalette!=null&&mainMinispielSpieler.aktuellePalette.paletteNummer==13)
+                {
                     minispielManager.squidGame.siegerKueren();
-                } else{
+                }
+                else {
                     tippenErlaubt = true;
                 }
+
             } else if (e.getKeyCode() == KeyEvent.VK_A) {
-                if (mainMinispielSpieler.aktuellePalette.hatFalle) {
-                    mainMinispielSpieler.respawn();
-                    mainMinispielSpieler.bildschirmY = minispielManager.sp.bildschirmHoehe / 2 + (minispielManager.sp.vergroesserteFliesenGroesse / 2)*4;
-                    for(MinispielSpieler spieler: minispielManager.alleMinispielSpieler){
-                        if(spieler != null){
-                            spieler.bildschirmX = spieler.minispielXPosition - mainMinispielSpieler.minispielXPosition + minispielManager.mainMinispielSpieler.bildschirmX;
-                            spieler.bildschirmY = spieler.minispielYPosition - mainMinispielSpieler.minispielYPosition + minispielManager.mainMinispielSpieler.bildschirmY;
-                        }
-                    }
-                    mainMinispielSpieler.aktuellePalette = null;
-                    tippenErlaubt = true;
-                } else if (mainMinispielSpieler.aktuellePalette.paletteNummer == 12) {
-                    //mainMinispielSpieler.bildschirmY += minispielManager.sp.vergroesserteFliesenGroesse/2;
-                    tippenErlaubt = false;
-                    minispielManager.squidGame.siegerKueren();
-                } else{
-                    tippenErlaubt = true;
 
+
+                if(mainMinispielSpieler.aktuellePalette!=null&&mainMinispielSpieler.aktuellePalette.paletteNummer==13)
+                {
+                    minispielManager.squidGame.siegerKueren();
                 }
+                else {
+                    tippenErlaubt = true;
+                }
+
+
             }
         }
     }

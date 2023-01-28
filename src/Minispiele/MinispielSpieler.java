@@ -8,16 +8,22 @@ import java.awt.image.BufferedImage;
 
 public class MinispielSpieler {
     MinispielManager minispielManager;
-    private int miniSpielIndex=-1;
+    private int miniSpielIndex = -1;
     Spieler minispielSpieler;
     public int minispielXPosition;
     public int minispielYPosition;
-    public int bildschirmX=-1;
-    public int bildschirmY=-1;
-    public Palette aktuellePalette=null;
+    public int bildschirmX = -1;
+    public int bildschirmY = -1;
+    public Palette aktuellePalette = null;
+
+    public String aktuellerZustand;
+    public int fallenGeschwindigkeit;
+
+    public int spielerAktuellesFoto = 1;
+
 
     String richtung = "up";
- 
+
     int geschwindigkeit;
     public Rectangle minispielSpielerRechteck;
     public int punktzahl;
@@ -28,47 +34,43 @@ public class MinispielSpieler {
     int mushroomZeit;
 
 
-    public MinispielSpieler(MinispielManager minispielManager, Spieler spieler, int miniSpielIndex){
+    public MinispielSpieler(MinispielManager minispielManager, Spieler spieler, int miniSpielIndex) {
 
         this.minispielManager = minispielManager;
-        this.miniSpielIndex=miniSpielIndex;
+        this.miniSpielIndex = miniSpielIndex;
 
-        if(spieler.spielfigur instanceof Abdo){
+        if (spieler.spielfigur instanceof Abdo) {
             minispielSpieler = new Spieler();
             minispielSpieler.spielfigur = new Abdo();
-            if(this.miniSpielIndex==0) {
+            if (this.miniSpielIndex == 0) {
                 minispielXPosition = 645;
                 minispielYPosition = 167;
                 richtung = "up";
-            }
-            else{
-                if(spieler == minispielManager.sp.spielablaufManager.mainSpieler){
-                   // bildschirmX = minispielManager.sp.bildschirmBreite / 2 - (minispielManager.sp.vergroesserteFliesenGroesse / 2)*3;
-                    bildschirmY = minispielManager.sp.bildschirmHoehe / 2 + (minispielManager.sp.vergroesserteFliesenGroesse / 2)*4;
+            } else {
+                if (spieler == minispielManager.sp.spielablaufManager.mainSpieler) {
+                    // bildschirmX = minispielManager.sp.bildschirmBreite / 2 - (minispielManager.sp.vergroesserteFliesenGroesse / 2)*3;
+                    bildschirmY = minispielManager.sp.bildschirmHoehe / 2 + (minispielManager.sp.vergroesserteFliesenGroesse / 2) * 4;
                     respawn();
 
                 } else {
                     respawn();
                     bildschirmX = minispielXPosition - minispielManager.mainMinispielSpieler.minispielXPosition + minispielManager.mainMinispielSpieler.bildschirmX;
                     bildschirmY = minispielYPosition - minispielManager.mainMinispielSpieler.minispielYPosition + minispielManager.mainMinispielSpieler.bildschirmY;
-
                 }
 
             }
 
-        } else if(spieler.spielfigur instanceof Husam){
+        } else if (spieler.spielfigur instanceof Husam) {
             minispielSpieler = new Spieler();
             minispielSpieler.spielfigur = new Husam();
-            if(this.miniSpielIndex==0) {
+            if (this.miniSpielIndex == 0) {
                 minispielXPosition = 422;
                 minispielYPosition = 334;
                 richtung = "left";
-            }
-            else{
-                if(spieler == minispielManager.sp.spielablaufManager.mainSpieler){
-
-                   // bildschirmX = minispielManager.sp.bildschirmBreite / 2 - (minispielManager.sp.vergroesserteFliesenGroesse / 2)*3;
-                    bildschirmY = minispielManager.sp.bildschirmHoehe / 2 + (minispielManager.sp.vergroesserteFliesenGroesse / 2)*4;
+            } else {
+                if (spieler == minispielManager.sp.spielablaufManager.mainSpieler) {
+                    // bildschirmX = minispielManager.sp.bildschirmBreite / 2 - (minispielManager.sp.vergroesserteFliesenGroesse / 2)*3;
+                    bildschirmY = minispielManager.sp.bildschirmHoehe / 2 + (minispielManager.sp.vergroesserteFliesenGroesse / 2) * 4;
                     respawn();
 
                 } else {
@@ -79,20 +81,19 @@ public class MinispielSpieler {
                 }
             }
 
-        } else if(spieler.spielfigur instanceof Taha){
+        } else if (spieler.spielfigur instanceof Taha) {
             minispielSpieler = new Spieler();
             minispielSpieler.spielfigur = new Taha();
-            if(this.miniSpielIndex==0) {
+            if (this.miniSpielIndex == 0) {
                 minispielXPosition = 867;
                 minispielYPosition = 334;
                 richtung = "right";
-            }
-            else{
+            } else {
 
-                if(spieler == minispielManager.sp.spielablaufManager.mainSpieler){
+                if (spieler == minispielManager.sp.spielablaufManager.mainSpieler) {
 
                     //bildschirmX = minispielManager.sp.bildschirmBreite / 2 - (minispielManager.sp.vergroesserteFliesenGroesse / 2)*3;
-                    bildschirmY = minispielManager.sp.bildschirmHoehe / 2 + (minispielManager.sp.vergroesserteFliesenGroesse / 2)*4;
+                    bildschirmY = minispielManager.sp.bildschirmHoehe / 2 + (minispielManager.sp.vergroesserteFliesenGroesse / 2) * 4;
                     respawn();
 
                 } else {
@@ -104,19 +105,18 @@ public class MinispielSpieler {
 
             }
 
-        } else if(spieler.spielfigur instanceof Yousef){
+        } else if (spieler.spielfigur instanceof Yousef) {
             minispielSpieler = new Spieler();
             minispielSpieler.spielfigur = new Yousef();
-            if(this.miniSpielIndex==0) {
+            if (this.miniSpielIndex == 0) {
                 minispielXPosition = 645;
                 minispielYPosition = 501;
                 richtung = "down";
-            }
-            else{
-                if(spieler == minispielManager.sp.spielablaufManager.mainSpieler){
+            } else {
+                if (spieler == minispielManager.sp.spielablaufManager.mainSpieler) {
 
-                   // bildschirmX = minispielManager.sp.bildschirmBreite / 2 - (minispielManager.sp.vergroesserteFliesenGroesse / 2)*3;
-                    bildschirmY = minispielManager.sp.bildschirmHoehe / 2 + (minispielManager.sp.vergroesserteFliesenGroesse / 2)*4;
+                    // bildschirmX = minispielManager.sp.bildschirmBreite / 2 - (minispielManager.sp.vergroesserteFliesenGroesse / 2)*3;
+                    bildschirmY = minispielManager.sp.bildschirmHoehe / 2 + (minispielManager.sp.vergroesserteFliesenGroesse / 2) * 4;
                     respawn();
 
                 } else {
@@ -128,32 +128,29 @@ public class MinispielSpieler {
             }
         }
         geschwindigkeit = 6;
-        minispielSpielerRechteck = new Rectangle(minispielXPosition+30,
-                minispielYPosition+50, spieler.spielablaufManager.sp.vergroesserteFliesenGroesse-60, spieler.spielablaufManager.sp.vergroesserteFliesenGroesse-50);
+        minispielSpielerRechteck = new Rectangle(minispielXPosition + 30,
+                minispielYPosition + 50, spieler.spielablaufManager.sp.vergroesserteFliesenGroesse - 60, spieler.spielablaufManager.sp.vergroesserteFliesenGroesse - 50);
 
 
     }
 
     public void respawn() {
-        if(minispielSpieler.spielfigur instanceof Abdo) {
+        if (minispielSpieler.spielfigur instanceof Abdo) {
             minispielXPosition = 6 * minispielManager.sp.vergroesserteFliesenGroesse;
             minispielYPosition = 17 * minispielManager.sp.vergroesserteFliesenGroesse - minispielManager.sp.vergroesserteFliesenGroesse / 3;
-        }
-       else if(minispielSpieler.spielfigur instanceof Husam) {
+        } else if (minispielSpieler.spielfigur instanceof Husam) {
             minispielXPosition = (int) (6.5 * minispielManager.sp.vergroesserteFliesenGroesse);
             minispielYPosition = 17 * minispielManager.sp.vergroesserteFliesenGroesse - minispielManager.sp.vergroesserteFliesenGroesse / 3;
-        }
-        else if(minispielSpieler.spielfigur instanceof Taha) {
+        } else if (minispielSpieler.spielfigur instanceof Taha) {
             minispielXPosition = 7 * minispielManager.sp.vergroesserteFliesenGroesse;
             minispielYPosition = 17 * minispielManager.sp.vergroesserteFliesenGroesse - minispielManager.sp.vergroesserteFliesenGroesse / 3;
-        }
-        else if(minispielSpieler.spielfigur instanceof Yousef) {
+        } else if (minispielSpieler.spielfigur instanceof Yousef) {
             minispielXPosition = (int) (7.5 * minispielManager.sp.vergroesserteFliesenGroesse);
             minispielYPosition = 17 * minispielManager.sp.vergroesserteFliesenGroesse - minispielManager.sp.vergroesserteFliesenGroesse / 3;
         }
     }
     public void update() {
-        if(miniSpielIndex == 0) {
+        if (miniSpielIndex == 0) {
             if (hatMushroom && !unterSpider) {
                 geschwindigkeit = 10;
             } else if (unterSpider && !hatMushroom) {
@@ -247,15 +244,45 @@ public class MinispielSpieler {
                     minispielSpieler.spielfigur.spriteZaehler = 0;
                 }
             }
+        } else if (miniSpielIndex == 1) {
+            if (this == minispielManager.mainMinispielSpieler) {
+                if (aktuellePalette == null) {
+                    aktuellerZustand = "stehen";
+                } else if (aktuellePalette.hatFalle) {
+                    aktuellerZustand = "Fallen";
+                    fallenGeschwindigkeit++;
+                    if (fallenGeschwindigkeit > 8) {
+                        if (spielerAktuellesFoto == 1) {
+                            spielerAktuellesFoto = 2;
+                        } else if (spielerAktuellesFoto == 2) {
+                            spielerAktuellesFoto = 3;
+                        } else if (spielerAktuellesFoto == 3) {
+                            spielerAktuellesFoto = 4;
+                        } else if (spielerAktuellesFoto == 4) {
+                            spielerAktuellesFoto = 5;
+                        } else if (spielerAktuellesFoto == 5) {
+                            spielerAktuellesFoto = 6;
+                        } else if (spielerAktuellesFoto == 6) {
+                            spielerAktuellesFoto = 1;
+                            respawn();
+                            aktuellePalette = null;
+                            bildschirmY = minispielManager.sp.bildschirmHoehe / 2 + (minispielManager.sp.vergroesserteFliesenGroesse / 2) * 4;
+                            for (MinispielSpieler spieler : minispielManager.alleMinispielSpieler) {
+                                if (spieler != null) {
+                                    spieler.bildschirmX = spieler.minispielXPosition - minispielXPosition + minispielManager.mainMinispielSpieler.bildschirmX;
+                                    spieler.bildschirmY = spieler.minispielYPosition - minispielYPosition + minispielManager.mainMinispielSpieler.bildschirmY;
+                                }
+                            }
+                        }
+                        fallenGeschwindigkeit = 0;
+                    }
+                }
+            }
         }
-        //System.out.println(this.minispielXPosition + " " + this.minispielYPosition);
     }
-    
-
     public void malen(Graphics2D g2) {
-        if(this.miniSpielIndex==0) {
+        if (this.miniSpielIndex == 0) {
             BufferedImage image = null;
-
             switch (richtung) {
                 case "up" -> {
                     if (minispielSpieler.spielfigur.spriteNum == 1 || minispielSpieler.spielfigur.spriteNum == 3) {
@@ -303,26 +330,46 @@ public class MinispielSpieler {
                 }
             }
             g2.drawImage(image, minispielXPosition, minispielYPosition, this.minispielManager.sp.vergroesserteFliesenGroesse, this.minispielManager.sp.vergroesserteFliesenGroesse, null);
+        } else if (miniSpielIndex == 1) {
+            BufferedImage image = null;
+
+                if (aktuellerZustand.equals("Fallen")) {
+                    if (spielerAktuellesFoto == 1) {
+                        image = minispielSpieler.spielfigur.fallen1;
+                    } else if (spielerAktuellesFoto == 2) {
+                        image = minispielSpieler.spielfigur.fallen2;
+                    } else if (spielerAktuellesFoto == 3) {
+                        image = minispielSpieler.spielfigur.fallen3;
+                    } else if (spielerAktuellesFoto == 4) {
+                        image = minispielSpieler.spielfigur.fallen4;
+                    } else if (spielerAktuellesFoto == 5) {
+                        image = minispielSpieler.spielfigur.fallen5;
+                    }
+                    g2.drawImage(image, minispielXPosition, bildschirmY + 14, minispielManager.sp.vergroesserteFliesenGroesse, minispielManager.sp.vergroesserteFliesenGroesse, null);
+                    if (spielerAktuellesFoto == 6) {
+                        g2.drawImage(null, minispielXPosition, bildschirmY, minispielManager.sp.vergroesserteFliesenGroesse, minispielManager.sp.vergroesserteFliesenGroesse, null);
+                    }
+                } else {
+                    aktuellerZustand = "stehen";
+                    g2.drawImage(minispielSpieler.spielfigur.down1, minispielXPosition, bildschirmY, minispielManager.sp.vergroesserteFliesenGroesse, minispielManager.sp.vergroesserteFliesenGroesse, null);
+                }
+            }
+
         }
-        else{
-            g2.drawImage(minispielSpieler.spielfigur.down1, minispielXPosition, bildschirmY, this.minispielManager.sp.vergroesserteFliesenGroesse,  this.minispielManager.sp.vergroesserteFliesenGroesse, null);
-        }
-    }
 
     public void minispielerBoxMalen(Graphics2D g2, int boxWidth) {
         g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.7f));
         g2.setColor(new Color(20, 9, 54));
-        g2.fillRoundRect(boxWidth,5, 230, 90, 25, 25);
+        g2.fillRoundRect(boxWidth, 5, 230, 90, 25, 25);
         g2.setColor(Color.white);
         g2.setStroke(new BasicStroke(5));
-        g2.drawRoundRect(boxWidth + 5,10,220, 80, 15, 15);
+        g2.drawRoundRect(boxWidth + 5, 10, 220, 80, 15, 15);
         g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1.0f));
 
 
     }
-
     public void minispielerStatusMalen(Graphics2D g2, int width) {
-        g2.drawImage(minispielSpieler.spielfigur.profile, width + 8, 8, minispielManager.sp.vergroesserteFliesenGroesse-10, minispielManager.sp.vergroesserteFliesenGroesse-10, null);
+        g2.drawImage(minispielSpieler.spielfigur.profile, width + 8, 8, minispielManager.sp.vergroesserteFliesenGroesse - 10, minispielManager.sp.vergroesserteFliesenGroesse - 10, null);
         g2.setFont(g2.getFont().deriveFont(Font.PLAIN, 80F));
         g2.setColor(new Color(196, 29, 29, 203));
         g2.drawString("" + punktzahl, width + 110, 70);
