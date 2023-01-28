@@ -52,6 +52,7 @@ public class Sammler extends Minispiel {
         }
     }
 
+
     public void update() {
         mainMinispielSpieler.update();
         for (MinispielSpieler spieler : alleMinispielSpieler) {
@@ -137,7 +138,6 @@ public class Sammler extends Minispiel {
     }
 
 
-    @Override
     public void getFlieseImage() {
         try {
             minispielFliesen[0] = new Fliese();
@@ -207,6 +207,11 @@ public class Sammler extends Minispiel {
         wandRechteck[1] = new Rectangle(0, 864 - 96, 1440, 96);
         wandRechteck[2] = new Rectangle(0, 0, 96, 800);
         wandRechteck[3] = new Rectangle(1440 - 96, 0, 96, 800);
+
+    }
+
+    @Override
+    public void siegerKueren() {
 
     }
 

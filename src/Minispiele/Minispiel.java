@@ -21,8 +21,9 @@ public abstract class Minispiel {
 
 
     }
-    public abstract void getFlieseImage();
     public abstract void mapLaden();
+    public abstract void siegerKueren();
+
     public abstract void malen(Graphics2D g2);
 
 }

@@ -16,12 +16,6 @@ import java.util.Objects;
 import java.util.Random;
 
 public class SquidGame extends Minispiel {
-    /*
-          squidgameManger.wasserMalen(g2);
-        squidgameManger.malen(g2);
-        squidgameManger.mainMinispielSpieler.spielerMalen(g2);
-
-     */
     Palette[] paletten;
     BufferedImage[][] minispielFliesen;
 
@@ -35,11 +29,6 @@ public class SquidGame extends Minispiel {
         setzePaletten();
         paletteVerbinden();
         falleFestlegen();
-    }
-
-
-    @Override
-    public void getFlieseImage() {
     }
 
     @Override
@@ -118,22 +107,35 @@ public class SquidGame extends Minispiel {
             }
         }
     }
-    //bei siegerkueren
+    @Override
     public void siegerKueren() {
+
+    }
+
+    public void endeErreichen() {
         mainMinispielSpieler.bildschirmY -= sp.vergroesserteFliesenGroesse/2;
         if(mainMinispielSpieler.minispielSpieler.spielfigur instanceof Abdo) {
-            mainMinispielSpieler.minispielXPosition = 6 * sp.vergroesserteFliesenGroesse;
+            mainMinispielSpieler.minispielXPosition = (int) (5.5 * sp.vergroesserteFliesenGroesse) - 2;
         }
         else if(mainMinispielSpieler.minispielSpieler.spielfigur  instanceof Husam) {
-            mainMinispielSpieler.minispielXPosition = (int) (6.5 * sp.vergroesserteFliesenGroesse);
+            mainMinispielSpieler.minispielXPosition = (int) (6.5 * sp.vergroesserteFliesenGroesse) - 5;
         }
         else if(mainMinispielSpieler.minispielSpieler.spielfigur  instanceof Taha) {
-            mainMinispielSpieler.minispielXPosition = 7 * sp.vergroesserteFliesenGroesse;
+            mainMinispielSpieler.minispielXPosition = (int) (7.5 * sp.vergroesserteFliesenGroesse) + 5;
         }
         else if(mainMinispielSpieler.minispielSpieler.spielfigur  instanceof Yousef) {
-            mainMinispielSpieler.minispielXPosition = (int) (7.5 * sp.vergroesserteFliesenGroesse);
+            mainMinispielSpieler.minispielXPosition = (int) (8.5 * sp.vergroesserteFliesenGroesse) + 2;
         }
         mainMinispielSpieler.minispielYPosition = sp.vergroesserteFliesenGroesse;
+        mainMinispielSpieler.endeErreicht = true;
+    }
+    public void update(){
+        mainMinispielSpieler.update();
+        for (MinispielSpieler spieler : alleMinispielSpieler) {
+            if (spieler != null) {
+                spieler.update();
+            }
+        }
     }
 
     @Override

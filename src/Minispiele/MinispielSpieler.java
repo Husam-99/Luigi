@@ -32,6 +32,7 @@ public class MinispielSpieler {
     boolean unterSpider = false;
     public boolean amSpielen = false;
     int mushroomZeit;
+    boolean endeErreicht = false;
 
 
     public MinispielSpieler(MinispielManager minispielManager, Spieler spieler, int miniSpielIndex) {
@@ -135,17 +136,18 @@ public class MinispielSpieler {
     }
 
     public void respawn() {
+        punktzahl = 0;
         if (minispielSpieler.spielfigur instanceof Abdo) {
-            minispielXPosition = 6 * minispielManager.sp.vergroesserteFliesenGroesse;
+            minispielXPosition = (int) (5.5 * minispielManager.sp.vergroesserteFliesenGroesse) - 2;
             minispielYPosition = 17 * minispielManager.sp.vergroesserteFliesenGroesse - minispielManager.sp.vergroesserteFliesenGroesse / 3;
         } else if (minispielSpieler.spielfigur instanceof Husam) {
-            minispielXPosition = (int) (6.5 * minispielManager.sp.vergroesserteFliesenGroesse);
+            minispielXPosition = (int) (6.5 * minispielManager.sp.vergroesserteFliesenGroesse) - 5;
             minispielYPosition = 17 * minispielManager.sp.vergroesserteFliesenGroesse - minispielManager.sp.vergroesserteFliesenGroesse / 3;
         } else if (minispielSpieler.spielfigur instanceof Taha) {
-            minispielXPosition = 7 * minispielManager.sp.vergroesserteFliesenGroesse;
+            minispielXPosition = (int) (7.5 * minispielManager.sp.vergroesserteFliesenGroesse) + 5;
             minispielYPosition = 17 * minispielManager.sp.vergroesserteFliesenGroesse - minispielManager.sp.vergroesserteFliesenGroesse / 3;
         } else if (minispielSpieler.spielfigur instanceof Yousef) {
-            minispielXPosition = (int) (7.5 * minispielManager.sp.vergroesserteFliesenGroesse);
+            minispielXPosition = (int) (8.5 * minispielManager.sp.vergroesserteFliesenGroesse) + 2;
             minispielYPosition = 17 * minispielManager.sp.vergroesserteFliesenGroesse - minispielManager.sp.vergroesserteFliesenGroesse / 3;
         }
     }
@@ -333,7 +335,8 @@ public class MinispielSpieler {
         } else if (miniSpielIndex == 1) {
             BufferedImage image = null;
 
-                if (aktuellerZustand.equals("Fallen")) {
+                if (aktuellePalette != null && aktuellerZustand.equals("Fallen")) {
+
                     if (spielerAktuellesFoto == 1) {
                         image = minispielSpieler.spielfigur.fallen1;
                     } else if (spielerAktuellesFoto == 2) {
@@ -372,7 +375,17 @@ public class MinispielSpieler {
         g2.drawImage(minispielSpieler.spielfigur.profile, width + 8, 8, minispielManager.sp.vergroesserteFliesenGroesse - 10, minispielManager.sp.vergroesserteFliesenGroesse - 10, null);
         g2.setFont(g2.getFont().deriveFont(Font.PLAIN, 80F));
         g2.setColor(new Color(196, 29, 29, 203));
-        g2.drawString("" + punktzahl, width + 110, 70);
+        if(miniSpielIndex == 0){
+            g2.drawString("" + punktzahl, width + 110, 70);
+        } else if(miniSpielIndex == 1) {
+            if(!endeErreicht){
+                g2.drawString("" + punktzahl, width + 110, 70);
+            } else{
+                g2.setColor(new Color(255, 243, 0, 255));
+                g2.drawString("JA!", width + 90, 70);
+            }
+
+        }
 
     }
 
