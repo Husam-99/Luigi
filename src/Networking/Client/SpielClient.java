@@ -9,6 +9,7 @@ import com.esotericsoftware.kryonet.Listener;
 import spieler.Spieler;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 public class SpielClient {
     private boolean istDran = false;
@@ -51,9 +52,11 @@ public class SpielClient {
                         if(zug.zustand == sp.minispielZustand){
                             sp.setzeZustand(sp.minispielZustand, zug.minispielIndex);
                         } else if(zug.zustand == sp.spielBrettZustand){
+                            sp.wurfelzustand = false;
                             sp.setzeZustand(sp.spielBrettZustand, -1);
                         } else if(zug.zustand == sp.wuerfelZustand){
-                            sp.zustand = sp.wuerfelZustand;
+                            sp.wurfelzustand = true;
+                            sp.setzeZustand(sp.spielBrettZustand, -1);
                         }
                         System.out.println("Clinet: dran " + istDran);
                         System.out.println("Client: wartung " + wartung);
@@ -259,9 +262,36 @@ public class SpielClient {
                         } else {
                             sp.minispielManager.alleMinispielSpieler.get(sammlerPunkte.clientIndex).punktzahl++;
                         }
+                    } else if(object instanceof SquidGamePunkte squidGamePunkte){
+                        if(squidGamePunkte.endeErreicht){
+                            sp.minispielManager.alleMinispielSpieler.get(squidGamePunkte.clientIndex).endeErreicht = true;
+                        }
+                        sp.minispielManager.alleMinispielSpieler.get(squidGamePunkte.clientIndex).punktzahl = squidGamePunkte.punktZahl;
+                    } else if(object instanceof SquidGamePosition squidGamePosition){
+                        sp.minispielManager.alleMinispielSpieler.get(squidGamePosition.clientIndex).minispielXPosition = squidGamePosition.minispielXPosition;
+                        sp.minispielManager.alleMinispielSpieler.get(squidGamePosition.clientIndex).minispielYPosition = squidGamePosition.minispielYPosition;
+                        sp.minispielManager.alleMinispielSpieler.get(squidGamePosition.clientIndex).bildschirmX = sp.minispielManager.alleMinispielSpieler.get(squidGamePosition.clientIndex).minispielXPosition - sp.minispielManager.mainMinispielSpieler.minispielXPosition + sp.minispielManager.mainMinispielSpieler.bildschirmX;
+                        sp.minispielManager.alleMinispielSpieler.get(squidGamePosition.clientIndex).bildschirmY = sp.minispielManager.alleMinispielSpieler.get(squidGamePosition.clientIndex).minispielYPosition - sp.minispielManager.mainMinispielSpieler.minispielYPosition + sp.minispielManager.mainMinispielSpieler.bildschirmY;
+                        if(squidGamePosition.aktuellePalettenNr != -1){
+                            sp.minispielManager.alleMinispielSpieler.get(squidGamePosition.clientIndex).aktuellePalette = sp.minispielManager.squidGame.paletten[squidGamePosition.aktuellePalettenNr];
+
+                        }
+
+                    } else if(object instanceof PalettenFalle palettenFalle){
+                        ArrayList<Boolean> allePalletenFalle = new ArrayList<>();
+                        allePalletenFalle.add(palettenFalle.pallete0);
+                        allePalletenFalle.add(palettenFalle.pallete2);
+                        allePalletenFalle.add(palettenFalle.pallete4);
+                        allePalletenFalle.add(palettenFalle.pallete6);
+                        allePalletenFalle.add(palettenFalle.pallete8);
+                        allePalletenFalle.add(palettenFalle.pallete10);
+                        allePalletenFalle.add(palettenFalle.pallete12);
+                        sp.minispielManager.squidGame.falleFestlegen(allePalletenFalle);
+                    } else if(object instanceof Blocken){
+                        Bescheid bescheid = new Bescheid();
+                        bescheid.fertig = true;
+                        send(bescheid);
                     }
-
-
                 }
             });
             System.out.println("ich bin der Client und bin am Start");
@@ -314,7 +344,14 @@ public class SpielClient {
         } else if(object instanceof SammlerGegenstaende sammlerGegenstaende){
             client.sendTCP(sammlerGegenstaende);
         } else if(object instanceof SammlerPunkte sammlerPunkte){
+            sammlerPunkte.clientIndex = clientIndex;
             client.sendTCP(sammlerPunkte);
+        } else if(object instanceof SquidGamePunkte squidGamePunkte){
+            squidGamePunkte.clientIndex = clientIndex;
+            client.sendTCP(squidGamePunkte);
+        } else if(object instanceof SquidGamePosition squidGamePosition){
+            squidGamePosition.clientIndex = clientIndex;
+            client.sendTCP(squidGamePosition);
         }
 
 

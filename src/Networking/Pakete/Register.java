@@ -24,6 +24,9 @@ public class Register {
         k.register(Blocken.class);
         k.register(SammlerGegenstaende.class);
         k.register(SammlerPunkte.class);
+        k.register(SquidGamePunkte.class);
+        k.register(SquidGamePosition.class);
+        k.register(PalettenFalle.class);
 
 
 

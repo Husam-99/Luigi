@@ -18,7 +18,9 @@ public class SpielServer  {
     static LinkedHashMap<Connection, SpielerAuskuenfte> alleClients;
     static Generator sternGenerator;
     static Random generator;
-    static ArrayList<Schritte> spielerReihenfolge;
+    static ArrayList<Integer> spielerReihenfolge;
+
+    static ArrayList<Integer> schritteArray;
 
     public static void start(){
 
@@ -31,6 +33,7 @@ public class SpielServer  {
             System.out.println("Server gestartet");
             alleClients = new LinkedHashMap<>();
             spielerReihenfolge = new ArrayList<>();
+            schritteArray = new ArrayList<>();
             generator = new Random();
             sternGenerator = new Generator();
             sternGenerator.sternFeldnummer = generator.nextInt(1, 36);

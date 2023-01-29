@@ -1,13 +1,12 @@
 package Networking.Server;
 
 import Networking.Pakete.*;
+import com.esotericsoftware.kryonet.Client;
 import com.esotericsoftware.kryonet.Connection;
 import com.esotericsoftware.kryonet.Listener;
 
-import java.util.ArrayList;
-import java.util.Map;
-import java.util.Timer;
-import java.util.TimerTask;
+import java.nio.file.attribute.UserPrincipalLookupService;
+import java.util.*;
 
 import static Networking.Server.SpielServer.*;
 
@@ -16,7 +15,6 @@ public class ServerListener extends Listener {
     private int maxAnzahlDerMitspielerHost;
     private int anzahlDerRunden;
     private int runde = -1;
-
     private int naechsterClient;
     int minispielDauer = 64;
     private enum zustand{
@@ -56,10 +54,16 @@ public class ServerListener extends Listener {
         server.sendToAllTCP(anzahl);
         alleClients.get(connection).istDran = zug.istDran;
 
-        naechsterClient = alleClients.size() - 2;
+        spielerReihenfolge.add(alleClients.get(connection).clientIndex);
+        schritteArray.add(null);
+        spielerReihenfolge.sort(Collections.reverseOrder());
+        if(alleClients.size() > 1){
+            naechsterClient = spielerReihenfolge.get(1);
+            System.out.println(spielerReihenfolge);
+
+        }
 
     }
-
     @Override
     public void disconnected(Connection connection) {
         System.out.println("Client ist nicht mehr verbunden.");
@@ -80,9 +84,19 @@ public class ServerListener extends Listener {
             spielZustand = zustand.MINISPIEL_ZUSTAND;
             zug.istDran = true;
             zug.zustand = 3;
-            //zug.minispielIndex = generator.nextInt(0,2);
-            zug.minispielIndex = 1;
+            zug.minispielIndex = generator.nextInt(0,2);
             server.sendToAllTCP(zug);
+            if(zug.minispielIndex == 1){
+                PalettenFalle palettenFalle = new PalettenFalle();
+                palettenFalle.pallete0 = generator.nextBoolean();
+                palettenFalle.pallete2 = generator.nextBoolean();
+                palettenFalle.pallete4 = generator.nextBoolean();
+                palettenFalle.pallete6 = generator.nextBoolean();
+                palettenFalle.pallete8 = generator.nextBoolean();
+                palettenFalle.pallete10 = generator.nextBoolean();
+                palettenFalle.pallete12 = generator.nextBoolean();
+                server.sendToAllTCP(palettenFalle);
+            }
 
             Timer timer = new Timer();
             TimerTask minispielTask = new TimerTask() {
@@ -90,54 +104,56 @@ public class ServerListener extends Listener {
                 public void run() {
                     if(minispielDauer > 0){
                         minispielDauer--;
-                        if(minispielDauer == 60){
-                            SammlerGegenstaende muenze1 = new SammlerGegenstaende();
-                            muenze1.elementIndex = 1;
-                            muenze1.elementX = generator.nextInt(100, 1250);
-                            muenze1.elementY = generator.nextInt(100, 668);
-                            server.sendToAllTCP(muenze1);
+                        if(zug.minispielIndex == 0) {
+                            if (minispielDauer == 60) {
+
+                                SammlerGegenstaende muenze1 = new SammlerGegenstaende();
+                                muenze1.elementIndex = 1;
+                                muenze1.elementX = generator.nextInt(100, 1250);
+                                muenze1.elementY = generator.nextInt(100, 668);
+                                server.sendToAllTCP(muenze1);
 
 
-                            SammlerGegenstaende muenze2 = new SammlerGegenstaende();
-                            muenze2.elementIndex = 2;
-                            muenze2.elementX = generator.nextInt(100, 1250);
-                            muenze2.elementY = generator.nextInt(100, 668);
-                            server.sendToAllTCP(muenze2);
+                                SammlerGegenstaende muenze2 = new SammlerGegenstaende();
+                                muenze2.elementIndex = 2;
+                                muenze2.elementX = generator.nextInt(100, 1250);
+                                muenze2.elementY = generator.nextInt(100, 668);
+                                server.sendToAllTCP(muenze2);
 
-                            SammlerGegenstaende spider1 = new SammlerGegenstaende();
-                            spider1.elementIndex = 3;
-                            spider1.elementX = generator.nextInt(100, 318);
-                            spider1.elementY = generator.nextInt(100, 575);
-                            server.sendToAllTCP(spider1);
+                                SammlerGegenstaende spider1 = new SammlerGegenstaende();
+                                spider1.elementIndex = 3;
+                                spider1.elementX = generator.nextInt(100, 318);
+                                spider1.elementY = generator.nextInt(100, 575);
+                                server.sendToAllTCP(spider1);
 
-                            SammlerGegenstaende spider2 = new SammlerGegenstaende();
-                            spider2.elementIndex = 4;
-                            spider2.elementX = generator.nextInt(510, 698);
-                            spider2.elementY = generator.nextInt(100, 575);
-                            server.sendToAllTCP(spider2);
+                                SammlerGegenstaende spider2 = new SammlerGegenstaende();
+                                spider2.elementIndex = 4;
+                                spider2.elementX = generator.nextInt(510, 698);
+                                spider2.elementY = generator.nextInt(100, 575);
+                                server.sendToAllTCP(spider2);
 
-                            SammlerGegenstaende spider3 = new SammlerGegenstaende();
-                            spider3.elementIndex = 5;
-                            spider3.elementX = generator.nextInt(890, 1152);
-                            spider3.elementY = generator.nextInt(100, 575);
-                            server.sendToAllTCP(spider3);
+                                SammlerGegenstaende spider3 = new SammlerGegenstaende();
+                                spider3.elementIndex = 5;
+                                spider3.elementX = generator.nextInt(890, 1152);
+                                spider3.elementY = generator.nextInt(100, 575);
+                                server.sendToAllTCP(spider3);
 
-                        } else if(minispielDauer%10 == 0 && minispielDauer < 60 && minispielDauer > 0) {
-                            SammlerGegenstaende mushroom = new SammlerGegenstaende();
-                            mushroom.elementIndex = 7;
-                            mushroom.elementX = generator.nextInt(100, 1250);
-                            mushroom.elementY = generator.nextInt(100, 668);
-                            server.sendToAllTCP(mushroom);
+                            } else if (minispielDauer % 10 == 0 && minispielDauer < 60 && minispielDauer > 0) {
+                                SammlerGegenstaende mushroom = new SammlerGegenstaende();
+                                mushroom.elementIndex = 7;
+                                mushroom.elementX = generator.nextInt(100, 1250);
+                                mushroom.elementY = generator.nextInt(100, 668);
+                                server.sendToAllTCP(mushroom);
 
-                        } else if(minispielDauer == 51 || minispielDauer == 33 || minispielDauer == 15){
-                            SammlerGegenstaende diamond = new SammlerGegenstaende();
-                            diamond.elementIndex = 6;
-                            diamond.elementX = generator.nextInt(100, 1216);
-                            diamond.elementY = generator.nextInt(100, 636);
-                            server.sendToAllTCP(diamond);
+                            } else if (minispielDauer == 51 || minispielDauer == 33 || minispielDauer == 15) {
+                                SammlerGegenstaende diamond = new SammlerGegenstaende();
+                                diamond.elementIndex = 6;
+                                diamond.elementX = generator.nextInt(100, 1216);
+                                diamond.elementY = generator.nextInt(100, 636);
+                                server.sendToAllTCP(diamond);
 
+                            }
                         }
-
                     } else {
                         timer.cancel();
                         minispielDauer = 64;
@@ -154,9 +170,10 @@ public class ServerListener extends Listener {
                                     + " and the turn is:" + entry.getValue().istDran);
                         }
 
-                        naechsterClient--;
-                        if (naechsterClient < 0) {
-                            naechsterClient = alleClients.size() - 1;
+                        if (spielerReihenfolge.indexOf(naechsterClient) < spielerReihenfolge.size() - 1) {
+                            naechsterClient = spielerReihenfolge.get(spielerReihenfolge.indexOf(naechsterClient) + 1);
+                        } else {
+                            naechsterClient = spielerReihenfolge.get(0);
                         }
 
 
@@ -182,34 +199,31 @@ public class ServerListener extends Listener {
                 server.sendToTCP(connection.getID(), zug);
                 System.out.println("nächste client " + naechsterClient);
 
-                if(connection == server.getConnections()[0]){
-                    if(spielZustand == zustand.MENUE_ZUSTAND){
+                if(spielZustand != zustand.WUERFEL_ZUSTAND){
+                    if (connection == server.getConnections()[spielerReihenfolge.get(spielerReihenfolge.size() - 1)]) {
+                        if (spielZustand == zustand.MENUE_ZUSTAND) {
+                            alleClients.get(connection).istDran = true;
+                            zug.istDran = true;
+                            zug.zustand = 1;
+                            server.sendToAllTCP(zug);
+                            spielZustand = zustand.WUERFEL_ZUSTAND;
+
+                        } else if (spielZustand == zustand.SPIELBRETT_ZUSTAND) {
+                            zustandWechsel();
+                            anzahlDerRunden--;
+                        }
+
+                    } else {
                         alleClients.get(server.getConnections()[naechsterClient]).istDran = true;
                         zug.istDran = true;
-                        zug.zustand = 2;
-                     //   server.sendToAllTCP(zug);
                         server.sendToTCP(server.getConnections()[naechsterClient].getID(), zug);
-                        naechsterClient--;
-                        if (naechsterClient < 0) {
-                            naechsterClient = alleClients.size() - 1;
+                        if (spielerReihenfolge.indexOf(naechsterClient) < spielerReihenfolge.size() - 1) {
+                            naechsterClient = spielerReihenfolge.get(spielerReihenfolge.indexOf(naechsterClient) + 1);
+                        } else {
+                            naechsterClient = spielerReihenfolge.get(0);
                         }
-                        spielZustand = zustand.SPIELBRETT_ZUSTAND;
-                        //spielZustand = zustand.WUERFEL_ZUSTAND;
-                    }
-                    else if(spielZustand == zustand.SPIELBRETT_ZUSTAND){
-                        zustandWechsel();
-                        anzahlDerRunden--;
-                    }
 
-                }else{
-                    alleClients.get(server.getConnections()[naechsterClient]).istDran = true;
-                    zug.istDran = true;
-                    server.sendToTCP(server.getConnections()[naechsterClient].getID(), zug);
-                    naechsterClient--;
-                    if (naechsterClient < 0) {
-                        naechsterClient = alleClients.size() - 1;
                     }
-
                 }
                 for (Map.Entry<Connection, SpielerAuskuenfte> entry : alleClients.entrySet()) {
                     System.out.println(entry.getKey() + " is : " + entry.getValue().clientIndex
@@ -217,6 +231,41 @@ public class ServerListener extends Listener {
                 }
 
 
+            }
+        } else if(object instanceof Schritte schritte){
+            schritte.clientIndex = alleClients.get(connection).clientIndex;
+            System.out.println("schritte von " + alleClients.get(connection).clientIndex + " sind " + schritte.schritteAnzahl);
+            server.sendToAllExceptTCP(connection.getID(), schritte);
+            if(spielZustand == zustand.WUERFEL_ZUSTAND){
+                schritteArray.set(schritte.clientIndex, schritte.schritteAnzahl);
+                System.out.println(spielerReihenfolge);
+                System.out.println(schritteArray);
+                if(!schritteArray.contains(null)) {
+                    int stelle = 0;
+                    Collections.reverse(schritteArray);
+                    while (!schritteArray.contains(null) && schritteArray.size() != 0) {
+                        spielerReihenfolge.set(stelle, schritteArray.indexOf(Collections.max(schritteArray)));
+                        schritteArray.set(schritteArray.indexOf(Collections.max(schritteArray)), -1);
+                        stelle++;
+                        if (stelle == spielerReihenfolge.size()) {
+                            schritteArray.clear();
+
+                        }
+                    }
+                    if (schritteArray.size() == 0) {
+                        naechsterClient = spielerReihenfolge.get(0);
+                        ClientsZug zug = new ClientsZug();
+                        zug.zustand = 2;
+                        zug.istDran = false;
+                        server.sendToAllTCP(zug);
+                        alleClients.get(server.getConnections()[naechsterClient]).istDran = true;
+                        zug.istDran = true;
+                        server.sendToTCP(server.getConnections()[naechsterClient].getID(), zug);
+                        spielZustand = zustand.SPIELBRETT_ZUSTAND;
+                    }
+                    System.out.println(spielerReihenfolge);
+                    System.out.println(schritteArray);
+                }
             }
         } else if (object instanceof AnzahlMitspieler anzahlMitspieler) {
             this.maxAnzahlDerMitspielerHost = anzahlMitspieler.anzahlDerMitspielerHost;
@@ -253,7 +302,6 @@ public class ServerListener extends Listener {
             } else if (spielfigurAuswahl.spielfigurIndex == 2) {
                 spielfigurAuswahl.clientIndex = alleClients.get(connection).clientIndex;
                 alleClients.get(connection).spielfigurIndex = spielfigurAuswahl.spielfigurIndex;
-
             } else if (spielfigurAuswahl.spielfigurIndex == 3) {
                 spielfigurAuswahl.clientIndex = alleClients.get(connection).clientIndex;
                 alleClients.get(connection).spielfigurIndex = spielfigurAuswahl.spielfigurIndex;
@@ -314,25 +362,21 @@ public class ServerListener extends Listener {
                 server.sendToAllTCP(sternPosition);
                 System.out.println("Server ich habe die position stern geschickt " + sternPosition.sternFeldnummer);
             }
-        } else if(object instanceof Schritte schritte){
-            //if(spielZustand == zustand.WUERFEL_ZUSTAND){
-//
-//
-            //} else {
-            //}
-            schritte.clientIndex = alleClients.get(connection).clientIndex;
-            server.sendToAllExceptTCP(connection.getID(), schritte);
         } else if(object instanceof Bewegung bewegung){
             bewegung.clientIndex = alleClients.get(connection).clientIndex;
             server.sendToAllExceptTCP(connection.getID(), bewegung);
         } else if(object instanceof GegenstandInfo gegenstandInfo){
             gegenstandInfo.clientIndex = alleClients.get(connection).clientIndex;
             server.sendToAllExceptTCP(connection.getID(), gegenstandInfo);
-        } else if(object instanceof Blocken){
-            naechsterClient--;
-            if (naechsterClient < 0) {
-                naechsterClient = alleClients.size() - 1;
+
+        } else if(object instanceof Blocken blocken){
+            server.sendToTCP(server.getConnections()[naechsterClient].getID(), blocken);
+            if (spielerReihenfolge.indexOf(naechsterClient) < spielerReihenfolge.size() - 1) {
+                naechsterClient = spielerReihenfolge.get(spielerReihenfolge.indexOf(naechsterClient) + 1);
+            } else {
+                naechsterClient = spielerReihenfolge.get(0);
             }
+
         } else if(object instanceof SammlerGegenstaende sammlerGegenstaende){
             if(sammlerGegenstaende.elementIndex == 1 || sammlerGegenstaende.elementIndex == 2){
                 sammlerGegenstaende.elementX = generator.nextInt(100, 1290);
@@ -344,6 +388,10 @@ public class ServerListener extends Listener {
 
         } else if(object instanceof SammlerPunkte sammlerPunkte){
             server.sendToAllExceptTCP(connection.getID(), sammlerPunkte);
+        } else if(object instanceof SquidGamePunkte squidGamePunkte){
+            server.sendToAllExceptTCP(connection.getID(), squidGamePunkte);
+        } else if(object instanceof SquidGamePosition squidGamePosition){
+            server.sendToAllExceptTCP(connection.getID(), squidGamePosition);
         }
 
     }

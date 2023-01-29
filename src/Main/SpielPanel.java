@@ -22,6 +22,7 @@ public class SpielPanel extends JPanel implements Runnable{
 
     public JFrame window;
     public int zustand;
+    public boolean wurfelzustand = false;
     public final int menueZustand = 0, wuerfelZustand = 1, spielBrettZustand = 2, minispielZustand = 3;
     public final int fliesenGroesse = 32;
     public int skalaMenue = 5,     skala = 3,

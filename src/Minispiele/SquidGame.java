@@ -1,6 +1,8 @@
 package Minispiele;
 
 import Main.SpielPanel;
+import Networking.Pakete.SquidGamePosition;
+import Networking.Pakete.SquidGamePunkte;
 import spieler.Abdo;
 import spieler.Husam;
 import spieler.Taha;
@@ -16,7 +18,7 @@ import java.util.Objects;
 import java.util.Random;
 
 public class SquidGame extends Minispiel {
-    Palette[] paletten;
+    public Palette[] paletten;
     BufferedImage[][] minispielFliesen;
 
     BufferedImage falle1, falle2, falle3, falle4;
@@ -28,7 +30,6 @@ public class SquidGame extends Minispiel {
         mapLaden();
         setzePaletten();
         paletteVerbinden();
-        falleFestlegen();
     }
 
     @Override
@@ -96,15 +97,13 @@ public class SquidGame extends Minispiel {
         }
     }
 
-    public void falleFestlegen() {
-        for (int i = 0; i < 13; i++) {
-            Random random=new Random();
-            paletten[i].hatFalle=random.nextBoolean();
-        }
-        for (int i = 0; i < 13; i +=2) {
-            if (paletten[i].hatFalle == paletten[i + 1].hatFalle) {
-                paletten[i].hatFalle =!paletten[i + 1].hatFalle;
-            }
+    public void falleFestlegen(ArrayList<Boolean> palletenFalle) {
+        int j = 0;
+        for (int i = 0; i < 13; i+=2) {
+            paletten[i].hatFalle = palletenFalle.get(j);
+            paletten[i + 1].hatFalle = !paletten[i].hatFalle;
+
+            j++;
         }
     }
     @Override
@@ -127,7 +126,24 @@ public class SquidGame extends Minispiel {
             mainMinispielSpieler.minispielXPosition = (int) (8.5 * sp.vergroesserteFliesenGroesse) + 2;
         }
         mainMinispielSpieler.minispielYPosition = sp.vergroesserteFliesenGroesse;
+        for (MinispielSpieler spieler : alleMinispielSpieler) {
+            if (spieler != null) {
+                spieler.bildschirmX = spieler.minispielXPosition - mainMinispielSpieler.minispielXPosition + mainMinispielSpieler.bildschirmX;
+                spieler.bildschirmY = spieler.minispielYPosition - mainMinispielSpieler.minispielYPosition + mainMinispielSpieler.bildschirmY;
+
+            }
+        }
         mainMinispielSpieler.endeErreicht = true;
+        SquidGamePosition squidGamePosition = new SquidGamePosition();
+        squidGamePosition.minispielXPosition = mainMinispielSpieler.minispielXPosition;
+        squidGamePosition.minispielYPosition = mainMinispielSpieler.minispielYPosition;
+        sp.client.send(squidGamePosition);
+
+        SquidGamePunkte squidGamePunkte = new SquidGamePunkte();
+        squidGamePunkte.endeErreicht = true;
+        squidGamePunkte.punktZahl = -1;
+        sp.client.send(squidGamePunkte);
+        mainMinispielSpieler.amSpielen = false;
     }
     public void update(){
         mainMinispielSpieler.update();

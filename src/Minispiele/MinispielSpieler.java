@@ -1,6 +1,8 @@
 package Minispiele;
 
 import Networking.Pakete.SpielerPosition;
+import Networking.Pakete.SquidGamePosition;
+import Networking.Pakete.SquidGamePunkte;
 import spieler.*;
 
 import java.awt.*;
@@ -32,7 +34,7 @@ public class MinispielSpieler {
     boolean unterSpider = false;
     public boolean amSpielen = false;
     int mushroomZeit;
-    boolean endeErreicht = false;
+    public boolean endeErreicht = false;
 
 
     public MinispielSpieler(MinispielManager minispielManager, Spieler spieler, int miniSpielIndex) {
@@ -55,7 +57,7 @@ public class MinispielSpieler {
 
                 } else {
                     respawn();
-                    bildschirmX = minispielXPosition - minispielManager.mainMinispielSpieler.minispielXPosition + minispielManager.mainMinispielSpieler.bildschirmX;
+                    bildschirmX = minispielXPosition - minispielManager.mainMinispielSpieler.minispielXPosition;
                     bildschirmY = minispielYPosition - minispielManager.mainMinispielSpieler.minispielYPosition + minispielManager.mainMinispielSpieler.bildschirmY;
                 }
 
@@ -76,7 +78,7 @@ public class MinispielSpieler {
 
                 } else {
                     respawn();
-                    bildschirmX = minispielXPosition - minispielManager.mainMinispielSpieler.minispielXPosition + minispielManager.mainMinispielSpieler.bildschirmX;
+                    bildschirmX = minispielXPosition - minispielManager.mainMinispielSpieler.minispielXPosition;
                     bildschirmY = minispielYPosition - minispielManager.mainMinispielSpieler.minispielYPosition + minispielManager.mainMinispielSpieler.bildschirmY;
 
                 }
@@ -99,7 +101,7 @@ public class MinispielSpieler {
 
                 } else {
                     respawn();
-                    bildschirmX = minispielXPosition - minispielManager.mainMinispielSpieler.minispielXPosition + minispielManager.mainMinispielSpieler.bildschirmX;
+                    bildschirmX = minispielXPosition - minispielManager.mainMinispielSpieler.minispielXPosition;
                     bildschirmY = minispielYPosition - minispielManager.mainMinispielSpieler.minispielYPosition + minispielManager.mainMinispielSpieler.bildschirmY;
 
                 }
@@ -122,7 +124,7 @@ public class MinispielSpieler {
 
                 } else {
                     respawn();
-                    bildschirmX = minispielXPosition - minispielManager.mainMinispielSpieler.minispielXPosition + minispielManager.mainMinispielSpieler.bildschirmX;
+                    bildschirmX = minispielXPosition - minispielManager.mainMinispielSpieler.minispielXPosition;
                     bildschirmY = minispielYPosition - minispielManager.mainMinispielSpieler.minispielYPosition + minispielManager.mainMinispielSpieler.bildschirmY;
 
                 }
@@ -149,6 +151,15 @@ public class MinispielSpieler {
         } else if (minispielSpieler.spielfigur instanceof Yousef) {
             minispielXPosition = (int) (8.5 * minispielManager.sp.vergroesserteFliesenGroesse) + 2;
             minispielYPosition = 17 * minispielManager.sp.vergroesserteFliesenGroesse - minispielManager.sp.vergroesserteFliesenGroesse / 3;
+        } if(amSpielen) {
+            SquidGamePosition squidGamePosition = new SquidGamePosition();
+            squidGamePosition.minispielXPosition = minispielXPosition;
+            squidGamePosition.minispielYPosition = minispielYPosition;
+            minispielManager.sp.client.send(squidGamePosition);
+
+            SquidGamePunkte squidGamePunkte = new SquidGamePunkte();
+            squidGamePunkte.punktZahl = punktzahl;
+            minispielManager.sp.client.send(squidGamePunkte);
         }
     }
     public void update() {
@@ -247,27 +258,29 @@ public class MinispielSpieler {
                 }
             }
         } else if (miniSpielIndex == 1) {
-            if (this == minispielManager.mainMinispielSpieler) {
-                if (aktuellePalette == null) {
-                    aktuellerZustand = "stehen";
-                } else if (aktuellePalette.hatFalle) {
-                    aktuellerZustand = "Fallen";
-                    fallenGeschwindigkeit++;
-                    if (fallenGeschwindigkeit > 8) {
-                        if (spielerAktuellesFoto == 1) {
-                            spielerAktuellesFoto = 2;
-                        } else if (spielerAktuellesFoto == 2) {
-                            spielerAktuellesFoto = 3;
-                        } else if (spielerAktuellesFoto == 3) {
-                            spielerAktuellesFoto = 4;
-                        } else if (spielerAktuellesFoto == 4) {
-                            spielerAktuellesFoto = 5;
-                        } else if (spielerAktuellesFoto == 5) {
-                            spielerAktuellesFoto = 6;
-                        } else if (spielerAktuellesFoto == 6) {
-                            spielerAktuellesFoto = 1;
-                            respawn();
-                            aktuellePalette = null;
+
+            if (aktuellePalette == null) {
+                aktuellerZustand = "stehen";
+
+            } else if (aktuellePalette.hatFalle) {
+                aktuellerZustand = "Fallen";
+                fallenGeschwindigkeit++;
+                if (fallenGeschwindigkeit > 8) {
+                    if (spielerAktuellesFoto == 1) {
+                        spielerAktuellesFoto = 2;
+                    } else if (spielerAktuellesFoto == 2) {
+                        spielerAktuellesFoto = 3;
+                    } else if (spielerAktuellesFoto == 3) {
+                        spielerAktuellesFoto = 4;
+                    } else if (spielerAktuellesFoto == 4) {
+                        spielerAktuellesFoto = 5;
+                    } else if (spielerAktuellesFoto == 5) {
+                        spielerAktuellesFoto = 6;
+                    } else if (spielerAktuellesFoto == 6) {
+                        spielerAktuellesFoto = 1;
+                        respawn();
+                        aktuellePalette = null;
+                        if(this == minispielManager.mainMinispielSpieler) {
                             bildschirmY = minispielManager.sp.bildschirmHoehe / 2 + (minispielManager.sp.vergroesserteFliesenGroesse / 2) * 4;
                             for (MinispielSpieler spieler : minispielManager.alleMinispielSpieler) {
                                 if (spieler != null) {
@@ -276,12 +289,13 @@ public class MinispielSpieler {
                                 }
                             }
                         }
-                        fallenGeschwindigkeit = 0;
                     }
+                    fallenGeschwindigkeit = 0;
                 }
             }
         }
     }
+
     public void malen(Graphics2D g2) {
         if (this.miniSpielIndex == 0) {
             BufferedImage image = null;

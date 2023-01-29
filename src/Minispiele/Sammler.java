@@ -80,7 +80,6 @@ public class Sammler extends Minispiel {
                     muenze1 = null;
                     spieler.punktzahl++;
                     SammlerPunkte punkte = new SammlerPunkte();
-                    punkte.clientIndex = sp.client.clientIndex;
                     sp.client.send(punkte);
                     SammlerGegenstaende sammlerGegenstaende = new SammlerGegenstaende();
                     sammlerGegenstaende.elementIndex = 1;
@@ -94,7 +93,6 @@ public class Sammler extends Minispiel {
                     muenze2 = null;
                     spieler.punktzahl++;
                     SammlerPunkte punkte = new SammlerPunkte();
-                    punkte.clientIndex = sp.client.clientIndex;
                     sp.client.send(punkte);
                     SammlerGegenstaende sammlerGegenstaende = new SammlerGegenstaende();
                     sammlerGegenstaende.elementIndex = 2;
@@ -119,7 +117,6 @@ public class Sammler extends Minispiel {
                     spieler.punktzahl += 3;
                     SammlerPunkte punkte = new SammlerPunkte();
                     punkte.diamond = true;
-                    punkte.clientIndex = sp.client.clientIndex;
                     sp.client.send(punkte);
                 }
             }

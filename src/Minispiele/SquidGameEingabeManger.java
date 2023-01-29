@@ -1,5 +1,8 @@
 package Minispiele;
 
+import Networking.Pakete.SquidGamePosition;
+import Networking.Pakete.SquidGamePunkte;
+
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
@@ -31,27 +34,19 @@ public class SquidGameEingabeManger implements KeyListener {
                             if (mainMinispielSpieler.aktuellePalette.paletteNummer >= 8) {
                                 if (mainMinispielSpieler.aktuellePalette.paletteNummer >= 10) {
                                     mainMinispielSpieler.bildschirmY -= minispielManager.sp.vergroesserteFliesenGroesse;
-                                    for (MinispielSpieler spieler : minispielManager.alleMinispielSpieler) {
-                                        if (spieler != null) {
-                                            spieler.bildschirmY += minispielManager.sp.vergroesserteFliesenGroesse;
-                                        }
-                                    }
                                 }
                                 mainMinispielSpieler.bildschirmY -= minispielManager.sp.vergroesserteFliesenGroesse;
-                                for (MinispielSpieler spieler : minispielManager.alleMinispielSpieler) {
-                                    if (spieler != null) {
-                                        spieler.bildschirmY += minispielManager.sp.vergroesserteFliesenGroesse;
-                                    }
-                                }
-                            }
-                        }
-                        for (MinispielSpieler spieler : minispielManager.alleMinispielSpieler) {
-                            if (spieler != null) {
-                                spieler.bildschirmY += 2 * minispielManager.sp.vergroesserteFliesenGroesse;
                             }
                         }
                         mainMinispielSpieler.minispielXPosition = mainMinispielSpieler.aktuellePalette.weltX;
                         mainMinispielSpieler.minispielYPosition = mainMinispielSpieler.aktuellePalette.weltY;
+                        for (MinispielSpieler spieler : minispielManager.alleMinispielSpieler) {
+                            if (spieler != null) {
+                                spieler.bildschirmX = spieler.minispielXPosition - minispielManager.mainMinispielSpieler.minispielXPosition + minispielManager.mainMinispielSpieler.bildschirmX;
+                                spieler.bildschirmY = spieler.minispielYPosition - minispielManager.mainMinispielSpieler.minispielYPosition + minispielManager.mainMinispielSpieler.bildschirmY;
+                            }
+                        }
+
                     } else if (e.getKeyChar() == 'a') {
                         if (mainMinispielSpieler.aktuellePalette == null) {
                             mainMinispielSpieler.aktuellePalette = minispielManager.squidGame.paletten[0];
@@ -65,30 +60,31 @@ public class SquidGameEingabeManger implements KeyListener {
                             }
                             if (mainMinispielSpieler.aktuellePalette.paletteNummer >= 8) {
                                 if (mainMinispielSpieler.aktuellePalette.paletteNummer >= 10) {
-
                                     mainMinispielSpieler.bildschirmY -= minispielManager.sp.vergroesserteFliesenGroesse;
-                                    for (MinispielSpieler spieler : minispielManager.alleMinispielSpieler) {
-                                        if (spieler != null) {
-                                            spieler.bildschirmY += minispielManager.sp.vergroesserteFliesenGroesse;
-                                        }
-                                    }
                                 }
                                 mainMinispielSpieler.bildschirmY -= minispielManager.sp.vergroesserteFliesenGroesse;
-                                for (MinispielSpieler spieler : minispielManager.alleMinispielSpieler) {
-                                    if (spieler != null) {
-                                        spieler.bildschirmY += minispielManager.sp.vergroesserteFliesenGroesse;
-                                    }
-                                }
-                            }
-                        }
-                        for (MinispielSpieler spieler : minispielManager.alleMinispielSpieler) {
-                            if (spieler != null) {
-                                spieler.bildschirmY += 2 * minispielManager.sp.vergroesserteFliesenGroesse;
+
                             }
                         }
                         mainMinispielSpieler.minispielXPosition = mainMinispielSpieler.aktuellePalette.weltX;
                         mainMinispielSpieler.minispielYPosition = mainMinispielSpieler.aktuellePalette.weltY;
+                        for (MinispielSpieler spieler : minispielManager.alleMinispielSpieler) {
+                            if (spieler != null) {
+                                spieler.bildschirmX = spieler.minispielXPosition - minispielManager.mainMinispielSpieler.minispielXPosition + minispielManager.mainMinispielSpieler.bildschirmX;
+                                spieler.bildschirmY = spieler.minispielYPosition - minispielManager.mainMinispielSpieler.minispielYPosition + minispielManager.mainMinispielSpieler.bildschirmY;
+                            }
+                        }
                     }
+                    SquidGamePosition squidGamePosition = new SquidGamePosition();
+                    squidGamePosition.minispielXPosition = mainMinispielSpieler.minispielXPosition;
+                    squidGamePosition.minispielYPosition = mainMinispielSpieler.minispielYPosition;
+                    squidGamePosition.aktuellePalettenNr = mainMinispielSpieler.aktuellePalette.paletteNummer;
+                    minispielManager.sp.client.send(squidGamePosition);
+
+                    SquidGamePunkte squidGamePunkte = new SquidGamePunkte();
+                    squidGamePunkte.punktZahl = mainMinispielSpieler.punktzahl;
+                    minispielManager.sp.client.send(squidGamePunkte);
+
                     tippenErlaubt = false;
                 }
             }

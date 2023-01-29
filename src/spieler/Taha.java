@@ -31,6 +31,11 @@ public class Taha extends Spielfigur{
             left2= ImageIO.read(getClass().getResourceAsStream("/taha/left2.png"));
             left3= ImageIO.read(getClass().getResourceAsStream("/taha/left3.png"));
             profile= ImageIO.read(getClass().getResourceAsStream("/taha/profile.png"));
+            fallen1=ImageIO.read(getClass().getResourceAsStream("/taha/Taha0.png"));
+            fallen2=ImageIO.read(getClass().getResourceAsStream("/taha/Taha1.png"));
+            fallen3=ImageIO.read(getClass().getResourceAsStream("/taha/Taha2.png"));
+            fallen4=ImageIO.read(getClass().getResourceAsStream("/taha/Taha3.png"));
+            fallen5=ImageIO.read(getClass().getResourceAsStream("/taha/Taha4.png"));
         }catch(IOException e) {
             e.printStackTrace();
         }
