@@ -291,9 +291,7 @@ public class MapEingabeManager implements KeyListener {
                 bewegung.feldNum  =  spieler.aktuellFeld.feldNum;
                 spieler.spielablaufManager.sp.client.send(bewegung);
             }
-            round++;
-        } else if(round>1){
-            spielMapManager.spielablaufManager.sp.setzeZustand(spielMapManager.spielablaufManager.sp.minispielZustand);
+
         }
     }
     @Override

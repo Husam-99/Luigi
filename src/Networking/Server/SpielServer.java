@@ -1,10 +1,12 @@
 package Networking.Server;
 
 import Networking.Pakete.Register;
+import Networking.Pakete.Schritte;
 import com.esotericsoftware.kryonet.Connection;
 import com.esotericsoftware.kryonet.Server;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.Random;
 
@@ -13,9 +15,12 @@ public class SpielServer  {
     static int tcp_Port = 54777;
     static int udp_Port = 54555;
     static Server server;
-    static LinkedHashMap<Connection, SpielerAuskuenfte> alleClients = new LinkedHashMap<>();
-    static Generator generator = new Generator();
-    static Random positionGenerator = new Random();
+    static LinkedHashMap<Connection, SpielerAuskuenfte> alleClients;
+    static Generator sternGenerator;
+    static Random generator;
+    static ArrayList<Integer> spielerReihenfolge;
+
+    static ArrayList<Integer> schritteArray;
 
     public static void start(){
 
@@ -26,7 +31,12 @@ public class SpielServer  {
             server.start();
             server.addListener(new ServerListener());
             System.out.println("Server gestartet");
-            generator.sternFeldnummer = positionGenerator.nextInt(1, 36);
+            alleClients = new LinkedHashMap<>();
+            spielerReihenfolge = new ArrayList<>();
+            schritteArray = new ArrayList<>();
+            generator = new Random();
+            sternGenerator = new Generator();
+            sternGenerator.sternFeldnummer = generator.nextInt(1, 36);
         } catch (IOException e) {
             e.printStackTrace();
         }

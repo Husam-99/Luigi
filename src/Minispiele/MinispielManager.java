@@ -9,9 +9,9 @@ import java.util.ArrayList;
 public class MinispielManager {
     SpielPanel sp;
     Graphics2D g2;
-    private int minispielWahl;
+    public int minispielWahl;
     private final int SAMMLER_INDEX = 0;
-    private  final int SQUIDGAME_INDEX=1;
+    private  final int SQUIDGAME_INDEX = 1;
 
     public SquidGame squidGame;
     public SquidGameEingabeManger squidGameEingabeManger;
@@ -51,18 +51,30 @@ public class MinispielManager {
         }
         if(minispielWahl==SAMMLER_INDEX) {
             sammlerEingabeManager = new SammlerEingabeManager(this, mainMinispielSpieler);
+            sp.addKeyListener(sammlerEingabeManager);
             sammler = new Sammler(this.sp, mainMinispielSpieler, alleMinispielSpieler);
         }
 
         else if(minispielWahl==SQUIDGAME_INDEX){
             squidGameEingabeManger = new SquidGameEingabeManger(this, mainMinispielSpieler);
+            sp.addKeyListener(squidGameEingabeManger);
             squidGame = new SquidGame(sp, mainMinispielSpieler, alleMinispielSpieler);
+        }
+    }
+    public void spiegerKueren(){
+        if(minispielWahl == 0){
+            sammler.siegerKueren();
+        } else if(minispielWahl == 1){
+            squidGame.siegerKueren();
+
         }
     }
 
     public void update(){
         if(minispielWahl == SAMMLER_INDEX) {
             sammler.update();
+        } else if(minispielWahl == SQUIDGAME_INDEX){
+            squidGame.update();
         }
 
     }
@@ -90,25 +102,6 @@ public class MinispielManager {
                 sammler.spider3.spiderMalen(g2);
             }
 
-            int width = 25;
-            mainMinispielSpieler.minispielerBoxMalen(g2, width);
-            mainMinispielSpieler.minispielerStatusMalen(g2, width);
-
-            width += 230;
-            int spielerIndex = 0;
-            for(MinispielSpieler spieler: alleMinispielSpieler){
-                if(spieler!= null){
-                    spieler.minispielerBoxMalen(g2, width);
-                    spieler.minispielerStatusMalen(g2, width);
-                    if(spielerIndex == 0){
-                        width = 1205;
-                    } else{
-                        width -= 230;
-                    }
-                    spielerIndex++;
-
-                }
-            }
         }
         else if(minispielWahl == SQUIDGAME_INDEX){
             squidGame.malen(g2);
@@ -117,6 +110,25 @@ public class MinispielManager {
                 if (spieler != null) {
                     spieler.malen(g2);
                 }
+            }
+        }
+        int width = 25;
+        mainMinispielSpieler.minispielerBoxMalen(g2, width);
+        mainMinispielSpieler.minispielerStatusMalen(g2, width);
+
+        width += 230;
+        int spielerIndex = 0;
+        for(MinispielSpieler spieler: alleMinispielSpieler){
+            if(spieler!= null){
+                spieler.minispielerBoxMalen(g2, width);
+                spieler.minispielerStatusMalen(g2, width);
+                if(spielerIndex == 0){
+                    width = 1205;
+                } else{
+                    width -= 230;
+                }
+                spielerIndex++;
+
             }
         }
         zeitBoxmalen(g2);
@@ -141,7 +153,7 @@ public class MinispielManager {
         }
     }
     private void zeitBoxmalen(Graphics2D g2){
-        if(gesamtSekundenAnzahl <= 60) {
+        if(gesamtSekundenAnzahl <= 60 && gesamtSekundenAnzahl >= 0) {
             g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.9f));
             g2.setColor(new Color(20, 9, 54));
             g2.fillRoundRect(620, 5, 200, 90, 25, 25);

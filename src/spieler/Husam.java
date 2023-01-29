@@ -8,7 +8,6 @@ public class Husam extends Spielfigur {
     public Husam(){
         super();
         getSpielFigurBilder();
-
     }
     public Husam(Spieler spieler){
         super(spieler);
@@ -30,6 +29,11 @@ public class Husam extends Spielfigur {
             left2= ImageIO.read(getClass().getResourceAsStream("/husam/left2.png"));
             left3= ImageIO.read(getClass().getResourceAsStream("/husam/left3.png"));
             profile= ImageIO.read(getClass().getResourceAsStream("/husam/profile.png"));
+            fallen1=ImageIO.read(getClass().getResourceAsStream("/husam/Husam1.png"));
+            fallen2=ImageIO.read(getClass().getResourceAsStream("/husam/Husam2.png"));
+            fallen3=ImageIO.read(getClass().getResourceAsStream("/husam/Husam3.png"));
+            fallen4=ImageIO.read(getClass().getResourceAsStream("/husam/Husam4.png"));
+            fallen5=ImageIO.read(getClass().getResourceAsStream("/husam/Husam5.png"));
         }catch(IOException e) {
             e.printStackTrace();
         }

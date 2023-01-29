@@ -1,5 +1,6 @@
 package spieler;
 
+import Networking.Pakete.Bescheid;
 import Networking.Pakete.Schritte;
 
 import java.awt.*;
@@ -26,9 +27,16 @@ public abstract class Wuerfel {
         }else if (spriteNum == 5) {
             spieler.schritteAnzahl = 6;
         }
-        Schritte schritte = new Schritte();
-        schritte.schritteAnzahl = spieler.schritteAnzahl;
-        //spieler.sp.client.send(schritte);
+        if(spieler.spielablaufManager.sp.wurfelzustand){
+            Schritte schritte = new Schritte();
+            schritte.schritteAnzahl = spieler.schritteAnzahl;
+            spieler.spielablaufManager.sp.client.send(schritte);
+            Bescheid bescheid = new Bescheid();
+            bescheid.fertig = true;
+            spieler.spielablaufManager.sp.client.send(bescheid);
+
+
+        }
     }
     public void getWuerfelBilder() {}
     public void update(){

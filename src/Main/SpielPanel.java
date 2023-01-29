@@ -22,7 +22,8 @@ public class SpielPanel extends JPanel implements Runnable{
 
     public JFrame window;
     public int zustand;
-    public final int menueZustand = 0, spielBrettZustand = 1, minispielZustand = 2;
+    public boolean wurfelzustand = false;
+    public final int menueZustand = 0, wuerfelZustand = 1, spielBrettZustand = 2, minispielZustand = 3;
     public final int fliesenGroesse = 32;
     public int skalaMenue = 5,     skala = 3,
             vergroesserteFliesenGroesseMenue = fliesenGroesse * skalaMenue, vergroesserteFliesenGroesse = fliesenGroesse * skala;
@@ -50,6 +51,8 @@ public class SpielPanel extends JPanel implements Runnable{
     public MenueManager menueManager;
     public SpielablaufManager spielablaufManager;
     public MinispielManager minispielManager;
+    public int ausgewaehlteRundenAnzahl;
+    public int aktuelleRundenAnzahl = 0;
 
 
 
@@ -117,23 +120,22 @@ public class SpielPanel extends JPanel implements Runnable{
 
         }
     }
-    public void setzeZustand(int neueZustand){
+    public void setzeZustand(int neueZustand, int minispielIndex){
         if(neueZustand == spielBrettZustand){
             this.setBackground(new Color(39, 105, 195));
             this.removeKeyListener(this.getKeyListeners()[0]);
             this.addKeyListener(spielablaufManager.mapManager.mapEingabeManager);
             this.zustand = spielBrettZustand;
         } else if(neueZustand == minispielZustand){
-            this.minispielManager = new MinispielManager(this, 1);
+            this.minispielManager = new MinispielManager(this, minispielIndex);
             this.removeKeyListener(this.getKeyListeners()[0]);
-            this.addKeyListener(minispielManager.squidGameEingabeManger);
 
             this.zustand = minispielZustand;
             Timer timer = new Timer();
             TimerTask task = new TimerTask() {
                 @Override
                 public void run() {
-                    if(minispielManager.gesamtSekundenAnzahl > 0){
+                    if(minispielManager.gesamtSekundenAnzahl >= 0){
                         minispielManager.gesamtSekundenAnzahl--;
                         if(minispielManager.gesamtSekundenAnzahl == 60){
                             minispielManager.mainMinispielSpieler.amSpielen = true;
@@ -141,10 +143,19 @@ public class SpielPanel extends JPanel implements Runnable{
                         minispielManager.size = 200F;
                         minispielManager.yPosition = 465;
 
-                    } else if(minispielManager.gesamtSekundenAnzahl == 0){
+                    } else if(minispielManager.gesamtSekundenAnzahl > -7){
+                        minispielManager.gesamtSekundenAnzahl--;
+                        minispielManager.spiegerKueren();
+
+                    } else{
                         minispielManager.mainMinispielSpieler.amSpielen = false;
                         timer.cancel();
-                        setzeZustand(spielBrettZustand);
+                        if(aktuelleRundenAnzahl < ausgewaehlteRundenAnzahl){
+                            aktuelleRundenAnzahl++;
+                            setzeZustand(spielBrettZustand, -1);
+                        }else{
+
+                        }
                     }
                 }
             };

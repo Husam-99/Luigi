@@ -9,6 +9,7 @@ import com.esotericsoftware.kryonet.Listener;
 import spieler.Spieler;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 public class SpielClient {
     private boolean istDran = false;
@@ -49,9 +50,13 @@ public class SpielClient {
 
                         }
                         if(zug.zustand == sp.minispielZustand){
-                            sp.setzeZustand(sp.minispielZustand);
+                            sp.setzeZustand(sp.minispielZustand, zug.minispielIndex);
                         } else if(zug.zustand == sp.spielBrettZustand){
-                            sp.setzeZustand(sp.spielBrettZustand);
+                            sp.wurfelzustand = false;
+                            sp.setzeZustand(sp.spielBrettZustand, -1);
+                        } else if(zug.zustand == sp.wuerfelZustand){
+                            sp.wurfelzustand = true;
+                            sp.setzeZustand(sp.spielBrettZustand, -1);
                         }
                         System.out.println("Clinet: dran " + istDran);
                         System.out.println("Client: wartung " + wartung);
@@ -64,7 +69,7 @@ public class SpielClient {
                         anzahlSpieler = anzahl.anzahlVerbundeneClients;
 
                     } else if (object instanceof Rundenzahl rundenzahl) {
-                        sp.menueManager.rundenAnzahl = rundenzahl.anzahlDerRunden;
+                        sp.ausgewaehlteRundenAnzahl = rundenzahl.anzahlDerRunden;
 
                     } else if (object instanceof SpielfigurAuswahl spielfigurAuswahl) {
                         Spieler andererSpieler = new Spieler(sp.spielablaufManager);
@@ -213,41 +218,43 @@ public class SpielClient {
 
                         }
                     } else if(object instanceof SammlerGegenstaende sammlerGegenstaende){
-                        if(sammlerGegenstaende.elementIndex == 1){
-                            SammlerElement muenze1 = new SammlerElement(sp, sammlerGegenstaende.elementX, sammlerGegenstaende.elementY, 1);
-                            sp.minispielManager.sammler.setzeElement(sammlerGegenstaende.elementIndex,  muenze1);
-                            System.out.println("i've got muenze " + sammlerGegenstaende.elementIndex + " " + sammlerGegenstaende.elementX + sammlerGegenstaende.elementY);
+                        if(sp.minispielManager.minispielWahl == 0) {
+                            if (sammlerGegenstaende.elementIndex == 1) {
+                                SammlerElement muenze1 = new SammlerElement(sp, sammlerGegenstaende.elementX, sammlerGegenstaende.elementY, 1);
+                                sp.minispielManager.sammler.setzeElement(sammlerGegenstaende.elementIndex, muenze1);
+                                System.out.println("i've got muenze " + sammlerGegenstaende.elementIndex + " " + sammlerGegenstaende.elementX + sammlerGegenstaende.elementY);
 
-                        } else if(sammlerGegenstaende.elementIndex == 2){
-                            SammlerElement muenze2 = new SammlerElement(sp, sammlerGegenstaende.elementX, sammlerGegenstaende.elementY, 1);
-                            sp.minispielManager.sammler.setzeElement(sammlerGegenstaende.elementIndex,  muenze2);
-                            System.out.println("i've got muenze " + sammlerGegenstaende.elementIndex + " " + sammlerGegenstaende.elementX + sammlerGegenstaende.elementY);
+                            } else if (sammlerGegenstaende.elementIndex == 2) {
+                                SammlerElement muenze2 = new SammlerElement(sp, sammlerGegenstaende.elementX, sammlerGegenstaende.elementY, 1);
+                                sp.minispielManager.sammler.setzeElement(sammlerGegenstaende.elementIndex, muenze2);
+                                System.out.println("i've got muenze " + sammlerGegenstaende.elementIndex + " " + sammlerGegenstaende.elementX + sammlerGegenstaende.elementY);
 
-                        } else if(sammlerGegenstaende.elementIndex == 3){
-                            SammlerElement spider1 = new SammlerElement(sp, sammlerGegenstaende.elementX, sammlerGegenstaende.elementY, 2);
-                            sp.minispielManager.sammler.setzeElement(sammlerGegenstaende.elementIndex,  spider1);
-                            System.out.println("i've got muenze " + sammlerGegenstaende.elementIndex + " " + sammlerGegenstaende.elementX + sammlerGegenstaende.elementY);
+                            } else if (sammlerGegenstaende.elementIndex == 3) {
+                                SammlerElement spider1 = new SammlerElement(sp, sammlerGegenstaende.elementX, sammlerGegenstaende.elementY, 2);
+                                sp.minispielManager.sammler.setzeElement(sammlerGegenstaende.elementIndex, spider1);
+                                System.out.println("i've got muenze " + sammlerGegenstaende.elementIndex + " " + sammlerGegenstaende.elementX + sammlerGegenstaende.elementY);
 
-                        } else if(sammlerGegenstaende.elementIndex == 4){
-                            SammlerElement spider2 = new SammlerElement(sp, sammlerGegenstaende.elementX, sammlerGegenstaende.elementY, 2);
-                            sp.minispielManager.sammler.setzeElement(sammlerGegenstaende.elementIndex,  spider2);
-                            System.out.println("i've got muenze " + sammlerGegenstaende.elementIndex + " " + sammlerGegenstaende.elementX + sammlerGegenstaende.elementY);
+                            } else if (sammlerGegenstaende.elementIndex == 4) {
+                                SammlerElement spider2 = new SammlerElement(sp, sammlerGegenstaende.elementX, sammlerGegenstaende.elementY, 2);
+                                sp.minispielManager.sammler.setzeElement(sammlerGegenstaende.elementIndex, spider2);
+                                System.out.println("i've got muenze " + sammlerGegenstaende.elementIndex + " " + sammlerGegenstaende.elementX + sammlerGegenstaende.elementY);
 
-                        } else if(sammlerGegenstaende.elementIndex == 5){
-                            SammlerElement spider3 = new SammlerElement(sp, sammlerGegenstaende.elementX, sammlerGegenstaende.elementY, 2);
-                            sp.minispielManager.sammler.setzeElement(sammlerGegenstaende.elementIndex,  spider3);
-                            System.out.println("i've got muenze " + sammlerGegenstaende.elementIndex + " " + sammlerGegenstaende.elementX + sammlerGegenstaende.elementY);
+                            } else if (sammlerGegenstaende.elementIndex == 5) {
+                                SammlerElement spider3 = new SammlerElement(sp, sammlerGegenstaende.elementX, sammlerGegenstaende.elementY, 2);
+                                sp.minispielManager.sammler.setzeElement(sammlerGegenstaende.elementIndex, spider3);
+                                System.out.println("i've got muenze " + sammlerGegenstaende.elementIndex + " " + sammlerGegenstaende.elementX + sammlerGegenstaende.elementY);
 
-                        } else if(sammlerGegenstaende.elementIndex == 6){
-                            SammlerElement diamond = new SammlerElement(sp, sammlerGegenstaende.elementX, sammlerGegenstaende.elementY, 3);
-                            sp.minispielManager.sammler.setzeElement(sammlerGegenstaende.elementIndex,  diamond);
-                            System.out.println("i've got muenze " + sammlerGegenstaende.elementIndex + " " + sammlerGegenstaende.elementX + sammlerGegenstaende.elementY);
+                            } else if (sammlerGegenstaende.elementIndex == 6) {
+                                SammlerElement diamond = new SammlerElement(sp, sammlerGegenstaende.elementX, sammlerGegenstaende.elementY, 3);
+                                sp.minispielManager.sammler.setzeElement(sammlerGegenstaende.elementIndex, diamond);
+                                System.out.println("i've got muenze " + sammlerGegenstaende.elementIndex + " " + sammlerGegenstaende.elementX + sammlerGegenstaende.elementY);
 
-                        } else if(sammlerGegenstaende.elementIndex == 7){
-                            SammlerElement mushroom = new SammlerElement(sp, sammlerGegenstaende.elementX, sammlerGegenstaende.elementY, 4);
-                            sp.minispielManager.sammler.setzeElement(sammlerGegenstaende.elementIndex,  mushroom);
-                            System.out.println("i've got muenze " + sammlerGegenstaende.elementIndex + " " + sammlerGegenstaende.elementX + sammlerGegenstaende.elementY);
+                            } else if (sammlerGegenstaende.elementIndex == 7) {
+                                SammlerElement mushroom = new SammlerElement(sp, sammlerGegenstaende.elementX, sammlerGegenstaende.elementY, 4);
+                                sp.minispielManager.sammler.setzeElement(sammlerGegenstaende.elementIndex, mushroom);
+                                System.out.println("i've got muenze " + sammlerGegenstaende.elementIndex + " " + sammlerGegenstaende.elementX + sammlerGegenstaende.elementY);
 
+                            }
                         }
                     } else if(object instanceof SammlerPunkte sammlerPunkte){
                         if(sammlerPunkte.diamond){
@@ -255,9 +262,36 @@ public class SpielClient {
                         } else {
                             sp.minispielManager.alleMinispielSpieler.get(sammlerPunkte.clientIndex).punktzahl++;
                         }
+                    } else if(object instanceof SquidGamePunkte squidGamePunkte){
+                        if(squidGamePunkte.endeErreicht){
+                            sp.minispielManager.alleMinispielSpieler.get(squidGamePunkte.clientIndex).endeErreicht = true;
+                        }
+                        sp.minispielManager.alleMinispielSpieler.get(squidGamePunkte.clientIndex).punktzahl = squidGamePunkte.punktZahl;
+                    } else if(object instanceof SquidGamePosition squidGamePosition){
+                        sp.minispielManager.alleMinispielSpieler.get(squidGamePosition.clientIndex).minispielXPosition = squidGamePosition.minispielXPosition;
+                        sp.minispielManager.alleMinispielSpieler.get(squidGamePosition.clientIndex).minispielYPosition = squidGamePosition.minispielYPosition;
+                        sp.minispielManager.alleMinispielSpieler.get(squidGamePosition.clientIndex).bildschirmX = sp.minispielManager.alleMinispielSpieler.get(squidGamePosition.clientIndex).minispielXPosition - sp.minispielManager.mainMinispielSpieler.minispielXPosition + sp.minispielManager.mainMinispielSpieler.bildschirmX;
+                        sp.minispielManager.alleMinispielSpieler.get(squidGamePosition.clientIndex).bildschirmY = sp.minispielManager.alleMinispielSpieler.get(squidGamePosition.clientIndex).minispielYPosition - sp.minispielManager.mainMinispielSpieler.minispielYPosition + sp.minispielManager.mainMinispielSpieler.bildschirmY;
+                        if(squidGamePosition.aktuellePalettenNr != -1){
+                            sp.minispielManager.alleMinispielSpieler.get(squidGamePosition.clientIndex).aktuellePalette = sp.minispielManager.squidGame.paletten[squidGamePosition.aktuellePalettenNr];
+
+                        }
+
+                    } else if(object instanceof PalettenFalle palettenFalle){
+                        ArrayList<Boolean> allePalletenFalle = new ArrayList<>();
+                        allePalletenFalle.add(palettenFalle.pallete0);
+                        allePalletenFalle.add(palettenFalle.pallete2);
+                        allePalletenFalle.add(palettenFalle.pallete4);
+                        allePalletenFalle.add(palettenFalle.pallete6);
+                        allePalletenFalle.add(palettenFalle.pallete8);
+                        allePalletenFalle.add(palettenFalle.pallete10);
+                        allePalletenFalle.add(palettenFalle.pallete12);
+                        sp.minispielManager.squidGame.falleFestlegen(allePalletenFalle);
+                    } else if(object instanceof Blocken){
+                        Bescheid bescheid = new Bescheid();
+                        bescheid.fertig = true;
+                        send(bescheid);
                     }
-
-
                 }
             });
             System.out.println("ich bin der Client und bin am Start");
@@ -310,7 +344,14 @@ public class SpielClient {
         } else if(object instanceof SammlerGegenstaende sammlerGegenstaende){
             client.sendTCP(sammlerGegenstaende);
         } else if(object instanceof SammlerPunkte sammlerPunkte){
+            sammlerPunkte.clientIndex = clientIndex;
             client.sendTCP(sammlerPunkte);
+        } else if(object instanceof SquidGamePunkte squidGamePunkte){
+            squidGamePunkte.clientIndex = clientIndex;
+            client.sendTCP(squidGamePunkte);
+        } else if(object instanceof SquidGamePosition squidGamePosition){
+            squidGamePosition.clientIndex = clientIndex;
+            client.sendTCP(squidGamePosition);
         }
 
 
