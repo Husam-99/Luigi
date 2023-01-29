@@ -11,7 +11,7 @@ public class MinispielManager {
     Graphics2D g2;
     public int minispielWahl;
     private final int SAMMLER_INDEX = 0;
-    private  final int SQUIDGAME_INDEX=1;
+    private  final int SQUIDGAME_INDEX = 1;
 
     public SquidGame squidGame;
     public SquidGameEingabeManger squidGameEingabeManger;
@@ -59,6 +59,14 @@ public class MinispielManager {
             squidGameEingabeManger = new SquidGameEingabeManger(this, mainMinispielSpieler);
             sp.addKeyListener(squidGameEingabeManger);
             squidGame = new SquidGame(sp, mainMinispielSpieler, alleMinispielSpieler);
+        }
+    }
+    public void spiegerKueren(){
+        if(minispielWahl == 0){
+            sammler.siegerKueren();
+        } else if(minispielWahl == 1){
+            squidGame.siegerKueren();
+
         }
     }
 
@@ -145,7 +153,7 @@ public class MinispielManager {
         }
     }
     private void zeitBoxmalen(Graphics2D g2){
-        if(gesamtSekundenAnzahl <= 60) {
+        if(gesamtSekundenAnzahl <= 60 && gesamtSekundenAnzahl >= 0) {
             g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.9f));
             g2.setColor(new Color(20, 9, 54));
             g2.fillRoundRect(620, 5, 200, 90, 25, 25);

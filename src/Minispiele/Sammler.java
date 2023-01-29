@@ -210,6 +210,8 @@ public class Sammler extends Minispiel {
     @Override
     public void siegerKueren() {
 
+
+
     }
 
     @Override

@@ -102,7 +102,7 @@ public class ServerListener extends Listener {
             TimerTask minispielTask = new TimerTask() {
                 @Override
                 public void run() {
-                    if(minispielDauer > 0){
+                    if(minispielDauer >= 0){
                         minispielDauer--;
                         if(zug.minispielIndex == 0) {
                             if (minispielDauer == 60) {
@@ -154,6 +154,9 @@ public class ServerListener extends Listener {
 
                             }
                         }
+                    } else if(minispielDauer > -7){
+                        minispielDauer--;
+
                     } else {
                         timer.cancel();
                         minispielDauer = 64;
@@ -278,7 +281,7 @@ public class ServerListener extends Listener {
                 server.sendToTCP(server.getConnections()[index].getID(), zug);
                 alleClients.remove(server.getConnections()[index]);
                 server.getConnections()[index].close();
-                naechsterClient = alleClients.size() - 2;
+                //naechsterClient = alleClients.size() - 2;
 
                 System.out.println("Server: Verbindung ist untersagt, da die Anzahl der Spieler ueberschritten wird.");
             }
