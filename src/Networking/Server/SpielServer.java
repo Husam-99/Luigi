@@ -6,6 +6,7 @@ import com.esotericsoftware.kryonet.Connection;
 import com.esotericsoftware.kryonet.Server;
 
 import java.io.IOException;
+import java.net.InetAddress;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.Random;
@@ -25,6 +26,9 @@ public class SpielServer  {
     public static void start(){
 
         try {
+            InetAddress localHost = InetAddress.getLocalHost();
+            String hostAddress = localHost.getHostAddress();
+            System.out.println("Server IP address: " + hostAddress);
             server = new Server();
             Register.register(server.getKryo());
             server.bind(tcp_Port, udp_Port);

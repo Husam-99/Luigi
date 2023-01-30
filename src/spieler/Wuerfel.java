@@ -28,12 +28,12 @@ public abstract class Wuerfel {
             spieler.schritteAnzahl = 6;
         }
         if(spieler.spielablaufManager.sp.wurfelzustand){
-            Schritte schritte = new Schritte();
-            schritte.schritteAnzahl = spieler.schritteAnzahl;
-            spieler.spielablaufManager.sp.client.send(schritte);
             Bescheid bescheid = new Bescheid();
             bescheid.fertig = true;
             spieler.spielablaufManager.sp.client.send(bescheid);
+            Schritte schritte = new Schritte();
+            schritte.schritteAnzahl = spieler.schritteAnzahl;
+            spieler.spielablaufManager.sp.client.send(schritte);
 
 
         }

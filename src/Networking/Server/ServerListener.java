@@ -201,7 +201,7 @@ public class ServerListener extends Listener {
 
                 server.sendToTCP(connection.getID(), zug);
                 System.out.println("nächste client " + naechsterClient);
-
+                System.out.println("ich habe bescheid bekommen");
                 if(spielZustand != zustand.WUERFEL_ZUSTAND){
                     if (connection == server.getConnections()[spielerReihenfolge.get(spielerReihenfolge.size() - 1)]) {
                         if (spielZustand == zustand.MENUE_ZUSTAND) {
@@ -212,6 +212,7 @@ public class ServerListener extends Listener {
                             spielZustand = zustand.WUERFEL_ZUSTAND;
 
                         } else if (spielZustand == zustand.SPIELBRETT_ZUSTAND) {
+                            System.out.println("ich bin hier");
                             zustandWechsel();
                             anzahlDerRunden--;
                         }
@@ -222,6 +223,7 @@ public class ServerListener extends Listener {
                         server.sendToTCP(server.getConnections()[naechsterClient].getID(), zug);
                         if (spielerReihenfolge.indexOf(naechsterClient) < spielerReihenfolge.size() - 1) {
                             naechsterClient = spielerReihenfolge.get(spielerReihenfolge.indexOf(naechsterClient) + 1);
+                            System.out.println("the next " + naechsterClient);
                         } else {
                             naechsterClient = spielerReihenfolge.get(0);
                         }
@@ -256,14 +258,22 @@ public class ServerListener extends Listener {
                         }
                     }
                     if (schritteArray.size() == 0) {
-                        naechsterClient = spielerReihenfolge.get(0);
+                        System.out.println("i am also here");
                         ClientsZug zug = new ClientsZug();
                         zug.zustand = 2;
                         zug.istDran = false;
                         server.sendToAllTCP(zug);
+                        naechsterClient = spielerReihenfolge.get(0);
+                        System.out.println("naechster Spieler " + naechsterClient);
                         alleClients.get(server.getConnections()[naechsterClient]).istDran = true;
                         zug.istDran = true;
                         server.sendToTCP(server.getConnections()[naechsterClient].getID(), zug);
+                        if (spielerReihenfolge.indexOf(naechsterClient) < spielerReihenfolge.size() - 1) {
+                            naechsterClient = spielerReihenfolge.get(spielerReihenfolge.indexOf(naechsterClient) + 1);
+                            System.out.println("the next " + naechsterClient);
+                        } else {
+                            naechsterClient = spielerReihenfolge.get(0);
+                        }
                         spielZustand = zustand.SPIELBRETT_ZUSTAND;
                     }
                     System.out.println(spielerReihenfolge);
