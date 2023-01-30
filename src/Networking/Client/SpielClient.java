@@ -1,5 +1,4 @@
 package Networking.Client;
-
 import Main.SpielPanel;
 import Minispiele.SammlerElement;
 import Networking.Pakete.*;

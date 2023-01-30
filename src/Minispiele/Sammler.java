@@ -4,6 +4,10 @@ import Main.SpielPanel;
 import Networking.Pakete.SammlerGegenstaende;
 import Networking.Pakete.SammlerPunkte;
 import Spielablauf.Fliese;
+import spieler.Abdo;
+import spieler.Husam;
+import spieler.Taha;
+import spieler.Yousef;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
@@ -209,7 +213,24 @@ public class Sammler extends Minispiel {
 
     @Override
     public void siegerFestlegen() {
+        if(mainMinispielSpieler.minispielSpieler.spielfigur instanceof Abdo) {
+            alleMinispielSpieler.set(0,mainMinispielSpieler);
+        }
+        else if(mainMinispielSpieler.minispielSpieler.spielfigur  instanceof Husam) {
+            alleMinispielSpieler.set(1,mainMinispielSpieler);
+        }
+        else if(mainMinispielSpieler.minispielSpieler.spielfigur  instanceof Taha) {
+            alleMinispielSpieler.set(2,mainMinispielSpieler);
+        }
+        else if(mainMinispielSpieler.minispielSpieler.spielfigur  instanceof Yousef) {
+            alleMinispielSpieler.set(3,mainMinispielSpieler);
+        }
+        alleMinispielSpieler.removeIf(Objects::isNull);
+        alleMinispielSpieler.sort((miniSpieler1, miniSpieler2) -> Integer.compare(miniSpieler2.punktzahl, miniSpieler1.punktzahl));
 
+        for(MinispielSpieler print : alleMinispielSpieler){
+            System.out.println(alleMinispielSpieler.indexOf(print)+" "+print.punktzahl);
+        }
     }
 
     @Override

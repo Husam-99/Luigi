@@ -22,7 +22,7 @@ public class SquidGame extends Minispiel {
 
     BufferedImage falle1, falle2, falle3, falle4;
 
-    SquidGame(SpielPanel sp, MinispielSpieler mainMinispielSpieler, ArrayList<MinispielSpieler> alleMinispielSpieler) {
+    SquidGame(SpielPanel sp, MinispielSpieler mainMinispielSpieler, ArrayList<MinispielSpieler>alleMinispielSpieler) {
         super(sp, mainMinispielSpieler, alleMinispielSpieler);
         minispielFliesen = new BufferedImage[20][20];
         paletten = new Palette[14];
@@ -107,12 +107,28 @@ public class SquidGame extends Minispiel {
     }
     @Override
     public void siegerFestlegen() {
+        if(mainMinispielSpieler.minispielSpieler.spielfigur instanceof Abdo) {
+            alleMinispielSpieler.set(0,mainMinispielSpieler);
+        }
+        else if(mainMinispielSpieler.minispielSpieler.spielfigur  instanceof Husam) {
+            alleMinispielSpieler.set(1,mainMinispielSpieler);
+        }
+        else if(mainMinispielSpieler.minispielSpieler.spielfigur  instanceof Taha) {
+            alleMinispielSpieler.set(2,mainMinispielSpieler);
+        }
+        else if(mainMinispielSpieler.minispielSpieler.spielfigur  instanceof Yousef) {
+            alleMinispielSpieler.set(3,mainMinispielSpieler);
+        }
 
+        alleMinispielSpieler.removeIf(Objects::isNull);
+        alleMinispielSpieler.sort((miniSpieler1, miniSpieler2) -> Integer.compare(miniSpieler2.punktzahl, miniSpieler1.punktzahl));
+
+        for(MinispielSpieler print : alleMinispielSpieler){
+            System.out.println(alleMinispielSpieler.indexOf(print)+" "+print.punktzahl);
+        }
     }
-
     @Override
     public void siegerKuerenMalen(Graphics2D g2) {
-
 
     }
 
@@ -135,7 +151,6 @@ public class SquidGame extends Minispiel {
             if (spieler != null) {
                 spieler.bildschirmX = spieler.minispielXPosition - mainMinispielSpieler.minispielXPosition + mainMinispielSpieler.bildschirmX;
                 spieler.bildschirmY = spieler.minispielYPosition - mainMinispielSpieler.minispielYPosition + mainMinispielSpieler.bildschirmY;
-
             }
         }
         mainMinispielSpieler.endeErreicht = true;

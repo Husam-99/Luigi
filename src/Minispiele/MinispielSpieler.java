@@ -212,7 +212,6 @@ public class MinispielSpieler {
 
                     richtung = "left";
                     if (this == minispielManager.mainMinispielSpieler) {
-
                         if (!this.minispielSpielerRechteck.intersects(minispielManager.sammler.wandRechteck[2])) {
                             minispielXPosition -= geschwindigkeit;
                             minispielSpielerRechteck.x -= geschwindigkeit;
@@ -367,8 +366,12 @@ public class MinispielSpieler {
                         g2.drawImage(null, minispielXPosition, bildschirmY, minispielManager.sp.vergroesserteFliesenGroesse, minispielManager.sp.vergroesserteFliesenGroesse, null);
                     }
                 } else {
-                    aktuellerZustand = "stehen";
-                    g2.drawImage(minispielSpieler.spielfigur.down1, minispielXPosition, bildschirmY, minispielManager.sp.vergroesserteFliesenGroesse, minispielManager.sp.vergroesserteFliesenGroesse, null);
+                    if (aktuellePalette!=null&&aktuellerZustand.equals("gewonnen")) {
+                        g2.drawImage(minispielSpieler.spielfigur.down1, minispielXPosition, bildschirmY, minispielManager.sp.vergroesserteFliesenGroesse, minispielManager.sp.vergroesserteFliesenGroesse, null);
+                    } else {
+                        aktuellerZustand = "stehen";
+                        g2.drawImage(minispielSpieler.spielfigur.down1, minispielXPosition, bildschirmY, minispielManager.sp.vergroesserteFliesenGroesse, minispielManager.sp.vergroesserteFliesenGroesse, null);
+                    }
                 }
             }
 

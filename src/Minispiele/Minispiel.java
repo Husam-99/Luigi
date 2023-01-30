@@ -10,6 +10,7 @@ public abstract class Minispiel {
     SpielPanel sp;
     Fliese[] minispielFliesen;
     int[][] minispielMap;
+
     MinispielSpieler mainMinispielSpieler;
     ArrayList<MinispielSpieler> alleMinispielSpieler;
 

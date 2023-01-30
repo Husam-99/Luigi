@@ -18,7 +18,6 @@ public class MinispielManager {
     public Sammler sammler;
     public MinispielSpieler mainMinispielSpieler;
     public ArrayList<MinispielSpieler> alleMinispielSpieler;
-
     public SammlerEingabeManager sammlerEingabeManager;
 
     public int gesamtSekundenAnzahl = 64;
@@ -26,6 +25,8 @@ public class MinispielManager {
     int xPosition;
     public int yPosition = 432;
     String go = "GO";
+
+    public MinispielManager(){};
     public MinispielManager(SpielPanel sp, int minispielIndex) {
         this.sp = sp;
         alleMinispielSpieler = new ArrayList<>();
@@ -81,8 +82,6 @@ public class MinispielManager {
         this.g2 = g2;
 
         g2.setFont(sp.marioPartyFont);
-
-
         if(minispielWahl == SAMMLER_INDEX){
             sammler.malen(g2);
             mainMinispielSpieler.malen(g2);

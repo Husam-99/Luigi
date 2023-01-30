@@ -153,6 +153,7 @@ public class SpielPanel extends JPanel implements Runnable{
                     }
                     else if(minispielManager.gesamtSekundenAnzahl > -7){
                         minispielManager.gesamtSekundenAnzahl--;
+                        minispielManager.mainMinispielSpieler.amSpielen = false;
 
                     } else{
                         minispielManager.mainMinispielSpieler.amSpielen = false;
