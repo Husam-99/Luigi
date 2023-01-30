@@ -99,7 +99,7 @@ public class MenueEingabeManager implements KeyListener {
         }else if(code == KeyEvent.VK_ESCAPE){
             mn.menueZustand = mn.hauptmenueZustand2;
             mn.hauptmenue.enterZustand = 1;
-            mn.hauptmenue.befehlNum2 = -1;
+            mn.hauptmenue.befehlNum2 = 0;
         }
     }
     public void hauptmenueZustand2Host(int code){

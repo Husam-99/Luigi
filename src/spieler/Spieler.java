@@ -13,7 +13,7 @@ public class Spieler {
     public int bildschirmX, bildschirmY;
     public int weltX, weltY;
     public int schritteAnzahl, geschwindigkeit, position;
-    public Feld aktuellesFeld,vorherigesFeld; //tempFeld ist zu prüfen, ob das nächste Feld nicht gleich wie das vorherige Feld ist
+    public Feld aktuellesFeld,vorherigesFeld;
     public Konto konto;
     public Inventar inventar;
     public boolean amSpiel = true, bewegung = false, wuerfelZustand = true, inventarZustand = false,

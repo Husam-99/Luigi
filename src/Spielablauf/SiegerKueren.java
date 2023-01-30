@@ -248,16 +248,16 @@ public class SiegerKueren {
                         String positionString = Integer.toString(spieler.position);
                         g2.drawString(positionString, ziel2X + 90, 700);
                         if (spieler.position == 1) {
-                            g2.drawString("st", ziel1X + 145, 700);
-                            g2.drawImage(goldeneKrone, spieler1X, spielerY - 120, sp.fliesenGroesse * 10, sp.fliesenGroesse * 10,null);
+                            g2.drawString("st", ziel2X + 145, 700);
+                            g2.drawImage(goldeneKrone, spieler2X, spielerY - 120, sp.fliesenGroesse * 10, sp.fliesenGroesse * 10,null);
                         } else if (spieler.position == 2) {
-                            g2.drawString("nd", ziel1X + 150, 700);
-                            g2.drawImage(silberneKrone, spieler1X, spielerY - 120, sp.fliesenGroesse * 10, sp.fliesenGroesse * 10,null);
+                            g2.drawString("nd", ziel2X + 150, 700);
+                            g2.drawImage(silberneKrone, spieler2X, spielerY - 120, sp.fliesenGroesse * 10, sp.fliesenGroesse * 10,null);
                         } else if (spieler.position == 3) {
-                            g2.drawString("rd", ziel1X + 150, 700);
-                            g2.drawImage(bronzeneKrone, spieler1X, spielerY - 120, sp.fliesenGroesse * 10, sp.fliesenGroesse * 10,null);
+                            g2.drawString("rd", ziel2X + 150, 700);
+                            g2.drawImage(bronzeneKrone, spieler2X, spielerY - 120, sp.fliesenGroesse * 10, sp.fliesenGroesse * 10,null);
                         } else if (spieler.position == 4) {
-                            g2.drawString("th", ziel1X + 150, 700);
+                            g2.drawString("th", ziel2X + 150, 700);
                         }
                     }
                 }
@@ -281,16 +281,16 @@ public class SiegerKueren {
                         String positionString = Integer.toString(spieler.position);
                         g2.drawString(positionString, ziel3X + 90, 700);
                         if (spieler.position == 1) {
-                            g2.drawString("st", ziel1X + 145, 700);
-                            g2.drawImage(goldeneKrone, spieler1X, spielerY - 120, sp.fliesenGroesse * 10, sp.fliesenGroesse * 10,null);
+                            g2.drawString("st", ziel3X + 145, 700);
+                            g2.drawImage(goldeneKrone, spieler3X, spielerY - 120, sp.fliesenGroesse * 10, sp.fliesenGroesse * 10,null);
                         } else if (spieler.position == 2) {
-                            g2.drawString("nd", ziel1X + 150, 700);
-                            g2.drawImage(silberneKrone, spieler1X, spielerY - 120, sp.fliesenGroesse * 10, sp.fliesenGroesse * 10,null);
+                            g2.drawString("nd", ziel3X + 150, 700);
+                            g2.drawImage(silberneKrone, spieler3X, spielerY - 120, sp.fliesenGroesse * 10, sp.fliesenGroesse * 10,null);
                         } else if (spieler.position == 3) {
-                            g2.drawString("rd", ziel1X + 150, 700);
-                            g2.drawImage(bronzeneKrone, spieler1X, spielerY - 120, sp.fliesenGroesse * 10, sp.fliesenGroesse * 10,null);
+                            g2.drawString("rd", ziel3X + 150, 700);
+                            g2.drawImage(bronzeneKrone, spieler3X, spielerY - 120, sp.fliesenGroesse * 10, sp.fliesenGroesse * 10,null);
                         } else if (spieler.position == 4) {
-                            g2.drawString("th", ziel1X + 150, 700);
+                            g2.drawString("th", ziel3X + 150, 700);
                         }
                     }
                 }
@@ -314,16 +314,16 @@ public class SiegerKueren {
                         String positionString = Integer.toString(spieler.position);
                         g2.drawString(positionString, ziel4X + 90, 700);
                         if (spieler.position == 1) {
-                            g2.drawString("st", ziel1X + 145, 700);
-                            g2.drawImage(goldeneKrone, spieler1X, spielerY - 120, sp.fliesenGroesse * 10, sp.fliesenGroesse * 10,null);
+                            g2.drawString("st", ziel4X + 145, 700);
+                            g2.drawImage(goldeneKrone, spieler4X, spielerY - 120, sp.fliesenGroesse * 10, sp.fliesenGroesse * 10,null);
                         } else if (spieler.position == 2) {
-                            g2.drawString("nd", ziel1X + 150, 700);
-                            g2.drawImage(silberneKrone, spieler1X, spielerY - 120, sp.fliesenGroesse * 10, sp.fliesenGroesse * 10,null);
+                            g2.drawString("nd", ziel4X + 150, 700);
+                            g2.drawImage(silberneKrone, spieler4X, spielerY - 120, sp.fliesenGroesse * 10, sp.fliesenGroesse * 10,null);
                         } else if (spieler.position == 3) {
-                            g2.drawString("rd", ziel1X + 150, 700);
-                            g2.drawImage(bronzeneKrone, spieler1X, spielerY - 120, sp.fliesenGroesse * 10, sp.fliesenGroesse * 10,null);
+                            g2.drawString("rd", ziel4X + 150, 700);
+                            g2.drawImage(bronzeneKrone, spieler4X, spielerY - 120, sp.fliesenGroesse * 10, sp.fliesenGroesse * 10,null);
                         } else if (spieler.position == 4) {
-                            g2.drawString("th", ziel1X + 150, 700);
+                            g2.drawString("th", ziel4X + 150, 700);
                         }
                     }
                 }

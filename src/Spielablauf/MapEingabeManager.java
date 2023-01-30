@@ -20,7 +20,12 @@ public class MapEingabeManager implements KeyListener {
     public void keyPressed(KeyEvent e) {
         spieler = this.spielMapManager.spielablaufManager.mainSpieler;
         int code = e.getKeyCode();
-        if(spielMapManager.spielablaufManager.sp.client.istDran()) {
+        //Speziell fall für erste Runde
+        if(spielMapManager.spielablaufManager.sp.client.istDran() && spielMapManager.spielablaufManager.sp.aktuelleRundenAnzahl == 0){
+            if (code == KeyEvent.VK_SPACE) {
+                spaceGedrueckt = true;
+            }
+        }else if(spielMapManager.spielablaufManager.sp.client.istDran()) {
             if(iGedrueckt){
                 if(code == KeyEvent.VK_ENTER){
                     if(spieler.inventar.befehlNum == 0){
@@ -408,7 +413,12 @@ public class MapEingabeManager implements KeyListener {
     public void keyReleased(KeyEvent e) {
         spieler = this.spielMapManager.spielablaufManager.mainSpieler;
         int code = e.getKeyCode();
-        if(spielMapManager.spielablaufManager.sp.client.istDran()) {
+        if(spielMapManager.spielablaufManager.sp.client.istDran() && spielMapManager.spielablaufManager.sp.aktuelleRundenAnzahl == 0){
+            if (code == KeyEvent.VK_SPACE) {
+                spaceGedrueckt = false;
+                spieler.wuerfel.schritteAnzahlBestimmen();
+            }
+        }else if(spielMapManager.spielablaufManager.sp.client.istDran()) {
             if (!spieler.bewegung && !iGedrueckt) {
                 if(spieler.wuerfelZustand) {
                     if (code == KeyEvent.VK_SPACE) {
