@@ -208,9 +208,12 @@ public class Sammler extends Minispiel {
     }
 
     @Override
-    public void siegerKueren() {
+    public void siegerFestlegen() {
 
+    }
 
+    @Override
+    public void siegerKuerenMalen(Graphics2D g2) {
 
     }
 

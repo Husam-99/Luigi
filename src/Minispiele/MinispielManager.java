@@ -61,12 +61,11 @@ public class MinispielManager {
             squidGame = new SquidGame(sp, mainMinispielSpieler, alleMinispielSpieler);
         }
     }
-    public void spiegerKueren(){
+    public void siegerFestlegen(){
         if(minispielWahl == 0){
-            sammler.siegerKueren();
+            sammler.siegerFestlegen();
         } else if(minispielWahl == 1){
-            squidGame.siegerKueren();
-
+            squidGame.siegerFestlegen();
         }
     }
 
@@ -150,6 +149,12 @@ public class MinispielManager {
             yPosition += 15;
             g2.drawString(go, xPosition, yPosition);
             size += 50F;
+        } if(gesamtSekundenAnzahl < 0){
+            if(minispielWahl == SAMMLER_INDEX){
+                sammler.siegerKuerenMalen(g2);
+            } else if(minispielWahl == SQUIDGAME_INDEX){
+                squidGame.siegerKuerenMalen(g2);
+            }
         }
     }
     private void zeitBoxmalen(Graphics2D g2){

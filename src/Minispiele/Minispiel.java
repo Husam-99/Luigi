@@ -22,7 +22,10 @@ public abstract class Minispiel {
 
     }
     public abstract void mapLaden();
-    public abstract void siegerKueren();
+
+    public abstract void siegerFestlegen();
+
+    public abstract void siegerKuerenMalen(Graphics2D g2);
 
     public abstract void malen(Graphics2D g2);
 

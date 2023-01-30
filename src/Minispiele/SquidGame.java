@@ -15,7 +15,6 @@ import java.awt.image.BufferedImage;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.Objects;
-import java.util.Random;
 
 public class SquidGame extends Minispiel {
     public Palette[] paletten;
@@ -107,7 +106,13 @@ public class SquidGame extends Minispiel {
         }
     }
     @Override
-    public void siegerKueren() {
+    public void siegerFestlegen() {
+
+    }
+
+    @Override
+    public void siegerKuerenMalen(Graphics2D g2) {
+
 
     }
 
