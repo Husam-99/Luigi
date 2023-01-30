@@ -2,7 +2,10 @@ package spieler;
 
 import Networking.Pakete.GegenstandInfo;
 
+import javax.imageio.ImageIO;
 import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
 
 public class Inventar {
 
@@ -11,9 +14,17 @@ public class Inventar {
     private int slot1Messungen,  slot2Messungen, slot3Messungen,  slot4Messungen;
     public Gegenstand[] inventar;
     public int befehlNum = 0, gegenstaendeAnzahl;
+    public BufferedImage icon;
+    public Boolean inventarLeer = true, inventarVoll = false;
     public Inventar(Spieler spieler){
         this.spieler = spieler;
         inventar = new Gegenstand[4];
+        // Inventar Icon
+        try {
+            icon = ImageIO.read(getClass().getResourceAsStream("/gegenstaende/Inventar.png"));
+        }catch(IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public void gegenstandBekommen(int gegenstandNum){
@@ -78,14 +89,15 @@ public class Inventar {
                 inventar[3] = new SternTaxi(spieler);
             }
         }
+        anzahlGegenstaendeInInventar();
         if(spieler.spielablaufManager.sp.client.istDran()){
             GegenstandInfo gegenstandInfo = new GegenstandInfo();
             gegenstandInfo.gegenstandNum = gegenstandNum;
             spieler.spielablaufManager.sp.client.send(gegenstandInfo);
         }
     }
-    public void gegenstandVerwenden(int befehlNum){
 
+    public void gegenstandVerwenden(int befehlNum){
         if(spieler.spielablaufManager.sp.client.istDran()){
             inventar[befehlNum].effeckteAnwenden();
             GegenstandInfo gegenstandInfo = new GegenstandInfo();
@@ -93,6 +105,7 @@ public class Inventar {
             spieler.spielablaufManager.sp.client.send(gegenstandInfo);
         }
         inventar[befehlNum] = null;
+        anzahlGegenstaendeInInventar();
     }
     public void anzahlGegenstaendeInInventar(){
         gegenstaendeAnzahl = 0;
@@ -100,6 +113,16 @@ public class Inventar {
             if (inventar[slot] != null) {
                 gegenstaendeAnzahl++;
             }
+        }
+        if(gegenstaendeAnzahl > 0){
+            inventarLeer = false;
+        }else{
+            inventarLeer = true;
+        }
+        if(gegenstaendeAnzahl == 4){
+            inventarVoll = true;
+        }else{
+            inventarVoll = false;
         }
     }
     public void malen(Graphics2D g2){
@@ -159,5 +182,19 @@ public class Inventar {
         if (inventar[3] != null) {
             g2.drawImage(inventar[3].icon, 1200, 170, slot4Messungen, slot4Messungen, null);
         }
+    }
+
+    public void inventarVollRueckMeldungMalen(Graphics2D g2) {
+        Color c = new Color(0, 0, 0, 100);
+        g2.setColor(c);
+        g2.fillRect(0, 0, 1440, 864);
+        g2.setColor(Color.black);
+        g2.fillRoundRect(348, 350, 750, 100, 35, 35);
+        g2.setColor(Color.white);
+        g2.setStroke(new BasicStroke(5));
+        g2.drawRoundRect(353, 355, 740, 90, 25, 25);
+        g2.setColor(Color.yellow);
+        g2.setFont(g2.getFont().deriveFont(Font.BOLD, 70F));
+        g2.drawString("Inventar ist voll!", 425, 420);
     }
 }

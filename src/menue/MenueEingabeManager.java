@@ -8,12 +8,10 @@ import Networking.Pakete.SpielfigurAuswahl;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.ArrayList;
-import java.util.List;
 
 public class MenueEingabeManager implements KeyListener {
 
     MenueManager mn;
-    public int spielfigurMenueIndex = -1;
     public ArrayList<Integer> ausgewaehlteSpielfiguren;
     public MenueEingabeManager(MenueManager mn){
         this.mn = mn;
@@ -28,21 +26,21 @@ public class MenueEingabeManager implements KeyListener {
     @Override
     public void keyPressed(KeyEvent e) {
         int code = e.getKeyCode();
-        if(mn.sp.client.isIstHost()){
-            if(mn.menueZustand == mn.hauptmenueZustand1) {
-                hauptmenueZustand1Host(code);
-            } else if(mn.menueZustand == mn.hauptmenueZustand2) {
-                hauptmenueZustand2Host(code);
-            } else if(mn.menueZustand == mn.spielfigurAuswaehlenZustand){
-                spielfigureAuswaehlenZustandHost(code);
-            }
-        }else{
-            if(mn.menueZustand == mn.hauptmenueZustand1) {
-                hauptmenueZustand1Client(code);
-            } else if(mn.menueZustand == mn.hauptmenueZustand2) {
-                hauptmenueZustand2Client(code);
-            } else if(mn.menueZustand == mn.spielfigurAuswaehlenZustand){
-                spielfigureAuswaehlenZustandClient(code);
+        if(mn.sp.client.istDran()) {
+            if (mn.sp.client.isIstHost()) {
+                if (mn.menueZustand == mn.hauptmenueZustand1) {
+                    hauptmenueZustand1Host(code);
+                } else if (mn.menueZustand == mn.hauptmenueZustand2) {
+                    hauptmenueZustand2Host(code);
+                } else if (mn.menueZustand == mn.spielfigurAuswaehlenZustand) {
+                    spielfigureAuswaehlenZustandHost(code);
+                }
+            }else{
+                if (mn.menueZustand == mn.hauptmenueZustand1) {
+                    hauptmenueZustand1Client(code);
+                }else if (mn.menueZustand == mn.spielfigurAuswaehlenZustand) {
+                    spielfigureAuswaehlenZustandClient(code);
+                }
             }
         }
     }
@@ -53,14 +51,12 @@ public class MenueEingabeManager implements KeyListener {
             if (mn.spielfigurAuswaehlen.befehlNum1 < 0) {
                 mn.spielfigurAuswaehlen.befehlNum1 = 3;
             }
-        }
-        if (code == KeyEvent.VK_S) {
+        }else if (code == KeyEvent.VK_S) {
             mn.spielfigurAuswaehlen.befehlNum1++;
             if (mn.spielfigurAuswaehlen.befehlNum1 > 3) {
                 mn.spielfigurAuswaehlen.befehlNum1 = 0;
             }
-        }
-        if (code == KeyEvent.VK_ENTER) {
+        }else if (code == KeyEvent.VK_ENTER) {
             SpielfigurAuswahl spielfigurAuswahl = new SpielfigurAuswahl();
             if (mn.spielfigurAuswaehlen.befehlNum1 == 0) {
                 mn.spielfigurAuswaehlen.enterZustand = 1;
@@ -82,20 +78,28 @@ public class MenueEingabeManager implements KeyListener {
                 spielfigurAuswahl.spielfigurIndex = 3;
                 spielfigurAuswahl.spielfigurMenueIndex = 3;
             }
+            AnzahlMitspieler anzahlMitspieler = new AnzahlMitspieler();
+            anzahlMitspieler.anzahlDerMitspielerHost = mn.spielerAnzahl;
+            mn.sp.client.send(anzahlMitspieler);
+
+            Rundenzahl rundenzahl = new Rundenzahl();
+            rundenzahl.anzahlDerRunden = mn.sp.ausgewaehlteRundenAnzahl;
+            mn.sp.client.send(rundenzahl);
+
             Bescheid bescheid = new Bescheid();
             bescheid.fertig = true;
             mn.sp.client.send(bescheid);
-            //while(mn.sp.client.wartung){
 
-           //}
             mn.sp.client.send(spielfigurAuswahl);
             mn.sp.spielablaufManager.mainSpieler.spielfigurAuswaehlen();
-            mn.sp.setzeZustand(mn.sp.spielBrettZustand);
-            //mn.sp.setzeZustand(mn.sp.minispielZustand);
 
+            mn.sp.setzeZustand(mn.sp.spielBrettZustand);
 
             mn.sp.soundClip.close();
-
+        }else if(code == KeyEvent.VK_ESCAPE){
+            mn.menueZustand = mn.hauptmenueZustand2;
+            mn.hauptmenue.enterZustand = 1;
+            mn.hauptmenue.befehlNum2 = -1;
         }
     }
     public void hauptmenueZustand2Host(int code){
@@ -105,14 +109,12 @@ public class MenueEingabeManager implements KeyListener {
                 if (mn.hauptmenue.befehlNum3 > 2) {
                     mn.hauptmenue.befehlNum3 = 0;
                 }
-            }
-            else if (code == KeyEvent.VK_A) {
+            } else if (code == KeyEvent.VK_A) {
                 mn.hauptmenue.befehlNum3--;
                 if (mn.hauptmenue.befehlNum3 < 0) {
                     mn.hauptmenue.befehlNum3 = 2;
                 }
-            }
-            else if (code == KeyEvent.VK_ENTER) {
+            }else if (code == KeyEvent.VK_ENTER) {
                 if (mn.hauptmenue.befehlNum3 == 0) {
                     mn.spielerAnzahl = 2;
                     mn.hauptmenue.enterZustand = 1;
@@ -128,9 +130,8 @@ public class MenueEingabeManager implements KeyListener {
                     mn.hauptmenue.enterZustand = 1;
                     mn.hauptmenue.befehlNum2 = 0;
                 }
-                AnzahlMitspieler anzahlMitspieler = new AnzahlMitspieler();
-                anzahlMitspieler.anzahlDerMitspielerHost = mn.spielerAnzahl;
-                mn.sp.client.send(anzahlMitspieler);
+            }else if(code == KeyEvent.VK_ESCAPE){
+                mn.menueZustand = mn.hauptmenueZustand1;
             }
         } else if (mn.hauptmenue.enterZustand == 1) {
             if (code == KeyEvent.VK_D) {
@@ -138,37 +139,31 @@ public class MenueEingabeManager implements KeyListener {
                 if (mn.hauptmenue.befehlNum2 > 4) {
                     mn.hauptmenue.befehlNum2 = 0;
                 }
-            }
-            if (code == KeyEvent.VK_A) {
+            }else if (code == KeyEvent.VK_A) {
                 mn.hauptmenue.befehlNum2--;
                 if (mn.hauptmenue.befehlNum2 < 0) {
                     mn.hauptmenue.befehlNum2 = 4;
                 }
-            }
-            if (code == KeyEvent.VK_ENTER) {
+            }else if (code == KeyEvent.VK_ENTER) {
                 if (mn.hauptmenue.befehlNum2 == 0) {
-                    mn.rundenAnzahl = 6;
+                    mn.sp.ausgewaehlteRundenAnzahl = 1;
+                    mn.menueZustand = mn.spielfigurAuswaehlenZustand;
+                } else if (mn.hauptmenue.befehlNum2 == 1) {
+                    mn.sp.ausgewaehlteRundenAnzahl = 7;
+                    mn.menueZustand = mn.spielfigurAuswaehlenZustand;
+                }else if (mn.hauptmenue.befehlNum2 == 2) {
+                    mn.sp.ausgewaehlteRundenAnzahl = 8;
+                    mn.menueZustand = mn.spielfigurAuswaehlenZustand;
+                } else if (mn.hauptmenue.befehlNum2 == 3) {
+                    mn.sp.ausgewaehlteRundenAnzahl = 9;
+                    mn.menueZustand = mn.spielfigurAuswaehlenZustand;
+                } else if (mn.hauptmenue.befehlNum2 == 4) {
+                    mn.sp.ausgewaehlteRundenAnzahl = 10;
                     mn.menueZustand = mn.spielfigurAuswaehlenZustand;
                 }
-                if (mn.hauptmenue.befehlNum2 == 1) {
-                    mn.rundenAnzahl = 7;
-                    mn.menueZustand = mn.spielfigurAuswaehlenZustand;
-                }
-                if (mn.hauptmenue.befehlNum2 == 2) {
-                    mn.rundenAnzahl = 8;
-                    mn.menueZustand = mn.spielfigurAuswaehlenZustand;
-                }
-                if (mn.hauptmenue.befehlNum2 == 3) {
-                    mn.rundenAnzahl = 9;
-                    mn.menueZustand = mn.spielfigurAuswaehlenZustand;
-                }
-                if (mn.hauptmenue.befehlNum2 == 4) {
-                    mn.rundenAnzahl = 10;
-                    mn.menueZustand = mn.spielfigurAuswaehlenZustand;
-                }
-                Rundenzahl rundenzahl = new Rundenzahl();
-                rundenzahl.anzahlDerRunden = mn.rundenAnzahl;
-                mn.sp.client.send(rundenzahl);
+            }else if(code == KeyEvent.VK_ESCAPE){
+                mn.hauptmenue.enterZustand = 0;
+                mn.hauptmenue.befehlNum2 = -1;
             }
         }
     }
@@ -178,19 +173,16 @@ public class MenueEingabeManager implements KeyListener {
             if (mn.hauptmenue.befehlNum1 < 0) {
                 mn.hauptmenue.befehlNum1 = 2;
             }
-        }
-        if (code == KeyEvent.VK_S) {
+        }else if (code == KeyEvent.VK_S) {
             mn.hauptmenue.befehlNum1+=2;
             if (mn.hauptmenue.befehlNum1 > 2) {
                 mn.hauptmenue.befehlNum1 = 0;
             }
-        }
-        if (code == KeyEvent.VK_ENTER) {
+        }else if (code == KeyEvent.VK_ENTER) {
             if (mn.hauptmenue.befehlNum1 == 0) {
                 mn.menueZustand = mn.hauptmenueZustand2;
                 System.out.println("HostSpieler ist da");
-            }
-            if (mn.hauptmenue.befehlNum1 == 2) {
+            } else if (mn.hauptmenue.befehlNum1 == 2) {
                 mn.sp.client.close();
                 System.exit(0);
             }
@@ -198,18 +190,134 @@ public class MenueEingabeManager implements KeyListener {
     }
     public void spielfigureAuswaehlenZustandClient(int code){
         if (code == KeyEvent.VK_W) {
-            mn.spielfigurAuswaehlen.befehlNum1--;
-            if (mn.spielfigurAuswaehlen.befehlNum1 < 0) {
-                mn.spielfigurAuswaehlen.befehlNum1 = 3;
+            if(mn.sp.client.clientIndex == 1) {
+                if (ausgewaehlteSpielfiguren.contains(0)) {
+                    mn.spielfigurAuswaehlen.befehlNum1--;
+                    if (mn.spielfigurAuswaehlen.befehlNum1 < 1) {
+                        mn.spielfigurAuswaehlen.befehlNum1 = 3;
+                    }
+                }else if(ausgewaehlteSpielfiguren.contains(1)){
+                    if(mn.spielfigurAuswaehlen.befehlNum1 == 2){
+                        mn.spielfigurAuswaehlen.befehlNum1 -= 2;
+                    }else {
+                        mn.spielfigurAuswaehlen.befehlNum1--;
+                    }
+                    if(mn.spielfigurAuswaehlen.befehlNum1 < 0){
+                        mn.spielfigurAuswaehlen.befehlNum1 = 3;
+                    }
+                }else if(ausgewaehlteSpielfiguren.contains(2)){
+                    if(mn.spielfigurAuswaehlen.befehlNum1 == 3){
+                        mn.spielfigurAuswaehlen.befehlNum1 -= 2;
+                    }else {
+                        mn.spielfigurAuswaehlen.befehlNum1--;
+                    }
+                    if(mn.spielfigurAuswaehlen.befehlNum1 < 0){
+                        mn.spielfigurAuswaehlen.befehlNum1 = 3;
+                    }
+                }else if(ausgewaehlteSpielfiguren.contains(3)){
+                    mn.spielfigurAuswaehlen.befehlNum1--;
+                    if(mn.spielfigurAuswaehlen.befehlNum1 < 0){
+                        mn.spielfigurAuswaehlen.befehlNum1 = 2;
+                    }
+                }
+            }else if(mn.sp.client.clientIndex == 2){
+                if(ausgewaehlteSpielfiguren.contains(0) && ausgewaehlteSpielfiguren.contains(1)){
+                    mn.spielfigurAuswaehlen.befehlNum1--;
+                    if (mn.spielfigurAuswaehlen.befehlNum1 < 2) {
+                        mn.spielfigurAuswaehlen.befehlNum1 = 3;
+                    }
+                }else if(ausgewaehlteSpielfiguren.contains(0) && ausgewaehlteSpielfiguren.contains(2)){
+                    mn.spielfigurAuswaehlen.befehlNum1-=2;
+                    if (mn.spielfigurAuswaehlen.befehlNum1 < 1) {
+                        mn.spielfigurAuswaehlen.befehlNum1 = 3;
+                    }
+                }else if(ausgewaehlteSpielfiguren.contains(0) && ausgewaehlteSpielfiguren.contains(3)){
+                    mn.spielfigurAuswaehlen.befehlNum1--;
+                    if (mn.spielfigurAuswaehlen.befehlNum1 < 1) {
+                        mn.spielfigurAuswaehlen.befehlNum1 = 2;
+                    }
+                }else if(ausgewaehlteSpielfiguren.contains(1) && ausgewaehlteSpielfiguren.contains(2)){
+                    mn.spielfigurAuswaehlen.befehlNum1-=3;
+                    if(mn.spielfigurAuswaehlen.befehlNum1 < 0){
+                        mn.spielfigurAuswaehlen.befehlNum1 = 3;
+                    }
+                }else if(ausgewaehlteSpielfiguren.contains(1) && ausgewaehlteSpielfiguren.contains(3)){
+                    mn.spielfigurAuswaehlen.befehlNum1-=2;
+                    if(mn.spielfigurAuswaehlen.befehlNum1 < 0){
+                        mn.spielfigurAuswaehlen.befehlNum1 = 3;
+                    }
+                }else if(ausgewaehlteSpielfiguren.contains(2) && ausgewaehlteSpielfiguren.contains(3)){
+                    mn.spielfigurAuswaehlen.befehlNum1--;
+                    if(mn.spielfigurAuswaehlen.befehlNum1 < 0){
+                        mn.spielfigurAuswaehlen.befehlNum1 = 1;
+                    }
+                }
             }
-        }
-        if (code == KeyEvent.VK_S) {
-            mn.spielfigurAuswaehlen.befehlNum1++;
-            if (mn.spielfigurAuswaehlen.befehlNum1 > 3) {
-                mn.spielfigurAuswaehlen.befehlNum1 = 0 ;
+        } else if (code == KeyEvent.VK_S) {
+            if(mn.sp.client.clientIndex == 1) {
+                if(ausgewaehlteSpielfiguren.contains(0)) {
+                    mn.spielfigurAuswaehlen.befehlNum1++;
+                    if (mn.spielfigurAuswaehlen.befehlNum1 > 3) {
+                        mn.spielfigurAuswaehlen.befehlNum1 = 1;
+                    }
+                }else if(ausgewaehlteSpielfiguren.contains(1)){
+                    if(mn.spielfigurAuswaehlen.befehlNum1 == 0){
+                        mn.spielfigurAuswaehlen.befehlNum1 += 2;
+                    }else {
+                        mn.spielfigurAuswaehlen.befehlNum1++;
+                    }
+                    if(mn.spielfigurAuswaehlen.befehlNum1 > 3){
+                        mn.spielfigurAuswaehlen.befehlNum1 = 0;
+                    }
+                }else if(ausgewaehlteSpielfiguren.contains(2)){
+                    if(mn.spielfigurAuswaehlen.befehlNum1 == 1){
+                        mn.spielfigurAuswaehlen.befehlNum1 += 2;
+                    }else {
+                        mn.spielfigurAuswaehlen.befehlNum1++;
+                    }
+                    if(mn.spielfigurAuswaehlen.befehlNum1 > 3){
+                        mn.spielfigurAuswaehlen.befehlNum1 = 0;
+                    }
+                }else if(ausgewaehlteSpielfiguren.contains(3)) {
+                    mn.spielfigurAuswaehlen.befehlNum1++;
+                    if (mn.spielfigurAuswaehlen.befehlNum1 > 2) {
+                        mn.spielfigurAuswaehlen.befehlNum1 = 0;
+                    }
+                }
+            }else if(mn.sp.client.clientIndex == 2){
+                if(ausgewaehlteSpielfiguren.contains(0) && ausgewaehlteSpielfiguren.contains(1)){
+                    mn.spielfigurAuswaehlen.befehlNum1++;
+                    if (mn.spielfigurAuswaehlen.befehlNum1 > 3) {
+                        mn.spielfigurAuswaehlen.befehlNum1 = 2;
+                    }
+                }else if(ausgewaehlteSpielfiguren.contains(0) && ausgewaehlteSpielfiguren.contains(2)){
+                    mn.spielfigurAuswaehlen.befehlNum1+=2;
+                    if (mn.spielfigurAuswaehlen.befehlNum1 > 3) {
+                        mn.spielfigurAuswaehlen.befehlNum1 = 1;
+                    }
+                }else if(ausgewaehlteSpielfiguren.contains(0) && ausgewaehlteSpielfiguren.contains(3)){
+                    mn.spielfigurAuswaehlen.befehlNum1++;
+                    if (mn.spielfigurAuswaehlen.befehlNum1 > 2) {
+                        mn.spielfigurAuswaehlen.befehlNum1 = 1;
+                    }
+                }else if(ausgewaehlteSpielfiguren.contains(1) && ausgewaehlteSpielfiguren.contains(2)){
+                    mn.spielfigurAuswaehlen.befehlNum1+=3;
+                    if(mn.spielfigurAuswaehlen.befehlNum1 > 3){
+                        mn.spielfigurAuswaehlen.befehlNum1 = 0;
+                    }
+                }else if(ausgewaehlteSpielfiguren.contains(1) && ausgewaehlteSpielfiguren.contains(3)){
+                    mn.spielfigurAuswaehlen.befehlNum1+=2;
+                    if(mn.spielfigurAuswaehlen.befehlNum1 > 3){
+                        mn.spielfigurAuswaehlen.befehlNum1 = 0;
+                    }
+                }else if(ausgewaehlteSpielfiguren.contains(2) && ausgewaehlteSpielfiguren.contains(3)){
+                    mn.spielfigurAuswaehlen.befehlNum1++;
+                    if(mn.spielfigurAuswaehlen.befehlNum1 > 1){
+                        mn.spielfigurAuswaehlen.befehlNum1 = 0;
+                    }
+                }
             }
-        }
-        if (code == KeyEvent.VK_ENTER) {
+        }else if (code == KeyEvent.VK_ENTER) {
             SpielfigurAuswahl spielfigurAuswahl = new SpielfigurAuswahl();
             if (mn.spielfigurAuswaehlen.befehlNum1 == 0) {
                 mn.spielfigurAuswaehlen.enterZustand = 1;
@@ -230,90 +338,12 @@ public class MenueEingabeManager implements KeyListener {
             Bescheid bescheid = new Bescheid();
             bescheid.fertig = true;
             mn.sp.client.send(bescheid);
-           // while(mn.sp.client.wartung){
-//
-           // }
 
             mn.sp.client.send(spielfigurAuswahl);
             mn.sp.spielablaufManager.mainSpieler.spielfigurAuswaehlen();
             mn.sp.setzeZustand(mn.sp.spielBrettZustand);
-            //mn.sp.setzeZustand(mn.sp.minispielZustand);
 
             mn.sp.soundClip.close();
-        }
-    }
-    public void hauptmenueZustand2Client(int code){
-        if(mn.hauptmenue.enterZustand == 0) {
-            if (code == KeyEvent.VK_D) {
-                mn.hauptmenue.befehlNum3++;
-                if (mn.hauptmenue.befehlNum3 > 2) {
-                    mn.hauptmenue.befehlNum3 = 0;
-                }
-            }
-            if (code == KeyEvent.VK_A) {
-                mn.hauptmenue.befehlNum3--;
-                if (mn.hauptmenue.befehlNum3 < 0) {
-                    mn.hauptmenue.befehlNum3 = 2;
-                }
-            }
-            if (code == KeyEvent.VK_ENTER) {
-                if (mn.hauptmenue.befehlNum3 == 0) {
-                    mn.spielerAnzahl = 2;
-                    mn.hauptmenue.enterZustand = 1;
-                    mn.hauptmenue.befehlNum2 = 0;
-                }
-                if (mn.hauptmenue.befehlNum3 == 1) {
-                    mn.spielerAnzahl = 3;
-                    mn.hauptmenue.enterZustand = 1;
-                    mn.hauptmenue.befehlNum2 = 0;
-                }
-                if (mn.hauptmenue.befehlNum3 == 2) {
-                    mn.spielerAnzahl = 4;
-                    mn.hauptmenue.enterZustand = 1;
-                    mn.hauptmenue.befehlNum2 = 0;
-                }
-                AnzahlMitspieler anzahl = new AnzahlMitspieler();
-                anzahl.anzahlDerMitspielerHost = mn.spielerAnzahl;
-                mn.sp.client.send(anzahl);
-            }
-        } else if (mn.hauptmenue.enterZustand == 1) {
-            if (code == KeyEvent.VK_D) {
-                mn.hauptmenue.befehlNum2++;
-                if (mn.hauptmenue.befehlNum2 > 4) {
-                    mn.hauptmenue.befehlNum2 = 0;
-                }
-            }
-            if (code == KeyEvent.VK_A) {
-                mn.hauptmenue.befehlNum2--;
-                if (mn.hauptmenue.befehlNum2 < 0) {
-                    mn.hauptmenue.befehlNum2 = 4;
-                }
-            }
-            if (code == KeyEvent.VK_ENTER) {
-                if (mn.hauptmenue.befehlNum2 == 0) {
-                    mn.rundenAnzahl = 6;
-                    mn.menueZustand = mn.spielfigurAuswaehlenZustand;
-                }
-                if (mn.hauptmenue.befehlNum2 == 1) {
-                    mn.rundenAnzahl = 7;
-                    mn.menueZustand = mn.spielfigurAuswaehlenZustand;
-                }
-                if (mn.hauptmenue.befehlNum2 == 2) {
-                    mn.rundenAnzahl = 8;
-                    mn.menueZustand = mn.spielfigurAuswaehlenZustand;
-                }
-                if (mn.hauptmenue.befehlNum2 == 3) {
-                    mn.rundenAnzahl = 9;
-                    mn.menueZustand = mn.spielfigurAuswaehlenZustand;
-                }
-                if (mn.hauptmenue.befehlNum2 == 4) {
-                    mn.rundenAnzahl = 10;
-                    mn.menueZustand = mn.spielfigurAuswaehlenZustand;
-                }
-                Rundenzahl rundenzahl = new Rundenzahl();
-                rundenzahl.anzahlDerRunden = mn.rundenAnzahl;
-                mn.sp.client.send(rundenzahl);
-            }
         }
     }
     public void hauptmenueZustand1Client(int code){
@@ -322,14 +352,12 @@ public class MenueEingabeManager implements KeyListener {
             if (mn.hauptmenue.befehlNum1 < 1) {
                 mn.hauptmenue.befehlNum1 = 2;
             }
-        }
-        if (code == KeyEvent.VK_S) {
+        }else if (code == KeyEvent.VK_S) {
             mn.hauptmenue.befehlNum1++;
             if (mn.hauptmenue.befehlNum1 > 2) {
                 mn.hauptmenue.befehlNum1 = 1;
             }
-        }
-        if (code == KeyEvent.VK_ENTER) {
+        }else if (code == KeyEvent.VK_ENTER) {
             if (mn.hauptmenue.befehlNum1 == 1) {
                 System.out.println("Spieler beigetreten");
                 mn.menueZustand = mn.spielfigurAuswaehlenZustand;

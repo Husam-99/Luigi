@@ -3,7 +3,6 @@ package Spielablauf;
 import spieler.Spieler;
 
 import javax.imageio.ImageIO;
-import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.Random;
@@ -20,25 +19,22 @@ public class ViolettesFeld extends Feld{
         }
 
     }
-
     @Override
     public void effeckteAnwenden(){
-        gegenstandNum = random.nextInt(1,6);
-        mapManager.spielablaufManager.mainSpieler.inventar.gegenstandBekommen(gegenstandNum);
-        if(!mapManager.spielablaufManager.sp.alleSpieler.isEmpty())
-            for(Spieler spieler : mapManager.spielablaufManager.sp.alleSpieler) {
-                if (spieler.spielfigur != null) {
-                    spieler.amSpiel = false;
-
+        if(!mapManager.spielablaufManager.mainSpieler.inventar.inventarVoll) {
+            gegenstandNum = random.nextInt(1, 6);
+            mapManager.spielablaufManager.mainSpieler.inventar.gegenstandBekommen(gegenstandNum);
+            if (!mapManager.spielablaufManager.sp.alleSpieler.isEmpty())
+                for (Spieler spieler : mapManager.spielablaufManager.sp.alleSpieler) {
+                    if (spieler.spielfigur != null) {
+                        spieler.amSpiel = false;
+                    }
                 }
-            }
-        if(!mapManager.spielablaufManager.mainSpieler.aktuellFeld.hatStern) {
+        }
+        if(!mapManager.spielablaufManager.mainSpieler.aktuellesFeld.hatStern) {
             mapManager.spielablaufManager.mainSpieler.amSpiel = false;
         }else{
             mapManager.stern.sternKaufen = true;
         }
-
     }
-
-
 }

@@ -3,13 +3,11 @@ package Spielablauf;
 import spieler.Spieler;
 
 import javax.imageio.ImageIO;
-import javax.swing.*;
 import java.io.File;
 import java.io.IOException;
 import java.util.Random;
 
 public class GruenesFeld extends Feld{
-    private int erhalteneMuenzen;
     Random random = new Random();
 
 
@@ -23,7 +21,7 @@ public class GruenesFeld extends Feld{
     }
     @Override
     public void effeckteAnwenden(){
-        erhalteneMuenzen = random.nextInt(1,3);
+        int erhalteneMuenzen = random.nextInt(1, 3);
         mapManager.spielablaufManager.mainSpieler.konto.muenzenErhalten(erhalteneMuenzen);
         if(!mapManager.spielablaufManager.sp.alleSpieler.isEmpty())
             for(Spieler spieler : mapManager.spielablaufManager.sp.alleSpieler) {
@@ -32,7 +30,7 @@ public class GruenesFeld extends Feld{
 
                 }
             }
-        if(!mapManager.spielablaufManager.mainSpieler.aktuellFeld.hatStern){
+        if(!mapManager.spielablaufManager.mainSpieler.aktuellesFeld.hatStern){
             mapManager.spielablaufManager.mainSpieler.amSpiel = false;
         }else{
             mapManager.stern.sternKaufen = true;

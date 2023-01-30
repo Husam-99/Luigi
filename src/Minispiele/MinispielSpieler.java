@@ -68,7 +68,7 @@ public class MinispielSpieler {
                 }
                 minispielManager.sammler.kollisionChecken(this);
 
-            } else if (untenGedrueckt) {
+            }  if (untenGedrueckt) {
 
                 richtung = "down";
                 if (!this.minispielSpielerRechteck.intersects(minispielManager.sammler.wandRechteck[1])) {
@@ -77,7 +77,7 @@ public class MinispielSpieler {
                 }
                 minispielManager.sammler.kollisionChecken(this);
 
-            } else if (linksGedrueckt) {
+            } if (linksGedrueckt) {
 
                 richtung = "left";
                 if (!this.minispielSpielerRechteck.intersects(minispielManager.sammler.wandRechteck[2])) {
@@ -86,7 +86,7 @@ public class MinispielSpieler {
                 }
                 minispielManager.sammler.kollisionChecken(this);
 
-            } else {
+            } if (rechtsGedrueckt) {
 
                 richtung = "right";
                 if (!this.minispielSpielerRechteck.intersects(minispielManager.sammler.wandRechteck[3])) {
@@ -114,7 +114,6 @@ public class MinispielSpieler {
     
 
     public void malen(Graphics2D g2, int width) {
-
 
         BufferedImage image = null;
 
