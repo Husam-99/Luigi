@@ -115,7 +115,7 @@ public class Stern {
         this.g2 = g2;
         sternKaufenBox();
         if(!mapManager.spielablaufManager.mainSpieler.konto.genugMuenzen){
-            mapManager.spielablaufManager.mainSpieler.konto.rueckMeldungMalen(10 - mapManager.spielablaufManager.mainSpieler.konto.muenzen);
+            mapManager.spielablaufManager.mainSpieler.konto.muenzeRueckMeldungMalen(10 - mapManager.spielablaufManager.mainSpieler.konto.muenzen);
         }
     }
 
@@ -125,16 +125,16 @@ public class Stern {
         g2.fillRect(0, 0, 1440, 864);
         c = new Color(0,0,0,200);
         g2.setColor(c);
-        g2.fillRoundRect(330, 350, 780, 200, 35, 35);
+        g2.fillRoundRect(330, 300, 780, 200, 35, 35);
         c = new Color(255,255,255,200);
         g2.setColor(c);
         g2.setStroke(new BasicStroke(5));
-        g2.drawRoundRect(335,355,770, 190, 25, 25);
+        g2.drawRoundRect(335,305,770, 190, 25, 25);
         g2.setColor(Color.yellow);
         g2.setFont(g2.getFont().deriveFont(Font.BOLD,65F));
-        g2.drawString("Willst du einen Stern ",410, 430);
-        g2.drawString("für 10 Muenzen Kaufen?",370, 500);
-        g2.drawImage(stern,250,270, mapManager.spielablaufManager.sp.vergroesserteFliesenGroesse*2, mapManager.spielablaufManager.sp.vergroesserteFliesenGroesse*2, null);
+        g2.drawString("Willst du einen Stern ",410, 380);
+        g2.drawString("für 10 Muenzen Kaufen?",370, 450);
+        g2.drawImage(stern,250,220, mapManager.spielablaufManager.sp.vergroesserteFliesenGroesse*2, mapManager.spielablaufManager.sp.vergroesserteFliesenGroesse*2, null);
     }
 
 }

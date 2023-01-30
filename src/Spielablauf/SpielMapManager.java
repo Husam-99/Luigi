@@ -125,7 +125,7 @@ public class SpielMapManager {
         }
     }
     
-    private void  mapLaden(){
+    private void mapLaden(){
         String[][] mapFelder = new String[25][30];
         BufferedReader reader = null;
         try {
@@ -306,7 +306,7 @@ public class SpielMapManager {
             int bildschirmY = weltY - spielablaufManager.mainSpieler.weltY + spielablaufManager.mainSpieler.bildschirmY;
 
 
-            g2.drawImage(vorlauefigeFliese.flieseImage, bildschirmX, bildschirmY, spielablaufManager.sp.vergroesserteFliesenGroesse +3, spielablaufManager.sp.vergroesserteFliesenGroesse+3, null);
+            g2.drawImage(vorlauefigeFliese.getFlieseImage(), bildschirmX, bildschirmY, spielablaufManager.sp.vergroesserteFliesenGroesse, spielablaufManager.sp.vergroesserteFliesenGroesse, null);
             if(mapFliesen[weltZeile][weltSpalte].feld != null){
                 g2.drawImage(mapFliesen[weltZeile][weltSpalte].feld.getFeldImage(), bildschirmX, bildschirmY, spielablaufManager.sp.vergroesserteFliesenGroesse, spielablaufManager.sp.vergroesserteFliesenGroesse, null);
                 if(mapFliesen[weltZeile][weltSpalte].feld.hatStern){
@@ -324,7 +324,7 @@ public class SpielMapManager {
                         image = stern.stern5;
                     }
                     switch (stern.sternPostition) {
-                        case "unten" -> ySternPosition += 40;
+                        case "unten" -> ySternPosition += spielablaufManager.sp.vergroesserteFliesenGroesse / 2.0;
                         case "oben" -> ySternPosition -= spielablaufManager.sp.vergroesserteFliesenGroesse;
                         case "rechts" -> xSternPosition += spielablaufManager.sp.vergroesserteFliesenGroesse;
                         case "links" -> xSternPosition -= spielablaufManager.sp.vergroesserteFliesenGroesse;

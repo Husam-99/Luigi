@@ -27,7 +27,7 @@ public class Shop {
                 spielablaufManager.mainSpieler.inventar.gegenstandBekommen(6);
                 spielablaufManager.mainSpieler.konto.muenzenVerlieren(15);
                 spielablaufManager.shopGeoeffnet = false;
-                if(!spielablaufManager.mainSpieler.aktuellFeld.hatStern) {
+                if(!spielablaufManager.mainSpieler.aktuellesFeld.hatStern) {
                     spielablaufManager.mainSpieler.amSpiel = false;
                 }else{
                     spielablaufManager.mapManager.stern.sternKaufen = true;
@@ -41,7 +41,7 @@ public class Shop {
                 spielablaufManager.mainSpieler.inventar.gegenstandBekommen(5);
                 spielablaufManager.mainSpieler.konto.muenzenVerlieren(13);
                 spielablaufManager.shopGeoeffnet = false;
-                if(!spielablaufManager.mainSpieler.aktuellFeld.hatStern) {
+                if(!spielablaufManager.mainSpieler.aktuellesFeld.hatStern) {
                     spielablaufManager.mainSpieler.amSpiel = false;
                 }else{
                     spielablaufManager.mapManager.stern.sternKaufen = true;
@@ -55,7 +55,7 @@ public class Shop {
                 spielablaufManager.mainSpieler.inventar.gegenstandBekommen(2);
                 spielablaufManager.mainSpieler.konto.muenzenVerlieren(11);
                 spielablaufManager.shopGeoeffnet = false;
-                if(!spielablaufManager.mainSpieler.aktuellFeld.hatStern) {
+                if(!spielablaufManager.mainSpieler.aktuellesFeld.hatStern) {
                     spielablaufManager.mainSpieler.amSpiel = false;
                 }else{
                     spielablaufManager.mapManager.stern.sternKaufen = true;
@@ -69,7 +69,7 @@ public class Shop {
                 spielablaufManager.mainSpieler.inventar.gegenstandBekommen(1);
                 spielablaufManager.mainSpieler.konto.muenzenVerlieren(7);
                 spielablaufManager.shopGeoeffnet = false;
-                if(!spielablaufManager.mainSpieler.aktuellFeld.hatStern) {
+                if(!spielablaufManager.mainSpieler.aktuellesFeld.hatStern) {
                     spielablaufManager.mainSpieler.amSpiel = false;
                 }else{
                     spielablaufManager.mapManager.stern.sternKaufen = true;
@@ -83,7 +83,7 @@ public class Shop {
                 spielablaufManager.mainSpieler.inventar.gegenstandBekommen(3);
                 spielablaufManager.mainSpieler.konto.muenzenVerlieren(5);
                 spielablaufManager.shopGeoeffnet = false;
-                if(!spielablaufManager.mainSpieler.aktuellFeld.hatStern) {
+                if(!spielablaufManager.mainSpieler.aktuellesFeld.hatStern) {
                     spielablaufManager.mainSpieler.amSpiel = false;
                 }else{
                     spielablaufManager.mapManager.stern.sternKaufen = true;
@@ -97,7 +97,7 @@ public class Shop {
                 spielablaufManager.mainSpieler.inventar.gegenstandBekommen(4);
                 spielablaufManager.mainSpieler.konto.muenzenVerlieren(3);
                 spielablaufManager.shopGeoeffnet = false;
-                if(!spielablaufManager.mainSpieler.aktuellFeld.hatStern) {
+                if(!spielablaufManager.mainSpieler.aktuellesFeld.hatStern) {
                     spielablaufManager.mainSpieler.amSpiel = false;
                 }else{
                     spielablaufManager.mapManager.stern.sternKaufen = true;
@@ -114,7 +114,9 @@ public class Shop {
         gegenstaendeMalen();
         preisMalen();
         if(!spielablaufManager.mainSpieler.konto.genugMuenzen){
-            spielablaufManager.mainSpieler.konto.rueckMeldungMalen(fehlendeMuenzen);
+            spielablaufManager.mainSpieler.konto.muenzeRueckMeldungMalen(fehlendeMuenzen);
+        }else if(spielablaufManager.inventarVoll){
+            spielablaufManager.mainSpieler.inventar.inventarVollRueckMeldungMalen(g2);
         }
     }
 

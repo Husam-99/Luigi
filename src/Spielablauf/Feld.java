@@ -4,7 +4,8 @@ import java.awt.image.BufferedImage;
 
 public abstract class Feld {
 
-    public int weltX, weltY, feldNum;
+    public int weltX, weltY;
+    public int feldNum;
     SpielMapManager mapManager;
     public Feld suedFeld, nordFeld, ostFeld, westFeld;
     protected BufferedImage feldImage;

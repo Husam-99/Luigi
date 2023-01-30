@@ -24,9 +24,8 @@ public class SpielfigurAuswaehlen{
     public YousefWuerfel ywuerfel = new YousefWuerfel(s);
     public SpielfigurAuswaehlen(MenueManager mn){
         this.mn = mn;
-        befehlNum1Bestimmen();
     }
-    private void befehlNum1Bestimmen(){
+    public void befehlNum1Bestimmen(){
         if(mn.sp.client.isIstHost()){
             befehlNum1 = 0;
         }else{
@@ -127,8 +126,8 @@ public class SpielfigurAuswaehlen{
             namenMalen();
             bilderMalen();
         } else if (enterZustand == 1) {
-            wartenBoxMalen();
-            wartenMalen();
+            wartenBoxMalen(g2);
+            wartenMalen(g2);
         }
     }
     public void namenBoxMalen(){
@@ -152,45 +151,45 @@ public class SpielfigurAuswaehlen{
         g2.drawString(text, 150, 160);
         g2.setColor(Color.gray);
         g2.setFont(g2.getFont().deriveFont(Font.PLAIN,50F));
-        g2.drawString("Abdo", 300, 300);
-        if(befehlNum1 == 0){
-            g2.setColor(Color.white);
+        if(!mn.menueEingabeManager.ausgewaehlteSpielfiguren.contains(0)) {
             g2.drawString("Abdo", 300, 300);
-            g2.setColor(Color.gray);
+            if (befehlNum1 == 0) {
+                g2.setColor(Color.white);
+                g2.drawString("Abdo", 300, 300);
+                g2.setColor(Color.gray);
+            }
         }
-        g2.drawString("Husam", 290, 400);
-        if(befehlNum1 == 1){
-            g2.setColor(Color.white);
+        if(!mn.menueEingabeManager.ausgewaehlteSpielfiguren.contains(1)) {
             g2.drawString("Husam", 290, 400);
-            g2.setColor(Color.gray);
+            if (befehlNum1 == 1) {
+                g2.setColor(Color.white);
+                g2.drawString("Husam", 290, 400);
+                g2.setColor(Color.gray);
+            }
         }
-        g2.drawString("Taha", 300, 500);
-        if(befehlNum1 == 2){
-            g2.setColor(Color.white);
+        if(!mn.menueEingabeManager.ausgewaehlteSpielfiguren.contains(2)) {
             g2.drawString("Taha", 300, 500);
-            g2.setColor(Color.gray);
+            if (befehlNum1 == 2) {
+                g2.setColor(Color.white);
+                g2.drawString("Taha", 300, 500);
+                g2.setColor(Color.gray);
+            }
         }
-        g2.drawString("Yousef", 280, 600);
-        if(befehlNum1 == 3){
-            g2.setColor(Color.white);
+        if(!mn.menueEingabeManager.ausgewaehlteSpielfiguren.contains(3)) {
             g2.drawString("Yousef", 280, 600);
-            g2.setColor(Color.gray);
+            if (befehlNum1 == 3) {
+                g2.setColor(Color.white);
+                g2.drawString("Yousef", 280, 600);
+                g2.setColor(Color.gray);
+            }
         }
     }
     public void bilderMalen(){
-        switch(richtung) {
-            case "oben":
-                spielerObenBilderMalen();
-                break;
-            case "unten":
-                spielerUntenBilderMalen();
-                break;
-            case "links":
-                spielerLinksBilderMalen();
-                break;
-            case "rechts":
-                spielerRechtsBilderMalen();
-                break;
+        switch (richtung) {
+            case "oben" -> spielerObenBilderMalen();
+            case "unten" -> spielerUntenBilderMalen();
+            case "links" -> spielerLinksBilderMalen();
+            case "rechts" -> spielerRechtsBilderMalen();
         }
         g2.drawImage(image1, 850, 350, mn.sp.fliesenGroesse*10, mn.sp.fliesenGroesse*10, null);
         g2.drawImage(image2, 850, 60, mn.sp.fliesenGroesse*10, mn.sp.fliesenGroesse*10, null);
@@ -430,7 +429,7 @@ public class SpielfigurAuswaehlen{
         g2.drawImage(image2, 850, 60, mn.sp.fliesenGroesse*10, mn.sp.fliesenGroesse*10, null);
 
     }
-    public void wartenMalen(){
+    public void wartenMalen(Graphics2D g2){
         g2.setFont(g2.getFont().deriveFont(Font.BOLD,100F));
         String text1 = "Warten auf ";
         String text2 = "andere Spieler...";
@@ -441,7 +440,7 @@ public class SpielfigurAuswaehlen{
         g2.drawString(text1,460, 350);
         g2.drawString(text2,370, 450);
     }
-    public void wartenBoxMalen(){
+    public void wartenBoxMalen(Graphics2D g2){
         Color c = new Color(0,0,0,220);
         g2.setColor(c);
         g2.fillRoundRect(325, 230, 800, 300, 35, 35);

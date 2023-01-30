@@ -4,8 +4,8 @@ import Networking.Pakete.Bewegung;
 import Spielablauf.Feld;
 
 import javax.imageio.ImageIO;
-import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.util.Objects;
 
 public class Bube extends Gegenstand{
 
@@ -20,7 +20,7 @@ public class Bube extends Gegenstand{
     @Override
     public void getGegenstandBilder(){
         try {
-            icon = ImageIO.read(getClass().getResourceAsStream("/gegenstaende/Bube.png"));
+            icon = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/gegenstaende/Bube.png")));
         }catch(IOException e) {
             e.printStackTrace();
         }
@@ -28,18 +28,14 @@ public class Bube extends Gegenstand{
 
     public void positionWechsel(){
         Bewegung bewegung = new Bewegung();
-        bewegung.feldNum = spieler.aktuellFeld.feldNum;
+        bewegung.feldNum = spieler.aktuellesFeld.feldNum;
         bewegung.bubeClientIndex = spieler.spielablaufManager.ausgewaehlteClientInex;
         spieler.spielablaufManager.sp.client.send(bewegung);
-        Feld tempfled = spieler.spielablaufManager.sp.alleSpieler.get(spieler.spielablaufManager.ausgewaehlteClientInex).aktuellFeld;
-        spieler.spielablaufManager.sp.alleSpieler.get(spieler.spielablaufManager.ausgewaehlteClientInex).aktuellFeld = spieler.spielablaufManager.mainSpieler.aktuellFeld;
-        spieler.spielablaufManager.sp.alleSpieler.get(spieler.spielablaufManager.ausgewaehlteClientInex).naechstesFeld = spieler.spielablaufManager.mainSpieler.aktuellFeld;
-        spieler.spielablaufManager.sp.alleSpieler.get(spieler.spielablaufManager.ausgewaehlteClientInex).aktuellesFeld = null;
-        spieler.spielablaufManager.sp.alleSpieler.get(spieler.spielablaufManager.ausgewaehlteClientInex).tempFeld = null;
-        spieler.spielablaufManager.mainSpieler.aktuellFeld = tempfled;
-        spieler.spielablaufManager.mainSpieler.naechstesFeld = tempfled;
-        spieler.spielablaufManager.mainSpieler.aktuellesFeld = null;
-        spieler.spielablaufManager.mainSpieler.tempFeld = null;
+        Feld tempfled = spieler.spielablaufManager.sp.alleSpieler.get(spieler.spielablaufManager.ausgewaehlteClientInex).aktuellesFeld;
+        spieler.spielablaufManager.sp.alleSpieler.get(spieler.spielablaufManager.ausgewaehlteClientInex).aktuellesFeld = spieler.spielablaufManager.mainSpieler.aktuellesFeld;
+        spieler.spielablaufManager.sp.alleSpieler.get(spieler.spielablaufManager.ausgewaehlteClientInex).vorherigesFeld = null;
+        spieler.spielablaufManager.mainSpieler.aktuellesFeld = tempfled;
+        spieler.spielablaufManager.mainSpieler.vorherigesFeld = null;
 
         int weltXtemp = spieler.spielablaufManager.sp.alleSpieler.get(spieler.spielablaufManager.ausgewaehlteClientInex).weltX;
         int weltYtemp = spieler.spielablaufManager.sp.alleSpieler.get(spieler.spielablaufManager.ausgewaehlteClientInex).weltY;
@@ -51,18 +47,13 @@ public class Bube extends Gegenstand{
             spieler.bildschirmX = spieler.weltX - spieler.spielablaufManager.mainSpieler.weltX + spieler.spielablaufManager.mainSpieler.bildschirmX;
             spieler.bildschirmY = spieler.weltY - spieler.spielablaufManager.mainSpieler.weltY + spieler.spielablaufManager.mainSpieler.bildschirmY;
         }
-
-        System.out.println("bube");
-        System.out.println("aktuelles: " + spieler.aktuellesFeld);
-        System.out.println("naechstes: " + spieler.naechstesFeld);
-        System.out.println("aktuell: " + spieler.aktuellFeld);
-        System.out.println("temp: " + spieler.tempFeld);
     }
     @Override
     public void effeckteAnwenden() {
         spieler.inventarZustand = false;
         spieler.spielablaufManager.mapManager.mapEingabeManager.iGedrueckt = false;
         spieler.spielablaufManager.clientAuswaehlen = true;
+        spieler.spielablaufManager.bubeZustand = true;
     }
 
 

@@ -3,7 +3,9 @@ package Main;
 import Minispiele.MinispielManager;
 import Networking.Client.SpielClient;
 
+import Spielablauf.SiegerKueren;
 import Spielablauf.SpielablaufManager;
+import menue.MenueHintergrund;
 import spieler.*;
 import menue.MenueManager;
 
@@ -22,10 +24,10 @@ public class SpielPanel extends JPanel implements Runnable{
 
     public JFrame window;
     public int zustand;
+    public final int menueZustand = 0, spielBrettZustand = 1, minispielZustand = 2, siegerKuerenZustand = 3;
     public boolean wurfelzustand = false;
-    public final int menueZustand = 0, wuerfelZustand = 1, spielBrettZustand = 2, minispielZustand = 3;
     public final int fliesenGroesse = 32;
-    public int skalaMenue = 5,     skala = 3,
+    public final int skalaMenue = 5, skala = 3,
             vergroesserteFliesenGroesseMenue = fliesenGroesse * skalaMenue, vergroesserteFliesenGroesse = fliesenGroesse * skala;
     public final int maxBildschirmSpalteMenue = 9,     maxBildschirmSpalte = 15,
             maxBildschirmZeileMenue = 5, maxBildschirmZeile = 9;
@@ -49,10 +51,11 @@ public class SpielPanel extends JPanel implements Runnable{
     public ArrayList<Spieler> alleSpieler;
     public SpielClient client;
     public MenueManager menueManager;
+    MenueHintergrund menueHintergrund;
     public SpielablaufManager spielablaufManager;
     public MinispielManager minispielManager;
-    public int ausgewaehlteRundenAnzahl;
-    public int aktuelleRundenAnzahl = 0;
+    SiegerKueren siegerKueren;
+    public int ausgewaehlteRundenAnzahl, aktuelleRundenAnzahl = 0;
 
 
 
@@ -60,19 +63,16 @@ public class SpielPanel extends JPanel implements Runnable{
         this.window = window;
         client = new SpielClient(this);
         client.start();
-        this.zustand = 0;
         this.setPreferredSize(new Dimension(bildschirmBreite, bildschirmHoehe));
-        this.setBackground(Color.darkGray);
         this.setDoubleBuffered(true);
-        menueManager = new MenueManager(this);
-        spielablaufManager = new SpielablaufManager(this);
+        this.menueHintergrund = new MenueHintergrund(this);
+        this.spielablaufManager = new SpielablaufManager(this);
         alleSpieler = new ArrayList<>(4);
         for(int i = 0; i < 4; i++){
             alleSpieler.add(i, new Spieler(spielablaufManager));
         }
-        this.addKeyListener(menueManager.menueEingabeManager);
-        this.setFocusable(true);
-
+        setzeZustand(menueZustand, -1);
+        // Get font and sound
         try {
             InputStream is = getClass().getResourceAsStream("/font/Mario-Party-Hudson-Font.ttf");
             marioPartyFont = Font.createFont(Font.TRUETYPE_FONT, is);
@@ -95,7 +95,6 @@ public class SpielPanel extends JPanel implements Runnable{
         System.out.println("hier is the clientIndex " + clientIndex);
         alleSpieler.set(clientIndex, spieler);
         for(Spieler spieler1 : alleSpieler){
-
             if (spieler1.spielfigur instanceof Abdo) {
                 spieler1.weltY = (int) (vergroesserteFliesenGroesse * 21.5);
                 spieler1.weltX = (int) (vergroesserteFliesenGroesse * 9.5);
@@ -117,11 +116,15 @@ public class SpielPanel extends JPanel implements Runnable{
                 spieler1.bildschirmX = spieler1.weltX - spielablaufManager.mainSpieler.weltX + spielablaufManager.mainSpieler.bildschirmX;
                 spieler1.bildschirmY = spieler1.weltY - spielablaufManager.mainSpieler.weltY + spielablaufManager.mainSpieler.bildschirmY;
             }
-
         }
     }
     public void setzeZustand(int neueZustand, int minispielIndex){
-        if(neueZustand == spielBrettZustand){
+        if(neueZustand == menueZustand){
+            this.menueManager = new MenueManager(this);
+            this.addKeyListener(menueManager.menueEingabeManager);
+            this.setFocusable(true);
+            this.zustand = menueZustand;
+        }else if(neueZustand == spielBrettZustand){
             this.setBackground(new Color(39, 105, 195));
             this.removeKeyListener(this.getKeyListeners()[0]);
             this.addKeyListener(spielablaufManager.mapManager.mapEingabeManager);
@@ -154,13 +157,15 @@ public class SpielPanel extends JPanel implements Runnable{
                             aktuelleRundenAnzahl++;
                             setzeZustand(spielBrettZustand, -1);
                         }else{
-
+                            setzeZustand(siegerKuerenZustand, -1);
                         }
                     }
                 }
             };
             timer.schedule(task, 3000, 1000);
-
+        }else if(neueZustand == siegerKuerenZustand){
+            this.siegerKueren = new SiegerKueren(this);
+            this.zustand = siegerKuerenZustand;
         }
     }
 
@@ -207,6 +212,9 @@ public class SpielPanel extends JPanel implements Runnable{
                     }
                 spielablaufManager.mainSpieler.update();
             }
+        }else if(zustand == siegerKuerenZustand){
+            menueManager.menueHintergrund.update();
+            siegerKueren.update();
         }
     }
 
@@ -220,7 +228,9 @@ public class SpielPanel extends JPanel implements Runnable{
             spielablaufManager.malen(g2);
         } else if(zustand == minispielZustand){
             minispielManager.malen(g2);
-
+        } else if(zustand == siegerKuerenZustand){
+            menueManager.menueHintergrund.malen(g2);
+            siegerKueren.malen(g2);
         }
         g2.dispose();
     }

@@ -8,7 +8,6 @@ import java.io.IOException;
 import java.util.Random;
 
 public class RotesFeld extends Feld{
-    private int verlierneMuenzen;
     Random random = new Random();
 
 
@@ -22,16 +21,15 @@ public class RotesFeld extends Feld{
     }
     @Override
     public void effeckteAnwenden(){
-        verlierneMuenzen = random.nextInt(1,3);
+        int verlierneMuenzen = random.nextInt(1, 3);
         mapManager.spielablaufManager.mainSpieler.konto.muenzenVerlieren(verlierneMuenzen);
         if(!mapManager.spielablaufManager.sp.alleSpieler.isEmpty())
             for(Spieler spieler : mapManager.spielablaufManager.sp.alleSpieler) {
                 if (spieler.spielfigur != null) {
                     spieler.amSpiel = false;
-
                 }
             }
-        if(!mapManager.spielablaufManager.mainSpieler.aktuellFeld.hatStern) {
+        if(!mapManager.spielablaufManager.mainSpieler.aktuellesFeld.hatStern) {
             mapManager.spielablaufManager.mainSpieler.amSpiel = false;
         }else{
             mapManager.stern.sternKaufen = true;

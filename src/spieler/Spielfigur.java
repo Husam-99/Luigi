@@ -36,10 +36,12 @@ public abstract class Spielfigur {
                 spieler.amSpiel = true;
             } else if (spieler.spielablaufManager.mapManager.mapEingabeManager.bewegungOben || spieler.spielablaufManager.mapManager.mapEingabeManager.bewegungUnten ||
                     spieler.spielablaufManager.mapManager.mapEingabeManager.bewegungLinks || spieler.spielablaufManager.mapManager.mapEingabeManager.bewegungRechts) {
-
+                System.out.println("spieler");
+                System.out.println(spieler.spielablaufManager.mainSpieler.weltX);
+                System.out.println(spieler.spielablaufManager.mainSpieler.weltY);
                 if (spieler.spielablaufManager.mapManager.mapEingabeManager.bewegungOben) {
-                    if (spieler.aktuellesFeld == null) {
-                        spieler.aktuellesFeld = spieler.spielablaufManager.mapManager.mapFliesen[19][11].feld;
+                    if (spieler.vorherigesFeld == null) {
+                        spieler.vorherigesFeld = spieler.spielablaufManager.mapManager.mapFliesen[19][11].feld;
                         spieler.weltY -= spieler.geschwindigkeit;
                         spieler.weltX += spieler.geschwindigkeit;
                         for (Spieler andererSpieler : spieler.spielablaufManager.sp.alleSpieler) {
@@ -47,173 +49,158 @@ public abstract class Spielfigur {
                             andererSpieler.bildschirmX -= spieler.geschwindigkeit;
                         }
                     }
-                    if (spieler.naechstesFeld == null) {
-                        spieler.naechstesFeld = spieler.aktuellesFeld.nordFeld;
+                    if (spieler.aktuellesFeld == null) {
+                        spieler.aktuellesFeld = spieler.vorherigesFeld.nordFeld;
+                        bewegung.feldNum = spieler.aktuellesFeld.feldNum;
+                        spieler.spielablaufManager.sp.client.send(bewegung);
                     }
 
-                    if (spieler.naechstesFeld != null) {
-                        if (spieler.naechstesFeld.equals(spieler.spielablaufManager.mapManager.mapFliesen[19][11].feld)) {
+                    if (spieler.aktuellesFeld != null) {
+                        if (spieler.aktuellesFeld.equals(spieler.spielablaufManager.mapManager.mapFliesen[19][11].feld)) {
                             if(spieler.spielfigur instanceof Abdo || spieler.spielfigur instanceof Husam) {
-                                if (spieler.spielablaufManager.mainSpieler.weltX < spieler.naechstesFeld.weltX) {
+                                if (spieler.spielablaufManager.mainSpieler.weltX < spieler.aktuellesFeld.weltX) {
                                     rechtsUpdate();
-                                } else if (spieler.spielablaufManager.mainSpieler.weltY > (spieler.naechstesFeld.weltY - spieler.spielablaufManager.sp.vergroesserteFliesenGroesse / 2)) {
+                                } else if (spieler.spielablaufManager.mainSpieler.weltY > (spieler.aktuellesFeld.weltY - spieler.spielablaufManager.sp.vergroesserteFliesenGroesse / 2)) {
                                     obenUpdate();
-                                } else if (spieler.spielablaufManager.mainSpieler.weltY == (spieler.naechstesFeld.weltY - spieler.spielablaufManager.sp.vergroesserteFliesenGroesse / 2)) {
+                                } else if (spieler.spielablaufManager.mainSpieler.weltY == (spieler.aktuellesFeld.weltY - spieler.spielablaufManager.sp.vergroesserteFliesenGroesse / 2)) {
                                     stehenUpdate();
                                     spieler.spielablaufManager.mapManager.mapEingabeManager.bewegungOben = false;
                                 }
                             } else if (spieler.spielfigur instanceof Taha || spieler.spielfigur instanceof Yousef) {
-                                if (spieler.spielablaufManager.mainSpieler.weltX > spieler.naechstesFeld.weltX) {
+                                if (spieler.spielablaufManager.mainSpieler.weltX > spieler.aktuellesFeld.weltX) {
                                     linksUpdate();
-                                } else if (spieler.spielablaufManager.mainSpieler.weltY > (spieler.naechstesFeld.weltY - spieler.spielablaufManager.sp.vergroesserteFliesenGroesse / 2)) {
+                                } else if (spieler.spielablaufManager.mainSpieler.weltY > (spieler.aktuellesFeld.weltY - spieler.spielablaufManager.sp.vergroesserteFliesenGroesse / 2)) {
                                     obenUpdate();
-                                } else if (spieler.spielablaufManager.mainSpieler.weltY == (spieler.naechstesFeld.weltY - spieler.spielablaufManager.sp.vergroesserteFliesenGroesse / 2)) {
+                                } else if (spieler.spielablaufManager.mainSpieler.weltY == (spieler.aktuellesFeld.weltY - spieler.spielablaufManager.sp.vergroesserteFliesenGroesse / 2)) {
                                     stehenUpdate();
                                     spieler.spielablaufManager.mapManager.mapEingabeManager.bewegungOben = false;
                                 }
                             }
-                        }else if (spieler.naechstesFeld.equals(spieler.spielablaufManager.mapManager.mapFliesen[6][14].feld)) {
-                            if (spieler.spielablaufManager.mainSpieler.weltX > spieler.naechstesFeld.weltX) {
+                        }else if (spieler.aktuellesFeld.equals(spieler.spielablaufManager.mapManager.mapFliesen[6][14].feld)) {
+                            if (spieler.spielablaufManager.mainSpieler.weltX > spieler.aktuellesFeld.weltX) {
                                 linksUpdate();
-                            } else if (spieler.spielablaufManager.mainSpieler.weltY > (spieler.naechstesFeld.weltY - spieler.spielablaufManager.sp.vergroesserteFliesenGroesse / 2)) {
+                            } else if (spieler.spielablaufManager.mainSpieler.weltY > (spieler.aktuellesFeld.weltY - spieler.spielablaufManager.sp.vergroesserteFliesenGroesse / 2)) {
                                 obenUpdate();
-                            } else if (spieler.spielablaufManager.mainSpieler.weltY == (spieler.naechstesFeld.weltY - spieler.spielablaufManager.sp.vergroesserteFliesenGroesse / 2)) {
+                            } else if (spieler.spielablaufManager.mainSpieler.weltY == (spieler.aktuellesFeld.weltY - spieler.spielablaufManager.sp.vergroesserteFliesenGroesse / 2)) {
                                 stehenUpdate();
                                 spieler.spielablaufManager.mapManager.mapEingabeManager.bewegungOben = false;
                             }
-                        } else if (spieler.naechstesFeld.equals(spieler.spielablaufManager.mapManager.mapFliesen[6][26].feld)) {
-                            if (spieler.spielablaufManager.mainSpieler.weltX < spieler.naechstesFeld.weltX) {
+                        } else if (spieler.aktuellesFeld.equals(spieler.spielablaufManager.mapManager.mapFliesen[6][26].feld)) {
+                            if (spieler.spielablaufManager.mainSpieler.weltX < spieler.aktuellesFeld.weltX) {
                                 rechtsUpdate();
-                            } else if (spieler.spielablaufManager.mainSpieler.weltY > (spieler.naechstesFeld.weltY - spieler.spielablaufManager.sp.vergroesserteFliesenGroesse / 2)) {
+                            } else if (spieler.spielablaufManager.mainSpieler.weltY > (spieler.aktuellesFeld.weltY - spieler.spielablaufManager.sp.vergroesserteFliesenGroesse / 2)) {
                                 obenUpdate();
-                            } else if (spieler.spielablaufManager.mainSpieler.weltY == (spieler.naechstesFeld.weltY - spieler.spielablaufManager.sp.vergroesserteFliesenGroesse / 2)) {
+                            } else if (spieler.spielablaufManager.mainSpieler.weltY == (spieler.aktuellesFeld.weltY - spieler.spielablaufManager.sp.vergroesserteFliesenGroesse / 2)) {
                                 stehenUpdate();
                                 spieler.spielablaufManager.mapManager.mapEingabeManager.bewegungOben = false;
                             }
-                        } else if (spieler.naechstesFeld.equals(spieler.spielablaufManager.mapManager.mapFliesen[6][9].feld) || spieler.naechstesFeld.equals(spieler.spielablaufManager.mapManager.mapFliesen[3][17].feld)) {
-                            if (spieler.spielablaufManager.mainSpieler.weltY > (spieler.naechstesFeld.weltY - spieler.spielablaufManager.sp.vergroesserteFliesenGroesse / 2)) {
+                        } else if (spieler.aktuellesFeld.equals(spieler.spielablaufManager.mapManager.mapFliesen[6][9].feld) || spieler.aktuellesFeld.equals(spieler.spielablaufManager.mapManager.mapFliesen[3][17].feld)) {
+                            if (spieler.spielablaufManager.mainSpieler.weltY > (spieler.aktuellesFeld.weltY - spieler.spielablaufManager.sp.vergroesserteFliesenGroesse / 2)) {
                                 obenUpdate();
-                            } else if (spieler.spielablaufManager.mainSpieler.weltX < (spieler.naechstesFeld.weltX)) {
+                            } else if (spieler.spielablaufManager.mainSpieler.weltX < (spieler.aktuellesFeld.weltX)) {
                                 rechtsUpdate();
-                            } else if (spieler.spielablaufManager.mainSpieler.weltY == (spieler.naechstesFeld.weltY - spieler.spielablaufManager.sp.vergroesserteFliesenGroesse / 2)) {
+                            } else if (spieler.spielablaufManager.mainSpieler.weltY == (spieler.aktuellesFeld.weltY - spieler.spielablaufManager.sp.vergroesserteFliesenGroesse / 2)) {
                                 stehenUpdate();
                                 spieler.spielablaufManager.mapManager.mapEingabeManager.bewegungOben = false;
                             }
-                        } else if (spieler.naechstesFeld.equals(spieler.spielablaufManager.mapManager.mapFliesen[3][23].feld)) {
-                            if (spieler.spielablaufManager.mainSpieler.weltY > (spieler.naechstesFeld.weltY - spieler.spielablaufManager.sp.vergroesserteFliesenGroesse / 2)) {
+                        } else if (spieler.aktuellesFeld.equals(spieler.spielablaufManager.mapManager.mapFliesen[3][23].feld)) {
+                            if (spieler.spielablaufManager.mainSpieler.weltY > (spieler.aktuellesFeld.weltY - spieler.spielablaufManager.sp.vergroesserteFliesenGroesse / 2)) {
                                 obenUpdate();
-                            } else if (spieler.spielablaufManager.mainSpieler.weltX > spieler.naechstesFeld.weltX) {
+                            } else if (spieler.spielablaufManager.mainSpieler.weltX > spieler.aktuellesFeld.weltX) {
                                 linksUpdate();
-                            } else if (spieler.spielablaufManager.mainSpieler.weltY == (spieler.naechstesFeld.weltY - spieler.spielablaufManager.sp.vergroesserteFliesenGroesse / 2)) {
+                            } else if (spieler.spielablaufManager.mainSpieler.weltY == (spieler.aktuellesFeld.weltY - spieler.spielablaufManager.sp.vergroesserteFliesenGroesse / 2)) {
                                 stehenUpdate();
                                 spieler.spielablaufManager.mapManager.mapEingabeManager.bewegungOben = false;
                             }
-                        } else if (spieler.spielablaufManager.mainSpieler.weltY > (spieler.naechstesFeld.weltY - spieler.spielablaufManager.sp.vergroesserteFliesenGroesse / 2)) {
+                        } else if (spieler.spielablaufManager.mainSpieler.weltY > (spieler.aktuellesFeld.weltY - spieler.spielablaufManager.sp.vergroesserteFliesenGroesse / 2)) {
                             obenUpdate();
-                        } else if (spieler.spielablaufManager.mainSpieler.weltY == (spieler.naechstesFeld.weltY - spieler.spielablaufManager.sp.vergroesserteFliesenGroesse / 2)) {
+                        } else if (spieler.spielablaufManager.mainSpieler.weltY == (spieler.aktuellesFeld.weltY - spieler.spielablaufManager.sp.vergroesserteFliesenGroesse / 2)) {
                             stehenUpdate();
-                            System.out.println("when equal");
-                            System.out.println("aktuelles: " +spieler.aktuellesFeld);
-                            System.out.println("naechstes: " +spieler.naechstesFeld);
-                            System.out.println("aktuell: "+ spieler.aktuellFeld);
-                            System.out.println("temp: " + spieler.tempFeld);
                             spieler.spielablaufManager.mapManager.mapEingabeManager.bewegungOben = false;
                         }
                         koordinatenSchicken();
                     }
                 } else if (spieler.spielablaufManager.mapManager.mapEingabeManager.bewegungUnten) {
-                    if (spieler.naechstesFeld == null) {
-                        spieler.naechstesFeld = spieler.aktuellesFeld.suedFeld;
+                    if (spieler.aktuellesFeld == null) {
+                        spieler.aktuellesFeld = spieler.vorherigesFeld.suedFeld;
+                        bewegung.feldNum = spieler.aktuellesFeld.feldNum;
+                        spieler.spielablaufManager.sp.client.send(bewegung);
                     }
 
-                    if (spieler.naechstesFeld != null) {
-                        if (spieler.naechstesFeld.equals(spieler.spielablaufManager.mapManager.mapFliesen[7][15].feld)) {
-                            if (spieler.spielablaufManager.mainSpieler.weltY < (spieler.naechstesFeld.weltY - spieler.spielablaufManager.sp.vergroesserteFliesenGroesse / 2)) {
+                    if (spieler.aktuellesFeld != null) {
+                        if (spieler.aktuellesFeld.equals(spieler.spielablaufManager.mapManager.mapFliesen[7][15].feld)) {
+                            if (spieler.spielablaufManager.mainSpieler.weltY < (spieler.aktuellesFeld.weltY - spieler.spielablaufManager.sp.vergroesserteFliesenGroesse / 2)) {
                                 untenUpdate();
-                            } else if (spieler.spielablaufManager.mainSpieler.weltX < (spieler.naechstesFeld.weltX)) {
+                            } else if (spieler.spielablaufManager.mainSpieler.weltX < (spieler.aktuellesFeld.weltX)) {
                                 rechtsUpdate();
-                            } else if (spieler.spielablaufManager.mainSpieler.weltY == (spieler.naechstesFeld.weltY - spieler.spielablaufManager.sp.vergroesserteFliesenGroesse / 2)) {
+                            } else if (spieler.spielablaufManager.mainSpieler.weltY == (spieler.aktuellesFeld.weltY - spieler.spielablaufManager.sp.vergroesserteFliesenGroesse / 2)) {
                                 stehenUpdate();
                                 spieler.spielablaufManager.mapManager.mapEingabeManager.bewegungUnten = false;
                             }
-                        } else if (spieler.naechstesFeld.equals(spieler.spielablaufManager.mapManager.mapFliesen[4][24].feld)) {
-                            if (spieler.spielablaufManager.mainSpieler.weltX < (spieler.naechstesFeld.weltX)) {
+                        } else if (spieler.aktuellesFeld.equals(spieler.spielablaufManager.mapManager.mapFliesen[4][24].feld)) {
+                            if (spieler.spielablaufManager.mainSpieler.weltX < (spieler.aktuellesFeld.weltX)) {
                                 rechtsUpdate();
-                            } else if (spieler.spielablaufManager.mainSpieler.weltY < (spieler.naechstesFeld.weltY - spieler.spielablaufManager.sp.vergroesserteFliesenGroesse / 2)) {
+                            } else if (spieler.spielablaufManager.mainSpieler.weltY < (spieler.aktuellesFeld.weltY - spieler.spielablaufManager.sp.vergroesserteFliesenGroesse / 2)) {
                                 untenUpdate();
-                            } else if (spieler.spielablaufManager.mainSpieler.weltY == (spieler.naechstesFeld.weltY - spieler.spielablaufManager.sp.vergroesserteFliesenGroesse / 2)) {
+                            } else if (spieler.spielablaufManager.mainSpieler.weltY == (spieler.aktuellesFeld.weltY - spieler.spielablaufManager.sp.vergroesserteFliesenGroesse / 2)) {
                                 stehenUpdate();
                                 spieler.spielablaufManager.mapManager.mapEingabeManager.bewegungUnten = false;
                             }
-                        } else if (spieler.naechstesFeld.equals(spieler.spielablaufManager.mapManager.mapFliesen[4][16].feld) || spieler.naechstesFeld.equals(spieler.spielablaufManager.mapManager.mapFliesen[7][8].feld)) {
-                            if (spieler.spielablaufManager.mainSpieler.weltX > (spieler.naechstesFeld.weltX)) {
+                        } else if (spieler.aktuellesFeld.equals(spieler.spielablaufManager.mapManager.mapFliesen[4][16].feld) || spieler.aktuellesFeld.equals(spieler.spielablaufManager.mapManager.mapFliesen[7][8].feld)) {
+                            if (spieler.spielablaufManager.mainSpieler.weltX > (spieler.aktuellesFeld.weltX)) {
                                 linksUpdate();
-                            } else if (spieler.spielablaufManager.mainSpieler.weltY < (spieler.naechstesFeld.weltY - spieler.spielablaufManager.sp.vergroesserteFliesenGroesse / 2)) {
+                            } else if (spieler.spielablaufManager.mainSpieler.weltY < (spieler.aktuellesFeld.weltY - spieler.spielablaufManager.sp.vergroesserteFliesenGroesse / 2)) {
                                 untenUpdate();
-                            } else if (spieler.spielablaufManager.mainSpieler.weltY == (spieler.naechstesFeld.weltY - spieler.spielablaufManager.sp.vergroesserteFliesenGroesse / 2)) {
+                            } else if (spieler.spielablaufManager.mainSpieler.weltY == (spieler.aktuellesFeld.weltY - spieler.spielablaufManager.sp.vergroesserteFliesenGroesse / 2)) {
                                 stehenUpdate();
                                 spieler.spielablaufManager.mapManager.mapEingabeManager.bewegungUnten = false;
                             }
-                        } else if (spieler.naechstesFeld.equals(spieler.spielablaufManager.mapManager.mapFliesen[7][25].feld)) {
-                            if (spieler.spielablaufManager.mainSpieler.weltY < (spieler.naechstesFeld.weltY - spieler.spielablaufManager.sp.vergroesserteFliesenGroesse / 2)) {
+                        } else if (spieler.aktuellesFeld.equals(spieler.spielablaufManager.mapManager.mapFliesen[7][25].feld)) {
+                            if (spieler.spielablaufManager.mainSpieler.weltY < (spieler.aktuellesFeld.weltY - spieler.spielablaufManager.sp.vergroesserteFliesenGroesse / 2)) {
                                 untenUpdate();
-                            } else if (spieler.spielablaufManager.mainSpieler.weltX > (spieler.naechstesFeld.weltX)) {
+                            } else if (spieler.spielablaufManager.mainSpieler.weltX > (spieler.aktuellesFeld.weltX)) {
                                 linksUpdate();
-                            } else if (spieler.spielablaufManager.mainSpieler.weltY == (spieler.naechstesFeld.weltY - spieler.spielablaufManager.sp.vergroesserteFliesenGroesse / 2)) {
+                            } else if (spieler.spielablaufManager.mainSpieler.weltY == (spieler.aktuellesFeld.weltY - spieler.spielablaufManager.sp.vergroesserteFliesenGroesse / 2)) {
                                 stehenUpdate();
                                 spieler.spielablaufManager.mapManager.mapEingabeManager.bewegungUnten = false;
                             }
-                        } else if (spieler.spielablaufManager.mainSpieler.weltY < (spieler.naechstesFeld.weltY - spieler.spielablaufManager.sp.vergroesserteFliesenGroesse / 2)) {
+                        } else if (spieler.spielablaufManager.mainSpieler.weltY < (spieler.aktuellesFeld.weltY - spieler.spielablaufManager.sp.vergroesserteFliesenGroesse / 2)) {
                             untenUpdate();
-                        } else if (spieler.spielablaufManager.mainSpieler.weltY == (spieler.naechstesFeld.weltY - spieler.spielablaufManager.sp.vergroesserteFliesenGroesse / 2)) {
+                        } else if (spieler.spielablaufManager.mainSpieler.weltY == (spieler.aktuellesFeld.weltY - spieler.spielablaufManager.sp.vergroesserteFliesenGroesse / 2)) {
                             stehenUpdate();
-                            System.out.println("when equal");
-                            System.out.println("aktuelles: " +spieler.aktuellesFeld);
-                            System.out.println("naechstes: " +spieler.naechstesFeld);
-                            System.out.println("aktuell: "+ spieler.aktuellFeld);
-                            System.out.println("temp: " + spieler.tempFeld);
-
                             spieler.spielablaufManager.mapManager.mapEingabeManager.bewegungUnten = false;
                         }
                         koordinatenSchicken();
 
                     }
                 } else if (spieler.spielablaufManager.mapManager.mapEingabeManager.bewegungLinks) {
-                    if (spieler.naechstesFeld == null) {
-                        spieler.naechstesFeld = spieler.aktuellesFeld.westFeld;
+                    if (spieler.aktuellesFeld == null) {
+                        spieler.aktuellesFeld = spieler.vorherigesFeld.westFeld;
+                        bewegung.feldNum = spieler.aktuellesFeld.feldNum;
+                        spieler.spielablaufManager.sp.client.send(bewegung);
                     }
 
-                    if (spieler.naechstesFeld != null) {
-                        if (spieler.spielablaufManager.mainSpieler.weltX > (spieler.naechstesFeld.weltX)) {
+                    if (spieler.aktuellesFeld != null) {
+                        if (spieler.spielablaufManager.mainSpieler.weltX > (spieler.aktuellesFeld.weltX)) {
                             linksUpdate();
-                        } else if (spieler.spielablaufManager.mainSpieler.weltX == (spieler.naechstesFeld.weltX)) {
+                        } else if (spieler.spielablaufManager.mainSpieler.weltX == (spieler.aktuellesFeld.weltX)) {
                             stehenUpdate();
-                            System.out.println("when equal");
-                            System.out.println("aktuelles: " +spieler.aktuellesFeld);
-                            System.out.println("naechstes: " +spieler.naechstesFeld);
-                            System.out.println("aktuell: "+ spieler.aktuellFeld);
-                            System.out.println("temp: " + spieler.tempFeld);
-
                             spieler.spielablaufManager.mapManager.mapEingabeManager.bewegungLinks = false;
                         }
                         koordinatenSchicken();
                     }
                 } else if (spieler.spielablaufManager.mapManager.mapEingabeManager.bewegungRechts) {
-                    if (spieler.naechstesFeld == null) {
-                        spieler.naechstesFeld = spieler.aktuellesFeld.ostFeld;
+                    if (spieler.aktuellesFeld == null) {
+                        spieler.aktuellesFeld = spieler.vorherigesFeld.ostFeld;
+                        bewegung.feldNum = spieler.aktuellesFeld.feldNum;
+                        spieler.spielablaufManager.sp.client.send(bewegung);
                     }
 
-                    if (spieler.naechstesFeld != null) {
-                        if (spieler.spielablaufManager.mainSpieler.weltX < (spieler.naechstesFeld.weltX)) {
+                    if (spieler.aktuellesFeld != null) {
+                        if (spieler.spielablaufManager.mainSpieler.weltX < (spieler.aktuellesFeld.weltX)) {
                             rechtsUpdate();
-                        } else if (spieler.spielablaufManager.mainSpieler.weltX == (spieler.naechstesFeld.weltX)) {
+                        } else if (spieler.spielablaufManager.mainSpieler.weltX == (spieler.aktuellesFeld.weltX)) {
                             stehenUpdate();
-                            System.out.println("when equal");
-                            System.out.println("aktuelles: " +spieler.aktuellesFeld);
-                            System.out.println("naechstes: " +spieler.naechstesFeld);
-                            System.out.println("aktuell: "+ spieler.aktuellFeld);
-                            System.out.println("temp: " + spieler.tempFeld);
-
                             spieler.spielablaufManager.mapManager.mapEingabeManager.bewegungRechts = false;
                         }
                        koordinatenSchicken();
@@ -235,7 +222,8 @@ public abstract class Spielfigur {
                         for (Spieler andererSpieler : spieler.spielablaufManager.sp.alleSpieler) {
                             andererSpieler.bildschirmY += spieler.geschwindigkeit;
                         }
-                } else if(spieler.spielablaufManager.mainSpieler.weltX > spieler.spielablaufManager.mapManager.mapFliesen[spieler.spielablaufManager.mapManager.stern.sternFeldZeile][spieler.spielablaufManager.mapManager.stern.sternFeldSpalte].feld.weltX){
+                }
+                if(spieler.spielablaufManager.mainSpieler.weltX > spieler.spielablaufManager.mapManager.mapFliesen[spieler.spielablaufManager.mapManager.stern.sternFeldZeile][spieler.spielablaufManager.mapManager.stern.sternFeldSpalte].feld.weltX){
                     spieler.spielablaufManager.mainSpieler.weltX -= spieler.geschwindigkeit;
                     if (!spieler.spielablaufManager.sp.alleSpieler.isEmpty())
                         for (Spieler andererSpieler : spieler.spielablaufManager.sp.alleSpieler) {
@@ -247,14 +235,17 @@ public abstract class Spielfigur {
                         for (Spieler andererSpieler : spieler.spielablaufManager.sp.alleSpieler) {
                             andererSpieler.bildschirmX -= spieler.geschwindigkeit;
                         }
-                }else if(spieler.spielablaufManager.mainSpieler.weltX == spieler.spielablaufManager.mapManager.mapFliesen[spieler.spielablaufManager.mapManager.stern.sternFeldZeile][spieler.spielablaufManager.mapManager.stern.sternFeldSpalte].feld.weltX){
+                }else if(spieler.spielablaufManager.mainSpieler.weltX == spieler.spielablaufManager.mapManager.mapFliesen[spieler.spielablaufManager.mapManager.stern.sternFeldZeile][spieler.spielablaufManager.mapManager.stern.sternFeldSpalte].feld.weltX
+                 && spieler.spielablaufManager.mainSpieler.weltY == spieler.spielablaufManager.mapManager.mapFliesen[spieler.spielablaufManager.mapManager.stern.sternFeldZeile][spieler.spielablaufManager.mapManager.stern.sternFeldSpalte].feld.weltY - spieler.spielablaufManager.sp.vergroesserteFliesenGroesse / 2){
                     spieler.zuStern = false;
                     spieler.bewegung = false;
                     bewegung.zustern = false;
                     spieler.spielablaufManager.sp.client.send(bewegung);
-                    spieler.aktuellFeld.effeckteAnwenden();
+                    spieler.aktuellesFeld.effeckteAnwenden();
                 }
                 koordinatenSchicken();
+
+
             }
         }else {
             bilderUpdate();
@@ -304,10 +295,9 @@ public abstract class Spielfigur {
         spieler.bewegung = false;
         richtung = "stehen";
         bewegung.richtung = "stehen";
-        spieler.aktuellFeld = spieler.naechstesFeld;
         spieler.spielablaufManager.sp.client.send(bewegung);
         if (spieler.schritteAnzahl == 0) {
-            spieler.naechstesFeld.effeckteAnwenden();
+            spieler.aktuellesFeld.effeckteAnwenden();
         }
     }
     private void bilderUpdate(){
@@ -388,8 +378,8 @@ public abstract class Spielfigur {
                 break;
         }
         if(spieler.zuStern){
-            g2.drawImage(wolke, this.spieler.bildschirmX, this.spieler.bildschirmY+30, spieler.spielablaufManager.sp.vergroesserteFliesenGroesse, spieler.spielablaufManager.sp.vergroesserteFliesenGroesse, null);
+            g2.drawImage(wolke, (int) this.spieler.bildschirmX, (int)this.spieler.bildschirmY+30, spieler.spielablaufManager.sp.vergroesserteFliesenGroesse, spieler.spielablaufManager.sp.vergroesserteFliesenGroesse, null);
         }
-        g2.drawImage(image, this.spieler.bildschirmX, this.spieler.bildschirmY, spieler.spielablaufManager.sp.vergroesserteFliesenGroesse, spieler.spielablaufManager.sp.vergroesserteFliesenGroesse, null);
+        g2.drawImage(image, (int) this.spieler.bildschirmX, (int) this.spieler.bildschirmY, spieler.spielablaufManager.sp.vergroesserteFliesenGroesse, spieler.spielablaufManager.sp.vergroesserteFliesenGroesse, null);
     }
 }

@@ -1,7 +1,6 @@
 package spieler;
 
 import javax.imageio.ImageIO;
-import java.awt.image.BufferedImage;
 import java.io.IOException;
 
 public class SternTaxi extends Gegenstand{
@@ -25,10 +24,8 @@ public class SternTaxi extends Gegenstand{
     @Override
     public void effeckteAnwenden(){
         spieler.zuStern = true;
-        spieler.naechstesFeld = spieler.spielablaufManager.mapManager.mapFliesen[spieler.spielablaufManager.mapManager.stern.sternFeldZeile][spieler.spielablaufManager.mapManager.stern.sternFeldSpalte].feld;
-        spieler.aktuellesFeld = null;
-        spieler.aktuellFeld = spieler.spielablaufManager.mapManager.mapFliesen[spieler.spielablaufManager.mapManager.stern.sternFeldZeile][spieler.spielablaufManager.mapManager.stern.sternFeldSpalte].feld;
-        spieler.tempFeld = null;
+        spieler.aktuellesFeld = spieler.spielablaufManager.mapManager.mapFliesen[spieler.spielablaufManager.mapManager.stern.sternFeldZeile][spieler.spielablaufManager.mapManager.stern.sternFeldSpalte].feld;
+        spieler.vorherigesFeld = null;
         spieler.bewegung = true;
         spieler.inventarZustand = false;
         spieler.spielablaufManager.mapManager.mapEingabeManager.iGedrueckt = false;

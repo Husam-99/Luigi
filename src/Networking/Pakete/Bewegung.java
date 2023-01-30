@@ -5,7 +5,6 @@ public class Bewegung {
     public String richtung = "stehen";
     public boolean zustern = false;
     public int bubeClientIndex = -1;
-
     public boolean obenGedrueckt = false;
     public boolean untenGedrueckt = false;
     public boolean linksGedrueckt = false;

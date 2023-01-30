@@ -25,7 +25,6 @@ public class SpielClient {
     public SpielClient(SpielPanel sp){
         this.sp = sp;
         client = new Client();
-
     }
 
     public void start(){
@@ -36,7 +35,6 @@ public class SpielClient {
             client.addListener(new Listener(){
                 @Override
                 public void received(Connection connection, Object object) {
-
                     if (object instanceof ClientsZug zug) {
                         if(zug.dispose){
                             sp.window.dispose();
@@ -47,7 +45,9 @@ public class SpielClient {
                         }else{
                             wartung = false;
                             istDran = zug.istDran;
-
+                            if(istDran && sp.zustand == sp.spielBrettZustand){
+                                sp.spielablaufManager.mainSpieler.wuerfelZustand = true;
+                            }
                         }
                         if(zug.zustand == sp.minispielZustand){
                             sp.setzeZustand(sp.minispielZustand, zug.minispielIndex);
@@ -92,7 +92,8 @@ public class SpielClient {
                                 sp.hinzufuegeSpieler(andererSpieler, spielfigurAuswahl.clientIndex);
                             }
                         } else{
-                            sp.menueManager.menueEingabeManager.ausgewaehlteSpielfiguren.add(spielfigurAuswahl.spielfigurMenueIndex);
+                            sp.menueManager.menueEingabeManager.ausgewaehlteSpielfiguren.set(spielfigurAuswahl.clientIndex,spielfigurAuswahl.spielfigurMenueIndex);
+                            sp.menueManager.spielfigurAuswaehlen.befehlNum1Bestimmen();
                         }
                     } else if(object instanceof SternPosition sternPosition){
                         sp.spielablaufManager.mapManager.stern.setFeldNum(sternPosition.sternFeldnummer);
@@ -137,8 +138,7 @@ public class SpielClient {
                             sp.minispielManager.alleMinispielSpieler.get(bewegung.clientIndex).untenGedrueckt = bewegung.untenGedrueckt;
                             sp.minispielManager.alleMinispielSpieler.get(bewegung.clientIndex).linksGedrueckt = bewegung.linksGedrueckt;
                             sp.minispielManager.alleMinispielSpieler.get(bewegung.clientIndex).rechtsGedrueckt = bewegung.rechtsGedrueckt;
-                        } else {
-
+                        } else if(sp.zustand == sp.spielBrettZustand){
                             if (bewegung.richtung.equals("oben")) {
                                 sp.alleSpieler.get(bewegung.clientIndex).spielfigur.richtung = "oben";
                             } else if (bewegung.richtung.equals("unten")) {
@@ -163,14 +163,10 @@ public class SpielClient {
                                                 if (sp.spielablaufManager.mapManager.mapFliesen[zeile][spalte].feld.feldNum == bewegung.feldNum) {
                                                     if (bewegung.bubeClientIndex != -1) {
                                                         if (clientIndex == bewegung.bubeClientIndex) {
-                                                            sp.alleSpieler.get(bewegung.clientIndex).aktuellFeld = sp.spielablaufManager.mainSpieler.aktuellFeld;
-                                                            sp.alleSpieler.get(bewegung.clientIndex).naechstesFeld = sp.spielablaufManager.mainSpieler.aktuellFeld;
-                                                            sp.alleSpieler.get(bewegung.clientIndex).aktuellesFeld = null;
-                                                            sp.alleSpieler.get(bewegung.clientIndex).tempFeld = null;
-                                                            sp.spielablaufManager.mainSpieler.aktuellFeld = sp.spielablaufManager.mapManager.mapFliesen[zeile][spalte].feld;
-                                                            sp.spielablaufManager.mainSpieler.naechstesFeld = sp.spielablaufManager.mapManager.mapFliesen[zeile][spalte].feld;
-                                                            sp.spielablaufManager.mainSpieler.aktuellesFeld = null;
-                                                            sp.spielablaufManager.mainSpieler.tempFeld = null;
+                                                            sp.alleSpieler.get(bewegung.clientIndex).aktuellesFeld = sp.spielablaufManager.mainSpieler.aktuellesFeld;
+                                                            sp.alleSpieler.get(bewegung.clientIndex).vorherigesFeld = null;
+                                                            sp.spielablaufManager.mainSpieler.aktuellesFeld = sp.spielablaufManager.mapManager.mapFliesen[zeile][spalte].feld;
+                                                            sp.spielablaufManager.mainSpieler.vorherigesFeld = null;
                                                             int weltXtemp = sp.spielablaufManager.mainSpieler.weltX;
                                                             int weltYtemp = sp.spielablaufManager.mainSpieler.weltY;
                                                             sp.alleSpieler.get(bewegung.clientIndex).weltX = weltXtemp;
@@ -178,14 +174,10 @@ public class SpielClient {
                                                             sp.spielablaufManager.mainSpieler.weltX = sp.spielablaufManager.mapManager.mapFliesen[zeile][spalte].feld.weltX;
                                                             sp.spielablaufManager.mainSpieler.weltY = sp.spielablaufManager.mapManager.mapFliesen[zeile][spalte].feld.weltY - sp.vergroesserteFliesenGroesse / 2;
                                                         } else {
-                                                            sp.alleSpieler.get(bewegung.clientIndex).aktuellFeld = sp.alleSpieler.get(bewegung.bubeClientIndex).aktuellFeld;
-                                                            sp.alleSpieler.get(bewegung.clientIndex).naechstesFeld = sp.alleSpieler.get(bewegung.bubeClientIndex).aktuellFeld;
-                                                            sp.alleSpieler.get(bewegung.clientIndex).aktuellesFeld = null;
-                                                            sp.alleSpieler.get(bewegung.clientIndex).tempFeld = null;
-                                                            sp.alleSpieler.get(bewegung.bubeClientIndex).aktuellFeld = sp.spielablaufManager.mapManager.mapFliesen[zeile][spalte].feld;
-                                                            sp.alleSpieler.get(bewegung.bubeClientIndex).naechstesFeld = sp.spielablaufManager.mapManager.mapFliesen[zeile][spalte].feld;
-                                                            sp.alleSpieler.get(bewegung.bubeClientIndex).aktuellesFeld = null;
-                                                            sp.alleSpieler.get(bewegung.bubeClientIndex).tempFeld = null;
+                                                            sp.alleSpieler.get(bewegung.clientIndex).aktuellesFeld = sp.alleSpieler.get(bewegung.bubeClientIndex).aktuellesFeld;
+                                                            sp.alleSpieler.get(bewegung.clientIndex).vorherigesFeld = null;
+                                                            sp.alleSpieler.get(bewegung.bubeClientIndex).aktuellesFeld = sp.spielablaufManager.mapManager.mapFliesen[zeile][spalte].feld;
+                                                            sp.alleSpieler.get(bewegung.bubeClientIndex).vorherigesFeld = null;
                                                             int weltXtemp = sp.alleSpieler.get(bewegung.bubeClientIndex).weltX;
                                                             int weltYtemp = sp.alleSpieler.get(bewegung.bubeClientIndex).weltY;
                                                             sp.alleSpieler.get(bewegung.clientIndex).weltX = weltXtemp;
@@ -198,10 +190,8 @@ public class SpielClient {
                                                             spieler.bildschirmY = spieler.weltY - spieler.spielablaufManager.mainSpieler.weltY + spieler.spielablaufManager.mainSpieler.bildschirmY;
                                                         }
                                                     } else {
-                                                        sp.alleSpieler.get(bewegung.clientIndex).aktuellFeld = sp.spielablaufManager.mapManager.mapFliesen[zeile][spalte].feld;
-                                                        sp.alleSpieler.get(bewegung.clientIndex).naechstesFeld = sp.spielablaufManager.mapManager.mapFliesen[zeile][spalte].feld;
-                                                        sp.alleSpieler.get(bewegung.clientIndex).aktuellesFeld = null;
-                                                        sp.alleSpieler.get(bewegung.clientIndex).tempFeld = null;
+                                                        sp.alleSpieler.get(bewegung.clientIndex).aktuellesFeld = sp.spielablaufManager.mapManager.mapFliesen[zeile][spalte].feld;
+                                                        sp.alleSpieler.get(bewegung.clientIndex).vorherigesFeld = null;
                                                     }
                                                 }
                                             }
@@ -211,12 +201,18 @@ public class SpielClient {
                             }
                         }
                     } else if(object instanceof GegenstandInfo gegenstandInfo){
-                        if(gegenstandInfo.gegenstandNum != -1){
-                            sp.alleSpieler.get(gegenstandInfo.clientIndex).inventar.gegenstandBekommen(gegenstandInfo.gegenstandNum);
-                        } else {
-                            sp.alleSpieler.get(gegenstandInfo.clientIndex).inventar.gegenstandVerwenden(gegenstandInfo.befehlNum);
-
+                        if(clientIndex == gegenstandInfo.gegenstandClientIndex){
+                            sp.spielablaufManager.mainSpieler.inventar.gegenstandVerwenden(gegenstandInfo.gestohleneGegenstandNum);
+                        }else if(gegenstandInfo.gegenstandNum != -1 || gegenstandInfo.befehlNum != -1){
+                            if(gegenstandInfo.gegenstandNum != -1){
+                                sp.alleSpieler.get(gegenstandInfo.clientIndex).inventar.gegenstandBekommen(gegenstandInfo.gegenstandNum);
+                            } else {
+                                sp.alleSpieler.get(gegenstandInfo.clientIndex).inventar.gegenstandVerwenden(gegenstandInfo.befehlNum);
+                            }
+                        }else{
+                            sp.spielablaufManager.sp.alleSpieler.get(gegenstandInfo.gegenstandClientIndex).inventar.gegenstandVerwenden(gegenstandInfo.gestohleneGegenstandNum);
                         }
+
                     } else if(object instanceof SammlerGegenstaende sammlerGegenstaende){
                         if(sp.minispielManager.minispielWahl == 0) {
                             if (sammlerGegenstaende.elementIndex == 1) {
@@ -353,9 +349,6 @@ public class SpielClient {
             squidGamePosition.clientIndex = clientIndex;
             client.sendTCP(squidGamePosition);
         }
-
-
     }
-
 
 }

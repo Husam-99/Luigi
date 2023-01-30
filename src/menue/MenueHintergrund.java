@@ -1,5 +1,7 @@
 package menue;
 
+import Main.SpielPanel;
+
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -10,7 +12,7 @@ import java.io.InputStreamReader;
 
 public class MenueHintergrund {
 
-    MenueManager mn;
+    SpielPanel sp;
     BufferedImage[] fliese;
     int hintergrundFlieseNum[][];
     int menueHintergrundSpalte = 15;
@@ -23,8 +25,8 @@ public class MenueHintergrund {
     int zustand = hin;
 
 
-    public MenueHintergrund(MenueManager mn){
-        this.mn = mn;
+    public MenueHintergrund(SpielPanel sp){
+        this.sp = sp;
         fliese = new BufferedImage[90];
         hintergrundFlieseNum = new int[15][6];
         getFlieseBilder();
@@ -85,6 +87,7 @@ public class MenueHintergrund {
     }
 
     public void malen(Graphics2D g2){
+        g2.setFont(sp.marioPartyFont);
         hintergrundSplate = 0;
         hintergrundZeile = 0;
         this.g2 = g2;
@@ -96,15 +99,15 @@ public class MenueHintergrund {
             if(hintergrundZeile == 0 && hintergrundSplate == 0){
                 x =this.x;
             }
-            g2.drawImage(fliese[flieseNum], x, y, mn.sp.vergroesserteFliesenGroesseMenue, mn.sp.vergroesserteFliesenGroesseMenue, null);
+            g2.drawImage(fliese[flieseNum], x, y, sp.vergroesserteFliesenGroesseMenue, sp.vergroesserteFliesenGroesseMenue, null);
             hintergrundSplate++;
-            x += mn.sp.vergroesserteFliesenGroesseMenue;
+            x += sp.vergroesserteFliesenGroesseMenue;
 
             if(hintergrundSplate == menueHintergrundSpalte){
                 hintergrundSplate = 0;
                 x = this.x;
                 hintergrundZeile++;
-                y += mn.sp.vergroesserteFliesenGroesseMenue;
+                y += sp.vergroesserteFliesenGroesseMenue;
             }
         }
     }
