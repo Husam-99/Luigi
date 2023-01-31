@@ -107,6 +107,24 @@ public class Spieler {
                 }
             }
         }
+        if (spielablaufManager.sp.aktuelleRundenAnzahl == 0) {
+            if (this == spielablaufManager.mainSpieler) {
+                if (schritteAnzahl > 0) {
+                    schritteMalen();
+                }
+            } else {
+                if (schritteAnzahl > 0) {
+                    andereSpielerSchritteMalen();
+                }
+            }
+        }
+    }
+
+    private void andereSpielerSchritteMalen(){
+        g2.setColor(Color.yellow);
+        g2.setFont(g2.getFont().deriveFont(Font.BOLD,70F));
+        String schritte = Integer.toString(schritteAnzahl);
+        g2.drawString(schritte, bildschirmX + 25, bildschirmY - 20);
     }
     private void schritteMalen(){
         if(schritteAnzahl < 10) {
@@ -135,6 +153,5 @@ public class Spieler {
     private int getXfuerCenter(String text) {
         int length = (int)g2.getFontMetrics().getStringBounds(text, g2).getWidth();
         return spielablaufManager.sp.bildschirmBreite/2 - length/2;
-
     }
 }

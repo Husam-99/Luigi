@@ -24,7 +24,7 @@ public class SpielPanel extends JPanel implements Runnable{
 
     public JFrame window;
     public int zustand;
-    public final int menueZustand = 0, wuerfelZustand = 1, spielBrettZustand = 2, minispielZustand = 3, siegerKuerenZustand = 4;
+    public final int menueZustand = 0, zugFestlegenZustand = 1, spielBrettZustand = 2, minispielZustand = 3, siegerKuerenZustand = 4;
     public boolean wurfelzustand = false;
     public final int fliesenGroesse = 32;
     public final int skalaMenue = 5, skala = 3,
@@ -55,7 +55,8 @@ public class SpielPanel extends JPanel implements Runnable{
     public SpielablaufManager spielablaufManager;
     public MinispielManager minispielManager;
     SiegerKueren siegerKueren;
-    public int ausgewaehlteRundenAnzahl, aktuelleRundenAnzahl = 0;
+    public int ausgewaehlteRundenAnzahl,
+            aktuelleRundenAnzahl = 0;
 
     public SpielPanel(JFrame window){
         this.window = window;
@@ -73,6 +74,7 @@ public class SpielPanel extends JPanel implements Runnable{
         // Get font and sound
         try {
             InputStream is = getClass().getResourceAsStream("/font/Mario-Party-Hudson-Font.ttf");
+            assert is != null;
             marioPartyFont = Font.createFont(Font.TRUETYPE_FONT, is);
 
             File soundFile = new File("src/source/sound/platformer.wav");
@@ -81,7 +83,8 @@ public class SpielPanel extends JPanel implements Runnable{
             soundClip.open(audioInputStream);
             floatControl = (FloatControl) soundClip.getControl(FloatControl.Type.MASTER_GAIN);
             floatControl.setValue(-20f);
-            soundClip.start();
+
+            //soundClip.start();
 
         } catch (FontFormatException | IOException e) {
             e.printStackTrace();

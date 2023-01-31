@@ -1,11 +1,9 @@
 package Networking.Server;
 
 import Networking.Pakete.*;
-import com.esotericsoftware.kryonet.Client;
 import com.esotericsoftware.kryonet.Connection;
 import com.esotericsoftware.kryonet.Listener;
 
-import java.nio.file.attribute.UserPrincipalLookupService;
 import java.util.*;
 
 import static Networking.Server.SpielServer.*;
@@ -54,6 +52,9 @@ public class ServerListener extends Listener {
         for(Map.Entry<Connection, SpielerAuskuenfte> entry : alleClients.entrySet()){
             HostClient hostClient = new HostClient();
             hostClient.clientIndex = entry.getValue().clientIndex;
+            if(hostClient.clientIndex == 0){
+                hostClient.istHost = true;
+            }
             server.sendToTCP(entry.getKey().getID(), hostClient);
         }
         System.out.println(alleClients.size());
@@ -61,6 +62,7 @@ public class ServerListener extends Listener {
         anzahl.anzahlVerbundeneClients = alleClients.size();
         server.sendToAllTCP(anzahl);
         alleClients.get(connection).istDran = zug.istDran;
+
 
         spielerReihenfolge.add(alleClients.get(connection).clientIndex);
         schritteArray.add(null);
@@ -186,8 +188,6 @@ public class ServerListener extends Listener {
                         } else {
                             naechsterClient = spielerReihenfolge.get(0);
                         }
-
-
                     }
                 }
             };
@@ -262,7 +262,6 @@ public class ServerListener extends Listener {
                         stelle++;
                         if (stelle == spielerReihenfolge.size()) {
                             schritteArray.clear();
-
                         }
                     }
                     if (schritteArray.size() == 0) {
@@ -277,10 +276,12 @@ public class ServerListener extends Listener {
                                     ClientsZug zug = new ClientsZug();
                                     zug.zustand = 2;
                                     zug.istDran = false;
+                                    zug.ersteRunde = true;
                                     server.sendToAllTCP(zug);
                                     naechsterClient = spielerReihenfolge.get(0);
                                     System.out.println("naechster Spieler " + naechsterClient);
                                     alleClients.get(server.getConnections()[naechsterClient]).istDran = true;
+                                    zug.ersteRunde = false;
                                     zug.istDran = true;
                                     server.sendToTCP(server.getConnections()[naechsterClient].getID(), zug);
                                     if (spielerReihenfolge.indexOf(naechsterClient) < spielerReihenfolge.size() - 1) {

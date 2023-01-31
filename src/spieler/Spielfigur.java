@@ -36,9 +36,6 @@ public abstract class Spielfigur {
                 spieler.amSpiel = true;
             } else if (spieler.spielablaufManager.mapManager.mapEingabeManager.bewegungOben || spieler.spielablaufManager.mapManager.mapEingabeManager.bewegungUnten ||
                     spieler.spielablaufManager.mapManager.mapEingabeManager.bewegungLinks || spieler.spielablaufManager.mapManager.mapEingabeManager.bewegungRechts) {
-                System.out.println("spieler");
-                System.out.println(spieler.spielablaufManager.mainSpieler.weltX);
-                System.out.println(spieler.spielablaufManager.mainSpieler.weltY);
                 if (spieler.spielablaufManager.mapManager.mapEingabeManager.bewegungOben) {
                     if (spieler.vorherigesFeld == null) {
                         spieler.vorherigesFeld = spieler.spielablaufManager.mapManager.mapFliesen[19][11].feld;
@@ -244,8 +241,6 @@ public abstract class Spielfigur {
                     spieler.aktuellesFeld.effeckteAnwenden();
                 }
                 koordinatenSchicken();
-
-
             }
         }else {
             bilderUpdate();
@@ -378,8 +373,8 @@ public abstract class Spielfigur {
                 break;
         }
         if(spieler.zuStern){
-            g2.drawImage(wolke, (int) this.spieler.bildschirmX, (int)this.spieler.bildschirmY+30, spieler.spielablaufManager.sp.vergroesserteFliesenGroesse, spieler.spielablaufManager.sp.vergroesserteFliesenGroesse, null);
+            g2.drawImage(wolke, this.spieler.bildschirmX, this.spieler.bildschirmY+30, spieler.spielablaufManager.sp.vergroesserteFliesenGroesse, spieler.spielablaufManager.sp.vergroesserteFliesenGroesse, null);
         }
-        g2.drawImage(image, (int) this.spieler.bildschirmX, (int) this.spieler.bildschirmY, spieler.spielablaufManager.sp.vergroesserteFliesenGroesse, spieler.spielablaufManager.sp.vergroesserteFliesenGroesse, null);
+        g2.drawImage(image,this.spieler.bildschirmX,  this.spieler.bildschirmY, spieler.spielablaufManager.sp.vergroesserteFliesenGroesse, spieler.spielablaufManager.sp.vergroesserteFliesenGroesse, null);
     }
 }

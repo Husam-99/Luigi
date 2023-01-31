@@ -9,12 +9,13 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.Objects;
 
 public class MenueHintergrund {
 
     SpielPanel sp;
     BufferedImage[] fliese;
-    int hintergrundFlieseNum[][];
+    int[][] hintergrundFlieseNum;
     int menueHintergrundSpalte = 15;
     int menueHintergrundZeile = 6;
     Graphics2D g2;
@@ -36,7 +37,7 @@ public class MenueHintergrund {
     public void getFlieseBilder(){
         try{
             for(int temp = 0; temp < 90; temp++){
-                    fliese[temp] = ImageIO.read(getClass().getResourceAsStream("/menueHintergrund/tileset"+ temp +".png"));
+                    fliese[temp] = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/menueHintergrund/tileset" + temp + ".png")));
             }
         }catch(IOException e){
             e.printStackTrace();
@@ -46,6 +47,7 @@ public class MenueHintergrund {
     public void flieseLesen(){
         try{
             InputStream is= getClass().getResourceAsStream("/menueHintergrund/menueHintergrund.txt");
+            assert is != null;
             BufferedReader reader = new BufferedReader(new InputStreamReader(is));
 
             int spalte = 0;
@@ -54,7 +56,7 @@ public class MenueHintergrund {
             while(spalte < 15 && zeile < 6){
                 String line = reader.readLine();
                 while(spalte < 15){
-                    String numbers[] = line.split(" ");
+                    String[] numbers = line.split(" ");
                     int num = Integer.parseInt(numbers[spalte]);
                     hintergrundFlieseNum[spalte][zeile] = num;
                     spalte++;
@@ -65,7 +67,7 @@ public class MenueHintergrund {
                 }
             }
             reader.close();
-        }catch(Exception e){
+        }catch(Exception ignored){
         }
     }
     public void update(){

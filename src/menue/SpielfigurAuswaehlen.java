@@ -14,16 +14,24 @@ public class SpielfigurAuswaehlen{
     String richtung = "unten";
     BufferedImage image1 = null, image2 = null;
     Spieler s;
-    public Taha taha = new Taha(s);
-    public Husam husam = new Husam(s);
-    public Abdo abdo = new Abdo(s);
-    public Yousef yousef = new Yousef(s);
-    public TahaWuerfel twuerfel = new TahaWuerfel(s);
-    public HusamWuerfel hwuerfel = new HusamWuerfel(s);
-    public AbdoWuerfel awuerfel = new AbdoWuerfel(s);
-    public YousefWuerfel ywuerfel = new YousefWuerfel(s);
+    public Taha taha;
+    public Husam husam;
+    public Abdo abdo;
+    public Yousef yousef;
+    public TahaWuerfel twuerfel;
+    public HusamWuerfel hwuerfel;
+    public AbdoWuerfel awuerfel;
+    public YousefWuerfel ywuerfel;
     public SpielfigurAuswaehlen(MenueManager mn){
         this.mn = mn;
+        taha = new Taha(s);
+        husam = new Husam(s);
+        abdo = new Abdo(s);
+        yousef = new Yousef(s);
+        twuerfel = new TahaWuerfel(s);
+        hwuerfel = new HusamWuerfel(s);
+        awuerfel = new AbdoWuerfel(s);
+        ywuerfel = new YousefWuerfel(s);
     }
     public void befehlNum1Bestimmen(){
         if(mn.sp.client.isIstHost()){

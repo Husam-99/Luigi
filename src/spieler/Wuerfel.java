@@ -34,7 +34,6 @@ public abstract class Wuerfel {
             Schritte schritte = new Schritte();
             schritte.schritteAnzahl = spieler.schritteAnzahl;
             spieler.spielablaufManager.sp.client.send(schritte);
-            spieler.spielablaufManager.sp.aktuelleRundenAnzahl++;
         }
     }
     public void getWuerfelBilder() {}
