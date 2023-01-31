@@ -129,6 +129,95 @@ public class SquidGame extends Minispiel {
     }
     @Override
     public void siegerKuerenMalen(Graphics2D g2) {
+        BufferedImage coin = null;
+        try {
+            coin = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/source/bestandteile/muenze/Coin1.png")));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        int coinnummer;
+        int number=1;
+        int number2=1;
+        int y = 4*sp.vergroesserteFliesenGroesse;
+        int x ;
+        if (alleMinispielSpieler.size()==2){
+            x= 5*sp.vergroesserteFliesenGroesse;
+        }
+        else if (alleMinispielSpieler.size()==3){
+            x= (int)(3.5*sp.vergroesserteFliesenGroesse);
+        }
+        else {
+            x= 2*sp.vergroesserteFliesenGroesse;
+        }
+
+        ergbnisBoxmalen(g2);
+        for(int i =0; i<alleMinispielSpieler.size();i++) {
+
+
+            if(number==1){
+                coinnummer=10;
+            }
+            else if(number==2){
+                coinnummer=7;
+            }
+            else if(number==3){
+                coinnummer=4;
+            }
+            else{
+                coinnummer=0;
+            }
+            g2.drawImage(alleMinispielSpieler.get(i).minispielSpieler.spielfigur.down1, x, y-96, sp.fliesenGroesse*8, sp.fliesenGroesse*8, null);
+
+
+            g2.setColor(Color.yellow);
+            if(i==alleMinispielSpieler.size()-1){
+                g2.setFont(g2.getFont().deriveFont(Font.BOLD,90F));
+                g2.drawString("#" , x + 50, y - 150);
+                g2.setFont(g2.getFont().deriveFont(Font.BOLD,120F));
+                g2.drawString(  ""+number, x + 120, y - 150);
+
+            }
+            else{
+                if (alleMinispielSpieler.get(i).punktzahl == alleMinispielSpieler.get(i+1).punktzahl) {
+
+                    g2.setFont(g2.getFont().deriveFont(Font.BOLD,90F));
+                    g2.drawString("#" , x + 50, y - 150);
+                    g2.setFont(g2.getFont().deriveFont(Font.BOLD,120F));
+                    g2.drawString(  ""+number, x + 120, y - 150);
+
+                    number2++;
+
+                }
+                if (alleMinispielSpieler.get(i).punktzahl != alleMinispielSpieler.get(i+1).punktzahl) {
+                    g2.setFont(g2.getFont().deriveFont(Font.BOLD,90F));
+                    g2.drawString("#" , x + 50, y - 150);
+                    g2.setFont(g2.getFont().deriveFont(Font.BOLD,120F));
+                    g2.drawString(  ""+number, x + 120, y - 150);
+
+                    number2++;
+                    number = number2;
+
+                }
+            }
+
+            g2.drawImage(coin,x+22,y+240,sp.vergroesserteFliesenGroesse+30,sp.vergroesserteFliesenGroesse+30,null);
+            g2.setFont(g2.getFont().deriveFont(Font.BOLD,90F));
+
+            g2.drawString("+"+coinnummer,x+100,y+300);
+            x+=3*sp.vergroesserteFliesenGroesse;
+
+        }
+
+    }
+    public void ergbnisBoxmalen(Graphics2D g2) {
+        g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.7f));
+        g2.setColor(Color.black);
+        g2.fillRoundRect(sp.vergroesserteFliesenGroesse, sp.vergroesserteFliesenGroesse, 1440-2*sp.vergroesserteFliesenGroesse, 864-2*sp.vergroesserteFliesenGroesse, 25, 25);
+        g2.setColor(Color.white);
+        g2.setStroke(new BasicStroke(5));
+        g2.drawRoundRect(sp.vergroesserteFliesenGroesse + 5, sp.vergroesserteFliesenGroesse+5, 1430-2*sp.vergroesserteFliesenGroesse, 854-2*sp.vergroesserteFliesenGroesse, 15, 15);
+        g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1.0f));
+
 
     }
 

@@ -148,7 +148,7 @@ public class MinispielManager {
             yPosition += 15;
             g2.drawString(go, xPosition, yPosition);
             size += 50F;
-        } if(gesamtSekundenAnzahl < 0){
+        } else if(gesamtSekundenAnzahl < 0){
             if(minispielWahl == SAMMLER_INDEX){
                 sammler.siegerKuerenMalen(g2);
             } else if(minispielWahl == SQUIDGAME_INDEX){
