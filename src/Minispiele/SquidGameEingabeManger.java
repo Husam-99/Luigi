@@ -47,6 +47,15 @@ public class SquidGameEingabeManger implements KeyListener {
                                 spieler.bildschirmY = spieler.minispielYPosition - minispielManager.mainMinispielSpieler.minispielYPosition + minispielManager.mainMinispielSpieler.bildschirmY;
                             }
                         }
+                        SquidGamePosition squidGamePosition = new SquidGamePosition();
+                        squidGamePosition.minispielXPosition = mainMinispielSpieler.minispielXPosition;
+                        squidGamePosition.minispielYPosition = mainMinispielSpieler.minispielYPosition;
+                        squidGamePosition.aktuellePalettenNr = mainMinispielSpieler.aktuellePalette.paletteNummer;
+                        minispielManager.sp.client.send(squidGamePosition);
+
+                        SquidGamePunkte squidGamePunkte = new SquidGamePunkte();
+                        squidGamePunkte.punktZahl = mainMinispielSpieler.punktzahl;
+                        minispielManager.sp.client.send(squidGamePunkte);
 
                     } else if (e.getKeyChar() == 'a') {
                         if (mainMinispielSpieler.aktuellePalette == null) {
@@ -75,21 +84,21 @@ public class SquidGameEingabeManger implements KeyListener {
                                 spieler.bildschirmY = spieler.minispielYPosition - minispielManager.mainMinispielSpieler.minispielYPosition + minispielManager.mainMinispielSpieler.bildschirmY;
                             }
                         }
+                        SquidGamePosition squidGamePosition = new SquidGamePosition();
+                        squidGamePosition.minispielXPosition = mainMinispielSpieler.minispielXPosition;
+                        squidGamePosition.minispielYPosition = mainMinispielSpieler.minispielYPosition;
+                        squidGamePosition.aktuellePalettenNr = mainMinispielSpieler.aktuellePalette.paletteNummer;
+                        minispielManager.sp.client.send(squidGamePosition);
+
+                        SquidGamePunkte squidGamePunkte = new SquidGamePunkte();
+                        squidGamePunkte.punktZahl = mainMinispielSpieler.punktzahl;
+                        minispielManager.sp.client.send(squidGamePunkte);
                     } else if (e.getKeyChar() == 'w') {
-                        if (mainMinispielSpieler.aktuellePalette.paletteNummer == 13 || mainMinispielSpieler.aktuellePalette.paletteNummer == 12) {
+                        if (mainMinispielSpieler.aktuellePalette!=null&&mainMinispielSpieler.aktuellePalette.paletteNummer == 13 || mainMinispielSpieler.aktuellePalette.paletteNummer == 12) {
                             minispielManager.squidGame.endeErreichen();
+                            mainMinispielSpieler.aktuellerZustand="gewonnen";
                         }
                     }
-                    SquidGamePosition squidGamePosition = new SquidGamePosition();
-                    squidGamePosition.minispielXPosition = mainMinispielSpieler.minispielXPosition;
-                    squidGamePosition.minispielYPosition = mainMinispielSpieler.minispielYPosition;
-                    squidGamePosition.aktuellePalettenNr = mainMinispielSpieler.aktuellePalette.paletteNummer;
-                    minispielManager.sp.client.send(squidGamePosition);
-
-                    SquidGamePunkte squidGamePunkte = new SquidGamePunkte();
-                    squidGamePunkte.punktZahl = mainMinispielSpieler.punktzahl;
-                    minispielManager.sp.client.send(squidGamePunkte);
-
                     tippenErlaubt = false;
                 }
             }
@@ -97,8 +106,7 @@ public class SquidGameEingabeManger implements KeyListener {
     }
 
     @Override
-    public void keyPressed(KeyEvent e) {
-    }
+    public void keyPressed(KeyEvent e) {}
 
     @Override
     public void keyReleased(KeyEvent e) {
