@@ -17,6 +17,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.Objects;
 
 public class Sammler extends Minispiel {
@@ -29,7 +30,6 @@ public class Sammler extends Minispiel {
     SammlerElement spider3;
 
     Rectangle[] wandRechteck;
-
 
 
     public Sammler(SpielPanel sp, MinispielSpieler mainMinispielSpieler, ArrayList<MinispielSpieler> alleMinispielSpieler) {
@@ -215,23 +215,74 @@ public class Sammler extends Minispiel {
 
     @Override
     public void siegerFestlegen() {
-        if(mainMinispielSpieler.minispielSpieler.spielfigur instanceof Abdo) {
-            alleMinispielSpieler.set(0,mainMinispielSpieler);
-        }
-        else if(mainMinispielSpieler.minispielSpieler.spielfigur  instanceof Husam) {
-            alleMinispielSpieler.set(1,mainMinispielSpieler);
-        }
-        else if(mainMinispielSpieler.minispielSpieler.spielfigur  instanceof Taha) {
-            alleMinispielSpieler.set(2,mainMinispielSpieler);
-        }
-        else if(mainMinispielSpieler.minispielSpieler.spielfigur  instanceof Yousef) {
-            alleMinispielSpieler.set(3,mainMinispielSpieler);
+        int spielfigurIndex = -1;
+        if (mainMinispielSpieler.minispielSpieler.spielfigur instanceof Abdo) {
+            alleMinispielSpieler.set(0, mainMinispielSpieler);
+            spielfigurIndex = 0;
+        } else if (mainMinispielSpieler.minispielSpieler.spielfigur instanceof Husam) {
+            alleMinispielSpieler.set(1, mainMinispielSpieler);
+            spielfigurIndex = 1;
+        } else if (mainMinispielSpieler.minispielSpieler.spielfigur instanceof Taha) {
+            alleMinispielSpieler.set(2, mainMinispielSpieler);
+            spielfigurIndex = 2;
+        } else if (mainMinispielSpieler.minispielSpieler.spielfigur instanceof Yousef) {
+            alleMinispielSpieler.set(3, mainMinispielSpieler);
+            spielfigurIndex = 3;
         }
         alleMinispielSpieler.removeIf(Objects::isNull);
-        alleMinispielSpieler.sort((miniSpieler1, miniSpieler2) -> Integer.compare(miniSpieler2.punktzahl, miniSpieler1.punktzahl));
-
-        for(MinispielSpieler print : alleMinispielSpieler){
-            System.out.println(alleMinispielSpieler.indexOf(print)+" "+print.punktzahl);
+        alleMinispielSpieler.sort(new Comparator<MinispielSpieler>() {
+            @Override
+            public int compare(MinispielSpieler spieler1, MinispielSpieler spieler2) {
+                if (spieler2.punktzahl > spieler1.punktzahl) {
+                    return 1;
+                } else if (spieler1.punktzahl == 7 && spieler1.punktzahl == spieler2.punktzahl) {
+                    if (spieler2.endeErreichtSekunde > spieler1.endeErreichtSekunde) {
+                        return 1;
+                    }
+                    else if(spieler2.endeErreichtSekunde < spieler1.endeErreichtSekunde) {
+                        return -1;
+                    }
+                    return 0;
+                } else {
+                    return -1;
+                }
+            }
+        });
+        for (int i = 0; i < alleMinispielSpieler.size(); i++) {
+            if (sp.spielablaufManager.mainSpieler.spielfigur instanceof Abdo && spielfigurIndex == 0) {
+                if (i == 0 && alleMinispielSpieler.get(i).minispielSpieler.spielfigur instanceof Abdo) {
+                    sp.spielablaufManager.mainSpieler.konto.muenzenErhalten(10);
+                } else if (i == 1 && alleMinispielSpieler.get(i).minispielSpieler.spielfigur instanceof Abdo) {
+                    System.out.println("ich bin abdo mit 7");
+                    sp.spielablaufManager.mainSpieler.konto.muenzenErhalten(7);
+                } else if (i == 2 && alleMinispielSpieler.get(i).minispielSpieler.spielfigur instanceof Abdo) {
+                    sp.spielablaufManager.mainSpieler.konto.muenzenErhalten(4);
+                }
+            } else if (sp.spielablaufManager.mainSpieler.spielfigur instanceof Husam && spielfigurIndex == 1) {
+                if (i == 0 && alleMinispielSpieler.get(i).minispielSpieler.spielfigur instanceof Husam) {
+                    sp.spielablaufManager.mainSpieler.konto.muenzenErhalten(10);
+                } else if (i == 1 && alleMinispielSpieler.get(i).minispielSpieler.spielfigur instanceof Husam) {
+                    sp.spielablaufManager.mainSpieler.konto.muenzenErhalten(7);
+                } else if (i == 2 && alleMinispielSpieler.get(i).minispielSpieler.spielfigur instanceof Husam) {
+                    sp.spielablaufManager.mainSpieler.konto.muenzenErhalten(4);
+                }
+            } else if (sp.spielablaufManager.mainSpieler.spielfigur instanceof Taha && spielfigurIndex == 2) {
+                if (i == 0 && alleMinispielSpieler.get(i).minispielSpieler.spielfigur instanceof Taha) {
+                    sp.spielablaufManager.mainSpieler.konto.muenzenErhalten(10);
+                } else if (i == 1 && alleMinispielSpieler.get(i).minispielSpieler.spielfigur instanceof Taha) {
+                    sp.spielablaufManager.mainSpieler.konto.muenzenErhalten(7);
+                } else if (i == 2 && alleMinispielSpieler.get(i).minispielSpieler.spielfigur instanceof Taha) {
+                    sp.spielablaufManager.mainSpieler.konto.muenzenErhalten(4);
+                }
+            } else if (sp.spielablaufManager.mainSpieler.spielfigur instanceof Yousef && spielfigurIndex == 3) {
+                if (i == 0 && alleMinispielSpieler.get(i).minispielSpieler.spielfigur instanceof Yousef) {
+                    sp.spielablaufManager.mainSpieler.konto.muenzenErhalten(10);
+                } else if (i == 1 && alleMinispielSpieler.get(i).minispielSpieler.spielfigur instanceof Yousef) {
+                    sp.spielablaufManager.mainSpieler.konto.muenzenErhalten(7);
+                } else if (i == 2 && alleMinispielSpieler.get(i).minispielSpieler.spielfigur instanceof Yousef) {
+                    sp.spielablaufManager.mainSpieler.konto.muenzenErhalten(4);
+                }
+            }
         }
     }
 

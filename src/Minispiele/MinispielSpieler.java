@@ -23,6 +23,7 @@ public class MinispielSpieler {
 
     public int spielerAktuellesFoto = 1;
 
+    public int endeErreichtSekunde = -1;
 
     String richtung = "up";
 
