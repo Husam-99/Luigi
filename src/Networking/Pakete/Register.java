@@ -27,6 +27,7 @@ public class Register {
         k.register(SquidGamePunkte.class);
         k.register(SquidGamePosition.class);
         k.register(PalettenFalle.class);
+        k.register(SpielerConnection.class);
 
 
 

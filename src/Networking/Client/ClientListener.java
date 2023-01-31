@@ -14,26 +14,24 @@ public class ClientListener extends Listener {
     @Override
     public void received(Connection connection, Object object) {
         if (object instanceof ClientsZug zug) {
-            boolean wartung;
             if(zug.dispose){
                 sp.window.dispose();
                 System.exit(0);
-            } else if(zug.wartung){
-                wartung = true;
-                istDran = zug.istDran;
             }else{
-                wartung = false;
                 istDran = zug.istDran;
                 if(istDran && sp.zustand == sp.spielBrettZustand){
                     sp.spielablaufManager.mainSpieler.wuerfelZustand = true;
                 }
+            }
+            if(zug.ersteRunde){
+                sp.aktuelleRundenAnzahl++;
             }
             if(zug.zustand == sp.minispielZustand){
                 sp.setzeZustand(sp.minispielZustand, zug.minispielIndex);
             } else if(zug.zustand == sp.spielBrettZustand){
                 sp.wurfelzustand = false;
                 sp.setzeZustand(sp.spielBrettZustand, -1);
-            } else if(zug.zustand == sp.wuerfelZustand){
+            } else if(zug.zustand == sp.zugFestlegenZustand){
                 sp.wurfelzustand = true;
                 sp.setzeZustand(sp.spielBrettZustand, -1);
             }
@@ -47,6 +45,10 @@ public class ClientListener extends Listener {
             System.out.println("Client: mein Index " + clientIndex);
         } else if (object instanceof AnzahlClients anzahl) {
             anzahlSpieler = anzahl.anzahlVerbundeneClients;
+
+        } else if(object instanceof SpielerConnection spielerConnection){
+            sp.alleSpieler.set(spielerConnection.clientIndex, new Spieler());
+
 
         } else if (object instanceof Rundenzahl rundenzahl) {
             sp.ausgewaehlteRundenAnzahl = rundenzahl.anzahlDerRunden;

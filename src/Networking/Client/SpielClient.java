@@ -11,27 +11,6 @@ import spieler.Spieler;
 import java.io.IOException;
 import java.util.ArrayList;
 
-// if(zug.dispose){
-//                            sp.window.dispose();
-//                            System.exit(0);
-//                        }else{
-//                            istDran = zug.istDran;
-//                            if(istDran && sp.zustand == sp.spielBrettZustand){
-//                                sp.spielablaufManager.mainSpieler.wuerfelZustand = true;
-//                            }
-//                        }
-//                        if(zug.ersteRunde){
-//                            sp.aktuelleRundenAnzahl++;
-//                        }
-//                        if(zug.zustand == sp.minispielZustand){
-//                            sp.setzeZustand(sp.minispielZustand, zug.minispielIndex);
-//                        } else if(zug.zustand == sp.spielBrettZustand){
-//                            sp.wurfelzustand = false;
-//                            sp.setzeZustand(sp.spielBrettZustand, -1);
-//                        } else if(zug.zustand == sp.zugFestlegenZustand){
-//                            sp.wurfelzustand = true;
-//                            sp.setzeZustand(sp.spielBrettZustand, -1);
-//                        }
 
 public class SpielClient {
     static boolean istDran = false;

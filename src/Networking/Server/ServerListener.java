@@ -65,7 +65,7 @@ public class ServerListener extends Listener {
 
 
         spielerReihenfolge.add(alleClients.get(connection).clientIndex);
-        schritteArray.add(null);
+        schritteArray.add(-1);
         spielerReihenfolge.sort(Collections.reverseOrder());
         if(alleClients.size() > 1){
             naechsterClient = spielerReihenfolge.get(1);
@@ -74,17 +74,37 @@ public class ServerListener extends Listener {
         }
 
     }
-    @Override
+    @Override // spieler selbst disconnecten
     public void disconnected(Connection connection) {
         System.out.println("Client ist nicht mehr verbunden.");
-        connection.close();
+        SpielerConnection spielerConnection = new SpielerConnection();
+        spielerConnection.clientIndex = alleClients.get(connection).clientIndex;
+        server.sendToAllExceptTCP(connection.getID(), spielerConnection);
+        //schritteArray.remove(alleClients.get(connection).clientIndex);
+        System.out.println((Object) alleClients.get(connection).clientIndex);
+        spielerReihenfolge.remove(alleClients.get(connection).clientIndex);
+        spielerReihenfolge.set(0, 1);
         alleClients.remove(connection, alleClients.get(connection));
+        connection.close();
+        for (int i = 0; i < server.getConnections().length; i++) {
+            if (server.getConnections()[i]== null) {
+                System.out.println("Connection at index " + i + " has disconnected.");
+            } else {
+                System.out.println("Connection at index " + i + " is still connected.");
+            }
+        }
+        System.out.println(alleClients);
+        System.out.println(spielerReihenfolge);
+        System.out.println(schritteArray);
         AnzahlClients anzahl = new AnzahlClients();
         anzahl.anzahlVerbundeneClients = alleClients.size();
         server.sendToAllTCP(anzahl);
         if(alleClients.size()<2){
             System.exit(0);
             SpielServer.start();
+        }
+        for(Connection con: server.getConnections()){
+            System.out.println(con);
         }
     }
     public void zustandWechsel(){
@@ -226,7 +246,7 @@ public class ServerListener extends Listener {
                         }
 
                     } else {
-                        alleClients.get(server.getConnections()[naechsterClient]).istDran = true;
+                        //alleClients.get(server.getConnections()[naechsterClient]).istDran = true;
                         zug.istDran = true;
                         server.sendToTCP(server.getConnections()[naechsterClient].getID(), zug);
                         if (spielerReihenfolge.indexOf(naechsterClient) < spielerReihenfolge.size() - 1) {
@@ -253,10 +273,17 @@ public class ServerListener extends Listener {
                 schritteArray.set(schritte.clientIndex, schritte.schritteAnzahl);
                 System.out.println(spielerReihenfolge);
                 System.out.println(schritteArray);
-                if(!schritteArray.contains(null)) {
+                int count = 0;
+                for (Integer o : schritteArray) {
+                    if (o != -1) {
+                        count++;
+                    }
+                }
+                if(count == spielerReihenfolge.size()) {
+
                     int stelle = 0;
                     Collections.reverse(schritteArray);
-                    while (!schritteArray.contains(null) && schritteArray.size() != 0) {
+                    while (!schritteArray.isEmpty()) {
                         spielerReihenfolge.set(stelle, schritteArray.indexOf(Collections.max(schritteArray)));
                         schritteArray.set(schritteArray.indexOf(Collections.max(schritteArray)), -1);
                         stelle++;
@@ -264,7 +291,7 @@ public class ServerListener extends Listener {
                             schritteArray.clear();
                         }
                     }
-                    if (schritteArray.size() == 0) {
+                    if (schritteArray.isEmpty()) {
                         Timer timer = new Timer();
                         TimerTask timerTask = new TimerTask() {
                             @Override
@@ -280,7 +307,7 @@ public class ServerListener extends Listener {
                                     server.sendToAllTCP(zug);
                                     naechsterClient = spielerReihenfolge.get(0);
                                     System.out.println("naechster Spieler " + naechsterClient);
-                                    alleClients.get(server.getConnections()[naechsterClient]).istDran = true;
+                                    //alleClients.get(server.getConnections()[naechsterClient]).istDran = true;
                                     zug.ersteRunde = false;
                                     zug.istDran = true;
                                     server.sendToTCP(server.getConnections()[naechsterClient].getID(), zug);
@@ -300,7 +327,7 @@ public class ServerListener extends Listener {
                     System.out.println(spielerReihenfolge);
                     System.out.println(schritteArray);
                 }
-            }
+            } // hier anzahl er mitspieler 2 und spieler sind 3
         } else if (object instanceof AnzahlMitspieler anzahlMitspieler) {
             this.maxAnzahlDerMitspielerHost = anzahlMitspieler.anzahlDerMitspielerHost;
             System.out.println("maximum darf " + maxAnzahlDerMitspielerHost + " Spieler das spiel spielen");
@@ -310,9 +337,12 @@ public class ServerListener extends Listener {
                 zug.istDran = false;
                 zug.dispose = true;
                 server.sendToTCP(server.getConnections()[index].getID(), zug);
+                spielerReihenfolge.remove((Integer) (index));
                 alleClients.remove(server.getConnections()[index]);
-                server.getConnections()[index].close();
-                //naechsterClient = alleClients.size() - 2;
+                for(Connection con: server.getConnections()){
+                    System.out.println(con);
+                }
+               // server.getConnections()[index].close();
 
                 System.out.println("Server: Verbindung ist untersagt, da die Anzahl der Spieler ueberschritten wird.");
             }
