@@ -73,14 +73,16 @@ public class Spieler {
         }
     }
     public void update(){
-        spielfigur.update();
-        if(wuerfelZustand){
-            if(normaleWuerfelZustand) {
-                wuerfel.update();
-            }else if(megaWuerfelZustand){
-                megaWuerfel.update();
-            }else if(miniWuerfelZustand){
-                miniWuerfel.update();
+      if(spielfigur != null && wuerfel!=null) {
+            spielfigur.update();
+            if (wuerfelZustand) {
+                if (normaleWuerfelZustand) {
+                    wuerfel.update();
+                } else if (megaWuerfelZustand) {
+                    megaWuerfel.update();
+                } else if (miniWuerfelZustand) {
+                    miniWuerfel.update();
+                }
             }
         }
     }
@@ -132,7 +134,7 @@ public class Spieler {
     }
     private int getXfuerCenter(String text) {
         int length = (int)g2.getFontMetrics().getStringBounds(text, g2).getWidth();
-        int x = spielablaufManager.sp.bildschirmBreite/2 - length/2;
-        return x;
+        return spielablaufManager.sp.bildschirmBreite/2 - length/2;
+
     }
 }

@@ -48,8 +48,14 @@ public class ServerListener extends Listener {
         } else{
             zug.istDran = false;
         }
+        System.out.println(host.clientIndex + " " + host.istHost);
         server.sendToTCP(connection.getID(), host);
         server.sendToTCP(connection.getID(), zug);
+        for(Map.Entry<Connection, SpielerAuskuenfte> entry : alleClients.entrySet()){
+            HostClient hostClient = new HostClient();
+            hostClient.clientIndex = entry.getValue().clientIndex;
+            server.sendToTCP(entry.getKey().getID(), hostClient);
+        }
         System.out.println(alleClients.size());
         AnzahlClients anzahl = new AnzahlClients();
         anzahl.anzahlVerbundeneClients = alleClients.size();

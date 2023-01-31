@@ -201,15 +201,6 @@ public class SpielPanel extends JPanel implements Runnable{
             spielablaufManager.update();
         } else if (zustand == minispielZustand) {
             minispielManager.update();
-            if (spielablaufManager.mainSpieler.spielfigur != null) {
-                if (!alleSpieler.isEmpty())
-                    for (Spieler spieler : alleSpieler) {
-                        if (spieler.spielfigur != null) {
-                            spieler.update();
-                        }
-                    }
-                spielablaufManager.mainSpieler.update();
-            }
         }else if(zustand == siegerKuerenZustand){
             menueManager.menueHintergrund.update();
             siegerKueren.update();

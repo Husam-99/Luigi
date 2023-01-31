@@ -86,12 +86,12 @@ public class MenueEingabeManager implements KeyListener {
             rundenzahl.anzahlDerRunden = mn.sp.ausgewaehlteRundenAnzahl;
             mn.sp.client.send(rundenzahl);
 
+            mn.sp.spielablaufManager.mainSpieler.spielfigurAuswaehlen();
             Bescheid bescheid = new Bescheid();
             bescheid.fertig = true;
             mn.sp.client.send(bescheid);
 
             mn.sp.client.send(spielfigurAuswahl);
-            mn.sp.spielablaufManager.mainSpieler.spielfigurAuswaehlen();
 
             mn.sp.setzeZustand(mn.sp.spielBrettZustand, -1);
 
@@ -335,12 +335,12 @@ public class MenueEingabeManager implements KeyListener {
                 mn.spielfigurAuswaehlen.enterZustand = 1;
                 spielfigurAuswahl.spielfigurIndex = 3;
             }
+            mn.sp.spielablaufManager.mainSpieler.spielfigurAuswaehlen();
             Bescheid bescheid = new Bescheid();
             bescheid.fertig = true;
             mn.sp.client.send(bescheid);
 
             mn.sp.client.send(spielfigurAuswahl);
-            mn.sp.spielablaufManager.mainSpieler.spielfigurAuswaehlen();
             mn.sp.setzeZustand(mn.sp.spielBrettZustand, -1);
 
             mn.sp.soundClip.close();

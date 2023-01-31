@@ -29,15 +29,11 @@ public class SpielablaufManager {
     }
     public void update() {
         mapManager.update();
-        if (mainSpieler.spielfigur != null) {
-            if (!sp.alleSpieler.isEmpty())
-                for (Spieler spieler : sp.alleSpieler) {
-                    if (spieler.spielfigur != null) {
-                        spieler.update();
-                    }
-                }
-            mainSpieler.update();
-        }
+        if (!sp.alleSpieler.isEmpty())
+            for (Spieler spieler : sp.alleSpieler) {
+                spieler.update();
+            }
+        mainSpieler.update();
     }
     public void malen(Graphics2D g2){
         this.g2 = g2;
