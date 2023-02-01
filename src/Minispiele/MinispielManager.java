@@ -110,23 +110,25 @@ public class MinispielManager {
                 }
             }
         }
-        int width = 25;
-        mainMinispielSpieler.minispielerBoxMalen(g2, width);
-        mainMinispielSpieler.minispielerStatusMalen(g2, width);
+        if(gesamtSekundenAnzahl <= 60 && gesamtSekundenAnzahl >= 0) {
+            int width = 25;
+            mainMinispielSpieler.minispielerBoxMalen(g2, width);
+            mainMinispielSpieler.minispielerStatusMalen(g2, width);
 
-        width += 230;
-        int spielerIndex = 0;
-        for(MinispielSpieler spieler: alleMinispielSpieler){
-            if(spieler!= null){
-                spieler.minispielerBoxMalen(g2, width);
-                spieler.minispielerStatusMalen(g2, width);
-                if(spielerIndex == 0){
-                    width = 1205;
-                } else{
-                    width -= 230;
+            width += 230;
+            int spielerIndex = 0;
+            for (MinispielSpieler spieler : alleMinispielSpieler) {
+                if (spieler != null) {
+                    spieler.minispielerBoxMalen(g2, width);
+                    spieler.minispielerStatusMalen(g2, width);
+                    if (spielerIndex == 0) {
+                        width = 1205;
+                    } else {
+                        width -= 230;
+                    }
+                    spielerIndex++;
+
                 }
-                spielerIndex++;
-
             }
         }
         zeitBoxmalen(g2);

@@ -24,6 +24,7 @@ public class ServerListener extends Listener {
         MINISPIEL_ZUSTAND,
         SIEGER_KUEREN
     }
+    public int minispielWahl = 0;
 
     private zustand spielZustand = zustand.MENUE_ZUSTAND;
 
@@ -119,7 +120,14 @@ public class ServerListener extends Listener {
             spielZustand = zustand.MINISPIEL_ZUSTAND;
             zug.istDran = true;
             zug.zustand = 3;
-            zug.minispielIndex = generator.nextInt(0,2);
+            //zug.minispielIndex = generator.nextInt(0,2);
+            if(minispielWahl == 0){
+                zug.minispielIndex = 0;
+                minispielWahl = 1;
+            }else {
+                zug.minispielIndex = 1;
+                minispielWahl = 0;
+            }
             server.sendToAllTCP(zug);
             if(zug.minispielIndex == 1){
                 PalettenFalle palettenFalle = new PalettenFalle();
