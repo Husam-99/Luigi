@@ -43,17 +43,17 @@ public class Sammler extends Minispiel {
     public void setzeElement(int elementIndex, SammlerElement element) {
         if (elementIndex == 1) {
             this.muenze1 = element;
-        } else if(elementIndex == 2) {
+        } else if (elementIndex == 2) {
             this.muenze2 = element;
-        } else if(elementIndex == 3) {
+        } else if (elementIndex == 3) {
             this.spider1 = element;
-        } else if(elementIndex == 4){
+        } else if (elementIndex == 4) {
             this.spider2 = element;
-        } else if(elementIndex == 5){
+        } else if (elementIndex == 5) {
             this.spider3 = element;
-        } else if(elementIndex == 6){
+        } else if (elementIndex == 6) {
             this.diamond = element;
-        } else if(elementIndex == 7){
+        } else if (elementIndex == 7) {
             this.mushroom = element;
         }
     }
@@ -80,9 +80,9 @@ public class Sammler extends Minispiel {
 
     public void kollisionChecken(MinispielSpieler spieler) {
 
-        if(muenze1!=null) {
+        if (muenze1 != null) {
             if (spieler.minispielSpielerRechteck.intersects(muenze1.elementRechteck)) {
-                if(spieler == mainMinispielSpieler) {
+                if (spieler == mainMinispielSpieler) {
                     muenze1 = null;
                     spieler.punktzahl++;
                     SammlerPunkte punkte = new SammlerPunkte();
@@ -93,9 +93,9 @@ public class Sammler extends Minispiel {
                 }
             }
         }
-        if(muenze2!=null) {
+        if (muenze2 != null) {
             if (spieler.minispielSpielerRechteck.intersects(muenze2.elementRechteck)) {
-                if(spieler == mainMinispielSpieler) {
+                if (spieler == mainMinispielSpieler) {
                     muenze2 = null;
                     spieler.punktzahl++;
                     SammlerPunkte punkte = new SammlerPunkte();
@@ -127,15 +127,14 @@ public class Sammler extends Minispiel {
                 }
             }
         }
-        if (spieler.minispielSpielerRechteck.intersects(spider1.elementRechteck)||
-            spieler.minispielSpielerRechteck.intersects(spider2.elementRechteck)||
-            spieler.minispielSpielerRechteck.intersects(spider3.elementRechteck)) {
+        if (spieler.minispielSpielerRechteck.intersects(spider1.elementRechteck) ||
+                spieler.minispielSpielerRechteck.intersects(spider2.elementRechteck) ||
+                spieler.minispielSpielerRechteck.intersects(spider3.elementRechteck)) {
 
             spieler.unterSpider = true;
-        } else{
+        } else {
             spieler.unterSpider = false;
         }
-
 
 
     }
@@ -235,51 +234,122 @@ public class Sammler extends Minispiel {
             public int compare(MinispielSpieler spieler1, MinispielSpieler spieler2) {
                 if (spieler2.punktzahl > spieler1.punktzahl) {
                     return 1;
-                } else if (spieler1.punktzahl == 7 && spieler1.punktzahl == spieler2.punktzahl) {
-                    if (spieler2.endeErreichtSekunde > spieler1.endeErreichtSekunde) {
-                        return 1;
-                    }
-                    else if(spieler2.endeErreichtSekunde < spieler1.endeErreichtSekunde) {
-                        return -1;
-                    }
+                } else if (spieler1.punktzahl == spieler2.punktzahl) {
+
                     return 0;
                 } else {
                     return -1;
                 }
             }
         });
+
         for (int i = 0; i < alleMinispielSpieler.size(); i++) {
             if (sp.spielablaufManager.mainSpieler.spielfigur instanceof Abdo && spielfigurIndex == 0) {
                 if (i == 0 && alleMinispielSpieler.get(i).minispielSpieler.spielfigur instanceof Abdo) {
                     sp.spielablaufManager.mainSpieler.konto.muenzenErhalten(10);
                 } else if (i == 1 && alleMinispielSpieler.get(i).minispielSpieler.spielfigur instanceof Abdo) {
-                    System.out.println("ich bin abdo mit 7");
-                    sp.spielablaufManager.mainSpieler.konto.muenzenErhalten(7);
+                    if (alleMinispielSpieler.size() - 1 == 2) {
+                        if (alleMinispielSpieler.get(i).punktzahl == alleMinispielSpieler.get(0).punktzahl) {
+                            sp.spielablaufManager.mainSpieler.konto.muenzenErhalten(10);
+                        } else {
+                            sp.spielablaufManager.mainSpieler.konto.muenzenErhalten(7);
+                        }
+                    } else {
+                        if (alleMinispielSpieler.get(i).punktzahl == alleMinispielSpieler.get(0).punktzahl) {
+                            sp.spielablaufManager.mainSpieler.konto.muenzenErhalten(10);
+                        } else {
+                            sp.spielablaufManager.mainSpieler.konto.muenzenErhalten(7);
+
+                        }
+                    }
                 } else if (i == 2 && alleMinispielSpieler.get(i).minispielSpieler.spielfigur instanceof Abdo) {
-                    sp.spielablaufManager.mainSpieler.konto.muenzenErhalten(4);
+                    if (alleMinispielSpieler.get(i).punktzahl == alleMinispielSpieler.get(0).punktzahl && alleMinispielSpieler.get(i).punktzahl == alleMinispielSpieler.get(1).punktzahl) {
+                        sp.spielablaufManager.mainSpieler.konto.muenzenErhalten(10);
+                    } else if (alleMinispielSpieler.get(i).punktzahl == alleMinispielSpieler.get(1).punktzahl) {
+                        sp.spielablaufManager.mainSpieler.konto.muenzenErhalten(7);
+                    } else {
+                        sp.spielablaufManager.mainSpieler.konto.muenzenErhalten(4);
+                    }
                 }
             } else if (sp.spielablaufManager.mainSpieler.spielfigur instanceof Husam && spielfigurIndex == 1) {
                 if (i == 0 && alleMinispielSpieler.get(i).minispielSpieler.spielfigur instanceof Husam) {
                     sp.spielablaufManager.mainSpieler.konto.muenzenErhalten(10);
                 } else if (i == 1 && alleMinispielSpieler.get(i).minispielSpieler.spielfigur instanceof Husam) {
-                    sp.spielablaufManager.mainSpieler.konto.muenzenErhalten(7);
+                    if (alleMinispielSpieler.size() - 1 == 2) {
+                        if (alleMinispielSpieler.get(i).punktzahl == alleMinispielSpieler.get(0).punktzahl) {
+                            sp.spielablaufManager.mainSpieler.konto.muenzenErhalten(10);
+                        } else {
+                            sp.spielablaufManager.mainSpieler.konto.muenzenErhalten(7);
+                        }
+                    } else {
+                        if (alleMinispielSpieler.get(i).punktzahl == alleMinispielSpieler.get(0).punktzahl) {
+                            sp.spielablaufManager.mainSpieler.konto.muenzenErhalten(10);
+                        } else {
+                            sp.spielablaufManager.mainSpieler.konto.muenzenErhalten(7);
+
+                        }
+                    }
                 } else if (i == 2 && alleMinispielSpieler.get(i).minispielSpieler.spielfigur instanceof Husam) {
-                    sp.spielablaufManager.mainSpieler.konto.muenzenErhalten(4);
+                    if (alleMinispielSpieler.get(i).punktzahl == alleMinispielSpieler.get(0).punktzahl && alleMinispielSpieler.get(i).punktzahl == alleMinispielSpieler.get(1).punktzahl) {
+                        sp.spielablaufManager.mainSpieler.konto.muenzenErhalten(10);
+                    } else if (alleMinispielSpieler.get(i).punktzahl == alleMinispielSpieler.get(1).punktzahl) {
+                        sp.spielablaufManager.mainSpieler.konto.muenzenErhalten(7);
+                    } else {
+                        sp.spielablaufManager.mainSpieler.konto.muenzenErhalten(4);
+                    }
                 }
             } else if (sp.spielablaufManager.mainSpieler.spielfigur instanceof Taha && spielfigurIndex == 2) {
                 if (i == 0 && alleMinispielSpieler.get(i).minispielSpieler.spielfigur instanceof Taha) {
                     sp.spielablaufManager.mainSpieler.konto.muenzenErhalten(10);
                 } else if (i == 1 && alleMinispielSpieler.get(i).minispielSpieler.spielfigur instanceof Taha) {
-                    sp.spielablaufManager.mainSpieler.konto.muenzenErhalten(7);
+                    if (alleMinispielSpieler.size() - 1 == 2) {
+                        if (alleMinispielSpieler.get(i).punktzahl == alleMinispielSpieler.get(0).punktzahl) {
+                            sp.spielablaufManager.mainSpieler.konto.muenzenErhalten(10);
+                        } else {
+                            sp.spielablaufManager.mainSpieler.konto.muenzenErhalten(7);
+                        }
+                    } else {
+                        if (alleMinispielSpieler.get(i).punktzahl == alleMinispielSpieler.get(0).punktzahl) {
+                            sp.spielablaufManager.mainSpieler.konto.muenzenErhalten(10);
+                        } else {
+                            sp.spielablaufManager.mainSpieler.konto.muenzenErhalten(7);
+
+                        }
+                    }
                 } else if (i == 2 && alleMinispielSpieler.get(i).minispielSpieler.spielfigur instanceof Taha) {
-                    sp.spielablaufManager.mainSpieler.konto.muenzenErhalten(4);
+                    if (alleMinispielSpieler.get(i).punktzahl == alleMinispielSpieler.get(0).punktzahl && alleMinispielSpieler.get(i).punktzahl == alleMinispielSpieler.get(1).punktzahl) {
+                        sp.spielablaufManager.mainSpieler.konto.muenzenErhalten(10);
+                    } else if (alleMinispielSpieler.get(i).punktzahl == alleMinispielSpieler.get(1).punktzahl) {
+                        sp.spielablaufManager.mainSpieler.konto.muenzenErhalten(7);
+                    } else {
+                        sp.spielablaufManager.mainSpieler.konto.muenzenErhalten(4);
+                    }
                 }
             } else if (sp.spielablaufManager.mainSpieler.spielfigur instanceof Yousef && spielfigurIndex == 3) {
                 if (i == 0 && alleMinispielSpieler.get(i).minispielSpieler.spielfigur instanceof Yousef) {
                     sp.spielablaufManager.mainSpieler.konto.muenzenErhalten(10);
                 } else if (i == 1 && alleMinispielSpieler.get(i).minispielSpieler.spielfigur instanceof Yousef) {
+                    if (alleMinispielSpieler.size() - 1 == 2) {
+                        if (alleMinispielSpieler.get(i).punktzahl == alleMinispielSpieler.get(0).punktzahl) {
+                            sp.spielablaufManager.mainSpieler.konto.muenzenErhalten(10);
+                        } else {
+                            sp.spielablaufManager.mainSpieler.konto.muenzenErhalten(7);
+                        }
+                    } else {
+                        if (alleMinispielSpieler.get(i).punktzahl == alleMinispielSpieler.get(0).punktzahl) {
+                            sp.spielablaufManager.mainSpieler.konto.muenzenErhalten(10);
+                        } else {
+                            sp.spielablaufManager.mainSpieler.konto.muenzenErhalten(7);
+
+                        }
+                    }
+                }
+            } else if (i == 2 && alleMinispielSpieler.get(i).minispielSpieler.spielfigur instanceof Yousef) {
+                if (alleMinispielSpieler.get(i).punktzahl == alleMinispielSpieler.get(0).punktzahl && alleMinispielSpieler.get(i).punktzahl == alleMinispielSpieler.get(1).punktzahl) {
+                    sp.spielablaufManager.mainSpieler.konto.muenzenErhalten(10);
+                } else if (alleMinispielSpieler.get(i).punktzahl == alleMinispielSpieler.get(1).punktzahl) {
                     sp.spielablaufManager.mainSpieler.konto.muenzenErhalten(7);
-                } else if (i == 2 && alleMinispielSpieler.get(i).minispielSpieler.spielfigur instanceof Yousef) {
+                } else {
                     sp.spielablaufManager.mainSpieler.konto.muenzenErhalten(4);
                 }
             }
@@ -294,87 +364,82 @@ public class Sammler extends Minispiel {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-        int coinnummer;
-        int number=1;
-        int number2=1;
-        int y = 4*sp.vergroesserteFliesenGroesse;
-        int x ;
-        if (alleMinispielSpieler.size()==2){
-           x= 5*sp.vergroesserteFliesenGroesse;
-        }
-        else if (alleMinispielSpieler.size()==3){
-            x= (int)(3.5*sp.vergroesserteFliesenGroesse);
-        }
-        else {
-            x= 2*sp.vergroesserteFliesenGroesse;
+        int muenzenAnzahl;
+        int gewinnPlatz = 1;
+        int platz = 1;
+        int y = 4 * sp.vergroesserteFliesenGroesse;
+        int x;
+        if (alleMinispielSpieler.size() == 2) {
+            x = 5 * sp.vergroesserteFliesenGroesse;
+        } else if (alleMinispielSpieler.size() == 3) {
+            x = (int) (3.5 * sp.vergroesserteFliesenGroesse);
+        } else {
+            x = 2 * sp.vergroesserteFliesenGroesse;
         }
 
         ergbnisBoxmalen(g2);
-        for(int i =0; i<alleMinispielSpieler.size();i++) {
+        for (int i = 0; i < alleMinispielSpieler.size(); i++) {
 
 
-            if(number==1){
-                coinnummer=10;
+            if (gewinnPlatz == 1) {
+                muenzenAnzahl = 10;
+            } else if (gewinnPlatz == 2) {
+                muenzenAnzahl = 7;
+            } else if (gewinnPlatz == 3) {
+                muenzenAnzahl = 4;
+            } else {
+                muenzenAnzahl = 0;
             }
-            else if(number==2){
-                coinnummer=7;
-            }
-            else if(number==3){
-                coinnummer=4;
-            }
-            else{
-                coinnummer=0;
-            }
-            g2.drawImage(alleMinispielSpieler.get(i).minispielSpieler.spielfigur.down1, x, y-96, sp.fliesenGroesse*8, sp.fliesenGroesse*8, null);
+            g2.drawImage(alleMinispielSpieler.get(i).minispielSpieler.spielfigur.down1, x, y - 96, sp.fliesenGroesse * 8, sp.fliesenGroesse * 8, null);
 
 
-             g2.setColor(Color.yellow);
-if(i==alleMinispielSpieler.size()-1){
-    g2.setFont(g2.getFont().deriveFont(Font.BOLD,90F));
-    g2.drawString("#" , x + 50, y - 150);
-    g2.setFont(g2.getFont().deriveFont(Font.BOLD,120F));
-    g2.drawString(  ""+number, x + 120, y - 150);
+            g2.setColor(Color.yellow);
+            if (i == alleMinispielSpieler.size() - 1) {
+                g2.setFont(g2.getFont().deriveFont(Font.BOLD, 90F));
+                g2.drawString("#", x + 50, y - 150);
+                g2.setFont(g2.getFont().deriveFont(Font.BOLD, 120F));
+                g2.drawString("" + gewinnPlatz, x + 120, y - 150);
 
-            }
-            else{
-                if (alleMinispielSpieler.get(i).punktzahl == alleMinispielSpieler.get(i+1).punktzahl) {
+            } else {
+                if (alleMinispielSpieler.get(i).punktzahl == alleMinispielSpieler.get(i + 1).punktzahl) {
 
-                    g2.setFont(g2.getFont().deriveFont(Font.BOLD,90F));
-                    g2.drawString("#" , x + 50, y - 150);
-                    g2.setFont(g2.getFont().deriveFont(Font.BOLD,120F));
-                    g2.drawString(  ""+number, x + 120, y - 150);
+                    g2.setFont(g2.getFont().deriveFont(Font.BOLD, 90F));
+                    g2.drawString("#", x + 50, y - 150);
+                    g2.setFont(g2.getFont().deriveFont(Font.BOLD, 120F));
+                    g2.drawString("" + gewinnPlatz, x + 120, y - 150);
 
-                    number2++;
+                    platz++;
 
                 }
-                if (alleMinispielSpieler.get(i).punktzahl != alleMinispielSpieler.get(i+1).punktzahl) {
-                    g2.setFont(g2.getFont().deriveFont(Font.BOLD,90F));
-                    g2.drawString("#" , x + 50, y - 150);
-                    g2.setFont(g2.getFont().deriveFont(Font.BOLD,120F));
-                    g2.drawString(  ""+number, x + 120, y - 150);
+                if (alleMinispielSpieler.get(i).punktzahl != alleMinispielSpieler.get(i + 1).punktzahl) {
+                    g2.setFont(g2.getFont().deriveFont(Font.BOLD, 90F));
+                    g2.drawString("#", x + 50, y - 150);
+                    g2.setFont(g2.getFont().deriveFont(Font.BOLD, 120F));
+                    g2.drawString("" + gewinnPlatz, x + 120, y - 150);
 
-                    number2++;
-                    number = number2;
+                    platz++;
+                    gewinnPlatz = platz;
 
                 }
             }
 
-            g2.drawImage(coin,x+22,y+240,sp.vergroesserteFliesenGroesse+30,sp.vergroesserteFliesenGroesse+30,null);
-            g2.setFont(g2.getFont().deriveFont(Font.BOLD,90F));
+            g2.drawImage(coin, x + 22, y + 240, sp.vergroesserteFliesenGroesse + 30, sp.vergroesserteFliesenGroesse + 30, null);
+            g2.setFont(g2.getFont().deriveFont(Font.BOLD, 90F));
 
-            g2.drawString("+"+coinnummer,x+100,y+300);
-            x+=3*sp.vergroesserteFliesenGroesse;
+            g2.drawString("+" + muenzenAnzahl, x + 100, y + 300);
+            x += 3 * sp.vergroesserteFliesenGroesse;
 
         }
 
     }
+
     public void ergbnisBoxmalen(Graphics2D g2) {
         g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.7f));
         g2.setColor(Color.black);
-        g2.fillRoundRect(sp.vergroesserteFliesenGroesse, sp.vergroesserteFliesenGroesse, 1440-2*sp.vergroesserteFliesenGroesse, 864-2*sp.vergroesserteFliesenGroesse, 25, 25);
+        g2.fillRoundRect(sp.vergroesserteFliesenGroesse, sp.vergroesserteFliesenGroesse, 1440 - 2 * sp.vergroesserteFliesenGroesse, 864 - 2 * sp.vergroesserteFliesenGroesse, 25, 25);
         g2.setColor(Color.white);
         g2.setStroke(new BasicStroke(5));
-        g2.drawRoundRect(sp.vergroesserteFliesenGroesse + 5, sp.vergroesserteFliesenGroesse+5, 1430-2*sp.vergroesserteFliesenGroesse, 854-2*sp.vergroesserteFliesenGroesse, 15, 15);
+        g2.drawRoundRect(sp.vergroesserteFliesenGroesse + 5, sp.vergroesserteFliesenGroesse + 5, 1430 - 2 * sp.vergroesserteFliesenGroesse, 854 - 2 * sp.vergroesserteFliesenGroesse, 15, 15);
         g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1.0f));
 
 
@@ -389,10 +454,7 @@ if(i==alleMinispielSpieler.size()-1){
         while (spalte < 15 && zeile < 9) {
 
             int flieseIndex = minispielMap[spalte][zeile];
-
-
             g2.drawImage(minispielFliesen[flieseIndex].flieseImage, x, y, sp.vergroesserteFliesenGroesse, sp.vergroesserteFliesenGroesse, null);
-
 
             spalte++;
             x += sp.vergroesserteFliesenGroesse;
