@@ -12,7 +12,7 @@ public class ServerListener extends Listener {
 
     private int maxAnzahlDerMitspielerHost;
     private int anzahlDerRunden;
-    private int runde = -1;
+    private int runde = 0;
     int zeit = 3;
 
     private int naechsterClient;
@@ -21,7 +21,8 @@ public class ServerListener extends Listener {
         MENUE_ZUSTAND,
         WUERFEL_ZUSTAND,
         SPIELBRETT_ZUSTAND,
-        MINISPIEL_ZUSTAND
+        MINISPIEL_ZUSTAND,
+        SIEGER_KUEREN
     }
 
     private zustand spielZustand = zustand.MENUE_ZUSTAND;
@@ -193,8 +194,14 @@ public class ServerListener extends Listener {
 
                     } else {
                         timer.cancel();
+                        runde++;
                         minispielDauer = 64;
-                        zug.zustand = 2;
+                        if(runde <= anzahlDerRunden){
+                            zug.zustand = 2;
+
+                        }else{
+                            zug.zustand = 4;
+                        }
 
                         zug.istDran = false;
                         server.sendToAllExceptTCP(server.getConnections()[naechsterClient].getID(), zug);

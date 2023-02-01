@@ -165,14 +165,13 @@ public class SpielPanel extends JPanel implements Runnable{
                         if(aktuelleRundenAnzahl < ausgewaehlteRundenAnzahl){
                             aktuelleRundenAnzahl++;
                             setzeZustand(spielBrettZustand, -1);
-                        }else{
-                            setzeZustand(siegerKuerenZustand, -1);
                         }
                     }
                 }
             };
             timer.schedule(task, 3000, 1000);
         }else if(neueZustand == siegerKuerenZustand){
+            this.removeKeyListener(this.getKeyListeners()[0]);
             this.siegerKueren = new SiegerKueren(this);
             this.zustand = siegerKuerenZustand;
         }

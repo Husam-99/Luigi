@@ -34,6 +34,8 @@ public class ClientListener extends Listener {
             } else if(zug.zustand == sp.zugFestlegenZustand){
                 sp.wurfelzustand = true;
                 sp.setzeZustand(sp.spielBrettZustand, -1);
+            } else if(zug.zustand == sp.siegerKuerenZustand){
+                sp.setzeZustand(sp.siegerKuerenZustand, -1);
             }
             System.out.println("Clinet: dran " + istDran);
         } else if (object instanceof HostClient hostAuskuefte) {
