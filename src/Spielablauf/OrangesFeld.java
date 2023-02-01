@@ -18,5 +18,6 @@ public class OrangesFeld extends Feld{
     @Override
     public void effeckteAnwenden(){
         mapManager.spielablaufManager.shopGeoeffnet = true;
+        mapManager.spielablaufManager.miniMapZustand = false;
     }
 }

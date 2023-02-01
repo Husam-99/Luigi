@@ -35,6 +35,7 @@ public class ViolettesFeld extends Feld{
             mapManager.spielablaufManager.mainSpieler.amSpiel = false;
         }else{
             mapManager.stern.sternKaufen = true;
+            mapManager.spielablaufManager.miniMapZustand = false;
         }
     }
 }

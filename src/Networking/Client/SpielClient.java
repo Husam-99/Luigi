@@ -11,6 +11,7 @@ import spieler.Spieler;
 import java.io.IOException;
 import java.util.ArrayList;
 
+
 public class SpielClient {
     static boolean istDran = false;
     static boolean istHost = false;

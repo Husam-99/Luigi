@@ -31,8 +31,7 @@ public class SiegerKueren {
         if (sp.client.anzahlSpieler == 3) {
             this.ziel1X = 255;
             this.ziel2X = ziel1X + 310;
-            this.ziel3X = ziel2X + 310;
-        }else if (sp.client.anzahlSpieler == 4) {
+         }else if (sp.client.anzahlSpieler == 4) {
             this.ziel1X = 100;
             this.ziel2X = ziel1X + 310;
             this.ziel3X = ziel2X + 310;

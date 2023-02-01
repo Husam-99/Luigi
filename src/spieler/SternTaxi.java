@@ -28,6 +28,7 @@ public class SternTaxi extends Gegenstand{
         spieler.vorherigesFeld = null;
         spieler.bewegung = true;
         spieler.inventarZustand = false;
+        spieler.wuerfelZustand = false;
         spieler.spielablaufManager.mapManager.mapEingabeManager.iGedrueckt = false;
     }
 

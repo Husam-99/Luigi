@@ -20,7 +20,9 @@ public class GelbesFeld extends Feld{
     public void effeckteAnwenden(){
         if(mapManager.spielablaufManager.mainSpieler.aktuellesFeld.hatStern){
             mapManager.stern.sternKaufen = true;
+            mapManager.spielablaufManager.miniMapZustand = false;
         }else{
+            mapManager.spielablaufManager.miniMapZustand = false;
             mapManager.spielablaufManager.mainSpieler.zuStern = true;
             mapManager.spielablaufManager.mainSpieler.vorherigesFeld = null;
             mapManager.spielablaufManager.mainSpieler.aktuellesFeld = mapManager.mapFliesen[mapManager.stern.sternFeldZeile][mapManager.stern.sternFeldSpalte].feld;

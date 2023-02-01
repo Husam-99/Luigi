@@ -13,7 +13,7 @@ public class Konto {
     public boolean genugMuenzen = true, genugSterne = true;
     public Konto(Spieler spieler){
         this.spieler = spieler;
-        muenzen = 5;
+        muenzen = 0;
         sterne = 0;
     }
     public void muenzenErhalten(int muenzenAnzahl){

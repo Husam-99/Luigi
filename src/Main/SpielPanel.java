@@ -55,15 +55,18 @@ public class SpielPanel extends JPanel implements Runnable{
     public SpielablaufManager spielablaufManager;
     public MinispielManager minispielManager;
     SiegerKueren siegerKueren;
-    public int ausgewaehlteRundenAnzahl,
-            aktuelleRundenAnzahl = 0;
+    public int ausgewaehlteRundenAnzahl, aktuelleRundenAnzahl = 0;
 
     public SpielPanel(JFrame window){
         this.window = window;
-        client = new SpielClient(this);
-        client.start();
         this.setPreferredSize(new Dimension(bildschirmBreite, bildschirmHoehe));
         this.setDoubleBuffered(true);
+        clientStarten();
+    }
+
+    private void clientStarten(){
+        client = new SpielClient(this);
+        client.start();
         this.menueHintergrund = new MenueHintergrund(this);
         this.spielablaufManager = new SpielablaufManager(this);
         alleSpieler = new ArrayList<>(4);

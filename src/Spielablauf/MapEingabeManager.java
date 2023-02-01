@@ -20,6 +20,11 @@ public class MapEingabeManager implements KeyListener {
     public void keyPressed(KeyEvent e) {
         spieler = this.spielMapManager.spielablaufManager.mainSpieler;
         int code = e.getKeyCode();
+        if(code == KeyEvent.VK_M){
+            spielMapManager.spielablaufManager.miniMapZustand = true;
+        }else if(code == KeyEvent.VK_ESCAPE){
+            spielMapManager.spielablaufManager.miniMapZustand = false;
+        }
         //Speziell fall für erste Runde
         if(spielMapManager.spielablaufManager.sp.client.istDran() && spielMapManager.spielablaufManager.sp.aktuelleRundenAnzahl == 0){
             if (code == KeyEvent.VK_SPACE) {

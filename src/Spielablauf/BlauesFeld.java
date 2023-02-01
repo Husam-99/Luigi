@@ -86,6 +86,7 @@ public class BlauesFeld extends Feld{
     public void effeckteAnwenden(){
         mapManager.spielablaufManager.blauesFeldZustand = true;
         mapManager.spielablaufManager.clientAuswaehlen = true;
+        mapManager.spielablaufManager.miniMapZustand = false;
     }
 
     public void malen(Graphics2D g2){

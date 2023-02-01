@@ -14,7 +14,7 @@ public class ClientListener extends Listener {
     @Override
     public void received(Connection connection, Object object) {
         if (object instanceof ClientsZug zug) {
-            if(zug.dispose){
+            if (zug.dispose) {
                 sp.window.dispose();
                 System.exit(0);
             }else{
@@ -23,10 +23,11 @@ public class ClientListener extends Listener {
                     sp.spielablaufManager.mainSpieler.wuerfelZustand = true;
                 }
             }
-            if(zug.ersteRunde){
+            if (zug.ersteRunde) {
                 sp.aktuelleRundenAnzahl++;
+                sp.spielablaufManager.mainSpieler.konto.muenzenErhalten(5);
             }
-            if(zug.zustand == sp.minispielZustand){
+            if (zug.zustand == sp.minispielZustand) {
                 sp.setzeZustand(sp.minispielZustand, zug.minispielIndex);
             } else if(zug.zustand == sp.spielBrettZustand){
                 sp.wurfelzustand = false;

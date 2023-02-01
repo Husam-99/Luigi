@@ -16,7 +16,9 @@ public class SpielablaufManager {
     public Bube bube;
     public BlauesFeld tempBlauesFeld;
     public Shop shop;
-    public boolean shopGeoeffnet = false, clientAuswaehlen = false, bubeZustand = false, blauesFeldZustand = false, inventarVoll = false;
+    MiniMap miniMap;
+    public boolean shopGeoeffnet = false, clientAuswaehlen = false, bubeZustand = false, blauesFeldZustand = false,
+            inventarVoll = false, miniMapZustand = false;
 
     public SpielablaufManager(SpielPanel sp) {
         this.sp = sp;
@@ -71,7 +73,10 @@ public class SpielablaufManager {
         }else if(blauesFeldZustand) {
             tempBlauesFeld.malen(g2);
         }
-
+        if(miniMapZustand){
+            miniMap = new MiniMap(this);
+            miniMap.malen(g2);
+        }
         spielerNum = 0;
     }
     private void clientMalen(){
