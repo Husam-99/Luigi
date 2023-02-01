@@ -25,16 +25,7 @@ public class SpielClient {
         this.sp = sp;
         client = new Client();
     }
-   /* if(squidGamePunkte.endeErreicht){
-        sp.minispielManager.alleMinispielSpieler.get(squidGamePunkte.clientIndex).endeErreicht = true;
-    }
-                        if(squidGamePunkte.sekundenAnzahl!=-1){
-        sp.minispielManager.alleMinispielSpieler.get(squidGamePunkte.clientIndex).endeErreichtSekunde=squidGamePunkte.sekundenAnzahl;
 
-    }
-                        sp.minispielManager.alleMinispielSpieler.get(squidGamePunkte.clientIndex).punktzahl = squidGamePunkte.punktZahl;
-
-*/
     public void start(){
         try {
             Register.register(client.getKryo());

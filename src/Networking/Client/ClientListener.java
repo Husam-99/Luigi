@@ -247,7 +247,12 @@ public class ClientListener extends Listener {
             if(squidGamePunkte.endeErreicht){
                 sp.minispielManager.alleMinispielSpieler.get(squidGamePunkte.clientIndex).endeErreicht = true;
             }
+            if(squidGamePunkte.sekundenAnzahl!=-1){
+                sp.minispielManager.alleMinispielSpieler.get(squidGamePunkte.clientIndex).endeErreichtSekunde=squidGamePunkte.sekundenAnzahl;
+
+            }
             sp.minispielManager.alleMinispielSpieler.get(squidGamePunkte.clientIndex).punktzahl = squidGamePunkte.punktZahl;
+
         } else if(object instanceof SquidGamePosition squidGamePosition){
             sp.minispielManager.alleMinispielSpieler.get(squidGamePosition.clientIndex).minispielXPosition = squidGamePosition.minispielXPosition;
             sp.minispielManager.alleMinispielSpieler.get(squidGamePosition.clientIndex).minispielYPosition = squidGamePosition.minispielYPosition;
