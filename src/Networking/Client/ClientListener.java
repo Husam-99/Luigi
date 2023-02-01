@@ -168,8 +168,11 @@ public class ClientListener extends Listener {
                                                 sp.alleSpieler.get(bewegung.bubeClientIndex).weltY = sp.spielablaufManager.mapManager.mapFliesen[zeile][spalte].feld.weltY - sp.vergroesserteFliesenGroesse / 2;
                                             }
                                             for (Spieler spieler : sp.alleSpieler) {
-                                                spieler.bildschirmX = spieler.weltX - spieler.spielablaufManager.mainSpieler.weltX + spieler.spielablaufManager.mainSpieler.bildschirmX;
-                                                spieler.bildschirmY = spieler.weltY - spieler.spielablaufManager.mainSpieler.weltY + spieler.spielablaufManager.mainSpieler.bildschirmY;
+                                                if(spieler.spielfigur != null){
+                                                    spieler.bildschirmX = spieler.weltX - spieler.spielablaufManager.mainSpieler.weltX + spieler.spielablaufManager.mainSpieler.bildschirmX;
+                                                    spieler.bildschirmY = spieler.weltY - spieler.spielablaufManager.mainSpieler.weltY + spieler.spielablaufManager.mainSpieler.bildschirmY;
+
+                                                }
                                             }
                                         } else {
                                             sp.alleSpieler.get(bewegung.clientIndex).aktuellesFeld = sp.spielablaufManager.mapManager.mapFliesen[zeile][spalte].feld;

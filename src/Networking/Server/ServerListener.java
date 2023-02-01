@@ -82,8 +82,12 @@ public class ServerListener extends Listener {
         server.sendToAllExceptTCP(connection.getID(), spielerConnection);
         //schritteArray.remove(alleClients.get(connection).clientIndex);
         System.out.println((Object) alleClients.get(connection).clientIndex);
-        spielerReihenfolge.remove(alleClients.get(connection).clientIndex);
-        spielerReihenfolge.set(0, 1);
+        spielerReihenfolge.remove((Object) alleClients.get(connection).clientIndex);
+        for(int i = 0; i < spielerReihenfolge.size(); i++){
+            if(spielerReihenfolge.get(i) != 0 && spielerReihenfolge.get(i) != 1){
+                spielerReihenfolge.set(i, spielerReihenfolge.get(i) - 1);
+            }
+        }
         alleClients.remove(connection, alleClients.get(connection));
         connection.close();
         for (int i = 0; i < server.getConnections().length; i++) {
@@ -280,6 +284,7 @@ public class ServerListener extends Listener {
                     }
                 }
                 if(count == spielerReihenfolge.size()) {
+                    schritteArray.removeIf(o -> o == -1);
 
                     int stelle = 0;
                     Collections.reverse(schritteArray);
