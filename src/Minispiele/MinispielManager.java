@@ -18,7 +18,6 @@ public class MinispielManager {
     public Sammler sammler;
     public MinispielSpieler mainMinispielSpieler;
     public ArrayList<MinispielSpieler> alleMinispielSpieler;
-
     public SammlerEingabeManager sammlerEingabeManager;
 
     public int gesamtSekundenAnzahl = 64;
@@ -26,6 +25,8 @@ public class MinispielManager {
     int xPosition;
     public int yPosition = 432;
     String go = "GO";
+
+    public MinispielManager(){};
     public MinispielManager(SpielPanel sp, int minispielIndex) {
         this.sp = sp;
         alleMinispielSpieler = new ArrayList<>();
@@ -61,12 +62,11 @@ public class MinispielManager {
             squidGame = new SquidGame(sp, mainMinispielSpieler, alleMinispielSpieler);
         }
     }
-    public void spiegerKueren(){
+    public void siegerFestlegen(){
         if(minispielWahl == 0){
-            sammler.siegerKueren();
+            sammler.siegerFestlegen();
         } else if(minispielWahl == 1){
-            squidGame.siegerKueren();
-
+            squidGame.siegerFestlegen();
         }
     }
 
@@ -82,8 +82,6 @@ public class MinispielManager {
         this.g2 = g2;
 
         g2.setFont(sp.marioPartyFont);
-
-
         if(minispielWahl == SAMMLER_INDEX){
             sammler.malen(g2);
             mainMinispielSpieler.malen(g2);
@@ -150,6 +148,12 @@ public class MinispielManager {
             yPosition += 15;
             g2.drawString(go, xPosition, yPosition);
             size += 50F;
+        } else if(gesamtSekundenAnzahl < 0){
+            if(minispielWahl == SAMMLER_INDEX){
+                sammler.siegerKuerenMalen(g2);
+            } else if(minispielWahl == SQUIDGAME_INDEX){
+                squidGame.siegerKuerenMalen(g2);
+            }
         }
     }
     private void zeitBoxmalen(Graphics2D g2){

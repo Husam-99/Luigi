@@ -139,7 +139,7 @@ public class SpielPanel extends JPanel implements Runnable{
             TimerTask task = new TimerTask() {
                 @Override
                 public void run() {
-                    if(minispielManager.gesamtSekundenAnzahl >= 0){
+                    if(minispielManager.gesamtSekundenAnzahl > 0){
                         minispielManager.gesamtSekundenAnzahl--;
                         if(minispielManager.gesamtSekundenAnzahl == 60){
                             minispielManager.mainMinispielSpieler.amSpielen = true;
@@ -147,9 +147,17 @@ public class SpielPanel extends JPanel implements Runnable{
                         minispielManager.size = 200F;
                         minispielManager.yPosition = 465;
 
-                    } else if(minispielManager.gesamtSekundenAnzahl > -7){
+                    } else if( minispielManager.gesamtSekundenAnzahl == 0){
+                        minispielManager.siegerFestlegen();
                         minispielManager.gesamtSekundenAnzahl--;
-                        minispielManager.spiegerKueren();
+                        minispielManager.mainMinispielSpieler.amSpielen = false;
+
+
+
+                    }
+                    else if(minispielManager.gesamtSekundenAnzahl > -7){
+                        minispielManager.gesamtSekundenAnzahl--;
+                        minispielManager.mainMinispielSpieler.amSpielen = false;
 
                     } else{
                         minispielManager.mainMinispielSpieler.amSpielen = false;

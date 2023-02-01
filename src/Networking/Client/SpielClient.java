@@ -11,7 +11,6 @@ import spieler.Spieler;
 import java.io.IOException;
 import java.util.ArrayList;
 
-
 public class SpielClient {
     static boolean istDran = false;
     static boolean istHost = false;
@@ -26,7 +25,16 @@ public class SpielClient {
         this.sp = sp;
         client = new Client();
     }
+   /* if(squidGamePunkte.endeErreicht){
+        sp.minispielManager.alleMinispielSpieler.get(squidGamePunkte.clientIndex).endeErreicht = true;
+    }
+                        if(squidGamePunkte.sekundenAnzahl!=-1){
+        sp.minispielManager.alleMinispielSpieler.get(squidGamePunkte.clientIndex).endeErreichtSekunde=squidGamePunkte.sekundenAnzahl;
 
+    }
+                        sp.minispielManager.alleMinispielSpieler.get(squidGamePunkte.clientIndex).punktzahl = squidGamePunkte.punktZahl;
+
+*/
     public void start(){
         try {
             Register.register(client.getKryo());
