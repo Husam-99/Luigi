@@ -26,7 +26,7 @@ public class MinispielManager {
     public int yPosition = 432;
     String go = "GO";
 
-    public MinispielManager(){};
+
     public MinispielManager(SpielPanel sp, int minispielIndex) {
         this.sp = sp;
         alleMinispielSpieler = new ArrayList<>();
@@ -110,11 +110,12 @@ public class MinispielManager {
                 }
             }
         }
-        if(gesamtSekundenAnzahl <= 60 && gesamtSekundenAnzahl >= 0) {
+        if(gesamtSekundenAnzahl <= 60 && gesamtSekundenAnzahl > 0) {
             int width = 25;
-            mainMinispielSpieler.minispielerBoxMalen(g2, width);
-            mainMinispielSpieler.minispielerStatusMalen(g2, width);
-
+            if(mainMinispielSpieler != null) {
+                mainMinispielSpieler.minispielerBoxMalen(g2, width);
+                mainMinispielSpieler.minispielerStatusMalen(g2, width);
+            }
             width += 230;
             int spielerIndex = 0;
             for (MinispielSpieler spieler : alleMinispielSpieler) {
@@ -184,7 +185,6 @@ public class MinispielManager {
     }
     public int getXfuerCenter(String text) {
         int length = (int) g2.getFontMetrics().getStringBounds(text, g2).getWidth();
-        int x = this.sp.bildschirmBreiteMenue / 2 - length / 2;
-        return x;
+        return this.sp.bildschirmBreite / 2 - length / 2;
     }
 }

@@ -27,7 +27,7 @@ public abstract class Wuerfel {
         }else if (spriteNum == 5) {
             spieler.schritteAnzahl = 6;
         }
-        if(spieler.spielablaufManager.sp.wurfelzustand){
+        if(spieler.spielablaufManager.sp.wuerfelZustand){
             Bescheid bescheid = new Bescheid();
             bescheid.fertig = true;
             spieler.spielablaufManager.sp.client.send(bescheid);

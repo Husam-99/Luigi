@@ -184,9 +184,9 @@ public class Sammler extends Minispiel {
             int spalte = 0;
             int zeile = 0;
 
-            while (spalte < 15 && zeile < 9) {
+            while (spalte < sp.maxBildschirmSpalte && zeile < sp.maxBildschirmZeile) {
                 String line = br.readLine();
-                while (spalte < 15) {
+                while (spalte < sp.maxBildschirmSpalte) {
                     String[] numbers = line.split(" ");
 
                     int num = Integer.parseInt(numbers[spalte]);
@@ -194,7 +194,7 @@ public class Sammler extends Minispiel {
                     minispielMap[spalte][zeile] = num;
                     spalte++;
                 }
-                if (spalte == 15) {
+                if (spalte == sp.maxBildschirmSpalte) {
                     spalte = 0;
                     zeile++;
                 }
@@ -451,7 +451,7 @@ public class Sammler extends Minispiel {
         int zeile = 0;
         int x = 0;
         int y = 0;
-        while (spalte < 15 && zeile < 9) {
+        while (spalte < sp.maxBildschirmSpalte && zeile < sp.maxBildschirmZeile) {
 
             int flieseIndex = minispielMap[spalte][zeile];
             g2.drawImage(minispielFliesen[flieseIndex].flieseImage, x, y, sp.vergroesserteFliesenGroesse, sp.vergroesserteFliesenGroesse, null);
@@ -459,7 +459,7 @@ public class Sammler extends Minispiel {
             spalte++;
             x += sp.vergroesserteFliesenGroesse;
 
-            if (spalte == 15) {
+            if (spalte == sp.maxBildschirmSpalte) {
                 spalte = 0;
                 x = 0;
                 zeile++;

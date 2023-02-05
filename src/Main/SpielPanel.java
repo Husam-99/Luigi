@@ -5,7 +5,6 @@ import Networking.Client.SpielClient;
 
 import Spielablauf.SiegerKueren;
 import Spielablauf.SpielablaufManager;
-import menue.MenueHintergrund;
 import spieler.*;
 import menue.MenueManager;
 
@@ -25,36 +24,30 @@ public class SpielPanel extends JPanel implements Runnable{
     public JFrame window;
     public int zustand;
     public final int menueZustand = 0, zugFestlegenZustand = 1, spielBrettZustand = 2, minispielZustand = 3, siegerKuerenZustand = 4;
-    public boolean wurfelzustand = false;
+    public boolean wuerfelZustand = false; // In der ersten Runde, nur für das Zugfestlegen
     public final int fliesenGroesse = 32;
     public final int skalaMenue = 5, skala = 3,
             vergroesserteFliesenGroesseMenue = fliesenGroesse * skalaMenue, vergroesserteFliesenGroesse = fliesenGroesse * skala;
-    public final int maxBildschirmSpalteMenue = 9,     maxBildschirmSpalte = 15,
-            maxBildschirmZeileMenue = 5, maxBildschirmZeile = 9;
-    public final int bildschirmHoeheMenue = vergroesserteFliesenGroesseMenue * maxBildschirmZeileMenue,
-            bildschirmHoehe = vergroesserteFliesenGroesse * maxBildschirmZeile,
-            bildschirmBreiteMenue = vergroesserteFliesenGroesseMenue * maxBildschirmSpalteMenue,
+
+    // Bildschirm zerlegen in Spalten und Zeilen
+    public final int maxBildschirmSpalte = 15, maxBildschirmZeile = 9;
+    public final int bildschirmHoehe = vergroesserteFliesenGroesse * maxBildschirmZeile,
             bildschirmBreite = vergroesserteFliesenGroesse * maxBildschirmSpalte;
 
     // Welt
     public final int maxWeltSpalte = 30;
     public final int maxWeltZeile = 25;
-    public final int weltBreite = vergroesserteFliesenGroesse * maxWeltSpalte;
-    public final int weltHoehe = vergroesserteFliesenGroesse * maxWeltZeile;
 
 
-    int FPS = 60;
     public Font marioPartyFont;
     public Clip soundClip;
-    public FloatControl floatControl;
-    Thread spielThread;
+    private Thread spielThread;
     public ArrayList<Spieler> alleSpieler;
     public SpielClient client;
     public MenueManager menueManager;
-    MenueHintergrund menueHintergrund;
     public SpielablaufManager spielablaufManager;
     public MinispielManager minispielManager;
-    SiegerKueren siegerKueren;
+    private SiegerKueren siegerKueren;
     public int ausgewaehlteRundenAnzahl, aktuelleRundenAnzahl = 0;
 
     public SpielPanel(JFrame window){
@@ -67,7 +60,6 @@ public class SpielPanel extends JPanel implements Runnable{
     private void clientStarten(){
         client = new SpielClient(this);
         client.start();
-        this.menueHintergrund = new MenueHintergrund(this);
         this.spielablaufManager = new SpielablaufManager(this);
         alleSpieler = new ArrayList<>(4);
         for(int i = 0; i < 4; i++){
@@ -84,10 +76,10 @@ public class SpielPanel extends JPanel implements Runnable{
             AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(soundFile);
             soundClip = AudioSystem.getClip();
             soundClip.open(audioInputStream);
-            floatControl = (FloatControl) soundClip.getControl(FloatControl.Type.MASTER_GAIN);
+            FloatControl floatControl = (FloatControl) soundClip.getControl(FloatControl.Type.MASTER_GAIN);
             floatControl.setValue(-20f);
 
-            //soundClip.start();
+            soundClip.start();
 
         } catch (FontFormatException | IOException e) {
             e.printStackTrace();
@@ -96,7 +88,6 @@ public class SpielPanel extends JPanel implements Runnable{
         }
     }
     public void hinzufuegeSpieler(Spieler spieler, int clientIndex){
-        System.out.println("hier is the clientIndex " + clientIndex);
         alleSpieler.set(clientIndex, spieler);
         for(Spieler spieler1 : alleSpieler){
             if (spieler1.spielfigur instanceof Abdo) {
@@ -134,8 +125,8 @@ public class SpielPanel extends JPanel implements Runnable{
             this.addKeyListener(spielablaufManager.mapManager.mapEingabeManager);
             this.zustand = spielBrettZustand;
         } else if(neueZustand == minispielZustand){
-            this.minispielManager = new MinispielManager(this, minispielIndex);
             this.removeKeyListener(this.getKeyListeners()[0]);
+            this.minispielManager = new MinispielManager(this, minispielIndex);
 
             this.zustand = minispielZustand;
             Timer timer = new Timer();
@@ -164,16 +155,16 @@ public class SpielPanel extends JPanel implements Runnable{
 
                     } else{
                         minispielManager.mainMinispielSpieler.amSpielen = false;
-                        timer.cancel();
-                        if(aktuelleRundenAnzahl < ausgewaehlteRundenAnzahl){
+                        if(aktuelleRundenAnzahl <= ausgewaehlteRundenAnzahl){
                             aktuelleRundenAnzahl++;
-                            setzeZustand(spielBrettZustand, -1);
                         }
+                        timer.cancel();
                     }
                 }
             };
             timer.schedule(task, 3000, 1000);
         }else if(neueZustand == siegerKuerenZustand){
+
             this.removeKeyListener(this.getKeyListeners()[0]);
             this.siegerKueren = new SiegerKueren(this);
             this.zustand = siegerKuerenZustand;
@@ -187,7 +178,8 @@ public class SpielPanel extends JPanel implements Runnable{
 
     @Override
     public void run() {
-        double drawInterval = 1000000000/FPS;
+        final int FPS = 60;
+        double drawInterval = 1000000000.0/ FPS;
         double delta = 0;
         long lastTime = System.nanoTime();
         long currentTime;
@@ -224,7 +216,6 @@ public class SpielPanel extends JPanel implements Runnable{
         super.paintComponent(g);
         Graphics2D g2 = (Graphics2D)g;
         if(zustand == menueZustand){
-            menueManager.menueHintergrund.malen(g2);
             menueManager.malen(g2);
         }else if(zustand == spielBrettZustand){
             spielablaufManager.malen(g2);

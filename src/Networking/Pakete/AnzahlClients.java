@@ -1,6 +1,6 @@
 package Networking.Pakete;
 
 public class AnzahlClients {
-    public int anzahlVerbundeneClients;
+    public int anzahlVerbundeneClients = -1;
 
 }

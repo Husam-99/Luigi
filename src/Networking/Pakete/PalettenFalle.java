@@ -1,11 +1,11 @@
 package Networking.Pakete;
 
 public class PalettenFalle {
-    public boolean pallete0 = false;
-    public boolean pallete2 = false;
-    public boolean pallete4 = false;
-    public boolean pallete6 = false;
-    public boolean pallete8 = false;
-    public boolean pallete10 = false;
-    public boolean pallete12 = false;
+    public boolean palette0 = false;
+    public boolean palette2 = false;
+    public boolean palette4 = false;
+    public boolean palette6 = false;
+    public boolean palette8 = false;
+    public boolean palette10 = false;
+    public boolean palette12 = false;
 }

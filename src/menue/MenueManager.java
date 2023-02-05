@@ -28,6 +28,7 @@ public class MenueManager {
         spielfigurAuswaehlen.update();
     }
     public void malen(Graphics2D g2){
+        menueHintergrund.malen(g2);
         if(!sp.client.istDran()){
             spielfigurAuswaehlen.wartenBoxMalen(g2);
             spielfigurAuswaehlen.wartenMalen(g2);
