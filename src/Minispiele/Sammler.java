@@ -78,6 +78,8 @@ public class Sammler extends Minispiel {
 
     }
 
+
+    // Hier wird geprüft, ob eine Kollision aufgetreten ist
     public void kollisionChecken(MinispielSpieler spieler) {
 
         if (muenze1 != null) {
@@ -140,6 +142,7 @@ public class Sammler extends Minispiel {
     }
 
 
+    //Hier wird das map Fotos fesgelegt
     public void getFlieseImage() {
         try {
             minispielFliesen[0] = new Fliese();
@@ -212,6 +215,7 @@ public class Sammler extends Minispiel {
 
     }
 
+    // Hier wird SiegerKueren bestimmt
     @Override
     public void siegerFestlegen() {
         int spielfigurIndex = -1;
@@ -356,6 +360,7 @@ public class Sammler extends Minispiel {
         }
     }
 
+    // Hier wird Siegerkueren gemalt
     @Override
     public void siegerKuerenMalen(Graphics2D g2) {
         BufferedImage coin = null;
@@ -433,6 +438,8 @@ public class Sammler extends Minispiel {
 
     }
 
+
+    //Hier wird das Ergbnisbox fetstlegen
     public void ergbnisBoxmalen(Graphics2D g2) {
         g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.7f));
         g2.setColor(Color.black);
@@ -445,6 +452,7 @@ public class Sammler extends Minispiel {
 
     }
 
+    //Hier wird das Map Fotos , Element und Siegerkuren gemalt
     @Override
     public void malen(Graphics2D g2) {
         int spalte = 0;

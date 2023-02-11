@@ -38,6 +38,7 @@ public class SammlerElement {
         getSammlerBilder();
     }
 
+    // hier wird das Element Fotos festgelegt
     public void getSammlerBilder() {
         try {
             if (elementIndex == 1) {
@@ -120,6 +121,7 @@ public class SammlerElement {
         }
     }
 
+    //Hier wird daimond gemalt
     public void daimondmalen(Graphics2D g2) {
         BufferedImage image2 = null;
         if (this.spriteNum == 0) {
@@ -135,6 +137,8 @@ public class SammlerElement {
 
     }
 
+
+    //Hier wird Meunzen gemalt
     public void muenzeMalen(Graphics2D g2) {
         BufferedImage image = null;
         if (this.spriteNum == 0 ) {image = this.muenze1;
@@ -151,11 +155,13 @@ public class SammlerElement {
 
     }
 
+    //Hier wird Spidernetz gemalt
     public void spiderMalen(Graphics2D g2) {
         g2.drawImage(spider, elementXPosition, elementYPosition, sp.vergroesserteFliesenGroesse * 2, sp.vergroesserteFliesenGroesse * 2, null);
 
     }
 
+    //Hier wird Mushroom gemalt
     public void mushroomMalen(Graphics2D g2) {
         g2.drawImage(mushroom, elementXPosition, elementYPosition, sp.vergroesserteFliesenGroesse, sp.vergroesserteFliesenGroesse, null);
 
