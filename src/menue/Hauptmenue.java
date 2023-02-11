@@ -41,7 +41,6 @@ public class Hauptmenue{
         int x2 = getXfuerCenter(text2);
         int y1 = 220;
         int y2 = 350;
-
         g2.setColor(Color.gray);
         g2.drawString(text1,x1+5,y1+5);
         g2.drawString(text2,x2+5,y2+5);
@@ -191,6 +190,5 @@ public class Hauptmenue{
         int length = (int)g2.getFontMetrics().getStringBounds(text, g2).getWidth();
         return mn.sp.bildschirmBreiteMenue/2 - length/2;
     }
-
 
 }

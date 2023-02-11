@@ -3,13 +3,11 @@ package Networking.Server;
 import Networking.Pakete.*;
 import com.esotericsoftware.kryonet.Connection;
 import com.esotericsoftware.kryonet.Listener;
-
 import java.util.*;
 
 import static Networking.Server.SpielServer.*;
 
 public class ServerListener extends Listener {
-
     private int maxAnzahlDerMitspielerHost;
     private int anzahlDerRunden;
     private int runde = 0;

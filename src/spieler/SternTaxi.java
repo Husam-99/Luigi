@@ -4,8 +4,6 @@ import javax.imageio.ImageIO;
 import java.io.IOException;
 
 public class SternTaxi extends Gegenstand{
-
-
     public SternTaxi(Spieler spieler) {
         super(spieler);
         preis = 15;

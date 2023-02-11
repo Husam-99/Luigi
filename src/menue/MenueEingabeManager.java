@@ -146,7 +146,7 @@ public class MenueEingabeManager implements KeyListener {
                 }
             }else if (code == KeyEvent.VK_ENTER) {
                 if (mn.hauptmenue.befehlNum2 == 0) {
-                    mn.sp.ausgewaehlteRundenAnzahl = 1;
+                    mn.sp.ausgewaehlteRundenAnzahl = 2;
                     mn.menueZustand = mn.spielfigurAuswaehlenZustand;
                 } else if (mn.hauptmenue.befehlNum2 == 1) {
                     mn.sp.ausgewaehlteRundenAnzahl = 7;

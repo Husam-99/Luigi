@@ -1,5 +1,4 @@
 package Networking.Client;
-
 import Main.SpielPanel;
 import Minispiele.SammlerElement;
 import Networking.Pakete.*;
@@ -17,7 +16,7 @@ public class SpielClient {
     static boolean istHost = false;
     static int tcp_Port = 54777;
     static int udp_Port = 54555;
-    private static String ipAdresse = "127.0.0.1";
+    private static String ipAdresse = "132.195.37.160";
     Client client;
     static SpielPanel sp;
     public static int anzahlSpieler;
@@ -26,7 +25,6 @@ public class SpielClient {
         this.sp = sp;
         client = new Client();
     }
-
     public void start(){
         try {
             Register.register(client.getKryo());
