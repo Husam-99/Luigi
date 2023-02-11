@@ -1,5 +1,5 @@
 package Networking.Pakete;
 
 public class AnzahlMitspieler {
-    public int anzahlDerMitspielerHost;
+    public int anzahlDerMitspielerHost = -1;
 }

@@ -5,7 +5,6 @@ public class SpielerAuskuenfte {
     int spielfigurIndex = -1;
     int muenzenzahl = 10;
     int sternzahl = 0;
-    int schritte = 0;
 
 
 }

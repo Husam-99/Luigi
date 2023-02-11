@@ -1,5 +1,5 @@
 package Networking.Pakete;
 
 public class Blocken {
-    public int clientIndex;
+    public int clientIndex = -1;
 }

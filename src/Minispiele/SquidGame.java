@@ -1,5 +1,4 @@
 package Minispiele;
-
 import Main.SpielPanel;
 import Networking.Pakete.SquidGamePosition;
 import Networking.Pakete.SquidGamePunkte;
@@ -7,8 +6,6 @@ import spieler.Abdo;
 import spieler.Husam;
 import spieler.Taha;
 import spieler.Yousef;
-
-
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -17,11 +14,15 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Objects;
 
+/**
+ * @author : Abdelrahman Elsayed
+ * @version : 1.2.2022
+ */
+
 public class SquidGame extends Minispiel {
     public Palette[] paletten;
     BufferedImage[][] minispielFliesen;
-
-    BufferedImage falle1, falle2, falle3, falle4;
+    BufferedImage falle1, falle2, falle3, falle4; //Fotos der Fallen, die gezeigt werden, wenn die Palette eine Falle hat.
 
     SquidGame(SpielPanel sp, MinispielSpieler mainMinispielSpieler, ArrayList<MinispielSpieler> alleMinispielSpieler) {
         super(sp, mainMinispielSpieler, alleMinispielSpieler);
@@ -31,11 +32,10 @@ public class SquidGame extends Minispiel {
         setzePaletten();
         paletteVerbinden();
     }
-
+      //Maptiles aus dem Textadatei einlesen.
     @Override
     public void mapLaden() {
         String[][] mapFelder = new String[20][20];
-
         try {
             InputStream is = getClass().getResourceAsStream("/miniSpiele/Squidgamemap/squidbilder.txt");
             BufferedReader br = new BufferedReader(new InputStreamReader(is));
@@ -67,7 +67,7 @@ public class SquidGame extends Minispiel {
 
 
     }
-
+     //Paletten postionen festlegen
     public void setzePaletten() {
         paletten[0] = new Palette((int) (sp.vergroesserteFliesenGroesse * 5.5), sp.vergroesserteFliesenGroesse * 15 - sp.vergroesserteFliesenGroesse / 3, 0, true);
         paletten[1] = new Palette((int) (sp.vergroesserteFliesenGroesse * 8.5), sp.vergroesserteFliesenGroesse * 15 - sp.vergroesserteFliesenGroesse / 3, 1, true);
@@ -84,7 +84,7 @@ public class SquidGame extends Minispiel {
         paletten[12] = new Palette((int) (sp.vergroesserteFliesenGroesse * 5.5), sp.vergroesserteFliesenGroesse * 3 - sp.vergroesserteFliesenGroesse / 3, 12, true);
         paletten[13] = new Palette((int) (sp.vergroesserteFliesenGroesse * 8.5), sp.vergroesserteFliesenGroesse * 3 - sp.vergroesserteFliesenGroesse / 3, 13, true);
     }
-
+    //palettenReihenfolge festlegen
     public void paletteVerbinden() {
         for (int i = 0; i < 12; i++) {
             if (i % 2 == 0) {
@@ -97,6 +97,7 @@ public class SquidGame extends Minispiel {
         }
     }
 
+    //Zufeallige Fallen zu irgendeiner Palette festlegen.
     public void falleFestlegen(ArrayList<Boolean> palletenFalle) {
         int j = 0;
         for (int i = 0; i < 13; i += 2) {
@@ -106,6 +107,8 @@ public class SquidGame extends Minispiel {
         }
     }
 
+    //Siegerkueren methode mit verschiedenen Fallunterscheidungen, die die Sieger sortieren und festlegen,
+    // dementsprechend werden die Sieger Meunzen erhalten.
     @Override
     public void siegerFestlegen() {
         int spielfigurIndex = -1;
@@ -283,6 +286,7 @@ public class SquidGame extends Minispiel {
         }
     }
 
+    //Hier werden die Spieler(Sieger) mit jeweils Anzahl die erhaltenden Punkte auf dem Bildschirm gemalt.
     @Override
     public void siegerKuerenMalen(Graphics2D g2) {
         BufferedImage coin = null;
@@ -303,7 +307,6 @@ public class SquidGame extends Minispiel {
         } else {
             x = 2 * sp.vergroesserteFliesenGroesse;
         }
-
         ergbnisBoxmalen(g2);
         for (int i = 0; i < alleMinispielSpieler.size(); i++) {
             if (gewinnPlatz == 1) {
@@ -316,7 +319,6 @@ public class SquidGame extends Minispiel {
                 muenzenAnzahl = 0;
             }
             g2.drawImage(alleMinispielSpieler.get(i).minispielSpieler.spielfigur.down1, x, y - 96, sp.fliesenGroesse * 8, sp.fliesenGroesse * 8, null);
-
 
             g2.setColor(Color.yellow);
             if (i == alleMinispielSpieler.size() - 1) {
@@ -355,8 +357,6 @@ public class SquidGame extends Minispiel {
 
             g2.drawString("+" + muenzenAnzahl, x + 100, y + 300);
             x += 3 * sp.vergroesserteFliesenGroesse;
-
-
         }
 
     }
@@ -369,10 +369,9 @@ public class SquidGame extends Minispiel {
         g2.setStroke(new BasicStroke(5));
         g2.drawRoundRect(sp.vergroesserteFliesenGroesse + 5, sp.vergroesserteFliesenGroesse + 5, 1430 - 2 * sp.vergroesserteFliesenGroesse, 854 - 2 * sp.vergroesserteFliesenGroesse, 15, 15);
         g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1.0f));
-
-
     }
 
+    //Was passiert wenn die Spieler das Ende erreichen.
     public void endeErreichen() {
         mainMinispielSpieler.endeErreichtSekunde = mainMinispielSpieler.minispielManager.gesamtSekundenAnzahl;
         mainMinispielSpieler.bildschirmY -= sp.vergroesserteFliesenGroesse / 2;
@@ -406,6 +405,8 @@ public class SquidGame extends Minispiel {
         mainMinispielSpieler.amSpielen = false;
     }
 
+
+    //Spieler postionen aktualisieren und dementsprechend malen
     public void update() {
         mainMinispielSpieler.update();
         for (MinispielSpieler spieler : alleMinispielSpieler) {
@@ -415,6 +416,7 @@ public class SquidGame extends Minispiel {
         }
     }
 
+    //SquidGame Map und Fallen malen
     @Override
     public void malen(Graphics2D g2) {
         int spalte = 0;
@@ -437,7 +439,6 @@ public class SquidGame extends Minispiel {
                     g2.drawImage(falle4, mainMinispielSpieler.minispielXPosition, mainMinispielSpieler.bildschirmY + sp.vergroesserteFliesenGroesse / 3, sp.vergroesserteFliesenGroesse, sp.vergroesserteFliesenGroesse, null);
                 }
             }
-
             g2.drawImage(minispielFliesen[zeile][spalte], bildschirmX, bildschirmY, sp.vergroesserteFliesenGroesse, sp.vergroesserteFliesenGroesse, null);
             spalte++;
             if (spalte == 20) {
