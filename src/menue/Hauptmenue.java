@@ -188,7 +188,7 @@ public class Hauptmenue{
     }
     public int getXfuerCenter(String text) {
         int length = (int)g2.getFontMetrics().getStringBounds(text, g2).getWidth();
-        return mn.sp.bildschirmBreiteMenue/2 - length/2;
+        return mn.sp.bildschirmBreite/2 - length/2;
     }
 
 }

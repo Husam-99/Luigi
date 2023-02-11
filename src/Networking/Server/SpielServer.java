@@ -1,7 +1,6 @@
 package Networking.Server;
 
 import Networking.Pakete.Register;
-import Networking.Pakete.Schritte;
 import com.esotericsoftware.kryonet.Connection;
 import com.esotericsoftware.kryonet.Server;
 
@@ -16,12 +15,13 @@ public class SpielServer  {
     static int tcp_Port = 54777;
     static int udp_Port = 54555;
     static Server server;
-    static LinkedHashMap<Connection, SpielerAuskuenfte> alleClients;
+    static LinkedHashMap<Connection, SpielerAuskuenfte> alleClients; // speichert die wichtigsten Infos über alle Clients im Server, wie ClientIndex im Server, spielfigurIndex usw.
     static Generator sternGenerator;
     static Random generator;
-    static ArrayList<Integer> spielerReihenfolge;
+    static ArrayList<Integer> spielerReihenfolge; // speichert die Reihenfolge der Spieler. Also in welcher Reihenfolge die ClientIndexe in dieser Liste eingespeichert werden,
+                                                  // entscheidet, wer von den Clients als nächstes spielen darf.
 
-    static ArrayList<Integer> schritteArray;
+    static ArrayList<Integer> schritteArray; // für die Neuordnung der ArrayListe "spielerReihenfolge".
 
     public static void start(){
 
