@@ -1,10 +1,13 @@
 package Minispiele;
-
 import Networking.Pakete.SquidGamePosition;
 import Networking.Pakete.SquidGamePunkte;
-
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+
+/**
+ * @author :Abdelrahman Elsayed
+ * @version : 1.2.2022
+ */
 
 public class SquidGameEingabeManger implements KeyListener {
     boolean tippenErlaubt = true;
@@ -15,7 +18,7 @@ public class SquidGameEingabeManger implements KeyListener {
         this.minispielManager = m;
         this.mainMinispielSpieler = mainSpieler;
     }
-
+    //Bewegung nach links oder rechts funktionalitaet
     @Override
     public void keyTyped(KeyEvent e) {
         if (mainMinispielSpieler.amSpielen) {
@@ -107,7 +110,7 @@ public class SquidGameEingabeManger implements KeyListener {
 
     @Override
     public void keyPressed(KeyEvent e) {}
-
+    
     @Override
     public void keyReleased(KeyEvent e) {
         if (mainMinispielSpieler.amSpielen) {

@@ -1,5 +1,4 @@
 package Minispiele;
-
 import Networking.Pakete.SpielerPosition;
 import Networking.Pakete.SquidGamePosition;
 import Networking.Pakete.SquidGamePunkte;
@@ -402,9 +401,6 @@ public class MinispielSpieler {
                 g2.setColor(new Color(255, 243, 0, 255));
                 g2.drawString("JA!", width + 90, 70);
             }
-
         }
-
     }
-
 }

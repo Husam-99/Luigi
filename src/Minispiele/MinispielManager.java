@@ -10,8 +10,8 @@ public class MinispielManager {
     SpielPanel sp;
     Graphics2D g2;
     public int minispielWahl;
-    private final int SAMMLER_INDEX = 0;
-    private  final int SQUIDGAME_INDEX = 1;
+    private final int SAMMLER_INDEX = 0; // ein Index, das festlegt, dass das Minispiel, das gestartet werden soll, ist Sammler
+    private  final int SQUIDGAME_INDEX = 1; // ein Index, das festlegt, dass das Minispiel, das gestartet werden soll, ist SquidGame
 
     public SquidGame squidGame;
     public SquidGameEingabeManger squidGameEingabeManger;
@@ -20,7 +20,7 @@ public class MinispielManager {
     public ArrayList<MinispielSpieler> alleMinispielSpieler;
     public SammlerEingabeManager sammlerEingabeManager;
 
-    public int gesamtSekundenAnzahl = 64;
+    public int gesamtSekundenAnzahl = 64;  //Zeit
     public float size = 700F;
     int xPosition;
     public int yPosition = 432;
@@ -40,6 +40,7 @@ public class MinispielManager {
         }
         setzeWerte();
     }
+    //Hier wird festgelegt, welches Minispiel gestartet werden sollte.
     public void setzeWerte(){
         mainMinispielSpieler = new MinispielSpieler(this, sp.spielablaufManager.mainSpieler,minispielWahl);
         for(Spieler spieler: sp.alleSpieler){
@@ -50,12 +51,13 @@ public class MinispielManager {
                 alleMinispielSpieler.add(null);
             }
         }
+        //Hier wird das Minispiel Sammler gestartet.
         if(minispielWahl==SAMMLER_INDEX) {
             sammlerEingabeManager = new SammlerEingabeManager(this, mainMinispielSpieler);
             sp.addKeyListener(sammlerEingabeManager);
             sammler = new Sammler(this.sp, mainMinispielSpieler, alleMinispielSpieler);
         }
-
+        //Hier wird das Minispiel SquidGame gestartet.
         else if(minispielWahl==SQUIDGAME_INDEX){
             squidGameEingabeManger = new SquidGameEingabeManger(this, mainMinispielSpieler);
             sp.addKeyListener(squidGameEingabeManger);
@@ -180,7 +182,6 @@ public class MinispielManager {
                 g2.drawString("" + gesamtSekundenAnzahl, 620 + 50, 70);
             }
         }
-
     }
     public int getXfuerCenter(String text) {
         int length = (int) g2.getFontMetrics().getStringBounds(text, g2).getWidth();
