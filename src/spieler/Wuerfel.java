@@ -7,12 +7,19 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 
 public abstract class Wuerfel {
-    public BufferedImage wuerfel1, wuerfel2, wuerfel3, wuerfel4, wuerfel5, wuerfel6;
+
     Spieler spieler;
-    int spriteNum = 0, spriteZaehler = 0;
+
+    public BufferedImage wuerfel1, wuerfel2, wuerfel3, wuerfel4, wuerfel5, wuerfel6;
+    int spriteNum, spriteZaehler;
+
     public Wuerfel(Spieler spieler){
         this.spieler = spieler;
+
+        spriteNum = 0;
+        spriteZaehler = 0;
     }
+
     public void schritteAnzahlBestimmen(){
         if (spriteNum == 0) {
             spieler.schritteAnzahl = 1;
@@ -27,6 +34,8 @@ public abstract class Wuerfel {
         }else if (spriteNum == 5) {
             spieler.schritteAnzahl = 6;
         }
+
+        //Speziell fall für beginn des Spiels (für Reihenfolge des Spielers zug)
         if(spieler.spielablaufManager.sp.wuerfelZustand){
             Bescheid bescheid = new Bescheid();
             bescheid.fertig = true;
@@ -36,7 +45,9 @@ public abstract class Wuerfel {
             spieler.spielablaufManager.sp.client.send(schritte);
         }
     }
+
     public void getWuerfelBilder() {}
+
     public void update(){
         if(spieler.spielablaufManager.mapManager.mapEingabeManager.spaceGedrueckt) {
             spriteZaehler++;
@@ -58,6 +69,7 @@ public abstract class Wuerfel {
             }
         }
     }
+
     public void malen(Graphics2D g2){
         BufferedImage image = null;
         if(spriteNum == 0){
@@ -75,4 +87,5 @@ public abstract class Wuerfel {
         }
         g2.drawImage(image, 620 , 65, spieler.spielablaufManager.sp.vergroesserteFliesenGroesse*2, spieler.spielablaufManager.sp.vergroesserteFliesenGroesse*2, null);
     }
+
 }

@@ -6,19 +6,26 @@ import Spielablauf.SpielablaufManager;
 import java.awt.*;
 
 public class Spieler {
+
     public SpielablaufManager spielablaufManager;
     Graphics2D g2;
+
     public Spielfigur spielfigur;
     public Wuerfel wuerfel;
+
     public int bildschirmX, bildschirmY;
     public int weltX, weltY;
+
     public int schritteAnzahl, geschwindigkeit, position;
     public Feld aktuellesFeld,vorherigesFeld;
     public Konto konto;
     public Inventar inventar;
-    public boolean amSpiel = true, bewegung = false, wuerfelZustand = true, inventarZustand = false,
-            normaleWuerfelZustand = true, megaWuerfelZustand = false, miniWuerfelZustand = false, zuStern = false;
-    public GegenstandWuerfel megaWuerfel = new MegaWuerfel( this), miniWuerfel = new MiniWuerfel(this);
+
+    public boolean amSpiel, bewegung, inventarZustand, zuStern;
+
+    public boolean wuerfelZustand, normaleWuerfelZustand, megaWuerfelZustand, miniWuerfelZustand;
+
+    public GegenstandWuerfel megaWuerfel, miniWuerfel;
 
 
     public Spieler(){}
@@ -29,7 +36,10 @@ public class Spieler {
         inventar = new Inventar(this);
         setzeWerte();
     }
-    public void setzeWerte(){
+
+    private void setzeWerte(){
+
+        //default Werte
         this.bildschirmX = spielablaufManager.sp.bildschirmBreite / 2 - (spielablaufManager.sp.vergroesserteFliesenGroesse / 2);
         this.bildschirmY = spielablaufManager.sp.bildschirmHoehe / 2 - (spielablaufManager.sp.vergroesserteFliesenGroesse / 2);
         this.weltY = (int) (spielablaufManager.sp.vergroesserteFliesenGroesse * 21.5);
@@ -37,27 +47,44 @@ public class Spieler {
         position = 0;
         aktuellesFeld = spielablaufManager.mapManager.mapFliesen[19][11].feld;
         vorherigesFeld = null;
+
+        amSpiel = true;
+        bewegung = false;
+        inventarZustand = false;
+        zuStern = false;
+
+        wuerfelZustand = true;
+        normaleWuerfelZustand = true;
+        megaWuerfelZustand = false;
+        miniWuerfelZustand = false;
+
+        megaWuerfel = new MegaWuerfel( this);
+        miniWuerfel = new MiniWuerfel(this);
     }
-    public void spielfigurAuswaehlen(){
-        if(spielablaufManager.sp.menueManager.spielfigurAuswaehlen.befehlNum1 == 0){
+
+    //main Spieler erstellen
+    public void spielfigurErstellen(){
+        if(spielablaufManager.sp.menueManager.spielfigurAuswahl.befehlNum1 == 0){
             spielfigur = new Abdo(this);
             wuerfel = new AbdoWuerfel(this);
             this.weltX = (int) (spielablaufManager.sp.vergroesserteFliesenGroesse * 9.50);
-        } else if(spielablaufManager.sp.menueManager.spielfigurAuswaehlen.befehlNum1 == 1){
+        } else if(spielablaufManager.sp.menueManager.spielfigurAuswahl.befehlNum1 == 1){
             spielfigur = new Husam(this);
             wuerfel = new HusamWuerfel(this);
             this.weltX = (int) (spielablaufManager.sp.vergroesserteFliesenGroesse * 10.5);
-        } else if(spielablaufManager.sp.menueManager.spielfigurAuswaehlen.befehlNum1 == 2){
+        } else if(spielablaufManager.sp.menueManager.spielfigurAuswahl.befehlNum1 == 2){
             spielfigur = new Taha(this);
             wuerfel = new TahaWuerfel(this);
             this.weltX = (int) (spielablaufManager.sp.vergroesserteFliesenGroesse * 11.5);
-        } else if(spielablaufManager.sp.menueManager.spielfigurAuswaehlen.befehlNum1 == 3){
+        } else if(spielablaufManager.sp.menueManager.spielfigurAuswahl.befehlNum1 == 3){
             spielfigur = new Yousef(this);
             wuerfel = new YousefWuerfel(this);
             this.weltX = (int) (spielablaufManager.sp.vergroesserteFliesenGroesse * 12.5);
         }
     }
-    public void spielfigurAuswaehlen(int spielfigurIndex) {
+
+    //alle Spieler erstellen
+    public void spielfigurErstellen(int spielfigurIndex) {
         if(spielfigurIndex == 0){
             spielfigur = new Abdo(this);
             wuerfel = new AbdoWuerfel(this);
@@ -72,6 +99,7 @@ public class Spieler {
             wuerfel = new YousefWuerfel(this);
         }
     }
+
     public void update(){
       if(spielfigur != null && wuerfel!=null) {
             spielfigur.update();
@@ -86,12 +114,15 @@ public class Spieler {
             }
         }
     }
+
     public void malen(Graphics2D g2){
         this.g2 = g2;
         g2.setFont(spielablaufManager.sp.marioPartyFont);
+
         if(spielablaufManager.mainSpieler.spielfigur!=null){
             spielfigur.malen(g2);
         }
+
         if(spielablaufManager.sp.client.istDran()) {
             if (this == spielablaufManager.mainSpieler) {
                 if (wuerfelZustand) {
@@ -107,6 +138,8 @@ public class Spieler {
                 }
             }
         }
+
+        //Speziell fall für beginn des Spiels
         if (spielablaufManager.sp.aktuelleRundenAnzahl == 0) {
             if (this == spielablaufManager.mainSpieler) {
                 if (schritteAnzahl > 0) {
@@ -126,6 +159,7 @@ public class Spieler {
         String schritte = Integer.toString(schritteAnzahl);
         g2.drawString(schritte, bildschirmX + 25, bildschirmY - 20);
     }
+
     private void schritteMalen(){
         if(schritteAnzahl < 10) {
             Color c = new Color(0, 0, 0, 200);
@@ -144,14 +178,17 @@ public class Spieler {
             g2.setStroke(new BasicStroke(5));
             g2.drawRoundRect(615, 85, 210, 150, 25, 25);
         }
+
         g2.setColor(Color.yellow);
         g2.setFont(g2.getFont().deriveFont(Font.BOLD,150F));
         String schritte = Integer.toString(schritteAnzahl);
         int x = getXfuerCenter(schritte);
         g2.drawString(schritte, x, 200);
     }
+
     private int getXfuerCenter(String text) {
         int length = (int)g2.getFontMetrics().getStringBounds(text, g2).getWidth();
         return spielablaufManager.sp.bildschirmBreite/2 - length/2;
     }
+
 }

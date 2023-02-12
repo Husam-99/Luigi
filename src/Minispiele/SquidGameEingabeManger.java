@@ -4,10 +4,6 @@ import Networking.Pakete.SquidGamePunkte;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
-/**
- * @author :Abdelrahman Elsayed
- * @version : 1.2.2022
- */
 
 public class SquidGameEingabeManger implements KeyListener {
     boolean tippenErlaubt = true;

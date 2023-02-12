@@ -4,36 +4,52 @@ import java.awt.*;
 
 public class Hauptmenue{
 
-    MenueManager mn;
-    Graphics2D g2;
-    public int befehlNum1 ,befehlNum2 = -1, befehlNum3 = 0, enterZustand = 0;
+    MenueManager menueManager;
 
-    public Hauptmenue(MenueManager mn){
-        this.mn = mn;
-        if(mn.sp.client.isIstHost()){
+    Graphics2D g2;
+
+    //befehlNum sind die Variable, um zu wissen, an welche Stelle man sich befindet
+    public int befehlNum1 ,befehlNum2, befehlNum3, enterZustand;
+
+    public Hauptmenue(MenueManager menueManager){
+        this.menueManager = menueManager;
+        befehlNum2 = -1;
+        befehlNum3 = 0;
+        enterZustand = 0;
+
+        //festlegen, ob der verbundene Client ein Host ist oder nicht
+        //um zu wissen, an welche Stelle das Menü anfangen soll
+        if(menueManager.sp.client.isIstHost()){
             befehlNum1 = 0;
         }else{
             befehlNum1 = 1;
         }
     }
+
     public void malen(Graphics2D g2){
         this.g2 = g2;
-        g2.setFont(mn.sp.marioPartyFont);
-        if(mn.menueZustand == 0){
+        g2.setFont(menueManager.sp.marioPartyFont);
+
+        //um zu wissen, ob das Main Menü gemalt werden soll oder das Festlegen Menü
+        if(menueManager.menueZustand == 0){
             hinterBoxMalen();
             titelMalen();
-            if(mn.sp.client.isIstHost()){
+
+            //um zu wissen, welches Menü gemalt werden soll
+            if(menueManager.sp.client.isIstHost()){
                 HostOptionenMalen();
             }else{
                 clientOptionenMalen();
             }
-        }else if(mn.menueZustand == 1){
-            spielErstellenBoxMalen();
-            spielerAnzahlBoxMalen();
-            rundenAnzahlBoxMalen();
+        }else if(menueManager.menueZustand == 1){
+            optionenBoxMalen();
+            spielerAnzahlMalen();
+            rundenAnzahlMalen();
         }
     }
-    public void titelMalen(){
+
+    //der Titel (LUIGI PARTY) in verschiedene Farben malen
+    private void titelMalen(){
         g2.setFont(g2.getFont().deriveFont(Font.BOLD,170F));
         String text1 = "LUIGI";
         String text2 = "PARTY";
@@ -41,6 +57,7 @@ public class Hauptmenue{
         int x2 = getXfuerCenter(text2);
         int y1 = 220;
         int y2 = 350;
+
         g2.setColor(Color.gray);
         g2.drawString(text1,x1+5,y1+5);
         g2.drawString(text2,x2+5,y2+5);
@@ -63,7 +80,9 @@ public class Hauptmenue{
         g2.drawString("I",879,y1);
         g2.drawString("Y",884,y2);
     }
-    public void HostOptionenMalen(){
+
+    //Host Hauptmenü Optionen malen, also (Spiel erstellen) und (Spiel verlassen)
+    private void HostOptionenMalen(){
         g2.setFont(g2.getFont().deriveFont(Font.PLAIN,75F));
         g2.setColor(Color.gray);
         String text = "Spiel erstellen";
@@ -85,7 +104,9 @@ public class Hauptmenue{
             g2.setColor(Color.gray);
         }
     }
-    public void clientOptionenMalen(){
+
+    //Client Hauptmenü Optionen malen, also (Spiel beitreten) und (Spiel verlassen)
+    private void clientOptionenMalen(){
         g2.setFont(g2.getFont().deriveFont(Font.PLAIN,75F));
         g2.setColor(Color.gray);
         String text = "Spiel beitreten";
@@ -107,7 +128,9 @@ public class Hauptmenue{
             g2.setColor(Color.gray);
         }
     }
-    public void spielErstellenBoxMalen(){
+
+    //Die Box, wo die Optionen gemalt werden, malen
+    private void optionenBoxMalen(){
         g2.setColor(Color.black);
         g2.fillRoundRect(270, 50, 900, 700, 35, 35);
         g2.setColor(Color.white);
@@ -115,69 +138,89 @@ public class Hauptmenue{
         g2.drawRoundRect(275,55,890, 690, 25, 25);
 
     }
-    public void rundenAnzahlBoxMalen(){
+
+    private void rundenAnzahlMalen(){
         g2.setColor(Color.yellow);
         g2.setFont(g2.getFont().deriveFont(Font.PLAIN,75F));
         String text = "Runden Anzahl";
         g2.drawString(text, 500, 500);
+
         g2.setColor(Color.gray);
         g2.drawString("6", 485, 600);
+        //wenn man sich auf die 6 sich befindet, dann wird die 6 in Weiß gemalt
+        //die Gleiche gilt für alle Runden Anzahl unten
         if(befehlNum2 == 0){
             g2.setColor(Color.white);
             g2.drawString("6", 485, 600);
-            g2.setColor(Color.gray);
         }
+
+        g2.setColor(Color.gray);
         g2.drawString("7", 585, 600);
+
         if(befehlNum2 == 1){
             g2.setColor(Color.white);
             g2.drawString("7", 585, 600);
-            g2.setColor(Color.gray);
         }
+
+        g2.setColor(Color.gray);
         g2.drawString("8", 685, 600);
         if(befehlNum2 == 2){
             g2.setColor(Color.white);
             g2.drawString("8", 685, 600);
-            g2.setColor(Color.gray);
         }
+
+        g2.setColor(Color.gray);
         g2.drawString("9", 785, 600);
+
         if(befehlNum2 == 3){
             g2.setColor(Color.white);
             g2.drawString("9", 785, 600);
-            g2.setColor(Color.gray);
         }
+
+        g2.setColor(Color.gray);
         g2.drawString("10", 885, 600);
+
         if(befehlNum2 == 4){
             g2.setColor(Color.white);
             g2.drawString("10", 885, 600);
-            g2.setColor(Color.gray);
         }
     }
-    public void spielerAnzahlBoxMalen(){
+
+    private void spielerAnzahlMalen(){
         g2.setColor(Color.yellow);
         g2.setFont(g2.getFont().deriveFont(Font.PLAIN,75F));
         String text = "Spieler Anzahl";
         g2.drawString(text, 500, 250);
+
         g2.setColor(Color.gray);
         g2.drawString("2", 585, 350);
+
+        //wenn man sich auf die 2 sich befindet, dann wird die 2 in Weiß gemalt
+        //die Gleiche gilt für alle Spieler Anzahl unten
         if(befehlNum3 == 0) {
             g2.setColor(Color.white);
             g2.drawString("2", 585, 350);
-            g2.setColor(Color.gray);
         }
+
+        g2.setColor(Color.gray);
         g2.drawString("3", 685, 350);
+
         if(befehlNum3 == 1) {
             g2.setColor(Color.white);
             g2.drawString("3", 685, 350);
-            g2.setColor(Color.gray);
         }
+
+        g2.setColor(Color.gray);
         g2.drawString("4", 785, 350);
+
         if(befehlNum3 == 2) {
             g2.setColor(Color.white);
             g2.drawString("4", 785, 350);
-            g2.setColor(Color.gray);
         }
     }
-    public void hinterBoxMalen(){
+
+    //Die Box, wo die Spieler und Runden Anzahl gemalt werden, malen
+    private void hinterBoxMalen(){
         Color c = new Color(0,0,0,200);
         g2.setColor(c);
         g2.fillRoundRect(365, 70, 700, 680, 35, 35);
@@ -186,9 +229,11 @@ public class Hauptmenue{
         g2.setStroke(new BasicStroke(5));
         g2.drawRoundRect(370,75,690, 670, 25, 25);
     }
-    public int getXfuerCenter(String text) {
+
+    //Die Mitte von dem Bildschirm in Bereite festlegen
+    private int getXfuerCenter(String text) {
         int length = (int)g2.getFontMetrics().getStringBounds(text, g2).getWidth();
-        return mn.sp.bildschirmBreite/2 - length/2;
+        return menueManager.sp.bildschirmBreite/2 - length/2;
     }
 
 }

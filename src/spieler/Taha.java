@@ -9,12 +9,13 @@ public class Taha extends Spielfigur{
     public Taha(){
         super();
         getSpielFigurBilder();
-
     }
+
     public Taha(Spieler spieler){
         super(spieler);
         getSpielFigurBilder();
     }
+
     @Override
     public void getSpielFigurBilder() {
         try {
@@ -36,7 +37,6 @@ public class Taha extends Spielfigur{
             fallen3=ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/taha/Taha0.png")));
             fallen4=ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/taha/Taha1.png")));
             fallen5=ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/taha/Taha2.png")));
-        ;
         }catch(IOException e) {
             e.printStackTrace();
         }

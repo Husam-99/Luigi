@@ -1,4 +1,5 @@
 package Minispiele;
+import Networking.Client.SpielClient;
 import Networking.Pakete.SpielerPosition;
 import Networking.Pakete.SquidGamePosition;
 import Networking.Pakete.SquidGamePunkte;
@@ -9,7 +10,7 @@ import java.awt.image.BufferedImage;
 
 public class MinispielSpieler {
     MinispielManager minispielManager;
-    private int miniSpielIndex = -1;
+    private final int miniSpielIndex;
     Spieler minispielSpieler;
     public int minispielXPosition;
     public int minispielYPosition;
@@ -51,7 +52,7 @@ public class MinispielSpieler {
                 richtung = "up";
             } else {
                 if (spieler == minispielManager.sp.spielablaufManager.mainSpieler) {
-                    // bildschirmX = minispielManager.sp.bildschirmBreite / 2 - (minispielManager.sp.vergroesserteFliesenGroesse / 2)*3;
+
                     bildschirmY = minispielManager.sp.bildschirmHoehe / 2 + (minispielManager.sp.vergroesserteFliesenGroesse / 2) * 4;
                     respawn();
 
@@ -72,7 +73,7 @@ public class MinispielSpieler {
                 richtung = "left";
             } else {
                 if (spieler == minispielManager.sp.spielablaufManager.mainSpieler) {
-                    // bildschirmX = minispielManager.sp.bildschirmBreite / 2 - (minispielManager.sp.vergroesserteFliesenGroesse / 2)*3;
+
                     bildschirmY = minispielManager.sp.bildschirmHoehe / 2 + (minispielManager.sp.vergroesserteFliesenGroesse / 2) * 4;
                     respawn();
 
@@ -95,7 +96,6 @@ public class MinispielSpieler {
 
                 if (spieler == minispielManager.sp.spielablaufManager.mainSpieler) {
 
-                    //bildschirmX = minispielManager.sp.bildschirmBreite / 2 - (minispielManager.sp.vergroesserteFliesenGroesse / 2)*3;
                     bildschirmY = minispielManager.sp.bildschirmHoehe / 2 + (minispielManager.sp.vergroesserteFliesenGroesse / 2) * 4;
                     respawn();
 
@@ -118,7 +118,6 @@ public class MinispielSpieler {
             } else {
                 if (spieler == minispielManager.sp.spielablaufManager.mainSpieler) {
 
-                    // bildschirmX = minispielManager.sp.bildschirmBreite / 2 - (minispielManager.sp.vergroesserteFliesenGroesse / 2)*3;
                     bildschirmY = minispielManager.sp.bildschirmHoehe / 2 + (minispielManager.sp.vergroesserteFliesenGroesse / 2) * 4;
                     respawn();
 
@@ -183,13 +182,12 @@ public class MinispielSpieler {
                             minispielYPosition -= geschwindigkeit;
                             minispielSpielerRechteck.y -= geschwindigkeit;
                             SpielerPosition spielerPosition = new SpielerPosition();
-                            spielerPosition.clientIndex = this.minispielManager.sp.client.clientIndex;
+                            spielerPosition.clientIndex = SpielClient.clientIndex;
                             spielerPosition.weltX = minispielXPosition;
                             spielerPosition.weltY = minispielYPosition;
                             minispielManager.sp.client.send(spielerPosition);
                         }
                     }
-                    //minispielManager.sammler.kollisionChecken(this);
 
                 } else if (untenGedrueckt) {
 
@@ -200,13 +198,12 @@ public class MinispielSpieler {
                             minispielYPosition += geschwindigkeit;
                             minispielSpielerRechteck.y += geschwindigkeit;
                             SpielerPosition spielerPosition = new SpielerPosition();
-                            spielerPosition.clientIndex = this.minispielManager.sp.client.clientIndex;
+                            spielerPosition.clientIndex = SpielClient.clientIndex;
                             spielerPosition.weltX = minispielXPosition;
                             spielerPosition.weltY = minispielYPosition;
                             minispielManager.sp.client.send(spielerPosition);
                         }
                     }
-                    //minispielManager.sammler.kollisionChecken(this);
 
                 } else if (linksGedrueckt) {
 
@@ -216,13 +213,12 @@ public class MinispielSpieler {
                             minispielXPosition -= geschwindigkeit;
                             minispielSpielerRechteck.x -= geschwindigkeit;
                             SpielerPosition spielerPosition = new SpielerPosition();
-                            spielerPosition.clientIndex = this.minispielManager.sp.client.clientIndex;
+                            spielerPosition.clientIndex = SpielClient.clientIndex;
                             spielerPosition.weltX = minispielXPosition;
                             spielerPosition.weltY = minispielYPosition;
                             minispielManager.sp.client.send(spielerPosition);
                         }
                     }
-                    //minispielManager.sammler.kollisionChecken(this);
 
                 } else {
 
@@ -233,7 +229,7 @@ public class MinispielSpieler {
                             minispielXPosition += geschwindigkeit;
                             minispielSpielerRechteck.x += geschwindigkeit;
                             SpielerPosition spielerPosition = new SpielerPosition();
-                            spielerPosition.clientIndex = this.minispielManager.sp.client.clientIndex;
+                            spielerPosition.clientIndex = SpielClient.clientIndex;
                             spielerPosition.weltX = minispielXPosition;
                             spielerPosition.weltY = minispielYPosition;
                             minispielManager.sp.client.send(spielerPosition);

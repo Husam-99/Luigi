@@ -4,6 +4,7 @@ import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.util.Objects;
 
 public class MiniWuerfel extends GegenstandWuerfel{
 
@@ -19,14 +20,15 @@ public class MiniWuerfel extends GegenstandWuerfel{
     @Override
     public void getGegenstandBilder(){
         try {
-            icon= ImageIO.read(getClass().getResourceAsStream("/gegenstaende/Miniwuerfel.png"));
-            wuerfel1= ImageIO.read(getClass().getResourceAsStream("/gegenstaende/miniWuerfel/wuerfel1.png"));
-            wuerfel2= ImageIO.read(getClass().getResourceAsStream("/gegenstaende/miniWuerfel/wuerfel2.png"));
-            wuerfel3= ImageIO.read(getClass().getResourceAsStream("/gegenstaende/miniWuerfel/wuerfel3.png"));
+            icon= ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/gegenstaende/Miniwuerfel.png")));
+            wuerfel1= ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/gegenstaende/miniWuerfel/wuerfel1.png")));
+            wuerfel2= ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/gegenstaende/miniWuerfel/wuerfel2.png")));
+            wuerfel3= ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/gegenstaende/miniWuerfel/wuerfel3.png")));
         }catch(IOException e) {
             e.printStackTrace();
         }
     }
+
     @Override
     public void effeckteAnwenden(){
         spieler.normaleWuerfelZustand = false;
@@ -34,6 +36,7 @@ public class MiniWuerfel extends GegenstandWuerfel{
         spieler.inventarZustand = false;
         spieler.spielablaufManager.mapManager.mapEingabeManager.iGedrueckt = false;
     }
+
     @Override
     public void schritteAnzahlBestimmen(){
         if (spriteNum == 0) {
@@ -44,6 +47,7 @@ public class MiniWuerfel extends GegenstandWuerfel{
             spieler.schritteAnzahl = 3;
         }
     }
+
     @Override
     public void update() {
         if(spieler.spielablaufManager.mapManager.mapEingabeManager.spaceGedrueckt) {
@@ -60,6 +64,7 @@ public class MiniWuerfel extends GegenstandWuerfel{
             }
         }
     }
+
     @Override
     public void malen(Graphics2D g2){
         BufferedImage image = null;
@@ -72,4 +77,5 @@ public class MiniWuerfel extends GegenstandWuerfel{
         }
         g2.drawImage(image, 620 , 65, spieler.spielablaufManager.sp.vergroesserteFliesenGroesse*2, spieler.spielablaufManager.sp.vergroesserteFliesenGroesse*2, null);
     }
+
 }

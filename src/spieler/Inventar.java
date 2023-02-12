@@ -6,23 +6,32 @@ import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.util.Objects;
 
 public class Inventar {
 
     Spieler spieler;
     Graphics2D g2;
-    private int slot1Messungen,  slot2Messungen, slot3Messungen,  slot4Messungen;
+    public BufferedImage icon;
+
     public Gegenstand[] inventar;
     public int befehlNum = 0, gegenstaendeAnzahl;
-    public BufferedImage icon;
-    public Boolean inventarLeer = true, inventarVoll = false;
-    public Inventar(Spieler spieler){
+    private int slot1Messungen,  slot2Messungen, slot3Messungen,  slot4Messungen;
+
+    //Inventar zustand
+    public Boolean inventarLeer, inventarVoll;
+
+    public Inventar(Spieler spieler) {
         this.spieler = spieler;
         inventar = new Gegenstand[4];
+
+        inventarLeer = true;
+        inventarVoll = false;
+
         // Inventar Icon
         try {
-            icon = ImageIO.read(getClass().getResourceAsStream("/gegenstaende/Inventar.png"));
-        }catch(IOException e) {
+            icon = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/gegenstaende/Inventar.png")));
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }
@@ -89,8 +98,13 @@ public class Inventar {
                 inventar[3] = new SternTaxi(spieler);
             }
         }
-        anzahlGegenstaendeInInventar();
+
+        //bestimmen, ob das Inventar voll oder leer ist
+        inventarLeerOderVoll();
+
         if(spieler.spielablaufManager.sp.client.istDran()){
+
+            //sende an alle Clients die Gegenstandnummer
             GegenstandInfo gegenstandInfo = new GegenstandInfo();
             gegenstandInfo.gegenstandNum = gegenstandNum;
             spieler.spielablaufManager.sp.client.send(gegenstandInfo);
@@ -100,40 +114,42 @@ public class Inventar {
     public void gegenstandVerwenden(int befehlNum){
         if(spieler.spielablaufManager.sp.client.istDran()){
             inventar[befehlNum].effeckteAnwenden();
+
+            //sende an alle Clients welche slot ist verwendet
             GegenstandInfo gegenstandInfo = new GegenstandInfo();
             gegenstandInfo.befehlNum = befehlNum;
             spieler.spielablaufManager.sp.client.send(gegenstandInfo);
         }
         inventar[befehlNum] = null;
-        anzahlGegenstaendeInInventar();
+
+        //bestimmen, ob das Inventar voll oder leer ist
+        inventarLeerOderVoll();
     }
-    public void anzahlGegenstaendeInInventar(){
+
+    public void inventarLeerOderVoll(){
         gegenstaendeAnzahl = 0;
         for(int slot = 0; slot < 4; slot++){
             if (inventar[slot] != null) {
                 gegenstaendeAnzahl++;
             }
         }
-        if(gegenstaendeAnzahl > 0){
-            inventarLeer = false;
-        }else{
-            inventarLeer = true;
-        }
-        if(gegenstaendeAnzahl == 4){
-            inventarVoll = true;
-        }else{
-            inventarVoll = false;
-        }
+        inventarLeer = gegenstaendeAnzahl <= 0;
+        inventarVoll = gegenstaendeAnzahl == 4;
     }
+
     public void malen(Graphics2D g2){
         this.g2 = g2;
         inventarBoxMalen();
         gegenstaendeMalen();
     }
+
     private void inventarBoxMalen(){
+
+        //hinter bildschirm dunkler malen
         Color c = new Color(0,0,0,100);
         g2.setColor(c);
         g2.fillRect(0, 0, 1440, 864);
+
         c = new Color(0, 0, 0, 200);
         g2.setColor(c);
         g2.fillRoundRect(1000, 20, 420, 400, 35, 35);
@@ -145,6 +161,7 @@ public class Inventar {
         g2.setFont(g2.getFont().deriveFont(Font.BOLD,90F));
         g2.drawString("Inventar",1035,400);
     }
+
     private void groesseAnpssen(){
         if (befehlNum == 0){
             slot1Messungen = spieler.spielablaufManager.sp.vergroesserteFliesenGroesse * 2 +40;
@@ -168,8 +185,10 @@ public class Inventar {
             slot4Messungen = spieler.spielablaufManager.sp.vergroesserteFliesenGroesse * 2 +40;
         }
     }
+
     private void gegenstaendeMalen() {
         groesseAnpssen();
+
         if (inventar[0] != null) {
             g2.drawImage(inventar[0].icon, 1000, 20, slot1Messungen, slot1Messungen, null);
         }
@@ -197,4 +216,5 @@ public class Inventar {
         g2.setFont(g2.getFont().deriveFont(Font.BOLD, 70F));
         g2.drawString("Inventar ist voll!", 425, 420);
     }
+
 }

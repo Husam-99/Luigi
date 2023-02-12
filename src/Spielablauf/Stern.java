@@ -6,28 +6,35 @@ import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.util.Objects;
 
 public class Stern {
+
     SpielMapManager mapManager;
     Graphics2D g2;
-    private int spriteZaehler = 0;
-    public int feldNum, sternFeldZeile, sternFeldSpalte,spriteNum = 0;
-    public String sternPostition;
+
+    private int spriteZaehler;
+    public int feldNum, sternFeldZeile, sternFeldSpalte, spriteNum;
     public BufferedImage stern, stern1, stern2, stern3, stern4, stern5;
-    public boolean sternKaufen = false;
+    public String sternPostition;
+    public boolean sternKaufen;
 
     public Stern(SpielMapManager mapManager) {
         this.mapManager = mapManager;
         getSternBilder();
+        spriteZaehler = 0;
+        spriteNum = 0;
+        sternKaufen = false;
     }
-    public void getSternBilder(){
+
+    private void getSternBilder(){
         try {
-            stern= ImageIO.read(getClass().getResourceAsStream("/bestandteile/stern/Stern.png"));
-            stern1= ImageIO.read(getClass().getResourceAsStream("/bestandteile/stern/Stern1.png"));
-            stern2= ImageIO.read(getClass().getResourceAsStream("/bestandteile/stern/Stern2.png"));
-            stern3= ImageIO.read(getClass().getResourceAsStream("/bestandteile/stern/Stern3.png"));
-            stern4= ImageIO.read(getClass().getResourceAsStream("/bestandteile/stern/Stern4.png"));
-            stern5= ImageIO.read(getClass().getResourceAsStream("/bestandteile/stern/Stern5.png"));
+            stern= ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/bestandteile/stern/Stern.png")));
+            stern1= ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/bestandteile/stern/Stern1.png")));
+            stern2= ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/bestandteile/stern/Stern2.png")));
+            stern3= ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/bestandteile/stern/Stern3.png")));
+            stern4= ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/bestandteile/stern/Stern4.png")));
+            stern5= ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/bestandteile/stern/Stern5.png")));
         }catch(IOException e) {
             e.printStackTrace();
         }
@@ -51,10 +58,14 @@ public class Stern {
     }
 
     public void sternKaufen(){
+
+        //festlegen, ob der Spieler genug Münzen für das Kaufen des Sterns hat
         if(mapManager.spielablaufManager.mainSpieler.konto.muenzen >= 10){
             mapManager.spielablaufManager.mainSpieler.konto.muenzenVerlieren(10);
             mapManager.spielablaufManager.mainSpieler.konto.sterneErhalten(1);
             sternKaufen = false;
+
+            //sende an die Server, dass der Stern gekauft ist
             SternKaufen sternKaufen = new SternKaufen();
             sternKaufen.sternGekauft = true;
             mapManager.spielablaufManager.sp.client.send(sternKaufen);
@@ -63,6 +74,7 @@ public class Stern {
             mapManager.spielablaufManager.mainSpieler.konto.genugMuenzen = false;
         }
     }
+
     private void setSternPosition(){
         for(int zeile = 0; zeile < 25; zeile++){
             for(int spalte = 0; spalte < 30; spalte++) {
@@ -87,6 +99,7 @@ public class Stern {
             }
         }
     }
+
     public void update(){
         spriteZaehler++;
         if (spriteZaehler > 15) {
@@ -120,9 +133,12 @@ public class Stern {
     }
 
     private void sternKaufenBox(){
+
+        //hinter bildschirm dunkler malen
         Color c = new Color(0,0,0,100);
         g2.setColor(c);
         g2.fillRect(0, 0, 1440, 864);
+
         c = new Color(0,0,0,200);
         g2.setColor(c);
         g2.fillRoundRect(330, 300, 780, 200, 35, 35);
@@ -130,6 +146,7 @@ public class Stern {
         g2.setColor(c);
         g2.setStroke(new BasicStroke(5));
         g2.drawRoundRect(335,305,770, 190, 25, 25);
+
         g2.setColor(Color.yellow);
         g2.setFont(g2.getFont().deriveFont(Font.BOLD,65F));
         g2.drawString("Willst du einen Stern ",410, 380);

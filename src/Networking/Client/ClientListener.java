@@ -72,30 +72,30 @@ public class ClientListener extends Listener {
             if(spielfigurAuswahl.spielfigurMenueIndex == -1) {
                 Spieler andererSpieler = new Spieler(sp.spielablaufManager);
                 if (spielfigurAuswahl.spielfigurIndex == 0) {
-
-                    andererSpieler.spielfigurAuswaehlen(0);
+                    andererSpieler.spielfigurErstellen(0);
+                    System.out.println("at recieve spielfigur the client index " + spielfigurAuswahl.clientIndex);
                     sp.hinzufuegeSpieler(andererSpieler, spielfigurAuswahl.clientIndex);
 
                 } else if (spielfigurAuswahl.spielfigurIndex == 1) {
-
-                    andererSpieler.spielfigurAuswaehlen(1);
+                    andererSpieler.spielfigurErstellen(1);
+                    System.out.println("at recieve spielfigur the client index " + spielfigurAuswahl.clientIndex);
                     sp.hinzufuegeSpieler(andererSpieler, spielfigurAuswahl.clientIndex);
 
                 } else if (spielfigurAuswahl.spielfigurIndex == 2) {
-
-                    andererSpieler.spielfigurAuswaehlen(2);
+                    andererSpieler.spielfigurErstellen(2);
+                    System.out.println("at recieve spielfigur the client index " + spielfigurAuswahl.clientIndex);
                     sp.hinzufuegeSpieler(andererSpieler, spielfigurAuswahl.clientIndex);
 
                 } else if (spielfigurAuswahl.spielfigurIndex == 3) {
-
-                    andererSpieler.spielfigurAuswaehlen(3);
+                    andererSpieler.spielfigurErstellen(3);
+                    System.out.println("at recieve spielfigur the client index " + spielfigurAuswahl.clientIndex);
                     sp.hinzufuegeSpieler(andererSpieler, spielfigurAuswahl.clientIndex);
 
                 }
             } else{
 
                 sp.menueManager.menueEingabeManager.ausgewaehlteSpielfiguren.set(spielfigurAuswahl.clientIndex,spielfigurAuswahl.spielfigurMenueIndex);
-                sp.menueManager.spielfigurAuswaehlen.befehlNum1Bestimmen();
+                sp.menueManager.spielfigurAuswahl.befehlNum1Bestimmen();
             }
         }
 
@@ -111,7 +111,6 @@ public class ClientListener extends Listener {
                 sp.minispielManager.alleMinispielSpieler.get(spielerPosition.clientIndex).minispielYPosition = spielerPosition.weltY;
                 sp.minispielManager.alleMinispielSpieler.get(spielerPosition.clientIndex).minispielSpielerRechteck.y = spielerPosition.weltY+50;
                 sp.minispielManager.alleMinispielSpieler.get(spielerPosition.clientIndex).minispielSpielerRechteck.x = spielerPosition.weltX+30;
-
 
             } else{
 

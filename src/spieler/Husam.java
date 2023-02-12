@@ -1,19 +1,21 @@
 package spieler;
 
 import javax.imageio.ImageIO;
-import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.Objects;
 
 public class Husam extends Spielfigur {
+
     public Husam(){
         super();
         getSpielFigurBilder();
     }
+
     public Husam(Spieler spieler){
         super(spieler);
         getSpielFigurBilder();
     }
+
     @Override
     public void getSpielFigurBilder() {
         try {
@@ -39,6 +41,5 @@ public class Husam extends Spielfigur {
             e.printStackTrace();
         }
     }
-
 
 }

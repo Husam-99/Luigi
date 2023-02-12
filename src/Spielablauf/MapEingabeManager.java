@@ -1,6 +1,7 @@
 package Spielablauf;
 
 
+import Networking.Client.SpielClient;
 import spieler.Spieler;
 
 import java.awt.event.KeyEvent;
@@ -8,30 +9,59 @@ import java.awt.event.KeyListener;
 
 
 public class MapEingabeManager implements KeyListener {
+
     SpielMapManager spielMapManager;
     Spieler spieler;
-    public Boolean obenGedrueckt = false, untenGedrueckt = false, rechtsGedrueckt = false, linksGedrueckt = false,
-            spaceGedrueckt = false, iGedrueckt = false, bewegungOben = false, bewegungUnten = false, bewegungRechts = false,
-            bewegungLinks = false, falscheRichtung = false;
+
+    //booleans für die Kontrolle auf dem Spielfeld
+    public Boolean obenGedrueckt, untenGedrueckt, rechtsGedrueckt, linksGedrueckt;
+
+    public Boolean spaceGedrueckt, iGedrueckt, bewegungOben , bewegungUnten, bewegungRechts, bewegungLinks, falscheRichtung;
+
     public MapEingabeManager(SpielMapManager spielMapManager) {
         this.spielMapManager = spielMapManager;
+
+        obenGedrueckt = false;
+        untenGedrueckt = false;
+        rechtsGedrueckt = false;
+        linksGedrueckt = false;
+
+        spaceGedrueckt = false;
+        iGedrueckt = false;
+        bewegungOben = false;
+        bewegungUnten = false;
+        bewegungRechts = false;
+        bewegungLinks = false;
+        falscheRichtung = false;
+
     }
+
     @Override
     public void keyPressed(KeyEvent e) {
         spieler = this.spielMapManager.spielablaufManager.mainSpieler;
         int code = e.getKeyCode();
+
+        //Minimap kann jederzeit gezeigt wird durch das Taste M und durch ESC verstecken
         if(code == KeyEvent.VK_M){
             spielMapManager.spielablaufManager.miniMapZustand = true;
         }else if(code == KeyEvent.VK_ESCAPE){
             spielMapManager.spielablaufManager.miniMapZustand = false;
         }
-        //Speziell fall für erste Runde
+
+        //Speziell fall für beginn des Spiels (nur Würfel kann gespielt wird)
         if(spielMapManager.spielablaufManager.sp.client.istDran() && spielMapManager.spielablaufManager.sp.aktuelleRundenAnzahl == 0){
             if (code == KeyEvent.VK_SPACE) {
                 spaceGedrueckt = true;
             }
-        }else if(spielMapManager.spielablaufManager.sp.client.istDran()) {
+        }
+
+        //alle Taste, die gedruckt können, wenn der Spieler dran ist
+        else if(spielMapManager.spielablaufManager.sp.client.istDran()) {
+
+            //Inventar
             if(iGedrueckt){
+
+                //benutzen der ausgewählte Gegenstand
                 if(code == KeyEvent.VK_ENTER){
                     if(spieler.inventar.befehlNum == 0){
                         if(spieler.inventar.inventar[0] != null) {
@@ -87,25 +117,31 @@ public class MapEingabeManager implements KeyListener {
                         }
                     }
                 }
+
+                //Inventar schließen
                 else if(code == KeyEvent.VK_ESCAPE){
                     spieler.inventarZustand = false;
                     spieler.inventar.befehlNum = 0;
                     iGedrueckt = false;
                 }
-            }else if(spieler.spielablaufManager.shopGeoeffnet){
+            }
+
+            //Shop
+            else if(spieler.spielablaufManager.shopGeoeffnet){
+
+                //kaufe der Gegenstand, wenn der Spieler genug Münzen hat
                 if(code == KeyEvent.VK_ENTER){
                     if(spieler.konto.genugMuenzen && !spieler.inventar.inventarVoll) {
                         spieler.spielablaufManager.shop.gegenstandKaufen();
                     }else if(!spieler.konto.genugMuenzen){
                         spieler.konto.genugMuenzen = true;
                     }else if(spieler.spielablaufManager.mainSpieler.inventar.inventarVoll){
-                        if(spieler.spielablaufManager.inventarVoll){
-                            spieler.spielablaufManager.inventarVoll = false;
-                        }else if(!spieler.spielablaufManager.inventarVoll){
-                            spieler.spielablaufManager.inventarVoll = true;
-                        }
+                        spieler.spielablaufManager.inventarVoll = !spieler.spielablaufManager.inventarVoll;
                     }
-                }else if(code == KeyEvent.VK_ESCAPE){
+                }
+
+                //Shop schließen
+                else if(code == KeyEvent.VK_ESCAPE){
                     spieler.spielablaufManager.shopGeoeffnet = false;
                     spieler.spielablaufManager.shop.befehlNum = 0;
                     spieler.konto.genugMuenzen = true;
@@ -115,19 +151,32 @@ public class MapEingabeManager implements KeyListener {
                         spielMapManager.stern.sternKaufen = true;
                     }
                 }
-            }else if(spielMapManager.stern.sternKaufen){
+            }
+
+            //Stern
+            else if(spielMapManager.stern.sternKaufen){
+
+                //Stern kaufen, wenn der Spieler genug Münzen hat
                 if (code == KeyEvent.VK_ENTER) {
                     if (spieler.konto.genugMuenzen) {
                         spielMapManager.stern.sternKaufen();
-                    } else if (!spieler.konto.genugMuenzen) {
+                    } else {
                         spieler.konto.genugMuenzen = true;
                     }
-                }else if(code == KeyEvent.VK_ESCAPE){
+                }
+
+                //Stern schließen
+                else if(code == KeyEvent.VK_ESCAPE){
                     spielMapManager.stern.sternKaufen = false;
                     spieler.konto.genugMuenzen = true;
                     spielMapManager.spielablaufManager.mainSpieler.amSpiel = false;
                 }
-            }else if(spieler.spielablaufManager.clientAuswaehlen){
+            }
+
+            //für bube/blauesFeld Client
+            else if(spieler.spielablaufManager.clientAuswaehlen){
+
+                //Client auswählen
                 if (code == KeyEvent.VK_ENTER) {
                     if(spieler.spielablaufManager.bubeZustand) {
                         spieler.spielablaufManager.clientAuswaehlen = false;
@@ -140,40 +189,40 @@ public class MapEingabeManager implements KeyListener {
                         spieler.spielablaufManager.tempBlauesFeld.klauenMoeglichkeiten = true;
                     }
                 }
-            }else if(spieler.spielablaufManager.tempBlauesFeld.klauenMoeglichkeiten){
+            }
+
+            //klauen Möglichkeit
+            else if(spieler.spielablaufManager.tempBlauesFeld.klauenMoeglichkeiten){
+
+                //stern/Münze klauen, wenn der ausgewählte Spieler genug Münzen/sterne oder nicht leere Inventar hat
                 if(code == KeyEvent.VK_ENTER) {
                     if (spieler.spielablaufManager.tempBlauesFeld.befehlNum2 == 0) {
                         if(spieler.spielablaufManager.sp.alleSpieler.get(spieler.spielablaufManager.ausgewaehlteClientInex).konto.genugMuenzen){
                             spieler.spielablaufManager.tempBlauesFeld.muenzeKlauen();
-                        }else if(!spieler.spielablaufManager.sp.alleSpieler.get(spieler.spielablaufManager.ausgewaehlteClientInex).konto.genugMuenzen){
+                        }else{
                             spieler.spielablaufManager.sp.alleSpieler.get(spieler.spielablaufManager.ausgewaehlteClientInex).konto.genugMuenzen = true;
                         }
                     } else if (spieler.spielablaufManager.tempBlauesFeld.befehlNum2 == 1) {
                         if(spieler.spielablaufManager.sp.alleSpieler.get(spieler.spielablaufManager.ausgewaehlteClientInex).konto.genugSterne){
                             spieler.spielablaufManager.tempBlauesFeld.sternKlauen();
-                        }else if(!spieler.spielablaufManager.sp.alleSpieler.get(spieler.spielablaufManager.ausgewaehlteClientInex).konto.genugSterne){
+                        }else{
                             spieler.spielablaufManager.sp.alleSpieler.get(spieler.spielablaufManager.ausgewaehlteClientInex).konto.genugSterne = true;
                         }
                     } else if (spieler.spielablaufManager.tempBlauesFeld.befehlNum2 == 2) {
-                        spieler.spielablaufManager.sp.alleSpieler.get(spieler.spielablaufManager.ausgewaehlteClientInex).inventar.anzahlGegenstaendeInInventar();
+                        spieler.spielablaufManager.sp.alleSpieler.get(spieler.spielablaufManager.ausgewaehlteClientInex).inventar.inventarLeerOderVoll();
                         if(!spieler.spielablaufManager.sp.alleSpieler.get(spieler.spielablaufManager.ausgewaehlteClientInex).inventar.inventarLeer && !spieler.inventar.inventarVoll){
                             spieler.spielablaufManager.tempBlauesFeld.klauenMoeglichkeiten = false;
                             spieler.spielablaufManager.tempBlauesFeld.inventarKlauen = true;
                         }else if(spieler.spielablaufManager.sp.alleSpieler.get(spieler.spielablaufManager.ausgewaehlteClientInex).inventar.inventarLeer){
-                            if(spieler.spielablaufManager.tempBlauesFeld.inventarLeer) {
-                                spieler.spielablaufManager.tempBlauesFeld.inventarLeer = false;
-                            }else if(!spieler.spielablaufManager.tempBlauesFeld.inventarLeer){
-                                spieler.spielablaufManager.tempBlauesFeld.inventarLeer = true;
-                            }
+                            spieler.spielablaufManager.tempBlauesFeld.inventarLeer = !spieler.spielablaufManager.tempBlauesFeld.inventarLeer;
                         }else if(spieler.spielablaufManager.mainSpieler.inventar.inventarVoll){
-                            if(spieler.spielablaufManager.inventarVoll){
-                                spieler.spielablaufManager.inventarVoll = false;
-                            }else if(!spieler.spielablaufManager.inventarVoll){
-                                spieler.spielablaufManager.inventarVoll = true;
-                            }
+                            spieler.spielablaufManager.inventarVoll = !spieler.spielablaufManager.inventarVoll;
                         }
                     }
-                }else if(code == KeyEvent.VK_ESCAPE){
+                }
+
+                //klauen Möglichkeiten schließen
+                else if(code == KeyEvent.VK_ESCAPE){
                     spieler.spielablaufManager.tempBlauesFeld.befehlNum2 = 0;
                     spieler.spielablaufManager.inventarVoll = false;
                     spieler.spielablaufManager.tempBlauesFeld.inventarLeer = false;
@@ -187,33 +236,57 @@ public class MapEingabeManager implements KeyListener {
                         spielMapManager.stern.sternKaufen = true;
                     }
                 }
-            }else if(spieler.spielablaufManager.tempBlauesFeld.inventarKlauen){
+            }
+
+            //Gegenstand kaluen
+            else if(spieler.spielablaufManager.tempBlauesFeld.inventarKlauen){
                 if(code == KeyEvent.VK_ENTER) {
                     spieler.spielablaufManager.tempBlauesFeld.gegenstandKlauen();
                 }
-            }else if (!spieler.bewegung && spieler.wuerfelZustand) {
+            }
+
+            //anfang des Rounds bevor das Würfeln
+            else if (!spieler.bewegung && spieler.wuerfelZustand) {
+
+                //würfeln
                 if (code == KeyEvent.VK_SPACE) {
                     spaceGedrueckt = true;
-                }else if(code == KeyEvent.VK_I) {
+                }
+
+                //inventar öffnen
+                else if(code == KeyEvent.VK_I) {
                     spieler.inventarZustand = true;
                     iGedrueckt = true;
                 }
             }
         }
     }
+
     @Override
     public void keyTyped(KeyEvent e) {
         spieler = this.spielMapManager.spielablaufManager.mainSpieler;
+
+        //alle Taste, die gedruckt können, wenn der Spieler dran ist
         if (spielMapManager.spielablaufManager.sp.client.istDran()) {
+
+            //alle Taste, die gedruckt können, wenn der Spieler nicht am Bewegung zwischen zwei felder ist
             if (!spieler.bewegung && !spielMapManager.stern.sternKaufen) {
                 switch (e.getKeyChar()) {
-                    case 'w':
+                    case 'w' -> {
                         obenGedrueckt = true;
+
+                        //Bewegung oben in Inventar
                         if (iGedrueckt) {
                             untenUndObenInventar();
-                        } else if (spieler.spielablaufManager.shopGeoeffnet && spieler.konto.genugMuenzen) {
+                        }
+
+                        //Bewegung oben in Shop
+                        else if (spieler.spielablaufManager.shopGeoeffnet && spieler.konto.genugMuenzen) {
                             untenUndObenShop();
-                        } else if (!spieler.spielablaufManager.clientAuswaehlen && spieler.konto.genugMuenzen && !spieler.wuerfelZustand
+                        }
+
+                        //Bewegung Nord nach das nächste Feld
+                        else if (!spieler.spielablaufManager.clientAuswaehlen && spieler.konto.genugMuenzen && !spieler.wuerfelZustand
                                 && !spieler.spielablaufManager.tempBlauesFeld.inventarKlauen && !spieler.spielablaufManager.tempBlauesFeld.klauenMoeglichkeiten) {
                             checkNaechstesFeld();
                             if (!falscheRichtung) {
@@ -229,14 +302,22 @@ public class MapEingabeManager implements KeyListener {
                                 }
                             }
                         }
-                        break;
-                    case 's':
+                    }
+                    case 's' -> {
                         untenGedrueckt = true;
+
+                        //Bewegung unten in Inventar
                         if (iGedrueckt) {
                             untenUndObenInventar();
-                        } else if (spieler.spielablaufManager.shopGeoeffnet && spieler.konto.genugMuenzen) {
+                        }
+
+                        //Bewegung unten in Shop
+                        else if (spieler.spielablaufManager.shopGeoeffnet && spieler.konto.genugMuenzen) {
                             untenUndObenShop();
-                        } else if (!spieler.spielablaufManager.clientAuswaehlen && spieler.konto.genugMuenzen && !spieler.wuerfelZustand
+                        }
+
+                        //Bewegung Süd nach das nächste Feld
+                        else if (!spieler.spielablaufManager.clientAuswaehlen && spieler.konto.genugMuenzen && !spieler.wuerfelZustand
                                 && !spieler.spielablaufManager.tempBlauesFeld.inventarKlauen && !spieler.spielablaufManager.tempBlauesFeld.klauenMoeglichkeiten) {
                             checkNaechstesFeld();
                             if (!falscheRichtung) {
@@ -252,15 +333,23 @@ public class MapEingabeManager implements KeyListener {
                                 }
                             }
                         }
-                        break;
-                    case 'd':
+                    }
+                    case 'd' -> {
                         rechtsGedrueckt = true;
+
+                        //Bewegung rechts in Inventar
                         if (iGedrueckt) {
                             rechtsUndLinksInventar();
-                        }else if (spieler.spielablaufManager.shopGeoeffnet && spieler.konto.genugMuenzen) {
+                        }
+
+                        //Bewegung rechts in Shop
+                        else if (spieler.spielablaufManager.shopGeoeffnet && spieler.konto.genugMuenzen) {
                             rechtsShop();
-                        }else if (spieler.spielablaufManager.clientAuswaehlen) {
-                            if (spieler.spielablaufManager.sp.client.anzahlSpieler == 3) {
+                        }
+
+                        //Bewegung rechts in Clients Auswahl
+                        else if (spieler.spielablaufManager.clientAuswaehlen) {
+                            if (SpielClient.anzahlSpieler == 3) {
                                 if (spieler.spielablaufManager.bube.befehlNum == 0 || spieler.spielablaufManager.tempBlauesFeld.befehlNum1 == 0) {
                                     spieler.spielablaufManager.bube.befehlNum = 1;
                                     spieler.spielablaufManager.tempBlauesFeld.befehlNum1 = 1;
@@ -268,7 +357,7 @@ public class MapEingabeManager implements KeyListener {
                                     spieler.spielablaufManager.bube.befehlNum = 0;
                                     spieler.spielablaufManager.tempBlauesFeld.befehlNum1 = 0;
                                 }
-                            } else if (spieler.spielablaufManager.sp.client.anzahlSpieler == 4) {
+                            } else if (SpielClient.anzahlSpieler == 4) {
                                 if (spieler.spielablaufManager.bube.befehlNum == 0 || spieler.spielablaufManager.tempBlauesFeld.befehlNum1 == 0) {
                                     spieler.spielablaufManager.bube.befehlNum = 1;
                                     spieler.spielablaufManager.tempBlauesFeld.befehlNum1 = 1;
@@ -280,7 +369,10 @@ public class MapEingabeManager implements KeyListener {
                                     spieler.spielablaufManager.tempBlauesFeld.befehlNum1 = 0;
                                 }
                             }
-                        }else if (spieler.spielablaufManager.tempBlauesFeld.klauenMoeglichkeiten && spieler.spielablaufManager.sp.alleSpieler.get(spieler.spielablaufManager.ausgewaehlteClientInex).konto.genugMuenzen
+                        }
+
+                        //Bewegung rechts in Klauen Möglichkeit
+                        else if (spieler.spielablaufManager.tempBlauesFeld.klauenMoeglichkeiten && spieler.spielablaufManager.sp.alleSpieler.get(spieler.spielablaufManager.ausgewaehlteClientInex).konto.genugMuenzen
                                 && spieler.spielablaufManager.sp.alleSpieler.get(spieler.spielablaufManager.ausgewaehlteClientInex).konto.genugSterne && !spieler.spielablaufManager.tempBlauesFeld.inventarLeer) {
                             if (spieler.spielablaufManager.tempBlauesFeld.befehlNum2 == 0) {
                                 spieler.spielablaufManager.tempBlauesFeld.befehlNum2 = 1;
@@ -289,33 +381,39 @@ public class MapEingabeManager implements KeyListener {
                             } else if (spieler.spielablaufManager.tempBlauesFeld.befehlNum2 == 2) {
                                 spieler.spielablaufManager.tempBlauesFeld.befehlNum2 = 0;
                             }
-                        }else if(spieler.spielablaufManager.tempBlauesFeld.inventarKlauen){
-                            if(spielMapManager.spielablaufManager.sp.alleSpieler.get(spieler.spielablaufManager.ausgewaehlteClientInex).inventar.gegenstaendeAnzahl == 2){
-                                if(spieler.spielablaufManager.tempBlauesFeld.befehlNum3 == 0){
+                        }
+
+                        //Bewegung rechts in Gegenstand Klauen
+                        else if (spieler.spielablaufManager.tempBlauesFeld.inventarKlauen) {
+                            if (spielMapManager.spielablaufManager.sp.alleSpieler.get(spieler.spielablaufManager.ausgewaehlteClientInex).inventar.gegenstaendeAnzahl == 2) {
+                                if (spieler.spielablaufManager.tempBlauesFeld.befehlNum3 == 0) {
                                     spieler.spielablaufManager.tempBlauesFeld.befehlNum3 = 1;
-                                }else if(spieler.spielablaufManager.tempBlauesFeld.befehlNum3 == 1){
+                                } else if (spieler.spielablaufManager.tempBlauesFeld.befehlNum3 == 1) {
                                     spieler.spielablaufManager.tempBlauesFeld.befehlNum3 = 0;
                                 }
-                            }else if(spielMapManager.spielablaufManager.sp.alleSpieler.get(spieler.spielablaufManager.ausgewaehlteClientInex).inventar.gegenstaendeAnzahl == 3){
-                                if(spieler.spielablaufManager.tempBlauesFeld.befehlNum3 == 0){
+                            } else if (spielMapManager.spielablaufManager.sp.alleSpieler.get(spieler.spielablaufManager.ausgewaehlteClientInex).inventar.gegenstaendeAnzahl == 3) {
+                                if (spieler.spielablaufManager.tempBlauesFeld.befehlNum3 == 0) {
                                     spieler.spielablaufManager.tempBlauesFeld.befehlNum3 = 1;
-                                }else if(spieler.spielablaufManager.tempBlauesFeld.befehlNum3 == 1){
+                                } else if (spieler.spielablaufManager.tempBlauesFeld.befehlNum3 == 1) {
                                     spieler.spielablaufManager.tempBlauesFeld.befehlNum3 = 2;
-                                }else if(spieler.spielablaufManager.tempBlauesFeld.befehlNum3 == 2){
+                                } else if (spieler.spielablaufManager.tempBlauesFeld.befehlNum3 == 2) {
                                     spieler.spielablaufManager.tempBlauesFeld.befehlNum3 = 0;
                                 }
-                            }else if(spielMapManager.spielablaufManager.sp.alleSpieler.get(spieler.spielablaufManager.ausgewaehlteClientInex).inventar.gegenstaendeAnzahl == 4){
-                                if(spieler.spielablaufManager.tempBlauesFeld.befehlNum3 == 0){
+                            } else if (spielMapManager.spielablaufManager.sp.alleSpieler.get(spieler.spielablaufManager.ausgewaehlteClientInex).inventar.gegenstaendeAnzahl == 4) {
+                                if (spieler.spielablaufManager.tempBlauesFeld.befehlNum3 == 0) {
                                     spieler.spielablaufManager.tempBlauesFeld.befehlNum3 = 1;
-                                }else if(spieler.spielablaufManager.tempBlauesFeld.befehlNum3 == 1){
+                                } else if (spieler.spielablaufManager.tempBlauesFeld.befehlNum3 == 1) {
                                     spieler.spielablaufManager.tempBlauesFeld.befehlNum3 = 2;
-                                }else if(spieler.spielablaufManager.tempBlauesFeld.befehlNum3 == 2){
+                                } else if (spieler.spielablaufManager.tempBlauesFeld.befehlNum3 == 2) {
                                     spieler.spielablaufManager.tempBlauesFeld.befehlNum3 = 3;
-                                }else if(spieler.spielablaufManager.tempBlauesFeld.befehlNum3 == 3){
+                                } else if (spieler.spielablaufManager.tempBlauesFeld.befehlNum3 == 3) {
                                     spieler.spielablaufManager.tempBlauesFeld.befehlNum3 = 0;
                                 }
                             }
-                        } else if(spieler.konto.genugMuenzen && !spieler.wuerfelZustand && !spieler.spielablaufManager.tempBlauesFeld.klauenMoeglichkeiten){
+                        }
+
+                        //Bewegung Ost nach das nächste Feld
+                        else if (spieler.konto.genugMuenzen && !spieler.wuerfelZustand && !spieler.spielablaufManager.tempBlauesFeld.klauenMoeglichkeiten) {
                             checkNaechstesFeld();
                             if (!falscheRichtung) {
                                 if (spieler.aktuellesFeld != null && spieler.aktuellesFeld.ostFeld != null) {
@@ -330,16 +428,23 @@ public class MapEingabeManager implements KeyListener {
                                 }
                             }
                         }
-
-                        break;
-                    case 'a':
+                    }
+                    case 'a' -> {
                         linksGedrueckt = true;
+
+                        //Bewegung links in Inventar
                         if (iGedrueckt) {
                             rechtsUndLinksInventar();
-                        } else if (spieler.spielablaufManager.shopGeoeffnet && spieler.konto.genugMuenzen) {
+                        }
+
+                        //Bewgung links in Shop
+                        else if (spieler.spielablaufManager.shopGeoeffnet && spieler.konto.genugMuenzen) {
                             linksShop();
-                        } else if (spieler.spielablaufManager.clientAuswaehlen) {
-                            if (spieler.spielablaufManager.sp.client.anzahlSpieler == 3) {
+                        }
+
+                        //Bewegung links in Clients Auswahl
+                        else if (spieler.spielablaufManager.clientAuswaehlen) {
+                            if (SpielClient.anzahlSpieler == 3) {
                                 if (spieler.spielablaufManager.bube.befehlNum == 0 || spieler.spielablaufManager.tempBlauesFeld.befehlNum1 == 0) {
                                     spieler.spielablaufManager.bube.befehlNum = 1;
                                     spieler.spielablaufManager.tempBlauesFeld.befehlNum1 = 1;
@@ -347,7 +452,7 @@ public class MapEingabeManager implements KeyListener {
                                     spieler.spielablaufManager.bube.befehlNum = 0;
                                     spieler.spielablaufManager.tempBlauesFeld.befehlNum1 = 0;
                                 }
-                            } else if (spieler.spielablaufManager.sp.client.anzahlSpieler == 4) {
+                            } else if (SpielClient.anzahlSpieler == 4) {
                                 if (spieler.spielablaufManager.bube.befehlNum == 0 || spieler.spielablaufManager.tempBlauesFeld.befehlNum1 == 0) {
                                     spieler.spielablaufManager.bube.befehlNum = 2;
                                     spieler.spielablaufManager.tempBlauesFeld.befehlNum1 = 2;
@@ -359,7 +464,10 @@ public class MapEingabeManager implements KeyListener {
                                     spieler.spielablaufManager.tempBlauesFeld.befehlNum1 = 1;
                                 }
                             }
-                        } else if (spieler.spielablaufManager.tempBlauesFeld.klauenMoeglichkeiten && spieler.spielablaufManager.sp.alleSpieler.get(spieler.spielablaufManager.ausgewaehlteClientInex).konto.genugMuenzen
+                        }
+
+                        //Bewegung links in Klauen Möglichkeit
+                        else if (spieler.spielablaufManager.tempBlauesFeld.klauenMoeglichkeiten && spieler.spielablaufManager.sp.alleSpieler.get(spieler.spielablaufManager.ausgewaehlteClientInex).konto.genugMuenzen
                                 && spieler.spielablaufManager.sp.alleSpieler.get(spieler.spielablaufManager.ausgewaehlteClientInex).konto.genugSterne && !spieler.spielablaufManager.tempBlauesFeld.inventarLeer) {
                             if (spieler.spielablaufManager.tempBlauesFeld.befehlNum2 == 0) {
                                 spieler.spielablaufManager.tempBlauesFeld.befehlNum2 = 2;
@@ -368,33 +476,39 @@ public class MapEingabeManager implements KeyListener {
                             } else if (spieler.spielablaufManager.tempBlauesFeld.befehlNum2 == 1) {
                                 spieler.spielablaufManager.tempBlauesFeld.befehlNum2 = 0;
                             }
-                        } else if(spieler.spielablaufManager.tempBlauesFeld.inventarKlauen){
-                            if(spielMapManager.spielablaufManager.sp.alleSpieler.get(spieler.spielablaufManager.ausgewaehlteClientInex).inventar.gegenstaendeAnzahl == 2){
-                                if(spieler.spielablaufManager.tempBlauesFeld.befehlNum3 == 0){
+                        }
+
+                        //Bewegung links in Gegenstand Klauen
+                        else if (spieler.spielablaufManager.tempBlauesFeld.inventarKlauen) {
+                            if (spielMapManager.spielablaufManager.sp.alleSpieler.get(spieler.spielablaufManager.ausgewaehlteClientInex).inventar.gegenstaendeAnzahl == 2) {
+                                if (spieler.spielablaufManager.tempBlauesFeld.befehlNum3 == 0) {
                                     spieler.spielablaufManager.tempBlauesFeld.befehlNum3 = 1;
-                                }else if(spieler.spielablaufManager.tempBlauesFeld.befehlNum3 == 1){
+                                } else if (spieler.spielablaufManager.tempBlauesFeld.befehlNum3 == 1) {
                                     spieler.spielablaufManager.tempBlauesFeld.befehlNum3 = 0;
                                 }
-                            }else if(spielMapManager.spielablaufManager.sp.alleSpieler.get(spieler.spielablaufManager.ausgewaehlteClientInex).inventar.gegenstaendeAnzahl == 3){
-                                if(spieler.spielablaufManager.tempBlauesFeld.befehlNum3 == 0){
+                            } else if (spielMapManager.spielablaufManager.sp.alleSpieler.get(spieler.spielablaufManager.ausgewaehlteClientInex).inventar.gegenstaendeAnzahl == 3) {
+                                if (spieler.spielablaufManager.tempBlauesFeld.befehlNum3 == 0) {
                                     spieler.spielablaufManager.tempBlauesFeld.befehlNum3 = 2;
-                                }else if(spieler.spielablaufManager.tempBlauesFeld.befehlNum3 == 2){
+                                } else if (spieler.spielablaufManager.tempBlauesFeld.befehlNum3 == 2) {
                                     spieler.spielablaufManager.tempBlauesFeld.befehlNum3 = 1;
-                                }else if(spieler.spielablaufManager.tempBlauesFeld.befehlNum3 == 1){
+                                } else if (spieler.spielablaufManager.tempBlauesFeld.befehlNum3 == 1) {
                                     spieler.spielablaufManager.tempBlauesFeld.befehlNum3 = 0;
                                 }
-                            }else if(spielMapManager.spielablaufManager.sp.alleSpieler.get(spieler.spielablaufManager.ausgewaehlteClientInex).inventar.gegenstaendeAnzahl == 4){
-                                if(spieler.spielablaufManager.tempBlauesFeld.befehlNum3 == 0){
+                            } else if (spielMapManager.spielablaufManager.sp.alleSpieler.get(spieler.spielablaufManager.ausgewaehlteClientInex).inventar.gegenstaendeAnzahl == 4) {
+                                if (spieler.spielablaufManager.tempBlauesFeld.befehlNum3 == 0) {
                                     spieler.spielablaufManager.tempBlauesFeld.befehlNum3 = 3;
-                                }else if(spieler.spielablaufManager.tempBlauesFeld.befehlNum3 == 3){
+                                } else if (spieler.spielablaufManager.tempBlauesFeld.befehlNum3 == 3) {
                                     spieler.spielablaufManager.tempBlauesFeld.befehlNum3 = 2;
-                                }else if(spieler.spielablaufManager.tempBlauesFeld.befehlNum3 == 2){
+                                } else if (spieler.spielablaufManager.tempBlauesFeld.befehlNum3 == 2) {
                                     spieler.spielablaufManager.tempBlauesFeld.befehlNum3 = 1;
-                                }else if(spieler.spielablaufManager.tempBlauesFeld.befehlNum3 == 1){
+                                } else if (spieler.spielablaufManager.tempBlauesFeld.befehlNum3 == 1) {
                                     spieler.spielablaufManager.tempBlauesFeld.befehlNum3 = 0;
                                 }
                             }
-                        }else if(spieler.konto.genugMuenzen && !spieler.wuerfelZustand && !spieler.spielablaufManager.tempBlauesFeld.klauenMoeglichkeiten){
+                        }
+
+                        //Bewegung West nach das nächste Feld
+                        else if (spieler.konto.genugMuenzen && !spieler.wuerfelZustand && !spieler.spielablaufManager.tempBlauesFeld.klauenMoeglichkeiten) {
                             checkNaechstesFeld();
                             if (!falscheRichtung) {
                                 if (spieler.aktuellesFeld != null && spieler.aktuellesFeld.westFeld != null) {
@@ -409,23 +523,33 @@ public class MapEingabeManager implements KeyListener {
                                 }
                             }
                         }
-                        break;
+                    }
                 }
             }
         }
     }
+
     @Override
     public void keyReleased(KeyEvent e) {
         spieler = this.spielMapManager.spielablaufManager.mainSpieler;
         int code = e.getKeyCode();
+
+        //Speziell fall für beginn des Spiels (nur Würfel kann gespielt wird)
         if(spielMapManager.spielablaufManager.sp.client.istDran() && spielMapManager.spielablaufManager.sp.aktuelleRundenAnzahl == 0){
             if (code == KeyEvent.VK_SPACE) {
                 spaceGedrueckt = false;
                 spieler.wuerfel.schritteAnzahlBestimmen();
             }
-        }else if(spielMapManager.spielablaufManager.sp.client.istDran()) {
+        }
+
+        //alle Taste, die freigegeben können, wenn der Spieler dran ist
+        else if(spielMapManager.spielablaufManager.sp.client.istDran()) {
+
+            //alle Taste, die freigegeben können, wenn der Spieler nicht am Bewegung zwischen zwei felder ist
             if (!spieler.bewegung && !iGedrueckt) {
                 if(spieler.wuerfelZustand) {
+
+                    //Schritte Anzahl bestimmen, abhängig von dem Typ des Würfels
                     if (code == KeyEvent.VK_SPACE) {
                         spaceGedrueckt = false;
                         if (spieler.normaleWuerfelZustand) {
@@ -445,32 +569,30 @@ public class MapEingabeManager implements KeyListener {
             }
         }
     }
+
+    //festlegen, ob das nächste Feld die gleiche wie das vorherige Feld ist
     private void checkNaechstesFeld(){
         Feld tempFeld = null;
-        if(spieler.vorherigesFeld == null){
-        }else if(obenGedrueckt) {
+        if(obenGedrueckt && spieler.vorherigesFeld != null) {
             tempFeld = spieler.aktuellesFeld.nordFeld;
              obenGedrueckt = false;
-        }else if(untenGedrueckt) {
+        }else if(untenGedrueckt && spieler.vorherigesFeld != null) {
             tempFeld = spieler.aktuellesFeld.suedFeld;
             untenGedrueckt = false;
-        }else if(rechtsGedrueckt) {
+        }else if(rechtsGedrueckt && spieler.vorherigesFeld != null) {
             tempFeld = spieler.aktuellesFeld.ostFeld;
             rechtsGedrueckt = false;
-        }else if(linksGedrueckt) {
+        }else if(linksGedrueckt && spieler.vorherigesFeld != null) {
             tempFeld = spieler.aktuellesFeld.westFeld;
             linksGedrueckt = false;
         }
         if(spieler.aktuellesFeld == null || tempFeld == null){
             falscheRichtung = false;
-        }else if(tempFeld.equals(spieler.vorherigesFeld)){
-            falscheRichtung = true;
-        }else if(!tempFeld.equals(spieler.vorherigesFeld)){
-            falscheRichtung = false;
-        }
+        }else falscheRichtung = tempFeld.equals(spieler.vorherigesFeld);
     }
+
     private void untenUndObenInventar(){
-        spieler.inventar.anzahlGegenstaendeInInventar();
+        spieler.inventar.inventarLeerOderVoll();
         if(spieler.inventar.gegenstaendeAnzahl == 2 || spieler.inventar.gegenstaendeAnzahl == 3){
             if (spieler.inventar.inventar[0] != null && spieler.inventar.inventar[2] != null) {
                 if (spieler.inventar.befehlNum == 0) {
@@ -497,8 +619,9 @@ public class MapEingabeManager implements KeyListener {
             }
         }
     }
+
     private void rechtsUndLinksInventar(){
-        spieler.inventar.anzahlGegenstaendeInInventar();
+        spieler.inventar.inventarLeerOderVoll();
         if(spieler.inventar.gegenstaendeAnzahl == 2 || spieler.inventar.gegenstaendeAnzahl == 3){
             if (spieler.inventar.inventar[0] != null && spieler.inventar.inventar[1] != null) {
                 if (spieler.inventar.befehlNum == 0) {
@@ -537,6 +660,7 @@ public class MapEingabeManager implements KeyListener {
             }
         }
     }
+
     private void untenUndObenShop(){
         if(spieler.spielablaufManager.shop.befehlNum == 0){
             spieler.spielablaufManager.shop.befehlNum = 3;
@@ -552,6 +676,7 @@ public class MapEingabeManager implements KeyListener {
             spieler.spielablaufManager.shop.befehlNum = 2;
         }
     }
+
     private void rechtsShop(){
         if(spieler.spielablaufManager.shop.befehlNum == 0){
             spieler.spielablaufManager.shop.befehlNum = 1;
@@ -567,6 +692,7 @@ public class MapEingabeManager implements KeyListener {
             spieler.spielablaufManager.shop.befehlNum = 3;
         }
     }
+
     private void linksShop(){
         if(spieler.spielablaufManager.shop.befehlNum == 0){
             spieler.spielablaufManager.shop.befehlNum = 2;
@@ -582,4 +708,5 @@ public class MapEingabeManager implements KeyListener {
             spieler.spielablaufManager.shop.befehlNum = 3;
         }
     }
+
 }

@@ -4,6 +4,7 @@ import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.util.Objects;
 
 public class MegaWuerfel extends GegenstandWuerfel{
 
@@ -19,17 +20,18 @@ public class MegaWuerfel extends GegenstandWuerfel{
     @Override
     public void getGegenstandBilder(){
         try {
-            icon = ImageIO.read(getClass().getResourceAsStream("/gegenstaende/Megawuerfel.png"));
-            wuerfel7= ImageIO.read(getClass().getResourceAsStream("/gegenstaende/megaWuerfel/wuerfel7.png"));
-            wuerfel8= ImageIO.read(getClass().getResourceAsStream("/gegenstaende/megaWuerfel/wuerfel8.png"));
-            wuerfel9= ImageIO.read(getClass().getResourceAsStream("/gegenstaende/megaWuerfel/wuerfel9.png"));
-            wuerfel10= ImageIO.read(getClass().getResourceAsStream("/gegenstaende/megaWuerfel/wuerfel10.png"));
-            wuerfel11= ImageIO.read(getClass().getResourceAsStream("/gegenstaende/megaWuerfel/wuerfel11.png"));
-            wuerfel12= ImageIO.read(getClass().getResourceAsStream("/gegenstaende/megaWuerfel/wuerfel12.png"));
+            icon = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/gegenstaende/Megawuerfel.png")));
+            wuerfel7= ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/gegenstaende/megaWuerfel/wuerfel7.png")));
+            wuerfel8= ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/gegenstaende/megaWuerfel/wuerfel8.png")));
+            wuerfel9= ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/gegenstaende/megaWuerfel/wuerfel9.png")));
+            wuerfel10= ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/gegenstaende/megaWuerfel/wuerfel10.png")));
+            wuerfel11= ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/gegenstaende/megaWuerfel/wuerfel11.png")));
+            wuerfel12= ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/gegenstaende/megaWuerfel/wuerfel12.png")));
         }catch(IOException e) {
             e.printStackTrace();
         }
     }
+
     @Override
     public void effeckteAnwenden(){
         spieler.normaleWuerfelZustand = false;
@@ -38,6 +40,7 @@ public class MegaWuerfel extends GegenstandWuerfel{
         spieler.spielablaufManager.mapManager.mapEingabeManager.iGedrueckt = false;
     }
     @Override
+
     public void schritteAnzahlBestimmen(){
         if (spriteNum == 0) {
             spieler.schritteAnzahl = 7;

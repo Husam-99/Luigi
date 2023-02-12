@@ -2,8 +2,10 @@ package spieler;
 
 import javax.imageio.ImageIO;
 import java.io.IOException;
+import java.util.Objects;
 
 public class SternTaxi extends Gegenstand{
+
     public SternTaxi(Spieler spieler) {
         super(spieler);
         preis = 15;
@@ -14,11 +16,12 @@ public class SternTaxi extends Gegenstand{
     @Override
     public void getGegenstandBilder(){
         try {
-            icon = ImageIO.read(getClass().getResourceAsStream("/gegenstaende/Sterntaxi.png"));
+            icon = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/gegenstaende/Sterntaxi.png")));
         }catch(IOException e) {
             e.printStackTrace();
         }
     }
+
     @Override
     public void effeckteAnwenden(){
         spieler.zuStern = true;

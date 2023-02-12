@@ -1,7 +1,6 @@
 package spieler;
 
 import javax.imageio.ImageIO;
-import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.Objects;
 
@@ -10,12 +9,13 @@ public class Yousef extends Spielfigur {
     public Yousef(){
         super();
         getSpielFigurBilder();
-
     }
+
     public Yousef(Spieler spieler){
         super(spieler);
         getSpielFigurBilder();
     }
+
     @Override
     public void getSpielFigurBilder() {
         try {
@@ -37,11 +37,9 @@ public class Yousef extends Spielfigur {
             fallen3=ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/yousef/Yousef2.png")));
             fallen4=ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/yousef/Yousef3.png")));
             fallen5=ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/yousef/Yousef4.png")));
-
         }catch(IOException e) {
             e.printStackTrace();
         }
     }
-
 
 }

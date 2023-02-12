@@ -1,11 +1,7 @@
 package Minispiele;
 
-import java.util.Random;
 
-/**
- * @author : Abdelrahman Elsayed
- * @version : 1.2.2022
- */
+
 public class Palette {
     public int weltX;
     public int weltY;

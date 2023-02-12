@@ -8,6 +8,8 @@ public class OrangesFeld extends Feld{
 
     public OrangesFeld(SpielMapManager mapManager, int weltY, int weltX, int feldNum) {
         super(mapManager, weltY, weltX, feldNum);
+
+        //Fled Bild
         try {
             super.feldImage = ImageIO.read(new File("src/source/felder/Orange_Field_.png"));
         } catch (IOException e) {
@@ -20,4 +22,5 @@ public class OrangesFeld extends Feld{
         mapManager.spielablaufManager.shopGeoeffnet = true;
         mapManager.spielablaufManager.miniMapZustand = false;
     }
+
 }

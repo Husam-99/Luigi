@@ -1,5 +1,6 @@
 package menue;
 
+import Networking.Client.SpielClient;
 import Networking.Pakete.AnzahlMitspieler;
 import Networking.Pakete.Bescheid;
 import Networking.Pakete.Rundenzahl;
@@ -11,358 +12,432 @@ import java.util.ArrayList;
 
 public class MenueEingabeManager implements KeyListener {
 
-    MenueManager mn;
+    MenueManager menueManager;
+
     public ArrayList<Integer> ausgewaehlteSpielfiguren;
-    public MenueEingabeManager(MenueManager mn){
-        this.mn = mn;
+
+    public MenueEingabeManager(MenueManager menueManager){
+        this.menueManager = menueManager;
         ausgewaehlteSpielfiguren = new ArrayList<>(4);
+
+        //temporäre Werte addieren in die Arraylist, es wird später aktualisiert
         ausgewaehlteSpielfiguren.add(-1);
         ausgewaehlteSpielfiguren.add(-1);
         ausgewaehlteSpielfiguren.add(-1);
         ausgewaehlteSpielfiguren.add(-1);
     }
+
     @Override
     public void keyTyped(KeyEvent e) {}
+
     @Override
     public void keyPressed(KeyEvent e) {
         int code = e.getKeyCode();
-        if(mn.sp.client.istDran()) {
-            if (mn.sp.client.isIstHost()) {
-                if (mn.menueZustand == mn.hauptmenueZustand1) {
-                    hauptmenueZustand1Host(code);
-                } else if (mn.menueZustand == mn.hauptmenueZustand2) {
-                    hauptmenueZustand2Host(code);
-                } else if (mn.menueZustand == mn.spielfigurAuswaehlenZustand) {
-                    spielfigureAuswaehlenZustandHost(code);
+
+        //die Tasten dürfen gedruckt werden, nur wenn der Client dran ist
+        if(menueManager.sp.client.istDran()) {
+
+            //Das Menü Verlauf für den Host
+            if (menueManager.sp.client.isIstHost()) {
+                if (menueManager.menueZustand == menueManager.hauptmenueZustand) {
+                    hauptmenueZustandHost(code);
+                } else if (menueManager.menueZustand == menueManager.SpielerUndRundenAnzahlZustand) {
+                    SpielerUndRundenAnzahlZustandHost(code);
+                } else if (menueManager.menueZustand == menueManager.spielfigurAuswahlZustand) {
+                    spielfigurAuswahlZustandHost(code);
                 }
-            }else{
-                if (mn.menueZustand == mn.hauptmenueZustand1) {
-                    hauptmenueZustand1Client(code);
-                }else if (mn.menueZustand == mn.spielfigurAuswaehlenZustand) {
+            }
+
+            //Das Menü Verlauf für den Client
+            else{
+                if (menueManager.menueZustand == menueManager.hauptmenueZustand) {
+                    hauptmenueZustandClient(code);
+                }else if (menueManager.menueZustand == menueManager.spielfigurAuswahlZustand) {
                     spielfigureAuswaehlenZustandClient(code);
                 }
             }
         }
     }
 
-    public void spielfigureAuswaehlenZustandHost(int code){
+    private void spielfigurAuswahlZustandHost(int code){
+
+        //bewegung oben und unten in SpielfigurAuswahl Menü (Host)
         if (code == KeyEvent.VK_W) {
-            mn.spielfigurAuswaehlen.befehlNum1--;
-            if (mn.spielfigurAuswaehlen.befehlNum1 < 0) {
-                mn.spielfigurAuswaehlen.befehlNum1 = 3;
+            menueManager.spielfigurAuswahl.befehlNum1--;
+            if (menueManager.spielfigurAuswahl.befehlNum1 < 0) {
+                menueManager.spielfigurAuswahl.befehlNum1 = 3;
             }
         }else if (code == KeyEvent.VK_S) {
-            mn.spielfigurAuswaehlen.befehlNum1++;
-            if (mn.spielfigurAuswaehlen.befehlNum1 > 3) {
-                mn.spielfigurAuswaehlen.befehlNum1 = 0;
+            menueManager.spielfigurAuswahl.befehlNum1++;
+            if (menueManager.spielfigurAuswahl.befehlNum1 > 3) {
+                menueManager.spielfigurAuswahl.befehlNum1 = 0;
             }
-        }else if (code == KeyEvent.VK_ENTER) {
+        }
+
+        //Spielfigur festlegen (Host)
+        else if (code == KeyEvent.VK_ENTER) {
             SpielfigurAuswahl spielfigurAuswahl = new SpielfigurAuswahl();
-            if (mn.spielfigurAuswaehlen.befehlNum1 == 0) {
-                mn.spielfigurAuswaehlen.enterZustand = 1;
+            if (menueManager.spielfigurAuswahl.befehlNum1 == 0) {
+                menueManager.spielfigurAuswahl.enterZustand = 1;
                 spielfigurAuswahl.spielfigurIndex = 0;
                 spielfigurAuswahl.spielfigurMenueIndex = 0;
             }
-            else if (mn.spielfigurAuswaehlen.befehlNum1 == 1) {
-                mn.spielfigurAuswaehlen.enterZustand = 1;
+            else if (menueManager.spielfigurAuswahl.befehlNum1 == 1) {
+                menueManager.spielfigurAuswahl.enterZustand = 1;
                 spielfigurAuswahl.spielfigurIndex = 1;
                 spielfigurAuswahl.spielfigurMenueIndex = 1;
             }
-            else if (mn.spielfigurAuswaehlen.befehlNum1 == 2) {
-                mn.spielfigurAuswaehlen.enterZustand = 1;
+            else if (menueManager.spielfigurAuswahl.befehlNum1 == 2) {
+                menueManager.spielfigurAuswahl.enterZustand = 1;
                 spielfigurAuswahl.spielfigurIndex = 2;
                 spielfigurAuswahl.spielfigurMenueIndex = 2;
             }
-            else if (mn.spielfigurAuswaehlen.befehlNum1 == 3) {
-                mn.spielfigurAuswaehlen.enterZustand = 1;
+            else if (menueManager.spielfigurAuswahl.befehlNum1 == 3) {
+                menueManager.spielfigurAuswahl.enterZustand = 1;
                 spielfigurAuswahl.spielfigurIndex = 3;
                 spielfigurAuswahl.spielfigurMenueIndex = 3;
             }
+
+            //Anzahl der Spieler an allen Clients senden
             AnzahlMitspieler anzahlMitspieler = new AnzahlMitspieler();
-            anzahlMitspieler.anzahlDerMitspielerHost = mn.spielerAnzahl;
-            mn.sp.client.send(anzahlMitspieler);
+            anzahlMitspieler.anzahlDerMitspielerHost = menueManager.spielerAnzahl;
+            menueManager.sp.client.send(anzahlMitspieler);
 
+            //Anzahl der Runden an allen Clients senden
             Rundenzahl rundenzahl = new Rundenzahl();
-            rundenzahl.anzahlDerRunden = mn.sp.ausgewaehlteRundenAnzahl;
-            mn.sp.client.send(rundenzahl);
+            rundenzahl.anzahlDerRunden = menueManager.sp.ausgewaehlteRundenAnzahl;
+            menueManager.sp.client.send(rundenzahl);
 
-            mn.sp.spielablaufManager.mainSpieler.spielfigurAuswaehlen();
+            //Spielfigur in spieler erstellen
+            menueManager.sp.spielablaufManager.mainSpieler.spielfigurErstellen();
+
+            //Spieler zug ist fertig an allen Clients senden
             Bescheid bescheid = new Bescheid();
             bescheid.fertig = true;
-            mn.sp.client.send(bescheid);
+            menueManager.sp.client.send(bescheid);
 
-            mn.sp.client.send(spielfigurAuswahl);
+            //ausgewählte Spielfigur an allen Clients senden
+            menueManager.sp.client.send(spielfigurAuswahl);
 
-            mn.sp.setzeZustand(mn.sp.spielBrettZustand, -1);
+            //wechsel der Spielzustand an Spielbrettzustand
+            menueManager.sp.setzeZustand(menueManager.sp.spielBrettZustand, -1);
 
-            mn.sp.soundClip.close();
-        }else if(code == KeyEvent.VK_ESCAPE){
-            mn.menueZustand = mn.hauptmenueZustand2;
-            mn.hauptmenue.enterZustand = 1;
-            mn.hauptmenue.befehlNum2 = 0;
+            //Der Sound beenden
+            menueManager.sp.soundClip.close();
+        }
+
+        //zurück zur Rundenanzahl
+        else if(code == KeyEvent.VK_ESCAPE){
+            menueManager.menueZustand = menueManager.SpielerUndRundenAnzahlZustand;
+            menueManager.hauptmenue.enterZustand = 1;
+            menueManager.hauptmenue.befehlNum2 = 0;
         }
     }
-    public void hauptmenueZustand2Host(int code){
-        if(mn.hauptmenue.enterZustand == 0) {
+
+    private void SpielerUndRundenAnzahlZustandHost(int code){
+        if(menueManager.hauptmenue.enterZustand == 0) {
+
+            //bewegung rechts und links zwischen Spieleranzahl
             if (code == KeyEvent.VK_D) {
-                mn.hauptmenue.befehlNum3++;
-                if (mn.hauptmenue.befehlNum3 > 2) {
-                    mn.hauptmenue.befehlNum3 = 0;
+                menueManager.hauptmenue.befehlNum3++;
+                if (menueManager.hauptmenue.befehlNum3 > 2) {
+                    menueManager.hauptmenue.befehlNum3 = 0;
                 }
             } else if (code == KeyEvent.VK_A) {
-                mn.hauptmenue.befehlNum3--;
-                if (mn.hauptmenue.befehlNum3 < 0) {
-                    mn.hauptmenue.befehlNum3 = 2;
+                menueManager.hauptmenue.befehlNum3--;
+                if (menueManager.hauptmenue.befehlNum3 < 0) {
+                    menueManager.hauptmenue.befehlNum3 = 2;
                 }
-            }else if (code == KeyEvent.VK_ENTER) {
-                if (mn.hauptmenue.befehlNum3 == 0) {
-                    mn.spielerAnzahl = 2;
-                    mn.hauptmenue.enterZustand = 1;
-                    mn.hauptmenue.befehlNum2 = 0;
-                }
-                if (mn.hauptmenue.befehlNum3 == 1) {
-                    mn.spielerAnzahl = 3;
-                    mn.hauptmenue.enterZustand = 1;
-                    mn.hauptmenue.befehlNum2 = 0;
-                }
-                if (mn.hauptmenue.befehlNum3 == 2) {
-                    mn.spielerAnzahl = 4;
-                    mn.hauptmenue.enterZustand = 1;
-                    mn.hauptmenue.befehlNum2 = 0;
-                }
-            }else if(code == KeyEvent.VK_ESCAPE){
-                mn.menueZustand = mn.hauptmenueZustand1;
             }
-        } else if (mn.hauptmenue.enterZustand == 1) {
+
+            //Spieleranzahl festlegen
+            else if (code == KeyEvent.VK_ENTER) {
+                if (menueManager.hauptmenue.befehlNum3 == 0) {
+                    menueManager.spielerAnzahl = 2;
+                    menueManager.hauptmenue.enterZustand = 1;
+                    menueManager.hauptmenue.befehlNum2 = 0;
+                }
+                if (menueManager.hauptmenue.befehlNum3 == 1) {
+                    menueManager.spielerAnzahl = 3;
+                    menueManager.hauptmenue.enterZustand = 1;
+                    menueManager.hauptmenue.befehlNum2 = 0;
+                }
+                if (menueManager.hauptmenue.befehlNum3 == 2) {
+                    menueManager.spielerAnzahl = 4;
+                    menueManager.hauptmenue.enterZustand = 1;
+                    menueManager.hauptmenue.befehlNum2 = 0;
+                }
+            }
+
+            //zurück zum Hauptmenü
+            else if(code == KeyEvent.VK_ESCAPE){
+                menueManager.menueZustand = menueManager.hauptmenueZustand;
+            }
+        } else if (menueManager.hauptmenue.enterZustand == 1) {
+
+            //bewegung rechts und links zwischen Rundenanzahl
             if (code == KeyEvent.VK_D) {
-                mn.hauptmenue.befehlNum2++;
-                if (mn.hauptmenue.befehlNum2 > 4) {
-                    mn.hauptmenue.befehlNum2 = 0;
+                menueManager.hauptmenue.befehlNum2++;
+                if (menueManager.hauptmenue.befehlNum2 > 4) {
+                    menueManager.hauptmenue.befehlNum2 = 0;
                 }
             }else if (code == KeyEvent.VK_A) {
-                mn.hauptmenue.befehlNum2--;
-                if (mn.hauptmenue.befehlNum2 < 0) {
-                    mn.hauptmenue.befehlNum2 = 4;
+                menueManager.hauptmenue.befehlNum2--;
+                if (menueManager.hauptmenue.befehlNum2 < 0) {
+                    menueManager.hauptmenue.befehlNum2 = 4;
                 }
-            }else if (code == KeyEvent.VK_ENTER) {
-                if (mn.hauptmenue.befehlNum2 == 0) {
-                    mn.sp.ausgewaehlteRundenAnzahl = 2;
-                    mn.menueZustand = mn.spielfigurAuswaehlenZustand;
-                } else if (mn.hauptmenue.befehlNum2 == 1) {
-                    mn.sp.ausgewaehlteRundenAnzahl = 7;
-                    mn.menueZustand = mn.spielfigurAuswaehlenZustand;
-                }else if (mn.hauptmenue.befehlNum2 == 2) {
-                    mn.sp.ausgewaehlteRundenAnzahl = 8;
-                    mn.menueZustand = mn.spielfigurAuswaehlenZustand;
-                } else if (mn.hauptmenue.befehlNum2 == 3) {
-                    mn.sp.ausgewaehlteRundenAnzahl = 9;
-                    mn.menueZustand = mn.spielfigurAuswaehlenZustand;
-                } else if (mn.hauptmenue.befehlNum2 == 4) {
-                    mn.sp.ausgewaehlteRundenAnzahl = 10;
-                    mn.menueZustand = mn.spielfigurAuswaehlenZustand;
+            }
+
+            //Rundenanzahl festlegen
+            else if (code == KeyEvent.VK_ENTER) {
+                if (menueManager.hauptmenue.befehlNum2 == 0) {
+                    menueManager.sp.ausgewaehlteRundenAnzahl = 6;
+                    menueManager.menueZustand = menueManager.spielfigurAuswahlZustand;
+                } else if (menueManager.hauptmenue.befehlNum2 == 1) {
+                    menueManager.sp.ausgewaehlteRundenAnzahl = 7;
+                    menueManager.menueZustand = menueManager.spielfigurAuswahlZustand;
+                }else if (menueManager.hauptmenue.befehlNum2 == 2) {
+                    menueManager.sp.ausgewaehlteRundenAnzahl = 8;
+                    menueManager.menueZustand = menueManager.spielfigurAuswahlZustand;
+                } else if (menueManager.hauptmenue.befehlNum2 == 3) {
+                    menueManager.sp.ausgewaehlteRundenAnzahl = 9;
+                    menueManager.menueZustand = menueManager.spielfigurAuswahlZustand;
+                } else if (menueManager.hauptmenue.befehlNum2 == 4) {
+                    menueManager.sp.ausgewaehlteRundenAnzahl = 10;
+                    menueManager.menueZustand = menueManager.spielfigurAuswahlZustand;
                 }
-            }else if(code == KeyEvent.VK_ESCAPE){
-                mn.hauptmenue.enterZustand = 0;
-                mn.hauptmenue.befehlNum2 = -1;
+            }
+
+            //zurück zur Spieleranzahl
+            else if(code == KeyEvent.VK_ESCAPE){
+                menueManager.hauptmenue.enterZustand = 0;
+                menueManager.hauptmenue.befehlNum2 = -1;
             }
         }
     }
-    public void hauptmenueZustand1Host(int code){
+
+    private void hauptmenueZustandHost(int code){
+        //bewegung oben und unten in Hauptmenü
         if (code == KeyEvent.VK_W) {
-            mn.hauptmenue.befehlNum1-=2;
-            if (mn.hauptmenue.befehlNum1 < 0) {
-                mn.hauptmenue.befehlNum1 = 2;
+            menueManager.hauptmenue.befehlNum1-=2;
+            if (menueManager.hauptmenue.befehlNum1 < 0) {
+                menueManager.hauptmenue.befehlNum1 = 2;
             }
         }else if (code == KeyEvent.VK_S) {
-            mn.hauptmenue.befehlNum1+=2;
-            if (mn.hauptmenue.befehlNum1 > 2) {
-                mn.hauptmenue.befehlNum1 = 0;
+            menueManager.hauptmenue.befehlNum1+=2;
+            if (menueManager.hauptmenue.befehlNum1 > 2) {
+                menueManager.hauptmenue.befehlNum1 = 0;
             }
         }else if (code == KeyEvent.VK_ENTER) {
-            if (mn.hauptmenue.befehlNum1 == 0) {
-                mn.menueZustand = mn.hauptmenueZustand2;
-                System.out.println("HostSpieler ist da");
-            } else if (mn.hauptmenue.befehlNum1 == 2) {
-                mn.sp.client.close();
+
+            //Spiel erstellen
+            if (menueManager.hauptmenue.befehlNum1 == 0) {
+                menueManager.menueZustand = menueManager.SpielerUndRundenAnzahlZustand;
+            }
+
+            //Spiel verlassen
+            else if (menueManager.hauptmenue.befehlNum1 == 2) {
+                menueManager.sp.client.close();
                 System.exit(0);
             }
         }
     }
-    public void spielfigureAuswaehlenZustandClient(int code){
+
+    private void spielfigureAuswaehlenZustandClient(int code){
+
+        //bewegung oben und unten in SpielfigurAuswahl Menü (Client)
+        //es hängt von vorherige Spielfigur Auswahl und das Client-index ab
         if (code == KeyEvent.VK_W) {
-            if(mn.sp.client.clientIndex == 1) {
+            if(SpielClient.clientIndex == 1) {
                 if (ausgewaehlteSpielfiguren.contains(0)) {
-                    mn.spielfigurAuswaehlen.befehlNum1--;
-                    if (mn.spielfigurAuswaehlen.befehlNum1 < 1) {
-                        mn.spielfigurAuswaehlen.befehlNum1 = 3;
+                    menueManager.spielfigurAuswahl.befehlNum1--;
+                    if (menueManager.spielfigurAuswahl.befehlNum1 < 1) {
+                        menueManager.spielfigurAuswahl.befehlNum1 = 3;
                     }
                 }else if(ausgewaehlteSpielfiguren.contains(1)){
-                    if(mn.spielfigurAuswaehlen.befehlNum1 == 2){
-                        mn.spielfigurAuswaehlen.befehlNum1 -= 2;
+                    if(menueManager.spielfigurAuswahl.befehlNum1 == 2){
+                        menueManager.spielfigurAuswahl.befehlNum1 -= 2;
                     }else {
-                        mn.spielfigurAuswaehlen.befehlNum1--;
+                        menueManager.spielfigurAuswahl.befehlNum1--;
                     }
-                    if(mn.spielfigurAuswaehlen.befehlNum1 < 0){
-                        mn.spielfigurAuswaehlen.befehlNum1 = 3;
+                    if(menueManager.spielfigurAuswahl.befehlNum1 < 0){
+                        menueManager.spielfigurAuswahl.befehlNum1 = 3;
                     }
                 }else if(ausgewaehlteSpielfiguren.contains(2)){
-                    if(mn.spielfigurAuswaehlen.befehlNum1 == 3){
-                        mn.spielfigurAuswaehlen.befehlNum1 -= 2;
+                    if(menueManager.spielfigurAuswahl.befehlNum1 == 3){
+                        menueManager.spielfigurAuswahl.befehlNum1 -= 2;
                     }else {
-                        mn.spielfigurAuswaehlen.befehlNum1--;
+                        menueManager.spielfigurAuswahl.befehlNum1--;
                     }
-                    if(mn.spielfigurAuswaehlen.befehlNum1 < 0){
-                        mn.spielfigurAuswaehlen.befehlNum1 = 3;
+                    if(menueManager.spielfigurAuswahl.befehlNum1 < 0){
+                        menueManager.spielfigurAuswahl.befehlNum1 = 3;
                     }
                 }else if(ausgewaehlteSpielfiguren.contains(3)){
-                    mn.spielfigurAuswaehlen.befehlNum1--;
-                    if(mn.spielfigurAuswaehlen.befehlNum1 < 0){
-                        mn.spielfigurAuswaehlen.befehlNum1 = 2;
+                    menueManager.spielfigurAuswahl.befehlNum1--;
+                    if(menueManager.spielfigurAuswahl.befehlNum1 < 0){
+                        menueManager.spielfigurAuswahl.befehlNum1 = 2;
                     }
                 }
-            }else if(mn.sp.client.clientIndex == 2){
+            }else if(SpielClient.clientIndex == 2){
                 if(ausgewaehlteSpielfiguren.contains(0) && ausgewaehlteSpielfiguren.contains(1)){
-                    mn.spielfigurAuswaehlen.befehlNum1--;
-                    if (mn.spielfigurAuswaehlen.befehlNum1 < 2) {
-                        mn.spielfigurAuswaehlen.befehlNum1 = 3;
+                    menueManager.spielfigurAuswahl.befehlNum1--;
+                    if (menueManager.spielfigurAuswahl.befehlNum1 < 2) {
+                        menueManager.spielfigurAuswahl.befehlNum1 = 3;
                     }
                 }else if(ausgewaehlteSpielfiguren.contains(0) && ausgewaehlteSpielfiguren.contains(2)){
-                    mn.spielfigurAuswaehlen.befehlNum1-=2;
-                    if (mn.spielfigurAuswaehlen.befehlNum1 < 1) {
-                        mn.spielfigurAuswaehlen.befehlNum1 = 3;
+                    menueManager.spielfigurAuswahl.befehlNum1-=2;
+                    if (menueManager.spielfigurAuswahl.befehlNum1 < 1) {
+                        menueManager.spielfigurAuswahl.befehlNum1 = 3;
                     }
                 }else if(ausgewaehlteSpielfiguren.contains(0) && ausgewaehlteSpielfiguren.contains(3)){
-                    mn.spielfigurAuswaehlen.befehlNum1--;
-                    if (mn.spielfigurAuswaehlen.befehlNum1 < 1) {
-                        mn.spielfigurAuswaehlen.befehlNum1 = 2;
+                    menueManager.spielfigurAuswahl.befehlNum1--;
+                    if (menueManager.spielfigurAuswahl.befehlNum1 < 1) {
+                        menueManager.spielfigurAuswahl.befehlNum1 = 2;
                     }
                 }else if(ausgewaehlteSpielfiguren.contains(1) && ausgewaehlteSpielfiguren.contains(2)){
-                    mn.spielfigurAuswaehlen.befehlNum1-=3;
-                    if(mn.spielfigurAuswaehlen.befehlNum1 < 0){
-                        mn.spielfigurAuswaehlen.befehlNum1 = 3;
+                    menueManager.spielfigurAuswahl.befehlNum1-=3;
+                    if(menueManager.spielfigurAuswahl.befehlNum1 < 0){
+                        menueManager.spielfigurAuswahl.befehlNum1 = 3;
                     }
                 }else if(ausgewaehlteSpielfiguren.contains(1) && ausgewaehlteSpielfiguren.contains(3)){
-                    mn.spielfigurAuswaehlen.befehlNum1-=2;
-                    if(mn.spielfigurAuswaehlen.befehlNum1 < 0){
-                        mn.spielfigurAuswaehlen.befehlNum1 = 3;
+                    menueManager.spielfigurAuswahl.befehlNum1-=2;
+                    if(menueManager.spielfigurAuswahl.befehlNum1 < 0){
+                        menueManager.spielfigurAuswahl.befehlNum1 = 3;
                     }
                 }else if(ausgewaehlteSpielfiguren.contains(2) && ausgewaehlteSpielfiguren.contains(3)){
-                    mn.spielfigurAuswaehlen.befehlNum1--;
-                    if(mn.spielfigurAuswaehlen.befehlNum1 < 0){
-                        mn.spielfigurAuswaehlen.befehlNum1 = 1;
+                    menueManager.spielfigurAuswahl.befehlNum1--;
+                    if(menueManager.spielfigurAuswahl.befehlNum1 < 0){
+                        menueManager.spielfigurAuswahl.befehlNum1 = 1;
                     }
                 }
             }
         } else if (code == KeyEvent.VK_S) {
-            if(mn.sp.client.clientIndex == 1) {
+            if(SpielClient.clientIndex == 1) {
                 if(ausgewaehlteSpielfiguren.contains(0)) {
-                    mn.spielfigurAuswaehlen.befehlNum1++;
-                    if (mn.spielfigurAuswaehlen.befehlNum1 > 3) {
-                        mn.spielfigurAuswaehlen.befehlNum1 = 1;
+                    menueManager.spielfigurAuswahl.befehlNum1++;
+                    if (menueManager.spielfigurAuswahl.befehlNum1 > 3) {
+                        menueManager.spielfigurAuswahl.befehlNum1 = 1;
                     }
                 }else if(ausgewaehlteSpielfiguren.contains(1)){
-                    if(mn.spielfigurAuswaehlen.befehlNum1 == 0){
-                        mn.spielfigurAuswaehlen.befehlNum1 += 2;
+                    if(menueManager.spielfigurAuswahl.befehlNum1 == 0){
+                        menueManager.spielfigurAuswahl.befehlNum1 += 2;
                     }else {
-                        mn.spielfigurAuswaehlen.befehlNum1++;
+                        menueManager.spielfigurAuswahl.befehlNum1++;
                     }
-                    if(mn.spielfigurAuswaehlen.befehlNum1 > 3){
-                        mn.spielfigurAuswaehlen.befehlNum1 = 0;
+                    if(menueManager.spielfigurAuswahl.befehlNum1 > 3){
+                        menueManager.spielfigurAuswahl.befehlNum1 = 0;
                     }
                 }else if(ausgewaehlteSpielfiguren.contains(2)){
-                    if(mn.spielfigurAuswaehlen.befehlNum1 == 1){
-                        mn.spielfigurAuswaehlen.befehlNum1 += 2;
+                    if(menueManager.spielfigurAuswahl.befehlNum1 == 1){
+                        menueManager.spielfigurAuswahl.befehlNum1 += 2;
                     }else {
-                        mn.spielfigurAuswaehlen.befehlNum1++;
+                        menueManager.spielfigurAuswahl.befehlNum1++;
                     }
-                    if(mn.spielfigurAuswaehlen.befehlNum1 > 3){
-                        mn.spielfigurAuswaehlen.befehlNum1 = 0;
+                    if(menueManager.spielfigurAuswahl.befehlNum1 > 3){
+                        menueManager.spielfigurAuswahl.befehlNum1 = 0;
                     }
                 }else if(ausgewaehlteSpielfiguren.contains(3)) {
-                    mn.spielfigurAuswaehlen.befehlNum1++;
-                    if (mn.spielfigurAuswaehlen.befehlNum1 > 2) {
-                        mn.spielfigurAuswaehlen.befehlNum1 = 0;
+                    menueManager.spielfigurAuswahl.befehlNum1++;
+                    if (menueManager.spielfigurAuswahl.befehlNum1 > 2) {
+                        menueManager.spielfigurAuswahl.befehlNum1 = 0;
                     }
                 }
-            }else if(mn.sp.client.clientIndex == 2){
+            }else if(SpielClient.clientIndex == 2){
                 if(ausgewaehlteSpielfiguren.contains(0) && ausgewaehlteSpielfiguren.contains(1)){
-                    mn.spielfigurAuswaehlen.befehlNum1++;
-                    if (mn.spielfigurAuswaehlen.befehlNum1 > 3) {
-                        mn.spielfigurAuswaehlen.befehlNum1 = 2;
+                    menueManager.spielfigurAuswahl.befehlNum1++;
+                    if (menueManager.spielfigurAuswahl.befehlNum1 > 3) {
+                        menueManager.spielfigurAuswahl.befehlNum1 = 2;
                     }
                 }else if(ausgewaehlteSpielfiguren.contains(0) && ausgewaehlteSpielfiguren.contains(2)){
-                    mn.spielfigurAuswaehlen.befehlNum1+=2;
-                    if (mn.spielfigurAuswaehlen.befehlNum1 > 3) {
-                        mn.spielfigurAuswaehlen.befehlNum1 = 1;
+                    menueManager.spielfigurAuswahl.befehlNum1+=2;
+                    if (menueManager.spielfigurAuswahl.befehlNum1 > 3) {
+                        menueManager.spielfigurAuswahl.befehlNum1 = 1;
                     }
                 }else if(ausgewaehlteSpielfiguren.contains(0) && ausgewaehlteSpielfiguren.contains(3)){
-                    mn.spielfigurAuswaehlen.befehlNum1++;
-                    if (mn.spielfigurAuswaehlen.befehlNum1 > 2) {
-                        mn.spielfigurAuswaehlen.befehlNum1 = 1;
+                    menueManager.spielfigurAuswahl.befehlNum1++;
+                    if (menueManager.spielfigurAuswahl.befehlNum1 > 2) {
+                        menueManager.spielfigurAuswahl.befehlNum1 = 1;
                     }
                 }else if(ausgewaehlteSpielfiguren.contains(1) && ausgewaehlteSpielfiguren.contains(2)){
-                    mn.spielfigurAuswaehlen.befehlNum1+=3;
-                    if(mn.spielfigurAuswaehlen.befehlNum1 > 3){
-                        mn.spielfigurAuswaehlen.befehlNum1 = 0;
+                    menueManager.spielfigurAuswahl.befehlNum1+=3;
+                    if(menueManager.spielfigurAuswahl.befehlNum1 > 3){
+                        menueManager.spielfigurAuswahl.befehlNum1 = 0;
                     }
                 }else if(ausgewaehlteSpielfiguren.contains(1) && ausgewaehlteSpielfiguren.contains(3)){
-                    mn.spielfigurAuswaehlen.befehlNum1+=2;
-                    if(mn.spielfigurAuswaehlen.befehlNum1 > 3){
-                        mn.spielfigurAuswaehlen.befehlNum1 = 0;
+                    menueManager.spielfigurAuswahl.befehlNum1+=2;
+                    if(menueManager.spielfigurAuswahl.befehlNum1 > 3){
+                        menueManager.spielfigurAuswahl.befehlNum1 = 0;
                     }
                 }else if(ausgewaehlteSpielfiguren.contains(2) && ausgewaehlteSpielfiguren.contains(3)){
-                    mn.spielfigurAuswaehlen.befehlNum1++;
-                    if(mn.spielfigurAuswaehlen.befehlNum1 > 1){
-                        mn.spielfigurAuswaehlen.befehlNum1 = 0;
+                    menueManager.spielfigurAuswahl.befehlNum1++;
+                    if(menueManager.spielfigurAuswahl.befehlNum1 > 1){
+                        menueManager.spielfigurAuswahl.befehlNum1 = 0;
                     }
                 }
             }
-        }else if (code == KeyEvent.VK_ENTER) {
+        }
+
+        //Spielfigur festlegen
+        else if (code == KeyEvent.VK_ENTER) {
             SpielfigurAuswahl spielfigurAuswahl = new SpielfigurAuswahl();
-            if (mn.spielfigurAuswaehlen.befehlNum1 == 0) {
-                mn.spielfigurAuswaehlen.enterZustand = 1;
+            if (menueManager.spielfigurAuswahl.befehlNum1 == 0) {
+                menueManager.spielfigurAuswahl.enterZustand = 1;
                 spielfigurAuswahl.spielfigurIndex = 0;
             }
-            else if (mn.spielfigurAuswaehlen.befehlNum1 == 1) {
-                mn.spielfigurAuswaehlen.enterZustand = 1;
+            else if (menueManager.spielfigurAuswahl.befehlNum1 == 1) {
+                menueManager.spielfigurAuswahl.enterZustand = 1;
                 spielfigurAuswahl.spielfigurIndex = 1;
             }
-            else if (mn.spielfigurAuswaehlen.befehlNum1 == 2) {
-                mn.spielfigurAuswaehlen.enterZustand = 1;
+            else if (menueManager.spielfigurAuswahl.befehlNum1 == 2) {
+                menueManager.spielfigurAuswahl.enterZustand = 1;
                 spielfigurAuswahl.spielfigurIndex = 2;
             }
-            else if (mn.spielfigurAuswaehlen.befehlNum1 == 3) {
-                mn.spielfigurAuswaehlen.enterZustand = 1;
+            else if (menueManager.spielfigurAuswahl.befehlNum1 == 3) {
+                menueManager.spielfigurAuswahl.enterZustand = 1;
                 spielfigurAuswahl.spielfigurIndex = 3;
             }
-            mn.sp.spielablaufManager.mainSpieler.spielfigurAuswaehlen();
+
+            //Spielfigur in spieler erstellen.
+            menueManager.sp.spielablaufManager.mainSpieler.spielfigurErstellen();
+
+            //Spieler zug ist fertig an allen Clients senden
             Bescheid bescheid = new Bescheid();
             bescheid.fertig = true;
-            mn.sp.client.send(bescheid);
+            menueManager.sp.client.send(bescheid);
 
-            mn.sp.client.send(spielfigurAuswahl);
-            mn.sp.setzeZustand(mn.sp.spielBrettZustand, -1);
+            //ausgewählte Spielfigur an allen Clients senden
+            menueManager.sp.client.send(spielfigurAuswahl);
 
-            mn.sp.soundClip.close();
+            //wechsel der Spielzustand an Spielbrettzustand
+            menueManager.sp.setzeZustand(menueManager.sp.spielBrettZustand, -1);
+
+            //Der Sound beenden
+            menueManager.sp.soundClip.close();
         }
     }
-    public void hauptmenueZustand1Client(int code){
+
+    private void hauptmenueZustandClient(int code){
+
+        //bewegung oben und unten in Hauptmenü
         if (code == KeyEvent.VK_W) {
-            mn.hauptmenue.befehlNum1--;
-            if (mn.hauptmenue.befehlNum1 < 1) {
-                mn.hauptmenue.befehlNum1 = 2;
+            menueManager.hauptmenue.befehlNum1--;
+            if (menueManager.hauptmenue.befehlNum1 < 1) {
+                menueManager.hauptmenue.befehlNum1 = 2;
             }
         }else if (code == KeyEvent.VK_S) {
-            mn.hauptmenue.befehlNum1++;
-            if (mn.hauptmenue.befehlNum1 > 2) {
-                mn.hauptmenue.befehlNum1 = 1;
+            menueManager.hauptmenue.befehlNum1++;
+            if (menueManager.hauptmenue.befehlNum1 > 2) {
+                menueManager.hauptmenue.befehlNum1 = 1;
             }
         }else if (code == KeyEvent.VK_ENTER) {
-            if (mn.hauptmenue.befehlNum1 == 1) {
-                System.out.println("Spieler beigetreten");
-                mn.menueZustand = mn.spielfigurAuswaehlenZustand;
+
+            //Spiel beitreten
+            if (menueManager.hauptmenue.befehlNum1 == 1) {
+                menueManager.menueZustand = menueManager.spielfigurAuswahlZustand;
             }
-            if (mn.hauptmenue.befehlNum1 == 2) {
+
+            //Spiel verlassen
+            if (menueManager.hauptmenue.befehlNum1 == 2) {
                 System.exit(0);
             }
         }

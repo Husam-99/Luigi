@@ -1,9 +1,5 @@
 package Spielablauf;
 
-
-import Main.SpielPanel;
-import spieler.Spieler;
-
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -11,12 +7,13 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.ArrayList;
 
 public class SpielMapManager {
-    public final Fliese[][] mapFliesen;
+
     SpielablaufManager spielablaufManager;
     Graphics2D g2;
+
+    public final Fliese[][] mapFliesen;
     public MapEingabeManager mapEingabeManager;
     public Stern stern;
     public Muenze muenze;
@@ -28,104 +25,152 @@ public class SpielMapManager {
         mapLaden();
         felderReihenfolgeFestlegen();
         this.stern = new Stern(this);
-        this.muenze = new Muenze(spielablaufManager.sp);
+        this.muenze = new Muenze();
 
     }
-    public Feld feldEinrichten(int zeile, int spalte){
-        switch(zeile){
-            case 19:
-                if(spalte == 11){
-                    return new ViolettesFeld(this,zeile * spielablaufManager.sp.vergroesserteFliesenGroesse, spalte * spielablaufManager.sp.vergroesserteFliesenGroesse,0);
-                }
-                else{
-                    return null;
-                }
-            case 17:
-                return switch (spalte) {
-                    case 5 -> new RotesFeld(this, zeile * spielablaufManager.sp.vergroesserteFliesenGroesse, spalte * spielablaufManager.sp.vergroesserteFliesenGroesse,1);
-                    case 8 -> new GruenesFeld(this,zeile * spielablaufManager.sp.vergroesserteFliesenGroesse, spalte * spielablaufManager.sp.vergroesserteFliesenGroesse, 2);
-                    case 11 -> new GruenesFeld(this,zeile * spielablaufManager.sp.vergroesserteFliesenGroesse, spalte * spielablaufManager.sp.vergroesserteFliesenGroesse, 3);
-                    case 14 -> new OrangesFeld(this, zeile * spielablaufManager.sp.vergroesserteFliesenGroesse, spalte * spielablaufManager.sp.vergroesserteFliesenGroesse, 4);
-                    case 17 -> new GelbesFeld(this, zeile * spielablaufManager.sp.vergroesserteFliesenGroesse, spalte * spielablaufManager.sp.vergroesserteFliesenGroesse, 5);
-                    default -> null;
-                };
-            case 15:
-                return switch (spalte) {
-                    case 5 -> new GruenesFeld(this, zeile * spielablaufManager.sp.vergroesserteFliesenGroesse, spalte * spielablaufManager.sp.vergroesserteFliesenGroesse,6);
-                    case 8 -> new RotesFeld(this, zeile * spielablaufManager.sp.vergroesserteFliesenGroesse, spalte * spielablaufManager.sp.vergroesserteFliesenGroesse,7);
-                    case 11  -> new BlauesFeld(this, zeile * spielablaufManager.sp.vergroesserteFliesenGroesse, spalte * spielablaufManager.sp.vergroesserteFliesenGroesse,8);
-                    case 17 -> new BlauesFeld(this, zeile * spielablaufManager.sp.vergroesserteFliesenGroesse, spalte * spielablaufManager.sp.vergroesserteFliesenGroesse,9);
-                    default -> null;
-                };
-            case 13:
-                return switch (spalte) {
-                    case 5 -> new ViolettesFeld(this, zeile * spielablaufManager.sp.vergroesserteFliesenGroesse, spalte * spielablaufManager.sp.vergroesserteFliesenGroesse,10);
-                    case 8 -> new GruenesFeld(this, zeile * spielablaufManager.sp.vergroesserteFliesenGroesse, spalte * spielablaufManager.sp.vergroesserteFliesenGroesse,11);
-                    case 14 -> new GruenesFeld(this, zeile * spielablaufManager.sp.vergroesserteFliesenGroesse, spalte * spielablaufManager.sp.vergroesserteFliesenGroesse,12);
-                    case 11 -> new OrangesFeld(this, zeile * spielablaufManager.sp.vergroesserteFliesenGroesse, spalte * spielablaufManager.sp.vergroesserteFliesenGroesse,13);
-                    case 17 -> new RotesFeld(this, zeile * spielablaufManager.sp.vergroesserteFliesenGroesse, spalte * spielablaufManager.sp.vergroesserteFliesenGroesse,14);
-                    default -> null;
-                };
-            case 11:
-                if(spalte == 8) {
-                    return new OrangesFeld(this, zeile * spielablaufManager.sp.vergroesserteFliesenGroesse, spalte * spielablaufManager.sp.vergroesserteFliesenGroesse,15);
-                }else{
-                    return null;
-                }
-            case 10:
-                if(spalte == 17){
-                    return new BlauesFeld(this, zeile * spielablaufManager.sp.vergroesserteFliesenGroesse, spalte * spielablaufManager.sp.vergroesserteFliesenGroesse,16);
-                }else{
-                    return null;
-                }
-            case 9:
-                if(spalte == 8) {
-                    return new GelbesFeld(this, zeile * spielablaufManager.sp.vergroesserteFliesenGroesse, spalte * spielablaufManager.sp.vergroesserteFliesenGroesse,17);
-                }else{
-                    return null;
-                }
 
-            case 7:
+    //Felder erstellen
+    private Feld feldEinrichten(int zeile, int spalte){
+        switch (zeile) {
+            case 19 -> {
+                if (spalte == 11) {
+                    return new ViolettesFeld(this, zeile * spielablaufManager.sp.vergroesserteFliesenGroesse, spalte * spielablaufManager.sp.vergroesserteFliesenGroesse, 0);
+                } else {
+                    return null;
+                }
+            }
+            case 17 -> {
                 return switch (spalte) {
-                    case 8 -> new GruenesFeld(this, zeile * spielablaufManager.sp.vergroesserteFliesenGroesse, spalte * spielablaufManager.sp.vergroesserteFliesenGroesse, 18);
-                    case 19 -> new GruenesFeld(this, zeile * spielablaufManager.sp.vergroesserteFliesenGroesse, spalte * spielablaufManager.sp.vergroesserteFliesenGroesse, 19);
-                    case 15 -> new OrangesFeld(this, zeile * spielablaufManager.sp.vergroesserteFliesenGroesse, spalte * spielablaufManager.sp.vergroesserteFliesenGroesse, 20);
-                    case 17 -> new RotesFeld(this, zeile * spielablaufManager.sp.vergroesserteFliesenGroesse, spalte * spielablaufManager.sp.vergroesserteFliesenGroesse, 21);
-                    case 23 -> new RotesFeld(this, zeile * spielablaufManager.sp.vergroesserteFliesenGroesse, spalte * spielablaufManager.sp.vergroesserteFliesenGroesse, 22);
-                    case 21 -> new BlauesFeld(this, zeile * spielablaufManager.sp.vergroesserteFliesenGroesse, spalte * spielablaufManager.sp.vergroesserteFliesenGroesse, 23);
-                    case 25 -> new GelbesFeld(this, zeile * spielablaufManager.sp.vergroesserteFliesenGroesse, spalte * spielablaufManager.sp.vergroesserteFliesenGroesse, 24);
+                    case 5 ->
+                            new RotesFeld(this, zeile * spielablaufManager.sp.vergroesserteFliesenGroesse, spalte * spielablaufManager.sp.vergroesserteFliesenGroesse, 1);
+                    case 8 ->
+                            new GruenesFeld(this, zeile * spielablaufManager.sp.vergroesserteFliesenGroesse, spalte * spielablaufManager.sp.vergroesserteFliesenGroesse, 2);
+                    case 11 ->
+                            new GruenesFeld(this, zeile * spielablaufManager.sp.vergroesserteFliesenGroesse, spalte * spielablaufManager.sp.vergroesserteFliesenGroesse, 3);
+                    case 14 ->
+                            new OrangesFeld(this, zeile * spielablaufManager.sp.vergroesserteFliesenGroesse, spalte * spielablaufManager.sp.vergroesserteFliesenGroesse, 4);
+                    case 17 ->
+                            new GelbesFeld(this, zeile * spielablaufManager.sp.vergroesserteFliesenGroesse, spalte * spielablaufManager.sp.vergroesserteFliesenGroesse, 5);
                     default -> null;
                 };
-            case 6:
+            }
+            case 15 -> {
                 return switch (spalte) {
-                    case 9 -> new RotesFeld(this, zeile * spielablaufManager.sp.vergroesserteFliesenGroesse, spalte * spielablaufManager.sp.vergroesserteFliesenGroesse,25);
-                    case 26 -> new RotesFeld(this, zeile * spielablaufManager.sp.vergroesserteFliesenGroesse, spalte * spielablaufManager.sp.vergroesserteFliesenGroesse,26);
-                    case 11 -> new OrangesFeld(this, zeile * spielablaufManager.sp.vergroesserteFliesenGroesse, spalte * spielablaufManager.sp.vergroesserteFliesenGroesse, 27);
-                    case 14 -> new ViolettesFeld(this, zeile * spielablaufManager.sp.vergroesserteFliesenGroesse, spalte * spielablaufManager.sp.vergroesserteFliesenGroesse, 28);
+                    case 5 ->
+                            new GruenesFeld(this, zeile * spielablaufManager.sp.vergroesserteFliesenGroesse, spalte * spielablaufManager.sp.vergroesserteFliesenGroesse, 6);
+                    case 8 ->
+                            new RotesFeld(this, zeile * spielablaufManager.sp.vergroesserteFliesenGroesse, spalte * spielablaufManager.sp.vergroesserteFliesenGroesse, 7);
+                    case 11 ->
+                            new BlauesFeld(this, zeile * spielablaufManager.sp.vergroesserteFliesenGroesse, spalte * spielablaufManager.sp.vergroesserteFliesenGroesse, 8);
+                    case 17 ->
+                            new BlauesFeld(this, zeile * spielablaufManager.sp.vergroesserteFliesenGroesse, spalte * spielablaufManager.sp.vergroesserteFliesenGroesse, 9);
                     default -> null;
                 };
-            case 4:
+            }
+            case 13 -> {
                 return switch (spalte) {
-                    case 14 -> new GruenesFeld(this, zeile * spielablaufManager.sp.vergroesserteFliesenGroesse, spalte * spielablaufManager.sp.vergroesserteFliesenGroesse, 29);
-                    case 26 -> new GruenesFeld(this, zeile * spielablaufManager.sp.vergroesserteFliesenGroesse, spalte * spielablaufManager.sp.vergroesserteFliesenGroesse, 30);
-                    case 16 -> new RotesFeld(this, zeile * spielablaufManager.sp.vergroesserteFliesenGroesse, spalte * spielablaufManager.sp.vergroesserteFliesenGroesse, 31);
-                    case 24 -> new BlauesFeld(this, zeile * spielablaufManager.sp.vergroesserteFliesenGroesse, spalte * spielablaufManager.sp.vergroesserteFliesenGroesse, 32);
+                    case 5 ->
+                            new ViolettesFeld(this, zeile * spielablaufManager.sp.vergroesserteFliesenGroesse, spalte * spielablaufManager.sp.vergroesserteFliesenGroesse, 10);
+                    case 8 ->
+                            new GruenesFeld(this, zeile * spielablaufManager.sp.vergroesserteFliesenGroesse, spalte * spielablaufManager.sp.vergroesserteFliesenGroesse, 11);
+                    case 14 ->
+                            new GruenesFeld(this, zeile * spielablaufManager.sp.vergroesserteFliesenGroesse, spalte * spielablaufManager.sp.vergroesserteFliesenGroesse, 12);
+                    case 11 ->
+                            new OrangesFeld(this, zeile * spielablaufManager.sp.vergroesserteFliesenGroesse, spalte * spielablaufManager.sp.vergroesserteFliesenGroesse, 13);
+                    case 17 ->
+                            new RotesFeld(this, zeile * spielablaufManager.sp.vergroesserteFliesenGroesse, spalte * spielablaufManager.sp.vergroesserteFliesenGroesse, 14);
                     default -> null;
                 };
-            case 3:
+            }
+            case 11 -> {
+                if (spalte == 8) {
+                    return new OrangesFeld(this, zeile * spielablaufManager.sp.vergroesserteFliesenGroesse, spalte * spielablaufManager.sp.vergroesserteFliesenGroesse, 15);
+                } else {
+                    return null;
+                }
+            }
+            case 10 -> {
+                if (spalte == 17) {
+                    return new BlauesFeld(this, zeile * spielablaufManager.sp.vergroesserteFliesenGroesse, spalte * spielablaufManager.sp.vergroesserteFliesenGroesse, 16);
+                } else {
+                    return null;
+                }
+            }
+            case 9 -> {
+                if (spalte == 8) {
+                    return new GelbesFeld(this, zeile * spielablaufManager.sp.vergroesserteFliesenGroesse, spalte * spielablaufManager.sp.vergroesserteFliesenGroesse, 17);
+                } else {
+                    return null;
+                }
+            }
+            case 7 -> {
                 return switch (spalte) {
-                    case 17 -> new GruenesFeld(this, zeile * spielablaufManager.sp.vergroesserteFliesenGroesse, spalte * spielablaufManager.sp.vergroesserteFliesenGroesse, 33);
-                    case 21 -> new GruenesFeld(this, zeile * spielablaufManager.sp.vergroesserteFliesenGroesse, spalte * spielablaufManager.sp.vergroesserteFliesenGroesse, 34);
-                    case 19 -> new OrangesFeld(this, zeile * spielablaufManager.sp.vergroesserteFliesenGroesse, spalte * spielablaufManager.sp.vergroesserteFliesenGroesse, 35);
-                    case 23 -> new RotesFeld(this, zeile * spielablaufManager.sp.vergroesserteFliesenGroesse, spalte * spielablaufManager.sp.vergroesserteFliesenGroesse, 36);
+                    case 8 ->
+                            new GruenesFeld(this, zeile * spielablaufManager.sp.vergroesserteFliesenGroesse, spalte * spielablaufManager.sp.vergroesserteFliesenGroesse, 18);
+                    case 19 ->
+                            new GruenesFeld(this, zeile * spielablaufManager.sp.vergroesserteFliesenGroesse, spalte * spielablaufManager.sp.vergroesserteFliesenGroesse, 19);
+                    case 15 ->
+                            new OrangesFeld(this, zeile * spielablaufManager.sp.vergroesserteFliesenGroesse, spalte * spielablaufManager.sp.vergroesserteFliesenGroesse, 20);
+                    case 17 ->
+                            new RotesFeld(this, zeile * spielablaufManager.sp.vergroesserteFliesenGroesse, spalte * spielablaufManager.sp.vergroesserteFliesenGroesse, 21);
+                    case 23 ->
+                            new RotesFeld(this, zeile * spielablaufManager.sp.vergroesserteFliesenGroesse, spalte * spielablaufManager.sp.vergroesserteFliesenGroesse, 22);
+                    case 21 ->
+                            new BlauesFeld(this, zeile * spielablaufManager.sp.vergroesserteFliesenGroesse, spalte * spielablaufManager.sp.vergroesserteFliesenGroesse, 23);
+                    case 25 ->
+                            new GelbesFeld(this, zeile * spielablaufManager.sp.vergroesserteFliesenGroesse, spalte * spielablaufManager.sp.vergroesserteFliesenGroesse, 24);
                     default -> null;
                 };
-            default:
+            }
+            case 6 -> {
+                return switch (spalte) {
+                    case 9 ->
+                            new RotesFeld(this, zeile * spielablaufManager.sp.vergroesserteFliesenGroesse, spalte * spielablaufManager.sp.vergroesserteFliesenGroesse, 25);
+                    case 26 ->
+                            new RotesFeld(this, zeile * spielablaufManager.sp.vergroesserteFliesenGroesse, spalte * spielablaufManager.sp.vergroesserteFliesenGroesse, 26);
+                    case 11 ->
+                            new OrangesFeld(this, zeile * spielablaufManager.sp.vergroesserteFliesenGroesse, spalte * spielablaufManager.sp.vergroesserteFliesenGroesse, 27);
+                    case 14 ->
+                            new ViolettesFeld(this, zeile * spielablaufManager.sp.vergroesserteFliesenGroesse, spalte * spielablaufManager.sp.vergroesserteFliesenGroesse, 28);
+                    default -> null;
+                };
+            }
+            case 4 -> {
+                return switch (spalte) {
+                    case 14 ->
+                            new GruenesFeld(this, zeile * spielablaufManager.sp.vergroesserteFliesenGroesse, spalte * spielablaufManager.sp.vergroesserteFliesenGroesse, 29);
+                    case 26 ->
+                            new GruenesFeld(this, zeile * spielablaufManager.sp.vergroesserteFliesenGroesse, spalte * spielablaufManager.sp.vergroesserteFliesenGroesse, 30);
+                    case 16 ->
+                            new RotesFeld(this, zeile * spielablaufManager.sp.vergroesserteFliesenGroesse, spalte * spielablaufManager.sp.vergroesserteFliesenGroesse, 31);
+                    case 24 ->
+                            new BlauesFeld(this, zeile * spielablaufManager.sp.vergroesserteFliesenGroesse, spalte * spielablaufManager.sp.vergroesserteFliesenGroesse, 32);
+                    default -> null;
+                };
+            }
+            case 3 -> {
+                return switch (spalte) {
+                    case 17 ->
+                            new GruenesFeld(this, zeile * spielablaufManager.sp.vergroesserteFliesenGroesse, spalte * spielablaufManager.sp.vergroesserteFliesenGroesse, 33);
+                    case 21 ->
+                            new GruenesFeld(this, zeile * spielablaufManager.sp.vergroesserteFliesenGroesse, spalte * spielablaufManager.sp.vergroesserteFliesenGroesse, 34);
+                    case 19 ->
+                            new OrangesFeld(this, zeile * spielablaufManager.sp.vergroesserteFliesenGroesse, spalte * spielablaufManager.sp.vergroesserteFliesenGroesse, 35);
+                    case 23 ->
+                            new RotesFeld(this, zeile * spielablaufManager.sp.vergroesserteFliesenGroesse, spalte * spielablaufManager.sp.vergroesserteFliesenGroesse, 36);
+                    default -> null;
+                };
+            }
+            default -> {
                 return null;
+            }
         }
     }
-    
-    public void mapLaden(){
+
+    //Die gesamte Map von txt Datei lesen und in mapfliese Variable speichern
+    private void mapLaden(){
+
+        //Map von txt Datei lesen
         String[][] mapFelder = new String[25][30];
         BufferedReader reader = null;
         try {
@@ -138,6 +183,8 @@ public class SpielMapManager {
                 System.arraycopy(zeile, 0, mapFelder[zeilenIndex], 0, zeile.length);
                 zeilenIndex++;
             }
+
+            //Map Bilder speichern, abhängig von der Zahlen von vorherige txt Datei
             for(int zeile = 0; zeile < 25; zeile++){
                 for(int spalte = 0; spalte < 30; spalte++){
                     try{
@@ -156,12 +203,15 @@ public class SpielMapManager {
             e.printStackTrace();
         } finally {
             try {
+                assert reader != null;
                 reader.close();
             } catch (IOException e) {
                 e.printStackTrace();
             }
         }
     }
+
+    //für jedes Feld alle nachbar Felder festlegen
     private void felderReihenfolgeFestlegen(){
         mapFliesen[19][11].feld.nordFeld = mapFliesen[17][11].feld;
 
@@ -283,20 +333,25 @@ public class SpielMapManager {
 
 
     }
+
+    //in Map wird nur der Stern bewegen
     public void update(){
         stern.update();
     }
+
     public void malen(Graphics2D g2){
         this.g2 = g2;
         g2.setFont(spielablaufManager.sp.marioPartyFont);
         mapMalen();
     }
+
     private void mapMalen(){
         int weltSpalte = 0;
         int weltZeile = 0;
         int xSternPosition = 0, ySternPosition = 0;
         BufferedImage image = null;
 
+        //das gesamte Map zeile für zeile mit Felder und Stern malen
         while(weltSpalte < spielablaufManager.sp.maxWeltSpalte && weltZeile < spielablaufManager.sp.maxWeltZeile) {
             Fliese vorlauefigeFliese = mapFliesen[weltZeile][weltSpalte];
 
@@ -305,10 +360,13 @@ public class SpielMapManager {
             int bildschirmX = weltX - spielablaufManager.mainSpieler.weltX + spielablaufManager.mainSpieler.bildschirmX;
             int bildschirmY = weltY - spielablaufManager.mainSpieler.weltY + spielablaufManager.mainSpieler.bildschirmY;
 
-
             g2.drawImage(vorlauefigeFliese.getFlieseImage(), bildschirmX, bildschirmY, spielablaufManager.sp.vergroesserteFliesenGroesse, spielablaufManager.sp.vergroesserteFliesenGroesse, null);
+
+            //wenn auf diese Fliese ein Feld gibt, dann male es
             if(mapFliesen[weltZeile][weltSpalte].feld != null){
                 g2.drawImage(mapFliesen[weltZeile][weltSpalte].feld.getFeldImage(), bildschirmX, bildschirmY, spielablaufManager.sp.vergroesserteFliesenGroesse, spielablaufManager.sp.vergroesserteFliesenGroesse, null);
+
+                //wenn das Feld ein Stern hat, dann lege die Position des Sterns fest
                 if(mapFliesen[weltZeile][weltSpalte].feld.hatStern){
                     xSternPosition = bildschirmX;
                     ySternPosition = bildschirmY;
@@ -331,12 +389,16 @@ public class SpielMapManager {
                     }
                 }
             }
+
             weltSpalte++;
             if (weltSpalte == spielablaufManager.sp.maxWeltSpalte) {
                 weltSpalte = 0;
                 weltZeile++;
             }
         }
+
+        //der Stern wird nach Ende des Maps Malen gemalt
         g2.drawImage(image, xSternPosition, ySternPosition, spielablaufManager.sp.vergroesserteFliesenGroesse, spielablaufManager.sp.vergroesserteFliesenGroesse, null);
     }
+
 }

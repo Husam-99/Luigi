@@ -1,6 +1,7 @@
 package Spielablauf;
 
 import Main.SpielPanel;
+import Networking.Client.SpielClient;
 import spieler.Spieler;
 
 import javax.imageio.ImageIO;
@@ -11,46 +12,63 @@ import java.util.ArrayList;
 import java.util.Objects;
 
 public class SiegerKueren {
+
     SpielPanel sp;
     Graphics2D g2;
     BufferedImage goldeneKrone, silberneKrone, bronzeneKrone;
+
     ArrayList<Spieler> alleSpieler, alleSpielerSortiert;
-    int spriteZaehler = 0, spriteNum = 1 ;
-    int spielerY = 250, spieler1X = 1210, spieler2X = 1210, spieler3X = 1210, spieler4X = 1210;
+
+    //alle folgende Variable sind für die Animation
+    int spriteZaehler, spriteNum;
+    int spielerY, spieler1X, spieler2X, spieler3X, spieler4X;
     int ziel1X, ziel2X, ziel3X, ziel4X;
     String richtungSpieler1, richtungSpieler2, richtungSpieler3, richtungSpieler4;
-
 
     public SiegerKueren(SpielPanel sp){
         this.sp = sp;
         alleSpielerSortiert = new ArrayList<>();
         alleSpieler = new ArrayList<>();
         getKroneBilder();
+
+        spriteZaehler = 0;
+        spriteNum = 1;
+        spielerY = 250;
+        spieler1X = 1210;
+        spieler2X = 1210;
+        spieler3X = 1210;
+        spieler4X = 1210;
+
+        //die Ziele für alle Spieler bestimmen
         this.ziel1X = 410;
         this.ziel2X = ziel1X + 310;
-        if (sp.client.anzahlSpieler == 3) {
+        if (SpielClient.anzahlSpieler == 3) {
             this.ziel1X = 255;
             this.ziel2X = ziel1X + 310;
-         }else if (sp.client.anzahlSpieler == 4) {
+         }else if (SpielClient.anzahlSpieler == 4) {
             this.ziel1X = 100;
             this.ziel2X = ziel1X + 310;
             this.ziel3X = ziel2X + 310;
             this.ziel4X = ziel3X + 310;
         }
+
+        //default Werte für richtung alle Spieler
         this.richtungSpieler1 = "links";
         this.richtungSpieler2 = "links";
         this.richtungSpieler3 = "links";
         this.richtungSpieler4 = "links";
+
+        //alle Spieler in einem Array mit mainSpieler speichern
         for(Spieler spieler : sp.alleSpieler){
             if(spieler.spielfigur != null) {
                     alleSpieler.add(spieler);
             }
         }
         alleSpieler.add(sp.spielablaufManager.mainSpieler);
+
         positionierung();
         alleSpielerSortieren();
     }
-
 
     private void getKroneBilder(){
         try {
@@ -61,8 +79,10 @@ public class SiegerKueren {
             e.printStackTrace();
         }
     }
+
+    //alle Spieler wird vom erste bis zum letzte in einem neuen Array gespeichert
     private void alleSpielerSortieren(){
-        for(int position = 1; position <= sp.client.anzahlSpieler; position++){
+        for(int position = 1; position <= SpielClient.anzahlSpieler; position++){
             for(Spieler spieler : alleSpieler) {
                 if (spieler.position == position) {
                     alleSpielerSortiert.add(spieler);
@@ -71,9 +91,10 @@ public class SiegerKueren {
         }
     }
 
+    //Position für jede Spieler festlegen
     private void positionierung() {
         int position = 1;
-        for(int temp = 0; temp < sp.client.anzahlSpieler; temp++) {
+        for(int temp = 0; temp < SpielClient.anzahlSpieler; temp++) {
             int maxSterneAnzahl = -1;
             int maxMuenzenAnzahl = -1;
             Spieler ersteSiegerSpieler = null;
@@ -97,6 +118,7 @@ public class SiegerKueren {
                             dritteSiegerSpieler = null;
                             vierteSigerSpieler = null;
                         } else if (maxMuenzenAnzahl == spieler.konto.muenzen) {
+                            //wenn die Münzen gleich sind, dann gibt es mehr als ein Sieger
                             if (zweiteSiegerSpieler == null) {
                                 zweiteSiegerSpieler = spieler;
                                 dritteSiegerSpieler = null;
@@ -123,6 +145,8 @@ public class SiegerKueren {
             if (vierteSigerSpieler != null) {
                 vierteSigerSpieler.position = position;
             }
+
+            //wenn zwei/drei Spieler die gleiche Position haben, dann wird die nächste Position übersprungen
             position++;
             if(zweiteSiegerSpieler != null){
                 position++;
@@ -143,6 +167,8 @@ public class SiegerKueren {
         } else if (spieler1X == ziel1X) {
             richtungSpieler1 = "stehen";
         }
+
+        // wenn der erste Spieler die 810 koordinaten erreicht hat, kommt die nächsten Spieler
         if (spieler1X < 810) {
             if (spieler2X > ziel2X) {
                 richtungSpieler2 = "links";
@@ -151,6 +177,8 @@ public class SiegerKueren {
                 richtungSpieler2 = "stehen";
             }
         }
+
+        // wenn der erste Spieler die 810 koordinaten erreicht hat kommt die nächste Spieler
         if (spieler2X < 810) {
             if (spieler3X > ziel3X) {
                 richtungSpieler3 = "links";
@@ -159,6 +187,8 @@ public class SiegerKueren {
                 richtungSpieler3 = "stehen";
             }
         }
+
+        // wenn der erste Spieler die 810 koordinaten erreicht hat kommt die nächste Spieler
         if (spieler3X < 810) {
             if (spieler4X > ziel4X) {
                 richtungSpieler4 = "links";
@@ -185,6 +215,7 @@ public class SiegerKueren {
             spriteZaehler = 0;
         }
     }
+
     public void malen(Graphics2D g2){
         this.g2 = g2;
         g2.setFont(sp.marioPartyFont);
@@ -194,9 +225,11 @@ public class SiegerKueren {
 
     private void spielerMalen() {
         BufferedImage image1 = null, image2 = null, image3 = null, image4 = null;
-        int temp2 = 0;
+        int SpielerNum = 1;
         for (Spieler spieler : alleSpielerSortiert) {
-            if (temp2 == 0) {
+
+            //erste Spieler malen
+            if (SpielerNum == 1) {
                 if (Objects.equals(richtungSpieler1, "links")) {
                     if (spriteNum == 1 || spriteNum == 3) {
                         image1 = spieler.spielfigur.left1;
@@ -227,7 +260,10 @@ public class SiegerKueren {
                         g2.drawString("th", ziel1X + 150, 700);
                     }
                 }
-            } else if (temp2 == 1) {
+            }
+
+            //zweite Spieler malen
+            else if (SpielerNum == 2) {
                 if(spieler1X < 810) {
                     if (Objects.equals(richtungSpieler2, "links")) {
                         if (spriteNum == 1 || spriteNum == 3) {
@@ -260,7 +296,10 @@ public class SiegerKueren {
                         }
                     }
                 }
-            } else if (temp2 == 2) {
+            }
+
+            //dritte Spieler malen
+            else if (SpielerNum == 3) {
                 if (spieler2X < 810) {
                     if (Objects.equals(richtungSpieler3, "links")) {
                         if (spriteNum == 1 || spriteNum == 3) {
@@ -293,7 +332,10 @@ public class SiegerKueren {
                         }
                     }
                 }
-            } else if (temp2 == 3) {
+            }
+
+            //vierte Spieler malen
+            else if (SpielerNum == 4) {
                 if (spieler3X < 810) {
                     if (Objects.equals(richtungSpieler4, "links")) {
                         if (spriteNum == 1 || spriteNum == 3) {
@@ -327,7 +369,7 @@ public class SiegerKueren {
                     }
                 }
             }
-            temp2++;
+            SpielerNum++;
         }
     }
 

@@ -87,6 +87,7 @@ public class SpielPanel extends JPanel implements Runnable{
             throw new RuntimeException(e);
         }
     }
+
     public void hinzufuegeSpieler(Spieler spieler, int clientIndex){
         alleSpieler.set(clientIndex, spieler);
         for(Spieler spieler1 : alleSpieler){

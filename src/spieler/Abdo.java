@@ -3,16 +3,19 @@ package spieler;
 import javax.imageio.ImageIO;
 import java.io.IOException;
 import java.util.Objects;
+
 public class Abdo extends Spielfigur {
+
     public Abdo(){
         super();
         getSpielFigurBilder();
-
     }
+
     public Abdo(Spieler spieler){
         super(spieler);
         getSpielFigurBilder();
     }
+
     @Override
     public void getSpielFigurBilder() {
         try {
@@ -38,4 +41,5 @@ public class Abdo extends Spielfigur {
             e.printStackTrace();
         }
     }
+
 }

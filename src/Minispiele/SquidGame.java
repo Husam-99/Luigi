@@ -14,10 +14,6 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Objects;
 
-/**
- * @author : Abdelrahman Elsayed
- * @version : 1.2.2022
- */
 
 public class SquidGame extends Minispiel {
     public Palette[] paletten;
@@ -289,7 +285,7 @@ public class SquidGame extends Minispiel {
     //Hier werden die Spieler(Sieger) mit jeweils Anzahl die erhaltenden Punkte auf dem Bildschirm gemalt.
     @Override
     public void siegerKuerenMalen(Graphics2D g2) {
-        BufferedImage coin = null;
+        BufferedImage coin;
         try {
             coin = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/source/bestandteile/muenze/Coin1.png")));
         } catch (IOException e) {

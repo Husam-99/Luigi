@@ -114,8 +114,6 @@ public class SammlerElement {
                 spriteNum = 2;
             } else if (spriteNum == 2) {
                 spriteNum = 1;
-            } else if (spriteNum == 1) {
-                spriteNum = 0;
             }
             spriteZaehler = 0;
         }
@@ -166,6 +164,5 @@ public class SammlerElement {
         g2.drawImage(mushroom, elementXPosition, elementYPosition, sp.vergroesserteFliesenGroesse, sp.vergroesserteFliesenGroesse, null);
 
     }
-
 
 }

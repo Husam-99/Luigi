@@ -4,6 +4,7 @@ import Networking.Pakete.Blocken;
 
 import javax.imageio.ImageIO;
 import java.io.IOException;
+import java.util.Objects;
 
 public class Block extends Gegenstand{
 
@@ -17,13 +18,16 @@ public class Block extends Gegenstand{
     @Override
     public void getGegenstandBilder(){
         try {
-            icon= ImageIO.read(getClass().getResourceAsStream("/gegenstaende/Block.png"));
+            icon= ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/gegenstaende/Block.png")));
         }catch(IOException e) {
             e.printStackTrace();
         }
     }
+
     @Override
     public void effeckteAnwenden(){
+
+        //sende an Server, dass der nächste Spieler geblockt ist
         Blocken block = new Blocken();
         spieler.spielablaufManager.sp.client.send(block);
         spieler.inventarZustand = false;
