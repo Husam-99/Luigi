@@ -452,7 +452,7 @@ public class Sammler extends Minispiel {
 
     }
 
-    //Hier wird das Map Fotos , Element und Siegerkuren gemalt
+    //Hier wird das Map Fotos, Element und Siegerkuren gemalt
     @Override
     public void malen(Graphics2D g2) {
         int spalte = 0;
