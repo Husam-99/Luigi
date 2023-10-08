@@ -404,7 +404,7 @@ public class ServerListener extends Listener {
         }
         else if (object instanceof SpielerPosition spielerPosition) {
             spielerPosition.clientIndex = alleClients.get(connection).clientIndex;
-            server.sendToAllExceptTCP(connection.getID(), spielerPosition);
+            server.sendToAllExceptUDP(connection.getID(), spielerPosition);
         }
         else if (object instanceof Muenzenzahl muenzenzahl) {
 
@@ -440,7 +440,7 @@ public class ServerListener extends Listener {
         else if (object instanceof Bewegung bewegung) {
 
             bewegung.clientIndex = alleClients.get(connection).clientIndex;
-            server.sendToAllExceptTCP(connection.getID(), bewegung);
+            server.sendToAllExceptUDP(connection.getID(), bewegung);
 
         }
         else if (object instanceof GegenstandInfo gegenstandInfo) {
@@ -481,7 +481,7 @@ public class ServerListener extends Listener {
         }
         else if (object instanceof SquidGamePosition squidGamePosition) {
 
-            server.sendToAllExceptTCP(connection.getID(), squidGamePosition);
+            server.sendToAllExceptUDP(connection.getID(), squidGamePosition);
 
         }
     }

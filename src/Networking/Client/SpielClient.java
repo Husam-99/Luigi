@@ -56,7 +56,7 @@ public class SpielClient {
         } else if(object instanceof SpielfigurAuswahl spielfigurAuswahl){
             client.sendTCP(spielfigurAuswahl);
         } else if(object instanceof SpielerPosition spielerPosition){
-            client.sendTCP(spielerPosition);
+            client.sendUDP(spielerPosition);
         } else if(object instanceof Muenzenzahl muenzenzahl){
             muenzenzahl.clientIndex = clientIndex;
             client.sendTCP(muenzenzahl);
@@ -70,7 +70,7 @@ public class SpielClient {
             client.sendTCP(schritte);
         } else if(object instanceof Bewegung bewegung){
             bewegung.clientIndex = clientIndex;
-            client.sendTCP(bewegung);
+            client.sendUDP(bewegung);
         } else if(object instanceof GegenstandInfo gegenstandInfo){
             gegenstandInfo.clientIndex = clientIndex;
             client.sendTCP(gegenstandInfo);
@@ -86,7 +86,7 @@ public class SpielClient {
             client.sendTCP(squidGamePunkte);
         } else if(object instanceof SquidGamePosition squidGamePosition){
             squidGamePosition.clientIndex = clientIndex;
-            client.sendTCP(squidGamePosition);
+            client.sendUDP(squidGamePosition);
         }
     }
 
