@@ -1,3 +1,5 @@
+Before all: 
+	Hallo, Sie sollten zuerst die Kryonet-Bibliothek zum Projekt hinzufügen, und diese Path für die Bibliothek ~\kryonet-2.21\jars\production\onejar\kryonet-2.21-all
 Netzwerkverbindung: 
 	1. starten Sie den Server als Erstes
 	2. auf der Konsole tritt die IP-Adresse des Servers auf.
