@@ -93,9 +93,55 @@
  </p>
 
 
+<p>Before all: 
+	Hallo, Sie sollten zuerst die Kryonet-Bibliothek zum Projekt hinzufügen, und diese Path für die Bibliothek ~\kryonet-2.21\jars\production\onejar\kryonet-2.21-all
+Netzwerkverbindung: 
+	1. starten Sie den Server als Erstes
+	2. auf der Konsole tritt die IP-Adresse des Servers auf.
+	3. kopieren Sie diese IP-Adresse und schreiben Sie sie in dem String-Attribut "ipAdresse" anstatt des Texts "127.0.0.1".
+	4. das Gleiche gilt für alle anderen Clients 
+	</p>
+ <p>
+	* Hinweis -> alle Clients, die das Spiel vielleicht betreten wollen, sollen sich die Applikation starten (sich mit dem Server verbinden)
+			bevor der Host-Spieler (der zuerst verbundene Client) das Spiel erstellt. 
+</p>
+<br>
+<h1 align="center">
+Controls
+</h1>
+<h2>Menü</h2> 
+ 
+		[w] = Bewegung nach oben 
+		[s] = Bewegung nach unten 
+		[d] = Bewegung nach rechts 
+		[a] = Bewegung nach links 
+		[ESC] = zurückgehen
+           [Enter] = zum auswählen
+		
+<h2>Spielbrett</h2> 
 
+		[i] = Inventor öffnen
+		[m] = Minimap öffnen
+		[ESC] = Minimap/Inventar/Shop/Stern Kaufen Anfrage schließen 
+		[space] = würfeln 
+		[Enter] = zum auswählen oder aktzeptieren
+		[w] = Bewegung nach oben 
+		[s] = Bewegung nach unten 
+		[d] = Bewegung nach rechts 
+		[a] = Bewegung nach links 
 
+<h2>Minispiele</h2>
+	<h3>Sammler</h3>	 
+		
+			wie Spielbrett für die Bewegung.
+		
+ <h4>SquidGame</h4>
 
+			[d] = Bewegung nach rechts 
+			[a] = Bewegung nach links 
+			[w] = Bewegung nach oben (für die letzte Palette ganz oben) 
+
+</p>
 
 
 
